@@ -2,6 +2,7 @@ package graph
 
 import (
 	"EduTrack/cmd/data"
+	icon "EduTrack/pkg/icons"
 	"fmt"
 	"strconv"
 	"strings"
@@ -50,7 +51,10 @@ func AddStudentForm(a fyne.App) {
 			{Text: "Phone Number", Widget: phoneNumberEntry},
 		},
 		OnSubmit: func() {
-			age, _ := strconv.Atoi(ageEntry.Text)
+			age, err := strconv.Atoi(ageEntry.Text)
+			if err != nil {
+				ErrWin(a, err, nil)
+			}
 
 			student := data.Student{
 				Name:          nameEntry.Text,
@@ -94,7 +98,10 @@ func StudentList(app fyne.App) *widget.List {
 }
 func ShowStudentInfoWindow(a fyne.App, student data.Student) {
 	infoWindow := a.NewWindow("Student Information")
-	res, _ := fyne.LoadResourceFromPath(student.ImageFilePath)
+	res, err := fyne.LoadResourceFromPath(student.ImageFilePath)
+	if err != nil {
+		ErrWin(a, err, nil)
+	}
 	image := canvas.NewImageFromResource(res)
 	image.FillMode = canvas.ImageFillOriginal
 
