@@ -3,11 +3,14 @@ package graph
 import (
 	"EduTrack/cmd/data"
 	icon "EduTrack/pkg/icons"
+	windowtools "EduTrack/pkg/windowTools"
+	win "EduTrack/pkg/windows"
 	"fmt"
 	"strconv"
 	"strings"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
@@ -17,10 +20,33 @@ import (
 )
 
 var (
-	FormSize = fyne.NewSize(300, 200)
-	PickSize = fyne.NewSize(600, 400)
-	ErrSize  = fyne.NewSize(400, 80)
+	FormSize    = win.FormSize
+	PickSize    = win.PickSize
+	ErrSize     = win.ErrSize
+	ProfileSize = win.ProfileSize
 )
+
+func Init() {
+	var StudentTab *fyne.Container
+	StudentTab = TemplateUser()
+	app := app.New()
+	mainWin := app.NewWindow("EduTrack")
+	mainWin.SetMaster()
+	mainWin.SetMainMenu(Menu(app))
+	mainWin.Resize(fyne.NewSize(800, 600))
+	windowtools.MaximizeWin(mainWin)
+	list := StudentList(app, StudentTab, mainWin)
+	content := container.NewHSplit(
+		StudentTab,
+		list,
+	)
+	content.SetOffset(0)
+	mainWin.SetContent(content)
+	mainWin.Show()
+
+	app.Run()
+
+}
 
 func AddStudentForm(a fyne.App) {
 	w := a.NewWindow("Students")
@@ -53,7 +79,7 @@ func AddStudentForm(a fyne.App) {
 		OnSubmit: func() {
 			age, err := strconv.Atoi(ageEntry.Text)
 			if err != nil {
-				ErrWin(a, err, nil)
+				win.ErrWin(a, err, nil)
 			}
 
 			student := data.Student{
@@ -64,12 +90,11 @@ func AddStudentForm(a fyne.App) {
 				ImageFilePath: strings.TrimPrefix(imageFilePath, "file://"),
 			}
 			data.Students = append(data.Students, student)
-
 			nameEntry.SetText("")
 			ageEntry.SetText("")
 			idEntry.SetText("")
 			phoneNumberEntry.SetText("")
-			imageFilePath = "" // Restablece la variable de la ruta de la imagen de perfil
+			imageFilePath = ""
 			w.Close()
 		},
 	}
@@ -77,7 +102,7 @@ func AddStudentForm(a fyne.App) {
 	w.SetContent(container.NewVBox(form, imageButton))
 	w.Show()
 }
-func StudentList(app fyne.App) *widget.List {
+func StudentList(app fyne.App, infoTab *fyne.Container, w fyne.Window) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(data.Students)
@@ -91,19 +116,25 @@ func StudentList(app fyne.App) *widget.List {
 	)
 	list.OnSelected = func(id widget.ListItemID) {
 		student := data.Students[id]
-		ShowStudentInfoWindow(app, student)
+		list.UnselectAll()
+		LoadStudentInfo(app, infoTab, w, student)
 	}
-
 	return list
 }
-func ShowStudentInfoWindow(a fyne.App, student data.Student) {
-	infoWindow := a.NewWindow("Student Information")
-	res, err := fyne.LoadResourceFromPath(student.ImageFilePath)
-	if err != nil {
-		ErrWin(a, err, nil)
+func LoadStudentInfo(a fyne.App, cont *fyne.Container, w fyne.Window, student data.Student) {
+	var (
+		image *canvas.Image
+		err   error
+	)
+	if check, _ := file.CheckFile(student.ImageFilePath); !check {
+		image = canvas.NewImageFromResource(icon.UserTemplateICON)
+		image.SetMinSize(win.ProfileSize)
+	} else {
+		image, err = win.LoadProfileImg(student.ImageFilePath)
 	}
-	image := canvas.NewImageFromResource(res)
-	image.FillMode = canvas.ImageFillOriginal
+	if err != nil {
+		win.ErrWin(a, err, nil)
+	}
 
 	dataLabel := widget.NewLabel(
 		"Name: " + student.Name + "\n" +
@@ -113,7 +144,7 @@ func ShowStudentInfoWindow(a fyne.App, student data.Student) {
 	)
 
 	editButton := widget.NewButton("Edit", func() {
-		EditForm(a, student)
+		EditForm(a, cont, student)
 	})
 
 	deleteButton := widget.NewButton("Delete", func() {
@@ -121,19 +152,16 @@ func ShowStudentInfoWindow(a fyne.App, student data.Student) {
 	})
 
 	content := container.NewVBox(image, dataLabel, container.NewHBox(editButton, deleteButton))
-	infoWindow.SetContent(content)
-	infoWindow.Resize(FormSize)
-	infoWindow.Show()
+	cont.Objects = []fyne.CanvasObject{content}
 }
-func EditForm(a fyne.App, student data.Student) {
-	w := a.NewWindow("Students")
+func EditForm(a fyne.App, cont *fyne.Container, student data.Student) {
+	w := a.NewWindow("Edit " + student.Name)
 	w.Resize(FormSize)
 	nameEntry := widget.NewEntry()
 	ageEntry := widget.NewEntry()
 	idEntry := widget.NewEntry()
 	phoneNumberEntry := widget.NewEntry()
 	imageFilePath := student.ImageFilePath
-	fmt.Println(file.CheckFile(student.ImageFilePath))
 
 	imageButton := widget.NewButton("Select Image", func() {
 		w.Resize(PickSize)
@@ -179,12 +207,12 @@ func EditForm(a fyne.App, student data.Student) {
 		},
 	}
 
-	w.SetContent(container.NewVBox(imageButton, form))
+	content := container.NewVBox(imageButton, form)
+	w.SetContent(content)
 	w.Show()
 }
 func DeleteForm(a fyne.App, student data.Student) {
 	w := a.NewWindow("Delete Student")
-
 	content := container.NewVBox(
 		widget.NewLabel("Are you sure you want to eliminate the student?"),
 		widget.NewButton("Yes", func() {
@@ -227,26 +255,15 @@ func Menu(a fyne.App) *fyne.MainMenu {
 	return menu
 }
 
-func ErrWin(app fyne.App, err error, clWindow fyne.Window) {
-	window := app.NewWindow("Error")
-	window.Resize(ErrSize)
-	//window.SetFixedSize(true)
-	window.SetIcon(icon.ErrorICON)
-	errlabel := widget.NewLabel(err.Error())
-	errlabel.TextStyle.Bold = true
-	errlabel.Alignment = fyne.TextAlignCenter
-	acceptButton := widget.NewButton("Accept", func() {
-		window.Close()
-		if clWindow != nil {
-			clWindow.Close()
-		}
-	})
-
-	content := container.NewVBox(
-		errlabel,
-		acceptButton,
+func TemplateUser() *fyne.Container {
+	image := canvas.NewImageFromResource(icon.UserTemplateICON)
+	image.SetMinSize(win.ProfileSize)
+	dataLabel := widget.NewLabel(
+		"Name: " + "--" + "\n" +
+			"Age: " + "--" + "\n" +
+			"ID: " + "--" + "\n" +
+			"Phone number: " + "--",
 	)
-	window.SetContent(content)
-	window.SetMainMenu(window.MainMenu())
-	window.Show()
+	content := container.NewVBox(image, dataLabel)
+	return content
 }
