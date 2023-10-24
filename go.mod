@@ -3,8 +3,8 @@ module EduTrack
 go 1.21.3
 
 require (
-	fyne.io/fyne v1.4.3
 	fyne.io/fyne/v2 v2.4.1
+	fyne.io/x/fyne v0.0.0-20231020065621-89b4a4aea27d
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
 	gopkg.in/yaml.v3 v3.0.1
@@ -26,6 +26,8 @@ require (
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c // indirect
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
@@ -37,5 +39,6 @@ require (
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	honnef.co/go/js/dom v0.0.0-20210725211120-f030747120f2 // indirect
 )

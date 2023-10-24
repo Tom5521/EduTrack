@@ -13,6 +13,7 @@ var (
 	PickSize    = fyne.NewSize(600, 400)
 	ErrSize     = fyne.NewSize(400, 80)
 	ProfileSize = fyne.NewSize(300, 300)
+	SearchSize  = fyne.NewSize(300, 100)
 )
 
 func ErrWin(app fyne.App, err error, clWindow fyne.Window) {

@@ -13,7 +13,7 @@ func LoadProfileImg(file string) (*canvas.Image, error) {
 	}
 
 	image := canvas.NewImageFromResource(res)
-
+	image.ScaleMode = canvas.ImageScaleFastest
 	image.SetMinSize(ProfileSize)
 
 	return image, nil

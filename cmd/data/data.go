@@ -58,3 +58,28 @@ func SaveData() error {
 
 	return err
 }
+
+func GetNames() []string {
+	var names []string
+	for _, student := range Students {
+		names = append(names, student.Name)
+	}
+	return names
+}
+
+func GetIDs() []string {
+	var IDs []string
+	for _, student := range Students {
+		IDs = append(IDs, student.ID)
+	}
+	return IDs
+}
+
+func FindStudentByID(studentID string) *Student {
+	for _, student := range Students {
+		if student.ID == studentID {
+			return &student
+		}
+	}
+	return nil
+}
