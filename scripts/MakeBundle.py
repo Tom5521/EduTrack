@@ -5,13 +5,13 @@
 '''
 import os
 
-route = "./pkg/icons/bundled.go" 
+route = "./iconloader/bundle.go" 
 
 def ReGenerateBundle(name, file):
-  os.system(f"fyne bundle --pkg icon --name {name} -o {route} {file}")
+  os.system(f"fyne bundle --pkg iconloader --name {name} -o {route} {file}")
 
 def AppendBundle(name, file):
-  os.system(f"fyne bundle --pkg icon --name {name} -o {route} -append {file}")
+  os.system(f"fyne bundle --pkg iconloader --name {name} -o {route} -append {file}")
 
 ReGenerateBundle("Placeholder", "./Assets/Placeholder.png")
 

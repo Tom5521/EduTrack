@@ -18,18 +18,23 @@ type Student struct {
 }
 
 var (
-	confName string = "students.yml"
+	ConfName string = "students.yml"
 )
+
+func LoadConf(conf string) {
+	ConfName = conf
+	GetYamlData()
+}
 
 func GetYamlData() {
 	var (
 		err       error
 		data_file []byte
 	)
-	if check, _ := file.CheckFile(confName); !check {
+	if check, _ := file.CheckFile(ConfName); !check {
 		data_file = NewYmlFile()
 	} else {
-		data_file, err = os.ReadFile(confName)
+		data_file, err = os.ReadFile(ConfName)
 		if err != nil {
 			return
 		}
@@ -38,11 +43,11 @@ func GetYamlData() {
 }
 
 func NewYmlFile() []byte {
-	_, err := os.Create(confName)
+	_, err := os.Create(ConfName)
 	if err != nil {
 		return nil
 	}
-	data, err := os.ReadFile(confName)
+	data, err := os.ReadFile(ConfName)
 	if err != nil {
 		return nil
 	}
@@ -54,9 +59,14 @@ func SaveData() error {
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(confName, data, os.ModePerm)
+	err = os.WriteFile(ConfName, data, os.ModePerm)
 
 	return err
+}
+func Resave(writer []Student) {
+	data, _ := yaml.Marshal(writer)
+	os.WriteFile(ConfName, data, os.ModePerm)
+	GetYamlData()
 }
 
 func GetNames() []string {

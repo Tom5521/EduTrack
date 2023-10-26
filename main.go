@@ -1,13 +1,13 @@
 package main
 
 import (
-	"EduTrack/cmd/data"
-	"EduTrack/internal/graph"
-	icon "EduTrack/pkg/icons"
+	"EduTrack/data"
+	"EduTrack/iconloader"
+	mgraph "EduTrack/ui/MGraph"
 )
 
 func main() {
-	icon.SetThemeIcons()
 	data.GetYamlData()
-	graph.Init()
+	iconloader.SetThemeIcons()
+	mgraph.MainWindow()
 }
