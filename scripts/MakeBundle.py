@@ -15,7 +15,7 @@ def AppendBundle(name, file):
 
 ReGenerateBundle("Placeholder", "./Assets/Placeholder.png")
 
-#AppendBundle("App", "./Assets/Icon.png")
+AppendBundle("App", "./Assets/Icon.png")
 
 # Dark Icons
 AppendBundle("Save_Dark", "./Assets/Icons-Dark/Save.png")
