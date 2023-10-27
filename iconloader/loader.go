@@ -41,7 +41,7 @@ var (
 	UserTemplateICON fyne.Resource
 
 	// No-Theme Icons
-	//AppICON         fyne.Resource = App
+	AppICON         fyne.Resource = App
 	PlaceholderICON fyne.Resource = Placeholder
 )
 

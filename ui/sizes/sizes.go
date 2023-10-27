@@ -7,6 +7,7 @@ import (
 )
 
 var (
+	RegSize                   = fyne.NewSize(620, 520)
 	FormSize                  = fyne.NewSize(500, 240)
 	PickSize                  = fyne.NewSize(600, 400)
 	ErrSize                   = fyne.NewSize(400, 80)

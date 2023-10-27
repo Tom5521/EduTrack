@@ -6,6 +6,7 @@ import (
 	"EduTrack/ui/sizes"
 	"fmt"
 	"strings"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -97,28 +98,29 @@ func recieveFile(app fyne.App) string {
 	return selectedFilePath
 }
 
-func DeleteForm(a fyne.App, student *data.Student) {
-	w := a.NewWindow("Delete Student")
+func DeleteForm(app fyne.App, student *data.Student) {
+	window := app.NewWindow("Delete Student")
 	content := container.NewVBox(
-		widget.NewLabel("Are you sure you want to eliminate the student?"),
+		widget.NewLabel("Are you sure you want to delete the student?"),
+
 		widget.NewButton("Yes", func() {
 			for i, s := range data.Students {
-				if s == *student {
+				if s.ID == student.ID {
 					data.Students = append(data.Students[:i], data.Students[i+1:]...)
 					data.SaveData()
 					data.GetYamlData()
 					break
 				}
 			}
-			w.Close()
+
+			window.Close()
 		}),
 		widget.NewButton("No", func() {
-			w.Close()
+			window.Close()
 		}),
 	)
-
-	w.SetContent(content)
-	w.Show()
+	window.SetContent(content)
+	window.Show()
 }
 
 func AddStudentForm(app fyne.App) {
@@ -239,4 +241,48 @@ func checkValues(d formReturn) bool {
 		return false
 	}
 	return true
+}
+
+func AddRegister(app fyne.App, student *data.Student) {
+	getTimeNow := func() string {
+		time := time.Now().Format("02/01/2006")
+		return time
+	}
+	window := app.NewWindow("Add a register")
+	window.Resize(sizes.RegSize)
+
+	regNameLabel := widget.NewLabel("Register name:")
+	regnameEntry := widget.NewEntry()
+	regnameEntry.SetPlaceHolder(getTimeNow())
+	DetailsLabel := widget.NewLabel("Details")
+	regDetails := widget.NewMultiLineEntry()
+	regDetails.SetPlaceHolder("Ej: The student has not attended")
+
+	submitButton := widget.NewButton("Submit", func() {
+		var name string
+		if regnameEntry.Text == "" {
+			name = getTimeNow()
+		} else {
+			name = regnameEntry.Text
+		}
+		details := regDetails.Text
+		reg := make(map[string]string)
+		reg[name] = details
+		student.Register = append(student.Register, reg)
+		data.SaveData()
+		data.GetYamlData()
+		window.Close()
+	})
+
+	vbox := container.NewVBox(
+		DetailsLabel,
+		regNameLabel,
+		regnameEntry,
+		submitButton,
+	)
+	box := container.NewVSplit(regDetails, vbox)
+	box.SetOffset(2)
+	window.SetContent(box)
+	window.Show()
+	return
 }

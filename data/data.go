@@ -15,6 +15,7 @@ type Student struct {
 	ID            string
 	Phone_number  string
 	ImageFilePath string
+	Register      []map[string]string
 }
 
 var (
