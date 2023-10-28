@@ -5,10 +5,12 @@ import (
 	"EduTrack/iconloader"
 	"EduTrack/ui/sizes"
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/storage"
@@ -83,19 +85,13 @@ func FilePicker(app fyne.App, resultChan chan string) {
 	dialog := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
 		if err == nil && reader != nil {
 			t := strings.TrimPrefix(reader.URI().String(), "file://")
-			resultChan <- t // Envía el valor de t a través del canal
+			resultChan <- t
 			window.Close()
 		}
 	}, window)
 	dialog.SetFilter(storage.NewExtensionFileFilter([]string{".yaml", ".yml"}))
 	dialog.Show()
 	window.Show()
-}
-func recieveFile(app fyne.App) string {
-	resultChannel := make(chan string)
-	go FilePicker(app, resultChannel)
-	selectedFilePath := <-resultChannel
-	return selectedFilePath
 }
 
 func DeleteForm(app fyne.App, student *data.Student) {
@@ -150,7 +146,7 @@ func AddStudentForm(app fyne.App) {
 		})
 		data.SaveData()
 		data.GetYamlData()
-		list.Refresh()
+		Stundetlist.Refresh()
 		window.Close()
 
 	}
@@ -258,17 +254,24 @@ func AddRegister(app fyne.App, student *data.Student) {
 	regDetails := widget.NewMultiLineEntry()
 	regDetails.SetPlaceHolder("Ej: The student has not attended")
 
+	var Rname string
+	if regnameEntry.Text == "" {
+		Rname = getTimeNow()
+	} else {
+		Rname = regnameEntry.Text
+	}
+
 	submitButton := widget.NewButton("Submit", func() {
-		var name string
-		if regnameEntry.Text == "" {
-			name = getTimeNow()
-		} else {
-			name = regnameEntry.Text
+		NewReg := struct {
+			Date string
+			Name string
+			Data string
+		}{
+			Date: getTimeNow(),
+			Name: Rname,
+			Data: regDetails.Text,
 		}
-		details := regDetails.Text
-		reg := make(map[string]string)
-		reg[name] = details
-		student.Register = append(student.Register, reg)
+		student.Register = append(student.Register, NewReg)
 		data.SaveData()
 		data.GetYamlData()
 		window.Close()
@@ -285,4 +288,22 @@ func AddRegister(app fyne.App, student *data.Student) {
 	window.SetContent(box)
 	window.Show()
 	return
+}
+
+func AboutWin(app fyne.App) {
+	window := app.NewWindow("About")
+	label1 := widget.NewLabel("Created by:")
+	link, _ := url.Parse("https://github.com/Tom5521")
+	gitLabel := widget.NewHyperlink("Tom5521", link)
+	LicenceLabel := widget.NewLabel("Under the MIT licence")
+	AuthorCont := container.NewHBox(label1, gitLabel)
+	logo := canvas.NewImageFromResource(iconloader.AppICON)
+	logo.SetMinSize(fyne.NewSize(300, 300))
+	vbox1 := container.NewVBox(
+		AuthorCont,
+		LicenceLabel,
+		logo,
+	)
+	window.SetContent(vbox1)
+	window.Show()
 }

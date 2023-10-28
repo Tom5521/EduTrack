@@ -15,11 +15,15 @@ type Student struct {
 	ID            string
 	Phone_number  string
 	ImageFilePath string
-	Register      []map[string]string
+	Register      []struct {
+		Date string
+		Name string
+		Data string
+	}
 }
 
 var (
-	ConfName string = "students.yml"
+	ConfName string = "Data.yml"
 )
 
 func LoadConf(conf string) {

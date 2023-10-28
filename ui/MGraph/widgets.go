@@ -13,10 +13,13 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-var list *widget.List
+var (
+	Stundetlist  *widget.List
+	RegisterList *widget.List
+)
 
 func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
-	list = widget.NewList(
+	Stundetlist = widget.NewList(
 		func() int {
 			return len(*students)
 		},
@@ -28,14 +31,14 @@ func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
 			o.(*widget.Label).SetText(student_[i].Name)
 		},
 	)
-	list.OnSelected = func(id widget.ListItemID) {
+	Stundetlist.OnSelected = func(id widget.ListItemID) {
 		d := *students
-		list.UnselectAll()
+		Stundetlist.UnselectAll()
 		LoadStudentInfo(vars, &d[id])
-		list.Refresh()
+		Stundetlist.Refresh()
 	}
 
-	return list
+	return Stundetlist
 }
 
 func GetForm(app fyne.App, d *formReturn) *fyne.Container {
@@ -107,6 +110,11 @@ func Menu(a fyne.App) *fyne.MainMenu {
 				data.GetYamlData()
 			}),
 		),
+		fyne.NewMenu("Help",
+			fyne.NewMenuItem("About", func() {
+				AboutWin(a)
+			}),
+		),
 	)
 	return menu
 }
@@ -115,4 +123,11 @@ func LoadConf(app fyne.App) string {
 	ret := recieveFile(app)
 	fmt.Println(ret)
 	return ret
+}
+
+func recieveFile(app fyne.App) string {
+	resultChannel := make(chan string)
+	go FilePicker(app, resultChannel)
+	selectedFilePath := <-resultChannel
+	return selectedFilePath
 }

@@ -78,7 +78,10 @@ func LoadStudentInfo(vars basicVars, student *data.Student) {
 	registerButton := widget.NewButton("Add register", func() {
 		AddRegister(*vars.app, student)
 	})
+	ShowRegistersBt := widget.NewSeparator() /*widget.NewButton("Show Registers", func() {
+		WinRegs(*vars.app, data.Students)
+	})*/
 
-	content := container.NewVBox(image, dataContainer, container.NewHBox(editButton, deleteButton, registerButton))
+	content := container.NewVBox(image, dataContainer, container.NewVBox(editButton, deleteButton, registerButton, ShowRegistersBt))
 	vars.cont.Objects = []fyne.CanvasObject{content}
 }
