@@ -1,7 +1,7 @@
 /*
  * Copyright Tom5521(c) - All Rights Reserved.
  *
- * This project is licenced under the MIT License.
+ * This project is licensed under the MIT License.
  */
 
 package mgraph
@@ -18,11 +18,13 @@ import (
 	xtheme "fyne.io/x/fyne/theme"
 )
 
+// basicVars is a struct to hold basic variables used in the application.
 type basicVars struct {
 	app  *fyne.App
 	cont *fyne.Container
 }
 
+// MainWindow is the main entry point of the application.
 func MainWindow() {
 	app := app.New()
 	app.Settings().SetTheme(xtheme.AdwaitaTheme())
@@ -51,6 +53,7 @@ func MainWindow() {
 	window.ShowAndRun()
 }
 
+// LoadStudentInfo loads information for a specific student.
 func LoadStudentInfo(vars basicVars, student *data.Student) {
 	var Nlb = widget.NewLabel
 	var Nhbx = container.NewHBox
@@ -91,3 +94,4 @@ func LoadStudentInfo(vars basicVars, student *data.Student) {
 	content := container.NewVBox(image, dataContainer, container.NewVBox(editButton, deleteButton, registerButton, ShowRegistersBt))
 	vars.cont.Objects = []fyne.CanvasObject{content}
 }
+

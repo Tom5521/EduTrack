@@ -1,7 +1,7 @@
 /*
  * Copyright Tom5521(c) - All Rights Reserved.
  *
- * This project is licenced under the MIT License.
+ * This project is licensed under the MIT License.
  */
 
 package mgraph
@@ -19,12 +19,15 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+// Define global variables
 var (
 	Stundetlist  *widget.List
 	RegisterList *widget.List
 )
 
+// CreateStudentList creates a list of students and their names.
 func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
+	// Initialize the student list widget
 	Stundetlist = widget.NewList(
 		func() int {
 			return len(*students)
@@ -37,6 +40,8 @@ func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
 			o.(*widget.Label).SetText(student_[i].Name)
 		},
 	)
+
+	// Handle item selection
 	Stundetlist.OnSelected = func(id widget.ListItemID) {
 		d := *students
 		Stundetlist.UnselectAll()
@@ -47,13 +52,17 @@ func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
 	return Stundetlist
 }
 
+// GetForm returns a container with form elements.
 func GetForm(app fyne.App, d *formReturn) *fyne.Container {
+	// Create buttons
 	imageButton := widget.NewButton("Select Image", func() {
 		ImagePicker(app, d.ImagePath)
 	})
 	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
 		*d.ImagePath = ""
 	})
+
+	// Create the form
 	form := &widget.Form{
 		Items: []*widget.FormItem{
 			{Text: "Name", Widget: d.NameEntry},
@@ -65,10 +74,12 @@ func GetForm(app fyne.App, d *formReturn) *fyne.Container {
 	}
 	form.SubmitText = "Submit"
 
+	// Create the content container
 	content := container.NewVBox(container.NewHBox(imageButton, deleteImgBtn), form)
 	return content
 }
 
+// formReturn represents a structure for form elements.
 type formReturn struct {
 	ExecFunc   func()
 	NameEntry  *widget.Entry
@@ -78,6 +89,7 @@ type formReturn struct {
 	ImagePath  *string
 }
 
+// atoi converts a string to an integer, handling errors.
 func atoi(s string) int {
 	i, err := strconv.Atoi(s)
 	if err != nil {
@@ -86,7 +98,9 @@ func atoi(s string) int {
 	return i
 }
 
+// TemplateUser returns a container with user data.
 func TemplateUser() *fyne.Container {
+	// Create user data elements
 	image := canvas.NewImageFromResource(iconloader.UserTemplateICON)
 	image.SetMinSize(sizes.ProfileSize)
 	dataLabel := widget.NewLabel(
@@ -99,7 +113,9 @@ func TemplateUser() *fyne.Container {
 	return content
 }
 
+// Menu returns the main application menu.
 func Menu(a fyne.App) *fyne.MainMenu {
+	// Create the main menu
 	menu := fyne.NewMainMenu(
 		fyne.NewMenu("File",
 			fyne.NewMenuItem("Load a config file", func() {
@@ -125,15 +141,18 @@ func Menu(a fyne.App) *fyne.MainMenu {
 	return menu
 }
 
+// LoadConf loads a configuration file.
 func LoadConf(app fyne.App) string {
 	ret := recieveFile(app)
 	fmt.Println(ret)
 	return ret
 }
 
+// recieveFile receives a file from the user.
 func recieveFile(app fyne.App) string {
 	resultChannel := make(chan string)
 	go FilePicker(app, resultChannel)
 	selectedFilePath := <-resultChannel
 	return selectedFilePath
 }
+

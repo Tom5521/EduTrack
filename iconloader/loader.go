@@ -1,7 +1,7 @@
 /*
  * Copyright Tom5521(c) - All Rights Reserved.
  *
- * This project is licenced under the MIT License.
+ * This project is licensed under the MIT License.
  */
 
 package iconloader
@@ -12,8 +12,8 @@ import (
 	"fyne.io/fyne/v2"
 )
 
+// Dark Icons
 var (
-	// Dark Icons
 	DevICON_Dark          fyne.Resource = Dev_Dark
 	DownloadICON_Dark     fyne.Resource = Download_Dark
 	ErrorICON_Dark        fyne.Resource = Error_Dark
@@ -23,8 +23,10 @@ var (
 	InfoICON_Dark         fyne.Resource = Info_Dark
 	UninstallICON_Dark    fyne.Resource = Uninstall_Dark
 	UserTemplateICON_Dark fyne.Resource = TemplateUser_Dark
+)
 
-	// Light Icons
+// Light Icons
+var (
 	DevICON_Light          fyne.Resource = Dev_Light
 	DownloadICON_Light     fyne.Resource = Download_Light
 	ErrorICON_Light        fyne.Resource = Error_Light
@@ -34,8 +36,10 @@ var (
 	InfoICON_Light         fyne.Resource = Info_Light
 	UninstallICON_Light    fyne.Resource = Uninstall_Light
 	UserTemplateICON_Light fyne.Resource = TemplateUser_Light
+)
 
-	// Themed Icons
+// Themed Icons
+var (
 	DevICON          fyne.Resource
 	DownloadICON     fyne.Resource
 	ErrorICON        fyne.Resource
@@ -45,12 +49,15 @@ var (
 	InfoICON         fyne.Resource
 	UninstallICON    fyne.Resource
 	UserTemplateICON fyne.Resource
+)
 
-	// No-Theme Icons
+// No-Theme Icons
+var (
 	AppICON         fyne.Resource = App
 	PlaceholderICON fyne.Resource = Placeholder
 )
 
+// SetThemeIcons sets themed icons based on the Fyne theme (light or dark).
 func SetThemeIcons() {
 	if os.Getenv("FYNE_THEME") == "light" {
 		DevICON = DevICON_Light
@@ -74,3 +81,4 @@ func SetThemeIcons() {
 		UserTemplateICON = UserTemplateICON_Dark
 	}
 }
+

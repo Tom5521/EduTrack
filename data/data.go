@@ -1,7 +1,7 @@
 /*
  * Copyright Tom5521(c) - All Rights Reserved.
  *
- * This project is licenced under the MIT License.
+ * This project is licensed under the MIT License.
  */
 
 package data
@@ -13,8 +13,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var Students []Student
-
+// Student represents the structure of a student's data.
 type Student struct {
 	Name          string
 	Age           int
@@ -28,15 +27,17 @@ type Student struct {
 	}
 }
 
-var (
-	ConfName string = "Data.yml"
-)
+var Students []Student // A slice to hold student data.
 
+var ConfName string = "Data.yml" // Default configuration file name.
+
+// LoadConf sets the configuration file name.
 func LoadConf(conf string) {
 	ConfName = conf
 	GetYamlData()
 }
 
+// GetYamlData reads student data from the YAML configuration file.
 func GetYamlData() {
 	var (
 		err       error
@@ -53,6 +54,7 @@ func GetYamlData() {
 	yaml.Unmarshal(data_file, &Students)
 }
 
+// NewYmlFile creates a new YAML file and returns its data.
 func NewYmlFile() []byte {
 	_, err := os.Create(ConfName)
 	if err != nil {
@@ -65,6 +67,7 @@ func NewYmlFile() []byte {
 	return data
 }
 
+// SaveData saves student data to the YAML configuration file.
 func SaveData() error {
 	data, err := yaml.Marshal(Students)
 	if err != nil {
@@ -74,12 +77,15 @@ func SaveData() error {
 
 	return err
 }
+
+// Resave overwrites the YAML file with the provided student data and updates the in-memory data.
 func Resave(writer []Student) {
 	data, _ := yaml.Marshal(writer)
 	os.WriteFile(ConfName, data, os.ModePerm)
 	GetYamlData()
 }
 
+// GetNames returns a slice of student names.
 func GetNames() []string {
 	var names []string
 	for _, student := range Students {
@@ -88,6 +94,7 @@ func GetNames() []string {
 	return names
 }
 
+// GetIDs returns a slice of student IDs.
 func GetIDs() []string {
 	var IDs []string
 	for _, student := range Students {
@@ -96,6 +103,7 @@ func GetIDs() []string {
 	return IDs
 }
 
+// FindStudentByID searches for a student by their ID and returns a pointer to the student if found.
 func FindStudentByID(studentID string) *Student {
 	for _, student := range Students {
 		if student.ID == studentID {
@@ -104,3 +112,4 @@ func FindStudentByID(studentID string) *Student {
 	}
 	return nil
 }
+

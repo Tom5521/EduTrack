@@ -1,7 +1,7 @@
 /*
  * Copyright Tom5521(c) - All Rights Reserved.
  *
- * This project is licenced under the MIT License.
+ * This project is licensed under the MIT License.
  */
 
 package sizes
@@ -12,13 +12,15 @@ import (
 	"fyne.io/fyne/v2"
 )
 
+// These constants define various sizes used in the application's user interface.
 var (
-	RegSize                   = fyne.NewSize(620, 520)
-	FormSize                  = fyne.NewSize(500, 240)
-	PickSize                  = fyne.NewSize(600, 400)
-	ErrSize                   = fyne.NewSize(400, 80)
-	ProfileSize               = fyne.NewSize(300, 300)
-	SearchSize                = fyne.NewSize(300, 100)
-	ScreenWidth, ScreenHeight = resolution.GetResolution()
-	FyneScreenSize            = fyne.NewSize(ScreenWidth, ScreenHeight)
+	RegSize                   = fyne.NewSize(620, 520)                  // Size for registration window.
+	FormSize                  = fyne.NewSize(500, 240)                  // Size for the form window.
+	PickSize                  = fyne.NewSize(600, 400)                  // Size for file picker window.
+	ErrSize                   = fyne.NewSize(400, 80)                   // Size for error window.
+	ProfileSize               = fyne.NewSize(300, 300)                  // Size for a student profile window.
+	SearchSize                = fyne.NewSize(300, 100)                  // Size for student search window.
+	ScreenWidth, ScreenHeight = resolution.GetResolution()              // Screen resolution in pixels.
+	FyneScreenSize            = fyne.NewSize(ScreenWidth, ScreenHeight) // Size of the Fyne application window.
 )
+
