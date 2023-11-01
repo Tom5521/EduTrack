@@ -117,21 +117,22 @@ func DeleteForm(student *data.Student) {
 	window := app.NewWindow("Delete Student")
 	content := container.NewVBox(
 		widget.NewLabel("Are you sure you want to delete the student?"),
-		widget.NewButton("Yes", func() {
-			for i, s := range data.Students {
-				if s.ID == student.ID {
-					data.Students = append(data.Students[:i], data.Students[i+1:]...)
-					data.SaveData()
-					data.GetYamlData()
-					break
+		container.NewAdaptiveGrid(2,
+			widget.NewButton("Yes", func() {
+				for i, s := range data.Students {
+					if s.ID == student.ID {
+						data.Students = append(data.Students[:i], data.Students[i+1:]...)
+						data.SaveData()
+						data.GetYamlData()
+						break
+					}
 				}
-			}
-			window.Close()
-		}),
-		widget.NewButton("No", func() {
-			window.Close()
-		}),
-	)
+				window.Close()
+			}),
+			widget.NewButton("No", func() {
+				window.Close()
+			}),
+		))
 	window.SetContent(content)
 	window.Show()
 }
