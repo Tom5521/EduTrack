@@ -24,7 +24,7 @@ import (
 )
 
 // EditFormWindow opens a window to edit a student's information.
-func EditFormWindow(app fyne.App, student *data.Student) {
+func EditFormWindow(student *data.Student) {
 	window := app.NewWindow("Edit " + student.Name)
 	window.Resize(sizes.FormSize)
 
@@ -71,7 +71,7 @@ func EditFormWindow(app fyne.App, student *data.Student) {
 		ImagePath:  &imagePath,
 	}
 
-	content := GetForm(app, &retForm)
+	content := GetForm(&retForm)
 
 	window.SetContent(content)
 	window.Show()
@@ -113,7 +113,7 @@ func FilePicker(app fyne.App, resultChan chan string) {
 }
 
 // DeleteForm opens a confirmation window to delete a student.
-func DeleteForm(app fyne.App, student *data.Student) {
+func DeleteForm(student *data.Student) {
 	window := app.NewWindow("Delete Student")
 	content := container.NewVBox(
 		widget.NewLabel("Are you sure you want to delete the student?"),
@@ -181,7 +181,7 @@ func AddStudentForm(app fyne.App) {
 		PhoneEntry: phoneEntry,
 		ImagePath:  &imagePath,
 	}
-	content := GetForm(app, &formRet)
+	content := GetForm(&formRet)
 	window.SetContent(content)
 	window.Show()
 }
@@ -211,8 +211,7 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 }
 
 // Search opens a window to search for a student by ID.
-func Search(vars basicVars) {
-	app := *vars.app
+func Search() {
 	w := app.NewWindow("Search Student")
 	w.Resize(sizes.SearchSize)
 	entry := widget.NewEntry()
@@ -220,7 +219,7 @@ func Search(vars basicVars) {
 		studentID := entry.Text
 		student := data.FindStudentByID(studentID)
 		if student != nil {
-			LoadStudentInfo(vars, student)
+			LoadStudentInfo(student)
 			w.Close()
 		} else {
 			ErrWin(app, "Student not found!")
@@ -267,7 +266,7 @@ func checkValues(d formReturn) bool {
 }
 
 // AddRegister opens a window to add a register for a student.
-func AddRegister(app fyne.App, student *data.Student) {
+func AddRegister(student *data.Student) {
 	getTimeNow := func() string {
 		time := time.Now().Format("02/01/2006")
 		return time
@@ -303,6 +302,7 @@ func AddRegister(app fyne.App, student *data.Student) {
 		student.Register = append(student.Register, NewReg)
 		data.SaveData()
 		data.GetYamlData()
+		RegisterList.Refresh()
 		window.Close()
 	})
 
@@ -313,8 +313,75 @@ func AddRegister(app fyne.App, student *data.Student) {
 		submitButton,
 	)
 	box := container.NewVSplit(regDetails, vbox)
-	box.SetOffset(2)
+	box.SetOffset(1)
 	window.SetContent(box)
+	window.Show()
+}
+
+func ShowRegisters(student *data.Student) {
+	GetRegisterList(student)
+	var content *fyne.Container
+	window := app.NewWindow(student.Name + " registers")
+	window.Resize(sizes.RegsListSize)
+	if len(student.Register) == 0 {
+		noRegistersLabel := widget.NewLabel("No registers found")
+		noRegistersLabel.Alignment = fyne.TextAlignCenter
+		AddRegisterButton := widget.NewButton("Add Register", func() {
+			AddRegister(student)
+			window.Close()
+		})
+		content = container.NewVBox(noRegistersLabel, AddRegisterButton)
+	} else {
+		GetRegisterList(student)
+		content = container.NewMax(RegisterList)
+	}
+	window.SetContent(content)
+	window.Show()
+}
+func EditRegisterData(student *data.Student, index int) {
+	/*
+		getTimeNow := func() string {
+			time := time.Now().Format("02/01/2006")
+			return time
+		}
+	*/
+	window := app.NewWindow("Edit Register")
+	window.Resize(sizes.RegSize)
+	reg := &student.Register[index]
+
+	regNameLabel := widget.NewLabel("Register name:")
+	regnameEntry := widget.NewEntry()
+	regnameEntry.SetText(reg.Name)
+
+	regDate := widget.NewLabel("Date: " + reg.Date)
+
+	DetailsLabel := widget.NewLabel("Details")
+
+	regDetails := widget.NewMultiLineEntry()
+	regDetails.SetText(reg.Data)
+
+	submitButton := widget.NewButton("Submit", func() {
+
+		reg.Name = regnameEntry.Text
+		reg.Data = regDetails.Text
+
+		data.SaveData()
+
+		window.Close()
+	})
+
+	vbox := container.NewVBox(
+		DetailsLabel,
+		regNameLabel,
+		regnameEntry,
+		regDate,
+		submitButton,
+	)
+
+	box := container.NewVSplit(regDetails, vbox)
+	box.SetOffset(1)
+	window.SetContent(box)
+
 	window.Show()
 }
 
@@ -336,4 +403,3 @@ func AboutWin(app fyne.App) {
 	window.SetContent(vbox1)
 	window.Show()
 }
-

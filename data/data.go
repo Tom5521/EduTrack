@@ -27,40 +27,59 @@ type Student struct {
 	}
 }
 
-var Students []Student // A slice to hold student data.
+type Config_str struct {
+	DataFile string
+}
 
-var ConfName string = "Data.yml" // Default configuration file name.
+var (
+	Config     = GetConfigurationData()
+	Students   []Student              // A slice to hold student data.
+	DataName   string    = "data.yml" // Default configuration file name.
+	ConfigName string    = "config.yml"
+)
 
 // LoadConf sets the configuration file name.
 func LoadConf(conf string) {
-	ConfName = conf
+	DataName = conf
 	GetYamlData()
 }
 
-// GetYamlData reads student data from the YAML configuration file.
-func GetYamlData() {
+func GetConfigurationData() Config_str {
+	data := Config_str{}
+	bytes := fileChecks(ConfigName)
+	yaml.Unmarshal(bytes, &data)
+	return data
+}
+
+func fileChecks(DataName string) []byte {
 	var (
 		err       error
 		data_file []byte
 	)
-	if check, _ := file.CheckFile(ConfName); !check {
-		data_file = NewYmlFile()
+	if check, _ := file.CheckFile(DataName); !check {
+		data_file = NewYmlFile(DataName)
 	} else {
-		data_file, err = os.ReadFile(ConfName)
+		data_file, err = os.ReadFile(DataName)
 		if err != nil {
-			return
+			return nil
 		}
 	}
+	return data_file
+}
+
+// GetYamlData reads student data from the YAML configuration file.
+func GetYamlData() {
+	data_file := fileChecks(DataName)
 	yaml.Unmarshal(data_file, &Students)
 }
 
 // NewYmlFile creates a new YAML file and returns its data.
-func NewYmlFile() []byte {
-	_, err := os.Create(ConfName)
+func NewYmlFile(file_field string) []byte {
+	_, err := os.Create(file_field)
 	if err != nil {
 		return nil
 	}
-	data, err := os.ReadFile(ConfName)
+	data, err := os.ReadFile(file_field)
 	if err != nil {
 		return nil
 	}
@@ -73,7 +92,7 @@ func SaveData() error {
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(ConfName, data, os.ModePerm)
+	err = os.WriteFile(DataName, data, os.ModePerm)
 
 	return err
 }
@@ -81,7 +100,7 @@ func SaveData() error {
 // Resave overwrites the YAML file with the provided student data and updates the in-memory data.
 func Resave(writer []Student) {
 	data, _ := yaml.Marshal(writer)
-	os.WriteFile(ConfName, data, os.ModePerm)
+	os.WriteFile(DataName, data, os.ModePerm)
 	GetYamlData()
 }
 
@@ -112,4 +131,3 @@ func FindStudentByID(studentID string) *Student {
 	}
 	return nil
 }
-

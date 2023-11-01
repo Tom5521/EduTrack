@@ -8,7 +8,6 @@ package main
 
 import (
 	"EduTrack/data"
-	"EduTrack/iconloader"
 	mgraph "EduTrack/ui/MGraph"
 )
 
@@ -18,9 +17,7 @@ func main() {
 	data.GetYamlData()
 
 	// Set theme-specific icons for the application.
-	iconloader.SetThemeIcons()
 
 	// Open the main application window provided by the "MGraph" package.
 	mgraph.MainWindow()
 }
-

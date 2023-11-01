@@ -26,7 +26,7 @@ var (
 )
 
 // CreateStudentList creates a list of students and their names.
-func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
+func CreateStudentList(students *[]data.Student) fyne.Widget {
 	// Initialize the student list widget
 	Stundetlist = widget.NewList(
 		func() int {
@@ -45,7 +45,7 @@ func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
 	Stundetlist.OnSelected = func(id widget.ListItemID) {
 		d := *students
 		Stundetlist.UnselectAll()
-		LoadStudentInfo(vars, &d[id])
+		LoadStudentInfo(&d[id])
 		Stundetlist.Refresh()
 	}
 
@@ -53,7 +53,7 @@ func CreateStudentList(vars basicVars, students *[]data.Student) fyne.Widget {
 }
 
 // GetForm returns a container with form elements.
-func GetForm(app fyne.App, d *formReturn) *fyne.Container {
+func GetForm(d *formReturn) *fyne.Container {
 	// Create buttons
 	imageButton := widget.NewButton("Select Image", func() {
 		ImagePicker(app, d.ImagePath)
@@ -101,6 +101,7 @@ func atoi(s string) int {
 // TemplateUser returns a container with user data.
 func TemplateUser() *fyne.Container {
 	// Create user data elements
+	iconloader.SetThemeIcons(app.Settings().ThemeVariant())
 	image := canvas.NewImageFromResource(iconloader.UserTemplateICON)
 	image.SetMinSize(sizes.ProfileSize)
 	dataLabel := widget.NewLabel(
@@ -156,3 +157,21 @@ func recieveFile(app fyne.App) string {
 	return selectedFilePath
 }
 
+func GetRegisterList(student *data.Student) {
+	list := widget.NewList(
+		func() int {
+			return len(student.Register)
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i widget.ListItemID, o fyne.CanvasObject) {
+			o.(*widget.Label).SetText(student.Register[i].Name)
+		},
+	)
+	list.OnSelected = func(id widget.ListItemID) {
+		list.UnselectAll()
+		EditRegisterData(student, id)
+	}
+	RegisterList = list
+}

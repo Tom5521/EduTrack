@@ -4,3 +4,5 @@ builds
 EduTrack.*
 Data.*
 tmp
+data.yml
+config.yml

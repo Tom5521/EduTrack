@@ -12,40 +12,35 @@ import (
 	"fmt"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/app"
+	fyne_app "fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	xtheme "fyne.io/x/fyne/theme"
 )
 
 // basicVars is a struct to hold basic variables used in the application.
-type basicVars struct {
-	app  *fyne.App
-	cont *fyne.Container
-}
+
+var (
+	app        fyne.App        = fyne_app.New()
+	StudentTab *fyne.Container = TemplateUser()
+)
 
 // MainWindow is the main entry point of the application.
 func MainWindow() {
-	app := app.New()
 	app.Settings().SetTheme(xtheme.AdwaitaTheme())
-	var StudentTab *fyne.Container = TemplateUser()
 	window := app.NewWindow("EduTrack")
 	window.SetMaster()
 	window.SetMainMenu(Menu(app))
 	wintools.MaximizeWin(window)
 
-	listBasic := basicVars{
-		app:  &app,
-		cont: StudentTab,
-	}
 	searchButton := widget.NewButton("Search", func() {
-		Search(listBasic)
+		Search()
 	})
 	addButton := widget.NewButton("Add a student", func() {
 		AddStudentForm(app)
 	})
 
-	list := CreateStudentList(listBasic, &data.Students)
+	list := CreateStudentList(&data.Students)
 	vbox := container.NewVBox(searchButton, addButton, widget.NewSeparator(), StudentTab)
 	mainbox := container.NewHSplit(vbox, list)
 	mainbox.SetOffset(0)
@@ -54,7 +49,7 @@ func MainWindow() {
 }
 
 // LoadStudentInfo loads information for a specific student.
-func LoadStudentInfo(vars basicVars, student *data.Student) {
+func LoadStudentInfo(student *data.Student) {
 	var Nlb = widget.NewLabel
 	var Nhbx = container.NewHBox
 	// Name Label
@@ -78,20 +73,27 @@ func LoadStudentInfo(vars basicVars, student *data.Student) {
 	dataContainer := container.NewVBox(NameCont, AgeCont, IDCont, PhoneCont)
 
 	editButton := widget.NewButton("Edit", func() {
-		EditFormWindow(*vars.app, student)
+		EditFormWindow(student)
 	})
 
 	deleteButton := widget.NewButton("Delete", func() {
-		DeleteForm(*vars.app, student)
+		DeleteForm(student)
 	})
 	registerButton := widget.NewButton("Add register", func() {
-		AddRegister(*vars.app, student)
+		AddRegister(student)
 	})
-	ShowRegistersBt := widget.NewSeparator() /*widget.NewButton("Show Registers", func() {
-		WinRegs(*vars.app, data.Students)
-	})*/
+	ShowRegistersBt := widget.NewButton("Show Registers", func() {
+		ShowRegisters(student)
+	})
 
-	content := container.NewVBox(image, dataContainer, container.NewVBox(editButton, deleteButton, registerButton, ShowRegistersBt))
-	vars.cont.Objects = []fyne.CanvasObject{content}
+	content := container.NewVBox(image,
+		dataContainer,
+		container.NewAdaptiveGrid(2,
+			editButton,
+			deleteButton,
+			registerButton,
+			ShowRegistersBt,
+		),
+	)
+	StudentTab.Objects = []fyne.CanvasObject{content}
 }
-

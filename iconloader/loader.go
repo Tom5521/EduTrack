@@ -7,8 +7,6 @@
 package iconloader
 
 import (
-	"os"
-
 	"fyne.io/fyne/v2"
 )
 
@@ -23,6 +21,7 @@ var (
 	InfoICON_Dark         fyne.Resource = Info_Dark
 	UninstallICON_Dark    fyne.Resource = Uninstall_Dark
 	UserTemplateICON_Dark fyne.Resource = TemplateUser_Dark
+	AppICON_Dark          fyne.Resource = App_dark
 )
 
 // Light Icons
@@ -36,6 +35,7 @@ var (
 	InfoICON_Light         fyne.Resource = Info_Light
 	UninstallICON_Light    fyne.Resource = Uninstall_Light
 	UserTemplateICON_Light fyne.Resource = TemplateUser_Light
+	AppICON_Light          fyne.Resource = App_light
 )
 
 // Themed Icons
@@ -49,17 +49,17 @@ var (
 	InfoICON         fyne.Resource
 	UninstallICON    fyne.Resource
 	UserTemplateICON fyne.Resource
+	AppICON          fyne.Resource
 )
 
 // No-Theme Icons
 var (
-	AppICON         fyne.Resource = App
 	PlaceholderICON fyne.Resource = Placeholder
 )
 
 // SetThemeIcons sets themed icons based on the Fyne theme (light or dark).
-func SetThemeIcons() {
-	if os.Getenv("FYNE_THEME") == "light" {
+func SetThemeIcons(thememode fyne.ThemeVariant) {
+	if thememode == 1 { // Set light mode
 		DevICON = DevICON_Light
 		InstallICON = InstallICON_Light
 		DownloadICON = DownloadICON_Light
@@ -69,7 +69,8 @@ func SetThemeIcons() {
 		InfoICON = InfoICON_Light
 		UninstallICON = UninstallICON_Light
 		UserTemplateICON = UserTemplateICON_Light
-	} else {
+		AppICON = AppICON_Light
+	} else if thememode == 0 { // Set dark mode
 		DevICON = DevICON_Dark
 		InstallICON = InstallICON_Dark
 		DownloadICON = DownloadICON_Dark
@@ -79,6 +80,6 @@ func SetThemeIcons() {
 		InfoICON = InfoICON_Dark
 		UninstallICON = UninstallICON_Dark
 		UserTemplateICON = UserTemplateICON_Dark
+		AppICON = AppICON_Dark
 	}
 }
-

@@ -22,5 +22,6 @@ var (
 	SearchSize                = fyne.NewSize(300, 100)                  // Size for student search window.
 	ScreenWidth, ScreenHeight = resolution.GetResolution()              // Screen resolution in pixels.
 	FyneScreenSize            = fyne.NewSize(ScreenWidth, ScreenHeight) // Size of the Fyne application window.
+	RegInfoSize               = fyne.NewSize(200, 100)
+	RegsListSize              = fyne.NewSize(400, 200)
 )
-

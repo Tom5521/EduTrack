@@ -23,7 +23,8 @@ ReGenerateBundle("Placeholder", "./Assets/Placeholder.png")
 # Append other icons to the bundle.
 
 # App Icon
-AppendBundle("App", "./Assets/Icon.png")
+AppendBundle("App_light", "./Assets/Icon.png")
+AppendBundle("App_dark","./Assets/Icon-Dark.png")
 
 # Dark Icons
 AppendBundle("Save_Dark", "./Assets/Icons-Dark/Save.png")
