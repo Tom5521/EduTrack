@@ -115,15 +115,15 @@ func TemplateUser() *fyne.Container {
 }
 
 // Menu returns the main application menu.
-func Menu(a fyne.App) *fyne.MainMenu {
+func Menu() *fyne.MainMenu {
 	// Create the main menu
 	menu := fyne.NewMainMenu(
 		fyne.NewMenu("File",
 			fyne.NewMenuItem("Load a config file", func() {
-				data.LoadConf(LoadConf(a))
+				data.LoadConf(LoadConf())
 			}),
 			fyne.NewMenuItem("Add Student", func() {
-				AddStudentForm(a)
+				AddStudentForm()
 			}),
 			fyne.NewMenuItem("Re-Save Changes", func() {
 				data.SaveData()
@@ -135,7 +135,7 @@ func Menu(a fyne.App) *fyne.MainMenu {
 		),
 		fyne.NewMenu("Help",
 			fyne.NewMenuItem("About", func() {
-				AboutWin(a)
+				AboutWin()
 			}),
 		),
 	)
@@ -143,14 +143,14 @@ func Menu(a fyne.App) *fyne.MainMenu {
 }
 
 // LoadConf loads a configuration file.
-func LoadConf(app fyne.App) string {
-	ret := recieveFile(app)
+func LoadConf() string {
+	ret := recieveFile()
 	fmt.Println(ret)
 	return ret
 }
 
 // recieveFile receives a file from the user.
-func recieveFile(app fyne.App) string {
+func recieveFile() string {
 	resultChannel := make(chan string)
 	go FilePicker(app, resultChannel)
 	selectedFilePath := <-resultChannel

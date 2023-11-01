@@ -138,7 +138,7 @@ func DeleteForm(student *data.Student) {
 }
 
 // AddStudentForm opens a window to add a new student.
-func AddStudentForm(app fyne.App) {
+func AddStudentForm() {
 	var imagePath string
 	window := app.NewWindow("Add a student")
 	window.Resize(sizes.FormSize)
@@ -190,6 +190,7 @@ func AddStudentForm(app fyne.App) {
 // ErrWin opens an error window with a message.
 func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 	window := app.NewWindow("Error")
+	window.RequestFocus()
 	window.Resize(sizes.ErrSize)
 	window.SetIcon(iconloader.ErrorICON)
 	errlabel := widget.NewLabel(err)
@@ -387,7 +388,7 @@ func EditRegisterData(student *data.Student, index int) {
 }
 
 // AboutWin opens an "About" window to display information about the app.
-func AboutWin(app fyne.App) {
+func AboutWin() {
 	window := app.NewWindow("About")
 	label1 := widget.NewLabel("Created by:")
 	link, _ := url.Parse("https://github.com/Tom5521")

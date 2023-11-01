@@ -28,24 +28,25 @@ var (
 // MainWindow is the main entry point of the application.
 func MainWindow() {
 	app.Settings().SetTheme(xtheme.AdwaitaTheme())
-	window := app.NewWindow("EduTrack")
-	window.SetMaster()
-	window.SetMainMenu(Menu(app))
-	wintools.MaximizeWin(window)
+	MainWin := app.NewWindow("EduTrack")
+	//MainWin.SetFullScreen(true)
+	MainWin.SetMaster()
+	MainWin.SetMainMenu(Menu())
+	wintools.MaximizeWin(MainWin)
 
 	searchButton := widget.NewButton("Search", func() {
 		Search()
 	})
 	addButton := widget.NewButton("Add a student", func() {
-		AddStudentForm(app)
+		AddStudentForm()
 	})
 
 	list := CreateStudentList(&data.Students)
 	vbox := container.NewVBox(searchButton, addButton, widget.NewSeparator(), StudentTab)
 	mainbox := container.NewHSplit(vbox, list)
 	mainbox.SetOffset(0)
-	window.SetContent(mainbox)
-	window.ShowAndRun()
+	MainWin.SetContent(mainbox)
+	MainWin.ShowAndRun()
 }
 
 // LoadStudentInfo loads information for a specific student.
