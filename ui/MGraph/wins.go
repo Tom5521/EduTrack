@@ -267,6 +267,7 @@ func AddRegister(student *data.Student) {
 		time := time.Now().Format("02/01/2006")
 		return time
 	}
+	var tmpDate string = getTimeNow()
 
 	window := app.NewWindow("Add a register")
 	window.Resize(sizes.RegSize)
@@ -274,6 +275,15 @@ func AddRegister(student *data.Student) {
 	regNameLabel := widget.NewLabel("Register name:")
 	regnameEntry := widget.NewEntry()
 	regnameEntry.SetPlaceHolder(getTimeNow())
+
+	regDateButton := widget.NewButton("Select Date", func() {
+		ret, err := zenity.Calendar("Select a date from below:",
+			zenity.DefaultDate(2023, time.December, 1))
+		if err != nil {
+			ErrWin(app, err.Error())
+		}
+		tmpDate = ret.Format("02/01/2006")
+	})
 	DetailsLabel := widget.NewLabel("Details")
 	regDetails := widget.NewMultiLineEntry()
 	regDetails.SetPlaceHolder("E.g., The student has not attended")
@@ -291,7 +301,7 @@ func AddRegister(student *data.Student) {
 			Name string
 			Data string
 		}{
-			Date: getTimeNow(),
+			Date: tmpDate,
 			Name: Rname,
 			Data: regDetails.Text,
 		}
@@ -302,11 +312,13 @@ func AddRegister(student *data.Student) {
 		window.Close()
 	})
 
+	endBox := container.NewAdaptiveGrid(2, regDateButton, submitButton)
+
 	vbox := container.NewVBox(
 		DetailsLabel,
 		regNameLabel,
 		regnameEntry,
-		submitButton,
+		endBox,
 	)
 	box := container.NewVSplit(regDetails, vbox)
 	box.SetOffset(1)
@@ -341,36 +353,43 @@ func EditRegisterData(student *data.Student, index int) {
 			return time
 		}
 	*/
+	var tmpDate string
+
 	window := app.NewWindow("Edit Register")
 	window.Resize(sizes.RegSize)
 	reg := &student.Register[index]
-
 	regNameLabel := widget.NewLabel("Register name:")
+	regNameLabel.Alignment = fyne.TextAlignCenter
 	regnameEntry := widget.NewEntry()
 	regnameEntry.SetText(reg.Name)
-
+	regnameBox := container.NewAdaptiveGrid(2, regNameLabel, regnameEntry)
 	regDate := widget.NewLabel("Date: " + reg.Date)
-
+	regDate.Alignment = fyne.TextAlignCenter
+	DateButton := widget.NewButton("Select Date", func() {
+		ret, err := zenity.Calendar("Select a date from below:",
+			zenity.DefaultDate(2023, time.December, 1))
+		if err != nil {
+			ErrWin(app, err.Error())
+		}
+		tmpDate = ret.Format("02/01/2006")
+	})
+	datebox := container.NewAdaptiveGrid(2, regDate, DateButton)
 	DetailsLabel := widget.NewLabel("Details")
-
 	regDetails := widget.NewMultiLineEntry()
 	regDetails.SetText(reg.Data)
 
 	submitButton := widget.NewButton("Submit", func() {
-
 		reg.Name = regnameEntry.Text
 		reg.Data = regDetails.Text
-
+		reg.Date = tmpDate
 		data.SaveData()
-
 		window.Close()
 	})
 
 	vbox := container.NewVBox(
 		DetailsLabel,
-		regNameLabel,
-		regnameEntry,
-		regDate,
+		regnameBox,
+		datebox,
 		submitButton,
 	)
 
