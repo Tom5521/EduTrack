@@ -10,7 +10,6 @@ import (
 	"EduTrack/data"
 	"EduTrack/iconloader"
 	"EduTrack/ui/sizes"
-	"fmt"
 	"strconv"
 
 	"fyne.io/fyne/v2"
@@ -56,7 +55,7 @@ func CreateStudentList(students *[]data.Student) fyne.Widget {
 func GetForm(d *formReturn) *fyne.Container {
 	// Create buttons
 	imageButton := widget.NewButton("Select Image", func() {
-		ImagePicker(app, d.ImagePath)
+		ImagePicker(d.ImagePath)
 	})
 	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
 		*d.ImagePath = ""
@@ -120,7 +119,7 @@ func Menu() *fyne.MainMenu {
 	menu := fyne.NewMainMenu(
 		fyne.NewMenu("File",
 			fyne.NewMenuItem("Load a config file", func() {
-				data.LoadConf(LoadConf())
+				data.LoadConf(FilePicker())
 			}),
 			fyne.NewMenuItem("Add Student", func() {
 				AddStudentForm()
@@ -140,21 +139,6 @@ func Menu() *fyne.MainMenu {
 		),
 	)
 	return menu
-}
-
-// LoadConf loads a configuration file.
-func LoadConf() string {
-	ret := recieveFile()
-	fmt.Println(ret)
-	return ret
-}
-
-// recieveFile receives a file from the user.
-func recieveFile() string {
-	resultChannel := make(chan string)
-	go FilePicker(app, resultChannel)
-	selectedFilePath := <-resultChannel
-	return selectedFilePath
 }
 
 func GetRegisterList(student *data.Student) {

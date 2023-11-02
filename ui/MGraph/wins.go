@@ -12,15 +12,13 @@ import (
 	"EduTrack/ui/sizes"
 	"fmt"
 	"net/url"
-	"strings"
 	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/dialog"
-	"fyne.io/fyne/v2/storage"
 	"fyne.io/fyne/v2/widget"
+	"github.com/ncruces/zenity"
 )
 
 // EditFormWindow opens a window to edit a student's information.
@@ -78,38 +76,34 @@ func EditFormWindow(student *data.Student) {
 }
 
 // ImagePicker opens a file picker window to select an image file.
-func ImagePicker(app fyne.App, imageFilePath *string) {
-	window := app.NewWindow("Pick an image!")
-	window.Resize(sizes.PickSize)
-
-	dialog := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
-		if err == nil && reader != nil {
-			*imageFilePath = strings.TrimPrefix(reader.URI().String(), "file://")
-			window.Close()
-		}
-	}, window)
-	dialog.SetFilter(storage.NewExtensionFileFilter([]string{".png", ".jpg", ".jpeg"}))
-	dialog.Show()
-
-	window.Show()
+func ImagePicker(imageFilePath *string) {
+	filter := []string{"*.png", "*.gif", "*.ico", "*.jpg", "*.webp"}
+	const defaultPath string = ""
+	ret, err := zenity.SelectFile(
+		zenity.Filename(defaultPath),
+		zenity.FileFilters{
+			{"Image files", filter, true},
+		})
+	if err != nil {
+		ErrWin(app, err.Error())
+	} else {
+		*imageFilePath = ret
+	}
 }
 
 // FilePicker opens a file picker window to select a configuration file.
-func FilePicker(app fyne.App, resultChan chan string) {
-	window := app.NewWindow("Select a config file!")
-	window.Resize(sizes.PickSize)
-	window.SetFixedSize(true)
-
-	dialog := dialog.NewFileOpen(func(reader fyne.URIReadCloser, err error) {
-		if err == nil && reader != nil {
-			t := strings.TrimPrefix(reader.URI().String(), "file://")
-			resultChan <- t
-			window.Close()
-		}
-	}, window)
-	dialog.SetFilter(storage.NewExtensionFileFilter([]string{".yaml", ".yml"}))
-	dialog.Show()
-	window.Show()
+func FilePicker() string {
+	filter := []string{"*.yml", "*.yaml"}
+	const defaultPath string = ""
+	ret, err := zenity.SelectFile(
+		zenity.Filename(defaultPath),
+		zenity.FileFilters{
+			{"Yaml files", filter, true},
+		})
+	if err != nil {
+		ErrWin(app, err.Error())
+	}
+	return ret
 }
 
 // DeleteForm opens a confirmation window to delete a student.
