@@ -7,9 +7,11 @@
 package data
 
 import (
+	"fmt"
 	"os"
+	"os/user"
+	"runtime"
 
-	"github.com/Tom5521/MyGolangTools/file"
 	"gopkg.in/yaml.v3"
 )
 
@@ -28,63 +30,103 @@ type Student struct {
 }
 
 type Config_str struct {
-	DataFile string
+	StudentsFile string
+	Lang         string // TODO: Add multilanguage support
+
 }
 
 var (
-	Config     = GetConfigurationData()
-	Students   []Student              // A slice to hold student data.
-	DataName   string    = "data.yml" // Default configuration file name.
-	ConfigName string    = "config.yml"
+	Config        = Config_str{}
+	Students      []Student // A slice to hold student data.
+	_, ConfigFile string    = getOSConfFile()
 )
 
-// LoadConf sets the configuration file name.
-func LoadConf(conf string) {
-	DataName = conf
+func getOSConfFile() (dataYml string, ConfYml string) {
+	if runtime.GOOS == "linux" || runtime.GOOS == "unix" {
+		CurrentUser, err := user.Current()
+		if err != nil {
+			fmt.Println(err)
+		}
+		confDir := fmt.Sprintf("%v/.config/EduTrack", CurrentUser.HomeDir)
+		if _, err := os.Stat(confDir); os.IsNotExist(err) {
+			err := os.Mkdir(confDir, os.ModePerm)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+		return confDir + "/students.yml", confDir + "/config.yml"
+	} else {
+		return "students.yml", "config.yml"
+	}
+}
+
+func LoadConf(d string) {
+	Config.StudentsFile = d
+	data, err := yaml.Marshal(Config)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = os.WriteFile(ConfigFile, data, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
 	GetYamlData()
 }
 
-func GetConfigurationData() Config_str {
-	data := Config_str{}
-	bytes := fileChecks(ConfigName)
-	yaml.Unmarshal(bytes, &data)
-	return data
+func NewConfigurationFile() {
+	var err error
+	StudentsFile, confdir := getOSConfFile()
+	ymlData, err := yaml.Marshal(Config_str{StudentsFile: StudentsFile})
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = os.WriteFile(confdir, ymlData, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
-func fileChecks(DataName string) []byte {
-	var (
-		err       error
-		data_file []byte
-	)
-	if check, _ := file.CheckFile(DataName); !check {
-		data_file = NewYmlFile(DataName)
-	} else {
-		data_file, err = os.ReadFile(DataName)
-		if err != nil {
-			return nil
-		}
+func GetConfData() {
+	var err error
+	_, confFile := getOSConfFile()
+	if _, err := os.Stat(confFile); os.IsNotExist(err) {
+		NewConfigurationFile()
 	}
-	return data_file
+	data, err := os.ReadFile(confFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+	yaml.Unmarshal(data, &Config)
+}
+
+func NewYamlStudentsFile() {
+	var err error
+	data, err := yaml.Marshal(Students)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = os.WriteFile(Config.StudentsFile, data, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 // GetYamlData reads student data from the YAML configuration file.
 func GetYamlData() {
-	data_file := fileChecks(DataName)
-	yaml.Unmarshal(data_file, &Students)
+	var err error
+
+	if _, err := os.Stat(Config.StudentsFile); os.IsNotExist(err) {
+		NewYamlStudentsFile()
+	}
+
+	data, err := os.ReadFile(Config.StudentsFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+	yaml.Unmarshal(data, &Students)
 }
 
 // NewYmlFile creates a new YAML file and returns its data.
-func NewYmlFile(file_field string) []byte {
-	_, err := os.Create(file_field)
-	if err != nil {
-		return nil
-	}
-	data, err := os.ReadFile(file_field)
-	if err != nil {
-		return nil
-	}
-	return data
-}
 
 // SaveData saves student data to the YAML configuration file.
 func SaveData() error {
@@ -92,7 +134,7 @@ func SaveData() error {
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(DataName, data, os.ModePerm)
+	err = os.WriteFile(Config.StudentsFile, data, os.ModePerm)
 
 	return err
 }
@@ -100,7 +142,7 @@ func SaveData() error {
 // Resave overwrites the YAML file with the provided student data and updates the in-memory data.
 func Resave(writer []Student) {
 	data, _ := yaml.Marshal(writer)
-	os.WriteFile(DataName, data, os.ModePerm)
+	os.WriteFile(Config.StudentsFile, data, os.ModePerm)
 	GetYamlData()
 }
 
