@@ -15,9 +15,6 @@ import (
 func main() {
 	// Load data from YAML files.
 	data.GetYamlData()
-
-	// Set theme-specific icons for the application.
-
 	// Open the main application window provided by the "MGraph" package.
 	mgraph.MainWindow()
 }

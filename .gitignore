@@ -6,3 +6,4 @@ Data.*
 tmp
 data.yml
 config.yml
+__pycache__
