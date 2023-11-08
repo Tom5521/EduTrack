@@ -41,6 +41,11 @@ var (
 	_, ConfigFile string    = getOSConfFile()
 )
 
+func LoadFiles() {
+	GetConfData()
+	GetYamlData()
+}
+
 func getOSConfFile() (dataYml string, ConfYml string) {
 	if runtime.GOOS == "linux" || runtime.GOOS == "unix" {
 		CurrentUser, err := user.Current()

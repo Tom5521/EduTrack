@@ -13,10 +13,8 @@ import (
 
 // The main function is the entry point for the application.
 func main() {
-	// Load the configs data
-	data.GetConfData()
-	// Load data from YAML files.
-	data.GetYamlData()
+	// Load the configuration and data files
+	data.LoadFiles()
 	// Open the main application window provided by the "MGraph" package.
 	mgraph.MainWindow()
 }
