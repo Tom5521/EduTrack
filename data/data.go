@@ -15,6 +15,14 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type Grade struct {
+	Name  string
+	Info  string
+	Price string
+	Start string
+	End   string
+}
+
 // Student represents the structure of a student's data.
 type Student struct {
 	Name          string
@@ -27,26 +35,29 @@ type Student struct {
 		Name string
 		Data string
 	}
+	Grades []Grade
 }
 
 type Config_str struct {
+	GradesFile   string
 	StudentsFile string
 	Lang         string // TODO: Add multilanguage support
-
 }
 
 var (
-	Config        = Config_str{}
-	Students      []Student // A slice to hold student data.
-	_, ConfigFile string    = getOSConfFile()
+	Grades           []Grade
+	Config           = Config_str{}
+	Students         []Student // A slice to hold student data.
+	_, ConfigFile, _ string    = getOSConfFile()
 )
 
 func LoadFiles() {
 	GetConfData()
 	GetStundentData()
+	GetGradesData()
 }
 
-func getOSConfFile() (dataYml string, ConfYml string) {
+func getOSConfFile() (dataYml string, ConfYml string, gradesYml string) {
 	if runtime.GOOS == "linux" || runtime.GOOS == "unix" {
 		CurrentUser, err := user.Current()
 		if err != nil {
@@ -59,9 +70,9 @@ func getOSConfFile() (dataYml string, ConfYml string) {
 				fmt.Println(err)
 			}
 		}
-		return confDir + "/students.yml", confDir + "/config.yml"
+		return confDir + "/students.yml", confDir + "/config.yml", confDir + "/grades.yml"
 	} else {
-		return "students.yml", "config.yml"
+		return "students.yml", "config.yml", "grades.yml"
 	}
 }
 
@@ -80,8 +91,8 @@ func LoadConf(d string) {
 
 func NewConfigurationFile() {
 	var err error
-	StudentsFile, confdir := getOSConfFile()
-	ymlData, err := yaml.Marshal(Config_str{StudentsFile: StudentsFile})
+	StudentsFile, confdir, gradesyml := getOSConfFile()
+	ymlData, err := yaml.Marshal(Config_str{StudentsFile: StudentsFile, GradesFile: gradesyml})
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -91,9 +102,23 @@ func NewConfigurationFile() {
 	}
 }
 
+func GetGradesData() {
+	var err error
+	if _, err := os.Stat(Config.GradesFile); os.IsNotExist(err) {
+		NewGradesFile()
+	}
+
+	data, err := os.ReadFile(Config.GradesFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	yaml.Unmarshal(data, &Grades)
+}
+
 func GetConfData() {
 	var err error
-	_, confFile := getOSConfFile()
+	_, confFile, _ := getOSConfFile()
 	if _, err := os.Stat(confFile); os.IsNotExist(err) {
 		NewConfigurationFile()
 	}
@@ -116,6 +141,18 @@ func NewYamlStudentsFile() {
 	}
 }
 
+func NewGradesFile() {
+	var err error
+	data, err := yaml.Marshal(Students)
+	if err != nil {
+		fmt.Println(err)
+	}
+	err = os.WriteFile(Config.GradesFile, data, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 // GetStundentData reads student data from the YAML configuration file.
 func GetStundentData() {
 	var err error
@@ -131,15 +168,29 @@ func GetStundentData() {
 	yaml.Unmarshal(data, &Students)
 }
 
-// NewYmlFile creates a new YAML file and returns its data.
-
 // SaveStudentsData saves student data to the YAML configuration file.
 func SaveStudentsData() error {
+	if _, err := os.Stat(Config.GradesFile); os.IsNotExist(err) {
+		NewYamlStudentsFile()
+	}
 	data, err := yaml.Marshal(Students)
 	if err != nil {
 		return err
 	}
 	err = os.WriteFile(Config.StudentsFile, data, os.ModePerm)
+
+	return err
+}
+
+func SaveGradesData() error {
+	if _, err := os.Stat(Config.GradesFile); os.IsNotExist(err) {
+		NewGradesFile()
+	}
+	data, err := yaml.Marshal(Grades)
+	if err != nil {
+		return err
+	}
+	err = os.WriteFile(Config.GradesFile, data, os.ModePerm)
 
 	return err
 }
@@ -177,4 +228,12 @@ func FindStudentByID(studentID string) *Student {
 		}
 	}
 	return nil
+}
+
+func GetGradesNames() []string {
+	var grades []string
+	for _, grade := range Grades {
+		grades = append(grades, grade.Name)
+	}
+	return grades
 }

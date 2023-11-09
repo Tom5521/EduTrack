@@ -3,6 +3,7 @@
  
   This project is licensed under the MIT License.
 '''
+
 import os
 import platform
 import shutil
@@ -40,7 +41,7 @@ def BuildForLinux():
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         exit()
-    if sys.argv[1] == "win":
+    elif sys.argv[1] == "win":
         print("Compiling for windows...")
         BuildForWindows()
     elif sys.argv[1] == "linux":

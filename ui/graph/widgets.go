@@ -4,11 +4,12 @@
  * This project is licensed under the MIT License.
  */
 
-package mgraph
+package graph
 
 import (
 	"EduTrack/data"
 	"EduTrack/iconloader"
+	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
 	"strconv"
 
@@ -22,6 +23,7 @@ import (
 var (
 	StundentList *widget.List
 	RegisterList *widget.List
+	GradesList   *widget.List = GetGradesList(&data.Grades)
 )
 
 // CreateStudentList creates a list of students and their names.
@@ -55,7 +57,7 @@ func CreateStudentList(students *[]data.Student) fyne.Widget {
 func GetForm(d *formReturn) *fyne.Container {
 	// Create buttons
 	imageButton := widget.NewButton("Select Image", func() {
-		ImagePicker(d.ImagePath)
+		wins.ImagePicker(app, d.ImagePath)
 	})
 	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
 		*d.ImagePath = ""
@@ -119,7 +121,7 @@ func Menu() *fyne.MainMenu {
 	menu := fyne.NewMainMenu(
 		fyne.NewMenu("File",
 			fyne.NewMenuItem("Load a config file", func() {
-				data.LoadConf(FilePicker())
+				data.LoadConf(wins.FilePicker(app))
 			}),
 			fyne.NewMenuItem("Add Student", func() {
 				AddStudentForm()
@@ -158,4 +160,25 @@ func GetRegisterList(student *data.Student) {
 		EditRegisterData(student, id)
 	}
 	RegisterList = list
+}
+
+func GetGradesList(grades *[]data.Grade) *widget.List {
+	list := widget.NewList(
+		func() int {
+			return len(*grades)
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i widget.ListItemID, o fyne.CanvasObject) {
+			mod := *grades
+			o.(*widget.Label).SetText(mod[i].Name)
+		},
+	)
+
+	list.OnSelected = func(id widget.ListItemID) {
+		list.UnselectAll()
+	}
+
+	return list
 }
