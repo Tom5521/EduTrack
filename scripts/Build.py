@@ -3,9 +3,10 @@
  
   This project is licensed under the MIT License.
 '''
-
 import os
 import platform
+import shutil
+import sys
 
 def BuildForWindows():
     if not os.path.exists("builds"):
@@ -21,5 +22,28 @@ def BuildForWindows():
     # Package the application for Windows using fyne package.
     os.system("fyne package --os windows --exe builds/EduTrack.exe")
 
+
+def BuildForLinux():
+    OS = platform.system()
+
+    if not os.path.exists("builds"):
+        os.mkdir("builds")
+
+    if OS != "Windows":
+        os.system("fyne package --os linux --release")
+    else:
+        os.system("sudo fyne-cross -os linux")
+
+    if os.path.exists("EduTrack.tar.xz"):
+        shutil.move("EduTrack.tar.xz","builds/EduTrack-linux64.tar.xz")
+
 if __name__ == "__main__":
-   BuildForWindows() 
+    if len(sys.argv) == 1:
+        exit()
+    if sys.argv[1] == "win":
+        print("Compiling for windows...")
+        BuildForWindows()
+    elif sys.argv[1] == "linux":
+        print("Compiling for linux...")
+        BuildForLinux()
+    

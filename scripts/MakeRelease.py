@@ -5,8 +5,7 @@
 '''
 
 
-import Build4Win
-import Build4linux
+import Build
 import MakeBundle
 import MakeWinZip
 
@@ -14,9 +13,9 @@ def MakeRelease():
     print("Making bundle...")
     MakeBundle.MakeBundle()
     print("Compiling for linux...")
-    Build4linux.BuildForLinux()
+    Build.BuildForLinux()
     print("Compiling for windows...")
-    Build4Win.BuildForWindows()
+    Build.BuildForWindows()
     print("Making windows zip")
     MakeWinZip.MakeWinZip()
 
