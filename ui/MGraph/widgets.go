@@ -20,14 +20,14 @@ import (
 
 // Define global variables
 var (
-	Stundetlist  *widget.List
+	StundentList *widget.List
 	RegisterList *widget.List
 )
 
 // CreateStudentList creates a list of students and their names.
 func CreateStudentList(students *[]data.Student) fyne.Widget {
 	// Initialize the student list widget
-	Stundetlist = widget.NewList(
+	StundentList = widget.NewList(
 		func() int {
 			return len(*students)
 		},
@@ -41,14 +41,14 @@ func CreateStudentList(students *[]data.Student) fyne.Widget {
 	)
 
 	// Handle item selection
-	Stundetlist.OnSelected = func(id widget.ListItemID) {
+	StundentList.OnSelected = func(id widget.ListItemID) {
 		d := *students
-		Stundetlist.UnselectAll()
+		StundentList.UnselectAll()
 		LoadStudentInfo(&d[id])
-		Stundetlist.Refresh()
+		StundentList.Refresh()
 	}
 
-	return Stundetlist
+	return StundentList
 }
 
 // GetForm returns a container with form elements.
@@ -125,11 +125,11 @@ func Menu() *fyne.MainMenu {
 				AddStudentForm()
 			}),
 			fyne.NewMenuItem("Re-Save Changes", func() {
-				data.SaveData()
+				data.SaveStudentsData()
 			})),
 		fyne.NewMenu("Edit",
 			fyne.NewMenuItem("Reload data", func() {
-				data.GetYamlData()
+				data.GetStundentData()
 			}),
 		),
 		fyne.NewMenu("Help",

@@ -44,7 +44,7 @@ func EditFormWindow(student *data.Student) {
 			return
 		}
 
-		if existsId(idEntry.Text, data.GetIDs()) && idEntry.Text != student.ID {
+		if existsId(idEntry.Text, data.GetStudentIDs()) && idEntry.Text != student.ID {
 			ErrWin(app, "The ID already exists")
 			return
 		}
@@ -55,8 +55,8 @@ func EditFormWindow(student *data.Student) {
 		student.Phone_number = phoneEntry.Text
 		student.ID = idEntry.Text
 		student.ImageFilePath = imagePath
-		data.SaveData()
-		data.GetYamlData()
+		data.SaveStudentsData()
+		data.GetStundentData()
 		window.Close()
 	}
 
@@ -116,8 +116,8 @@ func DeleteForm(student *data.Student) {
 				for i, s := range data.Students {
 					if s.ID == student.ID {
 						data.Students = append(data.Students[:i], data.Students[i+1:]...)
-						data.SaveData()
-						data.GetYamlData()
+						data.SaveStudentsData()
+						data.GetStundentData()
 						break
 					}
 				}
@@ -149,7 +149,7 @@ func AddStudentForm() {
 			ErrWin(app, "Some value in the form is empty")
 			return
 		}
-		if existsId(idEntry.Text, data.GetIDs()) {
+		if existsId(idEntry.Text, data.GetStudentIDs()) {
 			ErrWin(app, "The ID already exists")
 			return
 		}
@@ -162,9 +162,9 @@ func AddStudentForm() {
 			Phone_number:  phoneEntry.Text,
 			ImageFilePath: imagePath,
 		})
-		data.SaveData()
-		data.GetYamlData()
-		Stundetlist.Refresh()
+		data.SaveStudentsData()
+		data.GetStundentData()
+		StundentList.Refresh()
 		window.Close()
 	}
 
@@ -306,8 +306,8 @@ func AddRegister(student *data.Student) {
 			Data: regDetails.Text,
 		}
 		student.Register = append(student.Register, NewReg)
-		data.SaveData()
-		data.GetYamlData()
+		data.SaveStudentsData()
+		data.GetStundentData()
 		RegisterList.Refresh()
 		window.Close()
 	})
@@ -382,7 +382,7 @@ func EditRegisterData(student *data.Student, index int) {
 		reg.Name = regnameEntry.Text
 		reg.Data = regDetails.Text
 		reg.Date = tmpDate
-		data.SaveData()
+		data.SaveStudentsData()
 		window.Close()
 	})
 

@@ -43,7 +43,7 @@ var (
 
 func LoadFiles() {
 	GetConfData()
-	GetYamlData()
+	GetStundentData()
 }
 
 func getOSConfFile() (dataYml string, ConfYml string) {
@@ -75,7 +75,7 @@ func LoadConf(d string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	GetYamlData()
+	GetStundentData()
 }
 
 func NewConfigurationFile() {
@@ -116,8 +116,8 @@ func NewYamlStudentsFile() {
 	}
 }
 
-// GetYamlData reads student data from the YAML configuration file.
-func GetYamlData() {
+// GetStundentData reads student data from the YAML configuration file.
+func GetStundentData() {
 	var err error
 
 	if _, err := os.Stat(Config.StudentsFile); os.IsNotExist(err) {
@@ -133,8 +133,8 @@ func GetYamlData() {
 
 // NewYmlFile creates a new YAML file and returns its data.
 
-// SaveData saves student data to the YAML configuration file.
-func SaveData() error {
+// SaveStudentsData saves student data to the YAML configuration file.
+func SaveStudentsData() error {
 	data, err := yaml.Marshal(Students)
 	if err != nil {
 		return err
@@ -148,11 +148,11 @@ func SaveData() error {
 func Resave(writer []Student) {
 	data, _ := yaml.Marshal(writer)
 	os.WriteFile(Config.StudentsFile, data, os.ModePerm)
-	GetYamlData()
+	GetStundentData()
 }
 
-// GetNames returns a slice of student names.
-func GetNames() []string {
+// GetStudentsNames returns a slice of student names.
+func GetStudentNames() []string {
 	var names []string
 	for _, student := range Students {
 		names = append(names, student.Name)
@@ -160,8 +160,8 @@ func GetNames() []string {
 	return names
 }
 
-// GetIDs returns a slice of student IDs.
-func GetIDs() []string {
+// GetStudentIDs returns a slice of student IDs.
+func GetStudentIDs() []string {
 	var IDs []string
 	for _, student := range Students {
 		IDs = append(IDs, student.ID)
