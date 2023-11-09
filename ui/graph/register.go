@@ -1,3 +1,9 @@
+/*
+ * Copyright Tom5521(c) - All Rights Reserved.
+ *
+ * This project is licensed under the MIT License.
+ */
+
 package graph
 
 import (

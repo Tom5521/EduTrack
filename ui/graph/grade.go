@@ -1,3 +1,9 @@
+/*
+ * Copyright Tom5521(c) - All Rights Reserved.
+ *
+ * This project is licensed under the MIT License.
+ */
+
 package graph
 
 import (
@@ -6,9 +12,50 @@ import (
 	"EduTrack/ui/sizes"
 	"strings"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
+
+func GetRegisterList(student *data.Student) {
+	list := widget.NewList(
+		func() int {
+			return len(student.Register)
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i widget.ListItemID, o fyne.CanvasObject) {
+			o.(*widget.Label).SetText(student.Register[i].Name)
+		},
+	)
+	list.OnSelected = func(id widget.ListItemID) {
+		list.UnselectAll()
+		EditRegisterData(student, id)
+	}
+	RegisterList = list
+}
+
+func GetGradesList(grades *[]data.Grade) *widget.List {
+	list := widget.NewList(
+		func() int {
+			return len(*grades)
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i widget.ListItemID, o fyne.CanvasObject) {
+			mod := *grades
+			o.(*widget.Label).SetText(mod[i].Name)
+		},
+	)
+
+	list.OnSelected = func(id widget.ListItemID) {
+		list.UnselectAll()
+	}
+
+	return list
+}
 
 func AddGrade() {
 	window := app.NewWindow("Add a grade")

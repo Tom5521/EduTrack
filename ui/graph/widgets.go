@@ -26,60 +26,6 @@ var (
 	GradesList   *widget.List = GetGradesList(&data.Grades)
 )
 
-// CreateStudentList creates a list of students and their names.
-func CreateStudentList(students *[]data.Student) fyne.Widget {
-	// Initialize the student list widget
-	StundentList = widget.NewList(
-		func() int {
-			return len(*students)
-		},
-		func() fyne.CanvasObject {
-			return widget.NewLabel("---")
-		},
-		func(i widget.ListItemID, o fyne.CanvasObject) {
-			student_ := *students
-			o.(*widget.Label).SetText(student_[i].Name)
-		},
-	)
-
-	// Handle item selection
-	StundentList.OnSelected = func(id widget.ListItemID) {
-		d := *students
-		StundentList.UnselectAll()
-		LoadStudentInfo(&d[id])
-		StundentList.Refresh()
-	}
-
-	return StundentList
-}
-
-// GetForm returns a container with form elements.
-func GetForm(d *formReturn) *fyne.Container {
-	// Create buttons
-	imageButton := widget.NewButton("Select Image", func() {
-		wins.ImagePicker(app, d.ImagePath)
-	})
-	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
-		*d.ImagePath = ""
-	})
-
-	// Create the form
-	form := &widget.Form{
-		Items: []*widget.FormItem{
-			{Text: "Name", Widget: d.NameEntry},
-			{Text: "Age", Widget: d.AgeEntry},
-			{Text: "ID", Widget: d.IDEntry},
-			{Text: "Phone Number", Widget: d.PhoneEntry},
-		},
-		OnSubmit: d.ExecFunc,
-	}
-	form.SubmitText = "Submit"
-
-	// Create the content container
-	content := container.NewVBox(container.NewHBox(imageButton, deleteImgBtn), form)
-	return content
-}
-
 // formReturn represents a structure for form elements.
 type formReturn struct {
 	ExecFunc   func()
@@ -141,44 +87,4 @@ func Menu() *fyne.MainMenu {
 		),
 	)
 	return menu
-}
-
-func GetRegisterList(student *data.Student) {
-	list := widget.NewList(
-		func() int {
-			return len(student.Register)
-		},
-		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
-		},
-		func(i widget.ListItemID, o fyne.CanvasObject) {
-			o.(*widget.Label).SetText(student.Register[i].Name)
-		},
-	)
-	list.OnSelected = func(id widget.ListItemID) {
-		list.UnselectAll()
-		EditRegisterData(student, id)
-	}
-	RegisterList = list
-}
-
-func GetGradesList(grades *[]data.Grade) *widget.List {
-	list := widget.NewList(
-		func() int {
-			return len(*grades)
-		},
-		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
-		},
-		func(i widget.ListItemID, o fyne.CanvasObject) {
-			mod := *grades
-			o.(*widget.Label).SetText(mod[i].Name)
-		},
-	)
-
-	list.OnSelected = func(id widget.ListItemID) {
-		list.UnselectAll()
-	}
-
-	return list
 }

@@ -47,7 +47,7 @@ func MainWindow() {
 		window.SetContent(content)
 		window.Show()
 	})
-	testButton := widget.NewButton("test", func() {
+	testButton := widget.NewButton("Add a grade", func() {
 		AddGrade()
 	})
 

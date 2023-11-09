@@ -12,6 +12,7 @@ import (
 	"os/user"
 	"runtime"
 
+	"github.com/ncruces/zenity"
 	"gopkg.in/yaml.v3"
 )
 
@@ -51,6 +52,10 @@ var (
 	_, ConfigFile, _ string    = getOSConfFile()
 )
 
+func NotifyError(text string, err error) {
+	zenity.Notify(text + "::" + err.Error())
+}
+
 func LoadFiles() {
 	GetConfData()
 	GetStundentData()
@@ -67,7 +72,7 @@ func getOSConfFile() (dataYml string, ConfYml string, gradesYml string) {
 		if _, err := os.Stat(confDir); os.IsNotExist(err) {
 			err := os.Mkdir(confDir, os.ModePerm)
 			if err != nil {
-				fmt.Println(err)
+				NotifyError("Error creating ~/.config/EduTrack/", err)
 			}
 		}
 		return confDir + "/students.yml", confDir + "/config.yml", confDir + "/grades.yml"
@@ -80,11 +85,11 @@ func LoadConf(d string) {
 	Config.StudentsFile = d
 	data, err := yaml.Marshal(Config)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error marshalling the configuration", err)
 	}
 	err = os.WriteFile(ConfigFile, data, os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error loading configuration", err)
 	}
 	GetStundentData()
 }
@@ -94,11 +99,11 @@ func NewConfigurationFile() {
 	StudentsFile, confdir, gradesyml := getOSConfFile()
 	ymlData, err := yaml.Marshal(Config_str{StudentsFile: StudentsFile, GradesFile: gradesyml})
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error marshalling new configuration file", err)
 	}
 	err = os.WriteFile(confdir, ymlData, os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error writing config file", err)
 	}
 }
 
@@ -110,7 +115,7 @@ func GetGradesData() {
 
 	data, err := os.ReadFile(Config.GradesFile)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error reading grades file", err)
 	}
 
 	yaml.Unmarshal(data, &Grades)
@@ -124,7 +129,7 @@ func GetConfData() {
 	}
 	data, err := os.ReadFile(confFile)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error reading config file!", err)
 	}
 	yaml.Unmarshal(data, &Config)
 }
@@ -133,23 +138,23 @@ func NewYamlStudentsFile() {
 	var err error
 	data, err := yaml.Marshal(Students)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error marshalling students file", err)
 	}
 	err = os.WriteFile(Config.StudentsFile, data, os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error writing new students file", err)
 	}
 }
 
 func NewGradesFile() {
 	var err error
-	data, err := yaml.Marshal(Students)
+	data, err := yaml.Marshal(Grades)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error marshalling grades var", err)
 	}
 	err = os.WriteFile(Config.GradesFile, data, os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error writing new grades file", err)
 	}
 }
 
@@ -163,7 +168,7 @@ func GetStundentData() {
 
 	data, err := os.ReadFile(Config.StudentsFile)
 	if err != nil {
-		fmt.Println(err)
+		NotifyError("Error reading students file", err)
 	}
 	yaml.Unmarshal(data, &Students)
 }
