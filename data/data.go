@@ -235,6 +235,15 @@ func FindStudentByID(studentID string) *Student {
 	return nil
 }
 
+func FindGradeByName(gradeName string) *Grade {
+	for _, grade := range Grades {
+		if grade.Name == gradeName {
+			return &grade
+		}
+	}
+	return nil
+}
+
 func GetGradesNames() []string {
 	var grades []string
 	for _, grade := range Grades {

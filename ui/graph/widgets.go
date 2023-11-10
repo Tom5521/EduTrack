@@ -26,16 +26,6 @@ var (
 	GradesList   *widget.List = GetGradesList(&data.Grades)
 )
 
-// formReturn represents a structure for form elements.
-type formReturn struct {
-	ExecFunc   func()
-	NameEntry  *widget.Entry
-	AgeEntry   *widget.Entry
-	IDEntry    *widget.Entry
-	PhoneEntry *widget.Entry
-	ImagePath  *string
-}
-
 // atoi converts a string to an integer, handling errors.
 func atoi(s string) int {
 	i, err := strconv.Atoi(s)

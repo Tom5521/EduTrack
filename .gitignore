@@ -5,5 +5,7 @@ EduTrack.*
 Data.*
 tmp
 data.yml
+*.test
+*.test.exe
 config.yml
 __pycache__

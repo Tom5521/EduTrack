@@ -109,6 +109,8 @@ func EditFormWindow(student *data.Student) {
 		student.ImageFilePath = imagePath
 		data.SaveStudentsData()
 		data.GetStundentData()
+		StundentList.Refresh()
+		LoadStudentInfo(student)
 		window.Close()
 	}
 
@@ -186,6 +188,7 @@ func AddStudentForm() {
 		data.SaveStudentsData()
 		data.GetStundentData()
 		StundentList.Refresh()
+		LoadStudentInfo(data.FindStudentByID(idEntry.Text))
 		window.Close()
 	}
 
@@ -239,19 +242,53 @@ func GetForm(d *formReturn) *fyne.Container {
 		*d.ImagePath = ""
 	})
 
-	// Create the form
-	form := &widget.Form{
-		Items: []*widget.FormItem{
-			{Text: "Name", Widget: d.NameEntry},
-			{Text: "Age", Widget: d.AgeEntry},
-			{Text: "ID", Widget: d.IDEntry},
-			{Text: "Phone Number", Widget: d.PhoneEntry},
-		},
-		OnSubmit: d.ExecFunc,
+	getStGrade := func() string {
+		var grades string
+		for _, g := range d.StundentGrades {
+			grades += g.Name + ","
+		}
+		return grades
 	}
-	form.SubmitText = "Submit"
+
+	studentGradesLabel := widget.NewLabel("")
+	studentGradesLabel.SetText(getStGrade())
+
+	gradeSelect := widget.NewSelect(data.GetGradesNames(), func(s string) {
+		d.StundentGrades = append(d.StundentGrades, *data.FindGradeByName(s))
+		studentGradesLabel.SetText(getStGrade())
+	})
+
+	NameFormEntry := widget.NewFormItem("Name", d.NameEntry)
+	AgeFormEntry := widget.NewFormItem("Age", d.AgeEntry)
+	IDFormEntry := widget.NewFormItem("ID", d.IDEntry)
+	Phone_numberFormEntry := widget.NewFormItem("Phone number", d.PhoneEntry)
+	selectGradeForm := widget.NewFormItem("Select grade", gradeSelect)
+	imageSelectForm := widget.NewFormItem("Stundet Image:", container.NewAdaptiveGrid(2, imageButton, deleteImgBtn))
+	GradesFormLabel := widget.NewFormItem("Grades:", studentGradesLabel)
+	// Create the form
+	form := widget.NewForm(
+		NameFormEntry,
+		AgeFormEntry,
+		IDFormEntry,
+		Phone_numberFormEntry,
+		selectGradeForm,
+		GradesFormLabel,
+		imageSelectForm,
+	)
+	form.OnSubmit = d.ExecFunc
 
 	// Create the content container
-	content := container.NewVBox(container.NewHBox(imageButton, deleteImgBtn), form)
+	content := container.NewVBox(form)
 	return content
+}
+
+// formReturn represents a structure for form elements.
+type formReturn struct {
+	ExecFunc       func()
+	NameEntry      *widget.Entry
+	AgeEntry       *widget.Entry
+	IDEntry        *widget.Entry
+	PhoneEntry     *widget.Entry
+	ImagePath      *string
+	StundentGrades []data.Grade
 }
