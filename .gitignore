@@ -9,3 +9,4 @@ data.yml
 *.test.exe
 config.yml
 __pycache__
+*.yml
