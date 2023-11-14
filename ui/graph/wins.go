@@ -7,7 +7,6 @@
 package graph
 
 import (
-	"EduTrack/data"
 	"EduTrack/iconloader"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
@@ -26,7 +25,7 @@ func Search() {
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton("Search", func() {
 		studentID := entry.Text
-		student := data.FindStudentByID(studentID)
+		student := Data.FindStudentByID(studentID)
 		if student != nil {
 			LoadStudentInfo(student)
 			w.Close()
@@ -58,17 +57,17 @@ func existsId(check string, list []string) bool {
 }
 
 // checkValues checks if all required form fields are not empty.
-func checkValues(d formReturn) bool {
-	if d.AgeEntry.Text == "" {
+func checkValues(Age, ID, Phone, Name string) bool {
+	if Age == "" {
 		return false
 	}
-	if d.IDEntry.Text == "" {
+	if ID == "" {
 		return false
 	}
-	if d.PhoneEntry.Text == "" {
+	if Phone == "" {
 		return false
 	}
-	if d.NameEntry.Text == "" {
+	if Name == "" {
 		return false
 	}
 	return true

@@ -1,0 +1,71 @@
+@startuml
+namespace data {
+    class Config_str << (S,Aquamarine) >> {
+        + GradesFile string
+        + StudentsFile string
+        + Lang string
+
+    }
+    class Data_str << (S,Aquamarine) >> {
+        + Grades []*Grade
+        + Students []Student
+
+    }
+    class Grade << (S,Aquamarine) >> {
+        + Name string
+        + Info string
+        + Price string
+
+        + EditName(newName string) 
+        + EditInfo(newInfo string) 
+        + EditPrice(newPrice string) 
+        + Overwrite(newGrade Grade) 
+
+    }
+    class Register << (S,Aquamarine) >> {
+        + Date string
+        + Name string
+        + Data string
+
+        + Overwrite(newRegister Register) 
+        + EditDate(newDate string) 
+        + EditName(newName string) 
+        + EditData(newData string) 
+
+    }
+    class Student << (S,Aquamarine) >> {
+        + Name string
+        + Age string
+        + ID string
+        + Phone_number string
+        + ImageFilePath string
+        + Registers []Register
+        + Grades []StudentGrade
+
+        + Overwrite(newStudent Student) 
+        + EditName(newName string) 
+        + EditAge(newAge string) 
+        + EditID(newID string) 
+        + EditPhoneNumber(newPhone string) 
+        + EditImagePath(newPath string) 
+        + AddRegister(r Register) 
+        + EditRegister(id int, r Register) 
+        + GetRegisterNames() []string
+        + AddGrade(g StudentGrade) 
+        + EditGrade(id int, newGrade StudentGrade) 
+        + DeleteGrade(id int) 
+        + GetGradeNames() []string
+
+    }
+    class StudentGrade << (S,Aquamarine) >> {
+        + Start string
+        + End string
+
+        + Convert(g *Grade, Star string, End string) 
+
+    }
+}
+"data.Grade" *-- "data.StudentGrade"
+
+
+@enduml

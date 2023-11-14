@@ -22,6 +22,7 @@ import (
 var (
 	app        fyne.App        = fyne_app.New()
 	StudentTab *fyne.Container = TemplateUser()
+	Data                       = &data.Data
 )
 
 // MainWindow is the main entry point of the application.
@@ -51,7 +52,7 @@ func MainWindow() {
 		AddGrade()
 	})
 
-	list := CreateStudentList(&data.Students)
+	list := CreateStudentList(&Data.Students)
 	buttonsGrid := container.NewAdaptiveGrid(2, searchButton, addButton, AddGradeButton, testButton)
 	vbox := container.NewVBox(buttonsGrid, widget.NewSeparator(), StudentTab)
 	mainbox := container.NewHSplit(vbox, list)

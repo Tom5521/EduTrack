@@ -23,7 +23,7 @@ import (
 var (
 	StundentList *widget.List
 	RegisterList *widget.List
-	GradesList   *widget.List = GetGradesList(&data.Grades)
+	GradesList   *widget.List = GetGradesList(&Data.Grades)
 )
 
 // atoi converts a string to an integer, handling errors.

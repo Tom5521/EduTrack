@@ -20,13 +20,13 @@ import (
 func GetRegisterList(student *data.Student) {
 	list := widget.NewList(
 		func() int {
-			return len(student.Register)
+			return len(student.Registers)
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
-			o.(*widget.Label).SetText(student.Register[i].Name)
+			o.(*widget.Label).SetText(student.Registers[i].Name)
 		},
 	)
 	list.OnSelected = func(id widget.ListItemID) {
@@ -36,7 +36,7 @@ func GetRegisterList(student *data.Student) {
 	RegisterList = list
 }
 
-func GetGradesList(grades *[]data.Grade) *widget.List {
+func GetGradesList(grades *[]*data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*grades)
@@ -52,9 +52,52 @@ func GetGradesList(grades *[]data.Grade) *widget.List {
 
 	list.OnSelected = func(id widget.ListItemID) {
 		list.UnselectAll()
+		g := *grades
+		GradeDetailsWin(g[id])
 	}
 
 	return list
+}
+
+func EditGrade() {}
+
+func GradeDetailsWin(g *data.Grade) {
+
+}
+
+func StudentGradeDetailsWin(g *data.StudentGrade) {
+	window := app.NewWindow("Details for " + g.Name)
+
+	gradeNameLabel := widget.NewLabel(g.Name)
+	gradePricePMLabel := widget.NewLabel(g.Price)
+	gradeStartLabel := widget.NewLabel(g.Start)
+	gradeEndLabel := widget.NewLabel(g.End)
+	gradeInfoLabel := widget.NewMultiLineEntry()
+	gradeInfoLabel.SetText(g.Info)
+	gradeInfoLabel.Disable()
+
+	editGradeButton := widget.NewButton("Edit Grade", func() {})
+	editStudentButton := widget.NewButton("Edit Student", func() {})
+
+	NameForm := widget.NewFormItem("Name:", gradeNameLabel)
+	PriceForm := widget.NewFormItem("Price:", gradePricePMLabel)
+	StartForm := widget.NewFormItem("Start:", gradeStartLabel)
+	EndForm := widget.NewFormItem("End:", gradeEndLabel)
+	InfoForm := widget.NewFormItem("Info:", gradeInfoLabel)
+	EditForm := widget.NewFormItem("", container.NewAdaptiveGrid(2, editGradeButton, editStudentButton))
+
+	Form := widget.NewForm(
+		NameForm,
+		PriceForm,
+		StartForm,
+		EditForm,
+		EndForm,
+		InfoForm,
+		EditForm,
+	)
+
+	window.SetContent(Form)
+	window.Show()
 }
 
 func AddGrade() {
@@ -63,20 +106,14 @@ func AddGrade() {
 	gradeEntry := widget.NewEntry()
 	priceEntry := widget.NewEntry()
 	InfoEntry := widget.NewMultiLineEntry()
-	StartEntry := widget.NewEntry()
-	EndEntry := widget.NewEntry()
 
 	gradeFormInput := widget.NewFormItem("Grade name:", gradeEntry)
 	priceFormInput := widget.NewFormItem("Price per moth:", priceEntry)
 	infoFormInput := widget.NewFormItem("Grade Info:", InfoEntry)
-	StartFormInput := widget.NewFormItem("Start date:", StartEntry)
-	EndFormInput := widget.NewFormItem("End date:", EndEntry)
 
 	form := widget.NewForm(
 		gradeFormInput,
 		priceFormInput,
-		StartFormInput,
-		EndFormInput,
 		infoFormInput,
 	)
 	form.OnSubmit = func() {
@@ -88,32 +125,19 @@ func AddGrade() {
 			wins.ErrWin(app, "Info entry is empty")
 			return
 		}
-		if StartEntry.Text == "" {
-			wins.ErrWin(app, "Start date entry is empty")
-			return
-		}
-		if EndEntry.Text == "" {
-			wins.ErrWin(app, "End date entry is emty")
-			return
-		}
-		if strings.Contains(strings.Join(data.GetGradesNames(), " "), gradeEntry.Text) {
+		if strings.Contains(strings.Join(Data.GetGradesNames(), " "), gradeEntry.Text) {
 			wins.ErrWin(app, "This grade already exists!")
 			return
 		}
 
-		data.Grades = append(data.Grades, data.Grade{
+		Data.Grades = append(Data.Grades, &data.Grade{
 			Name:  gradeEntry.Text,
 			Info:  InfoEntry.Text,
-			Start: StartEntry.Text,
-			End:   EndEntry.Text,
 			Price: priceEntry.Text,
 		})
-
 		data.SaveGradesData()
 		window.Close()
-
 	}
-
 	content := container.NewVBox(form)
 	window.SetContent(content)
 	window.Show()

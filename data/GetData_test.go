@@ -13,6 +13,8 @@ import (
 	"testing"
 )
 
+var Data = &data.Data
+
 func Test_LoadData(t *testing.T) {
 	data.LoadFiles()
 	if data.Config.StudentsFile == "" {
@@ -22,9 +24,9 @@ func Test_LoadData(t *testing.T) {
 
 func Test_GetData(t *testing.T) {
 	t.Log(data.Config)
-	t.Log(data.GetGradesNames())
-	t.Log(data.GetStudentIDs())
-	t.Log(data.GetStudentNames())
+	t.Log("GetGradesNamesP:", Data.GetGradesNames())
+	t.Log("GetStudentIDs:", Data.GetStudentIDs())
+	t.Log("GetStudentNames:", Data.GetStudentNames())
 }
 
 func Test_CreateConfFile(t *testing.T) {
