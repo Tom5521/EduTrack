@@ -11,9 +11,17 @@ import (
 func Test_EditGrade(t *testing.T) {
 	assert := assert.New(t)
 	fmt.Println(DB.Grades)
-	err := DB.EditGrade(11, data.Grade{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
+	err := DB.EditGrade(DB.Grades[0].ID, data.Grade{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
 	if err != nil {
 		assert.Fail("Error editing grade", err)
 	}
 	fmt.Println(DB.Grades)
+}
+
+func Test_EditStudent(t *testing.T) {
+	assert := assert.New(t)
+	fmt.Println(DB.Students)
+	err := DB.EditStudent(DB.Students[0].ID, data.Student{Name: "Carlos pajas"})
+	assert.Nil(err, "Error modifying student", err)
+	fmt.Println(DB.Students)
 }

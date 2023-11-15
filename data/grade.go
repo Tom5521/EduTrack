@@ -53,7 +53,8 @@ func (d *DB_Str) EditGrade(id int, editedGrade Grade) error {
 	}
 	defer db.Close()
 	const EditGradeQuery string = `
-		update grades set Name = ?,info = ?,price = ? where grade_id = ?
+		update grades set Name = ?,info = ?,price = ? 
+		where grade_id = ?
 	`
 	_, err = db.Exec(EditGradeQuery,
 		editedGrade.Name,

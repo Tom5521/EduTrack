@@ -26,5 +26,10 @@ func Test_AddGrade(t *testing.T) {
 }
 
 func Test_AddStudent(t *testing.T) {
+	assert := assert.New(t)
+	fmt.Println(DB.Students)
+	id, err := DB.AddStudent(data.Student{Name: "T", Age: 12, DNI: "123", Phone_number: "", ImageFilePath: ""})
+	assert.Nil(err, "Error adding student", err, id)
+	fmt.Println(DB.Students)
 
 }
