@@ -6,12 +6,12 @@ import (
 	"log"
 )
 
-type DB_Str struct {
+type DbStr struct {
 	Students []Student
 	Grades   []Grade
 }
 
-func (d *DB_Str) Update() error {
+func (d *DbStr) Update() error {
 	err := d.LoadGrade()
 	if err != nil {
 		log.Println(err)
@@ -25,15 +25,15 @@ func (d *DB_Str) Update() error {
 	return nil
 }
 
-func InitDB() DB_Str {
+func InitDB() DbStr {
 	Config = GetConfData()
-	db := DB_Str{}
+	db := DbStr{}
 	db.LoadGrade()
 	db.LoadStudents()
 	return db
 }
 
-func (d DB_Str) FindStudentByID(id int) (Student, error) {
+func (d DbStr) FindStudentByID(id int) (Student, error) {
 	for _, student := range d.Students {
 		if student.ID == id {
 			return student, nil

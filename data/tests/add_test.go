@@ -10,7 +10,7 @@ import (
 
 var DB = &data.DB
 
-func Test_AddGrade(t *testing.T) {
+func TestAddGrade(t *testing.T) {
 	assert := assert.New(t)
 	originalLen := len(DB.Grades)
 	id, err := DB.AddGrade(data.Grade{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
@@ -25,10 +25,10 @@ func Test_AddGrade(t *testing.T) {
 	assert.NotEqual(originalLen, len(DB.Grades), "Grades array not modified!")
 }
 
-func Test_AddStudent(t *testing.T) {
+func TestAddStudent(t *testing.T) {
 	assert := assert.New(t)
 	fmt.Println(DB.Students)
-	id, err := DB.AddStudent(data.Student{Name: "T", Age: 12, DNI: "123", Phone_number: "", ImageFilePath: ""})
+	id, err := DB.AddStudent(data.Student{Name: "T", Age: 12, DNI: "123", PhoneNumber: "", ImageFilePath: ""})
 	assert.Nil(err, "Error adding student", err, id)
 	fmt.Println(DB.Students)
 

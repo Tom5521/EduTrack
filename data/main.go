@@ -9,11 +9,11 @@ import (
 
 var DB = InitDB()
 
-func Deletes(i Del) {
+func Deletes(i Deleter) {
 	i.Delete()
 }
 
-type Del interface {
+type Deleter interface {
 	Delete() error
 }
 

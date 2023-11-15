@@ -16,7 +16,7 @@ func GetNewDb() (*sql.DB, error) {
 	return db, nil
 }
 
-func (d *DB_Str) LoadStudents() error {
+func (d *DbStr) LoadStudents() error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
@@ -40,7 +40,7 @@ func (d *DB_Str) LoadStudents() error {
 			&student.Name,
 			&student.DNI,
 			&student.Age,
-			&student.Phone_number,
+			&student.PhoneNumber,
 			&student.ImageFilePath,
 		); err != nil {
 			log.Println(err)
@@ -52,7 +52,7 @@ func (d *DB_Str) LoadStudents() error {
 	return nil
 }
 
-func (d *DB_Str) LoadGrade() error {
+func (d *DbStr) LoadGrade() error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)

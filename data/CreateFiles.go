@@ -12,10 +12,10 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-var Config Config_str
+var Config ConfigStr
 var DatabaseFile, ConfigFile = getOSConfFile()
 
-type Config_str struct {
+type ConfigStr struct {
 	DatabaseFile string
 	Lang         string // TODO: Add multilanguage support
 }
@@ -49,9 +49,9 @@ func CreateDatabase() error {
 	return err
 }
 
-func GetConfData() Config_str {
+func GetConfData() ConfigStr {
 	var err error
-	conf := Config_str{}
+	conf := ConfigStr{}
 	data, err := os.ReadFile(ConfigFile)
 	if err != nil {
 		NotifyError("Error reading config file!", err)
@@ -81,7 +81,7 @@ func getOSConfFile() (dataDB string, ConfYml string) {
 
 func NewConfigurationFile() {
 	var err error
-	ymlData, err := yaml.Marshal(Config_str{DatabaseFile: DatabaseFile})
+	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: DatabaseFile})
 	if err != nil {
 		NotifyError("Error marshalling new configuration file", err)
 	}

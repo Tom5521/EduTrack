@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_EditGrade(t *testing.T) {
+func TestEditGrade(t *testing.T) {
 	assert := assert.New(t)
 	fmt.Println(DB.Grades)
 	err := DB.EditGrade(DB.Grades[0].ID, data.Grade{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
@@ -18,7 +18,7 @@ func Test_EditGrade(t *testing.T) {
 	fmt.Println(DB.Grades)
 }
 
-func Test_EditStudent(t *testing.T) {
+func TestEditStudent(t *testing.T) {
 	assert := assert.New(t)
 	fmt.Println(DB.Students)
 	err := DB.EditStudent(DB.Students[0].ID, data.Student{Name: "Carlos pajas"})

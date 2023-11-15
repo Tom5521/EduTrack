@@ -13,7 +13,7 @@ type Grade struct {
 	Price string
 }
 
-func (d *DB_Str) AddGrade(newGrade Grade) (LastInsertId int, err error) {
+func (d *DbStr) AddGrade(NGrade Grade) (LastInsertId int, err error) {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
@@ -21,19 +21,19 @@ func (d *DB_Str) AddGrade(newGrade Grade) (LastInsertId int, err error) {
 	}
 	defer db.Close()
 
-	const AddGradeQuery string = `
+	const Query string = `
     insert into grades (name,info,price)
     values (?,?,?)`
-	result, err := db.Exec(AddGradeQuery,
-		newGrade.Name,
-		newGrade.Info,
-		newGrade.Price,
+	res, err := db.Exec(Query,
+		NGrade.Name,
+		NGrade.Info,
+		NGrade.Price,
 	)
 	if err != nil {
 		log.Println(err)
 		return -1, err
 	}
-	lastInsert, err := result.LastInsertId()
+	lastIns, err := res.LastInsertId()
 	if err != nil {
 		log.Println(err)
 		return -1, err
@@ -42,24 +42,24 @@ func (d *DB_Str) AddGrade(newGrade Grade) (LastInsertId int, err error) {
 	if err != nil {
 		log.Println(err)
 	}
-	return int(lastInsert), err
+	return int(lastIns), err
 }
 
-func (d *DB_Str) EditGrade(id int, editedGrade Grade) error {
+func (d *DbStr) EditGrade(id int, EdGrade Grade) error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const EditGradeQuery string = `
+	const Query string = `
 		update grades set Name = ?,info = ?,price = ? 
 		where grade_id = ?
 	`
-	_, err = db.Exec(EditGradeQuery,
-		editedGrade.Name,
-		editedGrade.Info,
-		editedGrade.Price,
+	_, err = db.Exec(Query,
+		EdGrade.Name,
+		EdGrade.Info,
+		EdGrade.Price,
 		id,
 	)
 	if err != nil {

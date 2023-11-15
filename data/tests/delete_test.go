@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_DeleteGrade(t *testing.T) {
+func TestDeleteGrade(t *testing.T) {
 	assert := assert.New(t)
 	originalLen := len(DB.Grades)
 	err := DB.Grades[0].Delete()
@@ -19,7 +19,7 @@ func Test_DeleteGrade(t *testing.T) {
 	assert.NotEqual(originalLen, len(DB.Grades), "Grades array not modified!")
 }
 
-func Test_DeleteStudent(t *testing.T) {
+func TestDeleteStudent(t *testing.T) {
 	assert := assert.New(t)
 	originalLen := len(DB.Students)
 	err := DB.Students[0].Delete()
@@ -30,7 +30,7 @@ func Test_DeleteStudent(t *testing.T) {
 	assert.NotEqual(originalLen, len(DB.Grades))
 }
 
-func Test_DeleteInterface(t *testing.T) {
+func TestDeleteInterface(t *testing.T) {
 	assert := assert.New(t)
 
 	originalStudentlen := len(DB.Students)

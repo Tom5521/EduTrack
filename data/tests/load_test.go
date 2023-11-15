@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_LoadDatabase(t *testing.T) {
+func TestLoadDatabase(t *testing.T) {
 	assert := assert.New(t)
 	data.LoadFiles()
 	var seconds int = 3
@@ -32,7 +32,7 @@ func Test_LoadDatabase(t *testing.T) {
 
 var Config = &data.Config
 
-func Test_CreateDatabase(t *testing.T) {
+func TestCreateDatabase(t *testing.T) {
 	assert := assert.New(t)
 	data.LoadFiles()
 	if _, err := os.Stat(Config.DatabaseFile); os.IsNotExist(err) {

@@ -9,7 +9,7 @@ type Student struct {
 	Name          string
 	Age           int
 	DNI           string
-	Phone_number  string
+	PhoneNumber   string
 	ImageFilePath string
 }
 
@@ -22,23 +22,23 @@ func (s Student) Delete() error {
 	return err
 }
 
-func (d *DB_Str) EditStudent(id int, editedStudent Student) error {
+func (d *DbStr) EditStudent(id int, EdStudent Student) error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const EditStudentQuery string = `
+	const Query string = `
 		update students set Name = ?,Age = ?,DNI = ?,Phone_number = ?,ImagePath = ? 
 		where student_id = ?
 	`
-	_, err = db.Exec(EditStudentQuery,
-		editedStudent.Name,
-		editedStudent.Age,
-		editedStudent.DNI,
-		editedStudent.Phone_number,
-		editedStudent.ImageFilePath,
+	_, err = db.Exec(Query,
+		EdStudent.Name,
+		EdStudent.Age,
+		EdStudent.DNI,
+		EdStudent.PhoneNumber,
+		EdStudent.ImageFilePath,
 		id,
 	)
 	if err != nil {
@@ -52,7 +52,7 @@ func (d *DB_Str) EditStudent(id int, editedStudent Student) error {
 	return err
 }
 
-func (d *DB_Str) AddStudent(newStudent Student) (LastInsertId int, err error) {
+func (d *DbStr) AddStudent(NStudent Student) (LastInsertId int, err error) {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
@@ -64,11 +64,11 @@ func (d *DB_Str) AddStudent(newStudent Student) (LastInsertId int, err error) {
 		values (?,?,?,?,?)
 	`
 	result, err := db.Exec(AddStudentQuery,
-		newStudent.Name,
-		newStudent.Age,
-		newStudent.DNI,
-		newStudent.Phone_number,
-		newStudent.ImageFilePath,
+		NStudent.Name,
+		NStudent.Age,
+		NStudent.DNI,
+		NStudent.PhoneNumber,
+		NStudent.ImageFilePath,
 	)
 	if err != nil {
 		log.Println(err)

@@ -42,7 +42,7 @@ func LoadStudentInfo(student *data.Student) {
 	// Phone Label
 	PhoneLabel := Nlb("Phone Number: ")
 	PhoneLabel.TextStyle.Bold = true
-	PhoneCont := Nhbx(PhoneLabel, Nlb(student.Phone_number))
+	PhoneCont := Nhbx(PhoneLabel, Nlb(student.PhoneNumber))
 
 	GradesLabel := Nlb("Grades:")
 	GradesLabel.TextStyle.Bold = true
@@ -237,7 +237,7 @@ func AddStudentForm() {
 			Name:          nameEntry.Text,
 			Age:           ageEntry.Text,
 			ID:            idEntry.Text,
-			Phone_number:  phoneEntry.Text,
+			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 			Grades:        StGrades,
 		})

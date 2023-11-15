@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func (d *DB_Str) DeleteFrom(table, column string, id int) error {
+func (d *DbStr) DeleteFrom(table, column string, id int) error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
