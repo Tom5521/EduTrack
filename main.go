@@ -8,7 +8,7 @@ package main
 
 import (
 	"EduTrack/data"
-	graph "EduTrack/ui/graph"
+	"EduTrack/ui/graph"
 )
 
 // The main function is the entry point for the application.

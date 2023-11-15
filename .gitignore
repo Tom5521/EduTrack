@@ -10,3 +10,4 @@ data.yml
 config.yml
 __pycache__
 *.yml
+database.db*

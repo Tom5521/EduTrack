@@ -1,41 +1,82 @@
 package data
 
+import (
+	"log"
+
+	_ "github.com/glebarez/go-sqlite"
+)
+
 type Grade struct {
+	ID    int
 	Name  string
 	Info  string
 	Price string
 }
 
-func (g *Grade) EditName(newName string) {
-	g.Name = newName
-}
-
-func (g *Grade) EditInfo(newInfo string) {
-	g.Info = newInfo
-}
-
-func (g *Grade) EditPrice(newPrice string) {
-	g.Price = newPrice
-}
-
-func (g *Grade) Overwrite(newGrade Grade) {
-	g = &newGrade
-}
-
-// Data structure funcs
-func (d Data_str) GetGradesNames() []string {
-	var grades []string
-	for _, grade := range d.Grades {
-		grades = append(grades, grade.Name)
+func (d *DB_Str) AddGrade(newGrade Grade) (LastInsertId int, err error) {
+	db, err := GetNewDb()
+	if err != nil {
+		log.Println(err)
+		return -1, err
 	}
-	return grades
+	defer db.Close()
+
+	const AddGradeQuery string = `
+    insert into grades (name,info,price)
+    values (?,?,?)`
+	result, err := db.Exec(AddGradeQuery,
+		newGrade.Name,
+		newGrade.Info,
+		newGrade.Price,
+	)
+	if err != nil {
+		log.Println(err)
+		return -1, err
+	}
+	lastInsert, err := result.LastInsertId()
+	if err != nil {
+		log.Println(err)
+		return -1, err
+	}
+	err = d.LoadGrade()
+	if err != nil {
+		log.Println(err)
+	}
+	return int(lastInsert), err
 }
 
-func (d Data_str) FindGradeByName(gradeName string) *Grade {
-	for _, grade := range d.Grades {
-		if grade.Name == gradeName {
-			return grade
-		}
+func (d *DB_Str) EditGrade(id int, editedGrade Grade) error {
+	db, err := GetNewDb()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer db.Close()
+	const EditGradeQuery string = `
+		update grades set Name = ?,info = ?,price = ? where grade_id = ?
+	`
+	_, err = db.Exec(EditGradeQuery,
+		editedGrade.Name,
+		editedGrade.Info,
+		editedGrade.Price,
+		id,
+	)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	err = d.LoadGrade()
+	if err != nil {
+		log.Println(err)
+	}
+	return nil
+}
+
+func (g Grade) Delete() error {
+	err := DB.DeleteFrom("grades", "grade_id", g.ID)
+	err = DB.LoadGrade()
+	if err != nil {
+		log.Println(err)
 	}
 	return nil
 }
