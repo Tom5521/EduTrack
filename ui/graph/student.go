@@ -61,11 +61,11 @@ func LoadStudentInfo(student *data.Student) {
 	deleteButton := widget.NewButton("Delete", func() {
 		DeleteForm(student)
 	})
-	registerButton := widget.NewButton("Add register", func() {
-		AddRegister(student)
+	RecordButton := widget.NewButton("Add a record", func() {
+		AddRecord(student)
 	})
-	ShowRegistersBt := widget.NewButton("Show Registers", func() {
-		ShowRegisters(student)
+	ShowRecordsBt := widget.NewButton("Show records", func() {
+		ShowRecords(student)
 	})
 
 	content := container.NewVBox(image,
@@ -73,8 +73,8 @@ func LoadStudentInfo(student *data.Student) {
 		container.NewAdaptiveGrid(2,
 			editButton,
 			deleteButton,
-			registerButton,
-			ShowRegistersBt,
+			RecordButton,
+			ShowRecordsBt,
 		),
 	)
 	StudentTab.Objects = []fyne.CanvasObject{content}

@@ -18,8 +18,8 @@ import (
 	"github.com/ncruces/zenity"
 )
 
-// AddRegister opens a window to add a register for a student.
-func AddRegister(student *data.Student) {
+// AddRecord opens a window to add a register for a student.
+func AddRecord(student *data.Student) {
 	getTimeNow := func() string {
 		time := time.Now().Format("02/01/2006")
 		return time
@@ -27,9 +27,9 @@ func AddRegister(student *data.Student) {
 	var tmpDate string = getTimeNow()
 
 	window := app.NewWindow("Add a register")
-	window.Resize(sizes.RegSize)
+	window.Resize(sizes.RecSize)
 
-	regNameLabel := widget.NewLabel("Register name:")
+	regNameLabel := widget.NewLabel("Record name:")
 	regnameEntry := widget.NewEntry()
 	regnameEntry.SetPlaceHolder(getTimeNow())
 
@@ -83,16 +83,16 @@ func AddRegister(student *data.Student) {
 	window.Show()
 }
 
-func ShowRegisters(student *data.Student) {
+func ShowRecords(student *data.Student) {
 	GetRegisterList(student)
 	var content *fyne.Container
-	window := app.NewWindow(student.Name + " registers")
-	window.Resize(sizes.RegsListSize)
+	window := app.NewWindow(student.Name + " records")
+	window.Resize(sizes.RecsListSize)
 	if len(student.Registers) == 0 {
 		noRegistersLabel := widget.NewLabel("No registers found")
 		noRegistersLabel.Alignment = fyne.TextAlignCenter
 		AddRegisterButton := widget.NewButton("Add Register", func() {
-			AddRegister(student)
+			AddRecord(student)
 			window.Close()
 		})
 		content = container.NewVBox(noRegistersLabel, AddRegisterButton)
@@ -103,16 +103,16 @@ func ShowRegisters(student *data.Student) {
 	window.SetContent(content)
 	window.Show()
 }
-func EditRegisterData(student *data.Student, index int) {
+func EditRecordsData(student *data.Student, index int) {
 	var tmpDate string
-	window := app.NewWindow("Edit Register")
-	window.Resize(sizes.RegSize)
+	window := app.NewWindow("Edit Record")
+	window.Resize(sizes.RecSize)
 	reg := &student.Registers[index]
 
-	regnameEntry := widget.NewEntry()
-	regnameEntry.SetText(reg.Name)
+	RecNameEntry := widget.NewEntry()
+	RecNameEntry.SetText(reg.Name)
 
-	regDate := widget.NewLabel("Date: " + reg.Date)
+	recDate := widget.NewLabel("Date: " + reg.Date)
 	DateButton := widget.NewButton("Select Date", func() {
 		ret, err := zenity.Calendar("Select a date from below:",
 			zenity.DefaultDate(2023, time.December, 1))
@@ -120,28 +120,27 @@ func EditRegisterData(student *data.Student, index int) {
 			wins.ErrWin(app, err.Error())
 		}
 		tmpDate = ret.Format("02/01/2006")
-		regDate.SetText(tmpDate)
+		recDate.SetText(tmpDate)
 	})
 
 	DetailsLabel := widget.NewLabel("Details")
-	regDetails := widget.NewMultiLineEntry()
-	regDetails.SetText(reg.Data)
+	recDetails := widget.NewMultiLineEntry()
+	recDetails.SetText(reg.Data)
 
 	// FormItems
-	RegNameForm := widget.NewFormItem("Register name:", regnameEntry)
-	RegDateForm := widget.NewFormItem("Register date:", container.NewAdaptiveGrid(2, regDate, DateButton))
+	RecNameForm := widget.NewFormItem("Record name:", RecNameEntry)
+	RecDateForm := widget.NewFormItem("Record date:", container.NewAdaptiveGrid(2, recDate, DateButton))
 
 	submitFunc := func() {
-		reg.EditName(regnameEntry.Text)
-		reg.EditData(regDetails.Text)
+		reg.EditName(RecNameEntry.Text)
+		reg.EditData(recDetails.Text)
 		reg.EditDate(tmpDate)
-		data.SaveStudentsData()
 		window.Close()
 	}
 
 	Form := widget.NewForm(
-		RegNameForm,
-		RegDateForm,
+		RecNameForm,
+		RecDateForm,
 	)
 	Form.OnSubmit = submitFunc
 
@@ -150,7 +149,7 @@ func EditRegisterData(student *data.Student, index int) {
 		Form,
 	)
 
-	box := container.NewVSplit(regDetails, vbox)
+	box := container.NewVSplit(recDetails, vbox)
 	box.SetOffset(1)
 	window.SetContent(box)
 

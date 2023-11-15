@@ -47,3 +47,11 @@ func (d DbStr) FindStudentByID(id int) (Student, error) {
 	}
 	return Student{}, errors.New(fmt.Sprintf("Can't find student by id <%v>", id))
 }
+
+func (d DbStr) GetGradesNames() []string {
+	var grades []string
+	for _, grade := range d.Grades {
+		grades = append(grades, grade.Name)
+	}
+	return grades
+}

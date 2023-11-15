@@ -31,7 +31,7 @@ func GetRegisterList(student *data.Student) {
 	)
 	list.OnSelected = func(id widget.ListItemID) {
 		list.UnselectAll()
-		EditRegisterData(student, id)
+		EditRecordsData(student, id)
 	}
 	RegisterList = list
 }

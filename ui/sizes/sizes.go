@@ -14,7 +14,7 @@ import (
 
 // These constants define various sizes used in the application's user interface.
 var (
-	RegSize                   = fyne.NewSize(620, 520)                  // Size for registration window.
+	RecSize                   = fyne.NewSize(620, 520)                  // Size for registration window.
 	FormSize                  = fyne.NewSize(500, 240)                  // Size for the form window.
 	PickSize                  = fyne.NewSize(600, 400)                  // Size for file picker window.
 	ErrSize                   = fyne.NewSize(400, 80)                   // Size for error window.
@@ -22,6 +22,6 @@ var (
 	SearchSize                = fyne.NewSize(300, 100)                  // Size for student search window.
 	ScreenWidth, ScreenHeight = resolution.GetResolution()              // Screen resolution in pixels.
 	FyneScreenSize            = fyne.NewSize(ScreenWidth, ScreenHeight) // Size of the Fyne application window.
-	RegInfoSize               = fyne.NewSize(200, 100)
-	RegsListSize              = fyne.NewSize(400, 200)
+	RecInfoSize               = fyne.NewSize(200, 100)
+	RecsListSize              = fyne.NewSize(400, 200)
 )
