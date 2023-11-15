@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */
@@ -15,4 +15,3 @@ func GetResolution() (float32, float32) {
 	resolution := screenresolution.GetPrimary()
 	return float32(resolution.Width), float32(resolution.Height)
 }
-

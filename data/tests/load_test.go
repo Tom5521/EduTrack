@@ -1,3 +1,9 @@
+/*
+ * Copyright Tom5521(c) 2023 - All Rights Reserved.
+ *
+ * This project is licensed under the MIT License.
+ */
+
 package data_test
 
 import (

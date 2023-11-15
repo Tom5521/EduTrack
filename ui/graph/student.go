@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */
@@ -146,7 +146,7 @@ func DeleteForm(student *data.Student) {
 		container.NewAdaptiveGrid(2,
 			widget.NewButton("Yes", func() {
 				id := data.Data.FindStudentIndexByID(student.ID)
-				Data.Students = slices.Delete(Data.Students, id, id+1)
+				Db.Students = slices.Delete(Db.Students, id, id+1)
 
 				data.SaveStudentsData()
 				data.GetStundentData()
@@ -190,8 +190,8 @@ func AddStudentForm() {
 
 	studentGradesLabel := widget.NewLabel("")
 	studentGradesLabel.SetText(getStGrade())
-	gradeSelect := widget.NewSelect(Data.GetGradesNames(), func(s string) {
-		GradesStr = append(GradesStr, Data.FindGradeByName(s))
+	gradeSelect := widget.NewSelect(Db.GetGradesNames(), func(s string) {
+		GradesStr = append(GradesStr, Db.FindGradeByName(s))
 
 		studentGradesLabel.SetText(getStGrade())
 	})
@@ -219,7 +219,7 @@ func AddStudentForm() {
 			wins.ErrWin(app, "Some value in the form is empty")
 			return
 		}
-		if existsId(idEntry.Text, Data.GetStudentIDs()) {
+		if existsId(idEntry.Text, Db.GetStudentIDs()) {
 			wins.ErrWin(app, "The ID already exists")
 			return
 		}
@@ -233,7 +233,7 @@ func AddStudentForm() {
 		}()
 
 		// Add a new student
-		Data.Students = append(Data.Students, data.Student{
+		Db.Students = append(Db.Students, data.Student{
 			Name:          nameEntry.Text,
 			Age:           ageEntry.Text,
 			ID:            idEntry.Text,
@@ -242,11 +242,11 @@ func AddStudentForm() {
 			Grades:        StGrades,
 		})
 		fmt.Println(GradesStr)
-		fmt.Println(Data.Students[len(Data.Students)-1])
+		fmt.Println(Db.Students[len(Db.Students)-1])
 		data.SaveStudentsData()
 		data.GetStundentData()
 		StundentList.Refresh()
-		LoadStudentInfo(Data.FindStudentByID(idEntry.Text))
+		LoadStudentInfo(Db.FindStudentByID(idEntry.Text))
 		window.Close()
 
 	}

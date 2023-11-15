@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */
@@ -125,17 +125,16 @@ func AddGrade() {
 			wins.ErrWin(app, "Info entry is empty")
 			return
 		}
-		if strings.Contains(strings.Join(Data.GetGradesNames(), " "), gradeEntry.Text) {
+		if strings.Contains(strings.Join(Db.GetGradesNames(), " "), gradeEntry.Text) {
 			wins.ErrWin(app, "This grade already exists!")
 			return
 		}
 
-		Data.Grades = append(Data.Grades, &data.Grade{
+		Db.AddGrade(data.Grade{
 			Name:  gradeEntry.Text,
 			Info:  InfoEntry.Text,
 			Price: priceEntry.Text,
 		})
-		data.SaveGradesData()
 		window.Close()
 	}
 	content := container.NewVBox(form)

@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */

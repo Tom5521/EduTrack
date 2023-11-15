@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */
@@ -23,7 +23,7 @@ import (
 var (
 	StundentList *widget.List
 	RegisterList *widget.List
-	GradesList   *widget.List = GetGradesList(&Data.Grades)
+	GradesList   *widget.List = GetGradesList(&Db.Grades)
 )
 
 // atoi converts a string to an integer, handling errors.

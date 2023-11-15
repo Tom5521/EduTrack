@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */
@@ -25,7 +25,7 @@ func Search() {
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton("Search", func() {
 		studentID := entry.Text
-		student := Data.FindStudentByID(studentID)
+		student := Db.FindStudentByID(studentID)
 		if student != nil {
 			LoadStudentInfo(student)
 			w.Close()

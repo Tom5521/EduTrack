@@ -1,5 +1,5 @@
 /*
- * Copyright Tom5521(c) - All Rights Reserved.
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
  * This project is licensed under the MIT License.
  */
@@ -22,7 +22,7 @@ import (
 var (
 	app        fyne.App        = fyne_app.New()
 	StudentTab *fyne.Container = TemplateUser()
-	Data                       = &data.Data
+	Db                         = &data.DB
 )
 
 // MainWindow is the main entry point of the application.
@@ -52,7 +52,7 @@ func MainWindow() {
 		AddGrade()
 	})
 
-	list := CreateStudentList(&Data.Students)
+	list := CreateStudentList(&Db.Students)
 	buttonsGrid := container.NewAdaptiveGrid(2, searchButton, addButton, AddGradeButton, testButton)
 	vbox := container.NewVBox(buttonsGrid, widget.NewSeparator(), StudentTab)
 	mainbox := container.NewHSplit(vbox, list)
