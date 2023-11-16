@@ -1,3 +1,6 @@
+//go:build delete
+// +build delete
+
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
  *
@@ -9,13 +12,24 @@ package data_test
 import (
 	"EduTrack/data"
 	"fmt"
+	"log"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+var DB = &data.DB
+
 func TestDeleteGrade(t *testing.T) {
 	assert := assert.New(t)
+	if len(DB.Grades) == 0 {
+		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		if err != nil {
+			log.Println(err)
+			assert.Fail("Error adding temporal grade")
+		}
+		log.Println(DB.Grades)
+	}
 	originalLen := len(DB.Grades)
 	err := DB.Grades[0].Delete()
 	if err != nil {
@@ -27,6 +41,14 @@ func TestDeleteGrade(t *testing.T) {
 
 func TestDeleteStudent(t *testing.T) {
 	assert := assert.New(t)
+	if len(DB.Students) == 0 {
+		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		if err != nil {
+			log.Println(err)
+			assert.Fail("Error adding temporal student")
+		}
+		log.Println(DB.Grades)
+	}
 	originalLen := len(DB.Students)
 	err := DB.Students[0].Delete()
 	if err != nil {
@@ -38,6 +60,22 @@ func TestDeleteStudent(t *testing.T) {
 
 func TestDeleteInterface(t *testing.T) {
 	assert := assert.New(t)
+	if len(DB.Grades) == 0 {
+		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		if err != nil {
+			log.Println(err)
+			assert.Fail("Error adding temporal grade")
+		}
+		log.Println(DB.Grades)
+	}
+	if len(DB.Students) == 0 {
+		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		if err != nil {
+			log.Println(err)
+			assert.Fail("Error adding temporal student")
+		}
+		log.Println(DB.Grades)
+	}
 
 	originalStudentlen := len(DB.Students)
 	originalGradelen := len(DB.Grades)

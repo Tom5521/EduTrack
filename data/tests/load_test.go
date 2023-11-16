@@ -9,6 +9,7 @@ package data_test
 import (
 	"EduTrack/data"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"testing"
@@ -16,6 +17,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 )
+
+var DB = &data.DB
 
 func TestLoadDatabase(t *testing.T) {
 	assert := assert.New(t)
@@ -50,4 +53,35 @@ func TestCreateDatabase(t *testing.T) {
 	if _, err := os.Stat(Config.DatabaseFile); os.IsNotExist(err) {
 		assert.NotNil(err, "Error creating/checking database file!")
 	}
+}
+
+func TestLoadStudentRecords(t *testing.T) {
+	assert := assert.New(t)
+	if len(DB.Students) == 0 {
+		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		if err != nil {
+			log.Println(err)
+			assert.Fail("Error adding temporal student")
+		}
+		log.Println(DB.Grades)
+	}
+
+	fmt.Println(DB.Students[0])
+	fmt.Println(DB.Students[0].Records)
+	DB.LoadStudents()
+	err := DB.Students[0].LoadRecords()
+	if err != nil {
+		assert.Fail("Error loading records", err.Error())
+	}
+	fmt.Println(DB.Students[0])
+	fmt.Println(DB.Students[0].Records)
+}
+
+func TestLoadAllStudentRecords(t *testing.T) {
+	//assert := assert.New(t)
+	for _, student := range DB.Students {
+		student.LoadRecords()
+		fmt.Printf("Student Name:%v\nRecords:%v\n", student.Name, student.Records)
+	}
+
 }

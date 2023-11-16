@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
+ *
+ * This project is licensed under the MIT License.
+ */
+
 package wins
 
 import (

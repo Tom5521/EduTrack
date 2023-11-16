@@ -17,6 +17,17 @@ type Student struct {
 	DNI           string
 	PhoneNumber   string
 	ImageFilePath string
+	Records       []Record
+}
+
+func (d *DbStr) FindGradeIndexByID(id int) (index int) {
+	d.LoadGrade()
+	for i, grade := range d.Grades {
+		if grade.ID == id {
+			return i
+		}
+	}
+	return -1
 }
 
 func (s Student) Delete() error {
