@@ -18,9 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var DB = &data.DB
-
 func TestLoadDatabase(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	data.LoadFiles()
 	var seconds int = 3
@@ -56,6 +55,7 @@ func TestCreateDatabase(t *testing.T) {
 }
 
 func TestLoadStudentRecords(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	if len(DB.Students) == 0 {
 		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
@@ -77,6 +77,7 @@ func TestLoadStudentRecords(t *testing.T) {
 }
 
 func TestLoadAllStudentRecords(t *testing.T) {
+	var DB = &data.DB
 	//assert := assert.New(t)
 	for _, student := range DB.Students {
 		student.LoadRecords()

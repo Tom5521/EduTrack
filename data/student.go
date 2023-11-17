@@ -18,6 +18,7 @@ type Student struct {
 	PhoneNumber   string
 	ImageFilePath string
 	Records       []Record
+	Grades        []StudentGrade
 }
 
 func (d *DbStr) FindGradeIndexByID(id int) (index int) {
@@ -100,4 +101,36 @@ func (d *DbStr) AddStudent(NStudent Student) (LastInsertId int, err error) {
 		log.Println(err)
 	}
 	return int(id), err
+}
+
+func (s *Student) LoadGrades() error {
+	db, err := GetNewDb()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer db.Close()
+	const Query string = `
+		select * from student_grades where student_id = ?
+	`
+	rows, err := db.Query(Query, s.ID)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var grade StudentGrade
+		if err := rows.Scan(
+			&grade.Student_id,
+			&grade.ID,
+			&grade.Start,
+			&grade.End,
+		); err != nil {
+			log.Println(err)
+			return err
+		}
+		s.Grades = append(s.Grades, grade)
+	}
+	return nil
 }

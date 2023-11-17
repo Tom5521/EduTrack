@@ -15,9 +15,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var DB = &data.DB
-
 func TestEditGrade(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	fmt.Println(DB.Grades)
 	if len(DB.Grades) == 0 {
@@ -36,6 +35,7 @@ func TestEditGrade(t *testing.T) {
 }
 
 func TestEditStudent(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	fmt.Println(DB.Students)
 	err := DB.EditStudent(DB.Students[0].ID, data.Student{Name: "Carlos pajas"})
@@ -44,6 +44,7 @@ func TestEditStudent(t *testing.T) {
 }
 
 func TestEditRecord(t *testing.T) {
+	var DB = &data.DB
 	fmt.Println("Starter student len:", len(DB.Students))
 	fmt.Println("Starter records len:", len(DB.Students[0].Records))
 	assert := assert.New(t)

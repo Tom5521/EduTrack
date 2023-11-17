@@ -28,14 +28,27 @@ func (d *DbStr) Update() error {
 		log.Println(err)
 		return err
 	}
+	for _, student := range d.Students {
+		err := student.LoadRecords()
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+	}
 	return nil
 }
 
 func InitDB() DbStr {
 	Config = GetConfData()
 	db := DbStr{}
-	db.LoadGrade()
-	db.LoadStudents()
+	err := db.LoadGrade()
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.LoadStudents()
+	if err != nil {
+		log.Println(err)
+	}
 	for _, student := range db.Students {
 		err := student.LoadRecords()
 		if err != nil {

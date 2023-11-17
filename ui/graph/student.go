@@ -233,10 +233,10 @@ func AddStudentForm() {
 		}()
 
 		// Add a new student
-		Db.Students = append(Db.Students, data.Student{
+		Db.AddStudent(data.Student{
 			Name:          nameEntry.Text,
-			Age:           ageEntry.Text,
-			ID:            idEntry.Text,
+			Age:           atoi(ageEntry.Text),
+			DNI:           idEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 			Grades:        StGrades,

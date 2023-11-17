@@ -18,9 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var DB = &data.DB
-
 func TestDeleteGrade(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	if len(DB.Grades) == 0 {
 		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
@@ -40,6 +39,7 @@ func TestDeleteGrade(t *testing.T) {
 }
 
 func TestDeleteStudent(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	if len(DB.Students) == 0 {
 		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
@@ -59,8 +59,8 @@ func TestDeleteStudent(t *testing.T) {
 }
 
 func TestDeleteIn(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
-
 	// Test grades
 	if len(DB.Grades) == 0 {
 		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
@@ -84,8 +84,8 @@ func TestDeleteIn(t *testing.T) {
 	originalGradelen := len(DB.Grades)
 
 	// Exec Deleter
-	data.Deletes(DB.Students[0])
-	data.Deletes(DB.Grades[0])
+	data.Delete(DB.Students[0])
+	data.Delete(DB.Grades[0])
 
 	fmt.Println(DB.Students)
 	fmt.Println(DB.Grades)

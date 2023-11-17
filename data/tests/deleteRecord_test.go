@@ -17,9 +17,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var DB = &data.DB
-
 func TestDeleteRecords(t *testing.T) {
+	var DB = &data.DB
 	assert := assert.New(t)
 	if len(DB.Students) == 0 {
 		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})

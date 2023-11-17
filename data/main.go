@@ -15,14 +15,6 @@ import (
 
 var DB = InitDB()
 
-func Deletes(i Deleter) {
-	i.Delete()
-}
-
-type Deleter interface {
-	Delete() error
-}
-
 func NotifyError(text string, err error) {
 	zenity.Notify(text + "::" + err.Error())
 }

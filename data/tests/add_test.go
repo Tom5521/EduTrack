@@ -51,7 +51,7 @@ func TestAddRecord(t *testing.T) {
 	if err != nil {
 		assert.Fail("Error adding a record to", student.Name, "|Error:", err)
 	}
-	assert.Equal(len(student.Records), orgLen, "Records table not modified!")
+	assert.NotEqual(len(student.Records), orgLen, "Records table not modified!")
 	fmt.Println(student.Records)
 
 }
