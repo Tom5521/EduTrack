@@ -58,8 +58,10 @@ func TestDeleteStudent(t *testing.T) {
 	assert.NotEqual(originalLen, len(DB.Grades))
 }
 
-func TestDeleteInterface(t *testing.T) {
+func TestDeleteIn(t *testing.T) {
 	assert := assert.New(t)
+
+	// Test grades
 	if len(DB.Grades) == 0 {
 		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		if err != nil {
@@ -68,6 +70,7 @@ func TestDeleteInterface(t *testing.T) {
 		}
 		log.Println(DB.Grades)
 	}
+	// Test Students
 	if len(DB.Students) == 0 {
 		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		if err != nil {
@@ -80,6 +83,7 @@ func TestDeleteInterface(t *testing.T) {
 	originalStudentlen := len(DB.Students)
 	originalGradelen := len(DB.Grades)
 
+	// Exec Deleter
 	data.Deletes(DB.Students[0])
 	data.Deletes(DB.Grades[0])
 

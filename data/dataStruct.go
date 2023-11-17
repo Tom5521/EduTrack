@@ -36,7 +36,22 @@ func InitDB() DbStr {
 	db := DbStr{}
 	db.LoadGrade()
 	db.LoadStudents()
+	for _, student := range db.Students {
+		err := student.LoadRecords()
+		if err != nil {
+			log.Println(err)
+		}
+	}
 	return db
+}
+
+func (d *DbStr) FindStudentIndexByID(id int) (index int) {
+	for i, s := range d.Students {
+		if s.ID == id {
+			return i
+		}
+	}
+	return -1
 }
 
 func (d DbStr) FindStudentByID(id int) (Student, error) {

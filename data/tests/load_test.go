@@ -63,7 +63,6 @@ func TestLoadStudentRecords(t *testing.T) {
 			log.Println(err)
 			assert.Fail("Error adding temporal student")
 		}
-		log.Println(DB.Grades)
 	}
 
 	fmt.Println(DB.Students[0])
@@ -83,5 +82,5 @@ func TestLoadAllStudentRecords(t *testing.T) {
 		student.LoadRecords()
 		fmt.Printf("Student Name:%v\nRecords:%v\n", student.Name, student.Records)
 	}
-
+	fmt.Println(DB.Students[0].Records)
 }
