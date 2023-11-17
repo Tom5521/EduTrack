@@ -6,7 +6,7 @@
 - Improve structure
 - Improve ui lib var names
 - Add translations
-- Improve the use of the interfaces
-- Update libraries
+- ~~Improve the use of the interfaces~~
+- ~~Update libraries~~
 
 
