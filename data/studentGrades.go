@@ -74,3 +74,13 @@ func (s *Student) AddGrade(newGrade StudentGrade) (lastInsertID int, err error) 
 	}
 	return int(id), err
 }
+
+func (s Student) FindGradeIndexByID(id int) (index int) {
+	for i, grade := range s.Grades {
+		if grade.StudentGradeID == id {
+			return i
+		}
+	}
+
+	return -1
+}

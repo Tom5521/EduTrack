@@ -50,3 +50,12 @@ func (d *DbStr) AddGrade(NGrade Grade) (LastInsertId int, err error) {
 	}
 	return int(lastIns), err
 }
+
+func (d DbStr) FindGradeByName(name string) Grade {
+	for _, grade := range d.Grades {
+		if grade.Name == name {
+			return grade
+		}
+	}
+	return Grade{}
+}

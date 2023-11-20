@@ -135,3 +135,31 @@ func (s *Student) LoadGrades() error {
 	}
 	return nil
 }
+
+func (d DbStr) GetStudentDNIs() []string {
+	var students []string
+	for _, student := range d.Students {
+		students = append(students, student.DNI)
+	}
+	return students
+}
+
+func (s Student) GetGradeNames() []string {
+	var names []string
+	for _, grade := range s.Grades {
+		i := s.FindGradeIndexByID(grade.GradeID)
+		if i == -1 {
+			continue
+		}
+		names = append(names, Db.Grades[i].Name)
+	}
+	return names
+}
+func (d DbStr) FindStudentIndexByDNI(dni string) (index int) {
+	for i, student := range d.Students {
+		if student.DNI == dni {
+			return i
+		}
+	}
+	return -1
+}

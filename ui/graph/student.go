@@ -12,7 +12,6 @@ import (
 	"EduTrack/ui/sizes"
 	"EduTrack/ui/wintools"
 	"fmt"
-	"slices"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -36,9 +35,9 @@ func LoadStudentInfo(student *data.Student) {
 	AgeLabel.TextStyle.Bold = true
 	AgeCont := Nhbx(AgeLabel, Nlb(fmt.Sprintf("%v", student.Age)))
 	// ID Label
-	IDLabel := Nlb("ID: ")
+	IDLabel := Nlb("DNI: ")
 	IDLabel.TextStyle.Bold = true
-	IDCont := Nhbx(IDLabel, Nlb(student.ID))
+	IDCont := Nhbx(IDLabel, Nlb(student.DNI))
 	// Phone Label
 	PhoneLabel := Nlb("Phone Number: ")
 	PhoneLabel.TextStyle.Bold = true
@@ -145,11 +144,7 @@ func DeleteForm(student *data.Student) {
 		widget.NewLabel("Are you sure you want to delete the student?"),
 		container.NewAdaptiveGrid(2,
 			widget.NewButton("Yes", func() {
-				id := data.Data.FindStudentIndexByID(student.ID)
-				Db.Students = slices.Delete(Db.Students, id, id+1)
-
-				data.SaveStudentsData()
-				data.GetStundentData()
+				data.Delete(student)
 				window.Close()
 			}),
 			widget.NewButton("No", func() {
@@ -163,14 +158,14 @@ func DeleteForm(student *data.Student) {
 // AddStudentForm opens a window to add a new student.
 func AddStudentForm() {
 	var imagePath string
-	var GradesStr []*data.Grade
+	var GradesStr []data.Grade
 	window := app.NewWindow("Add a student")
 	window.Resize(sizes.FormSize)
 
 	// Initialize form fields
 	nameEntry := widget.NewEntry()
 	ageEntry := widget.NewEntry()
-	idEntry := widget.NewEntry()
+	DniEntry := widget.NewEntry()
 	phoneEntry := widget.NewEntry()
 
 	imageButton := widget.NewButton("Select Image", func() {
@@ -197,7 +192,7 @@ func AddStudentForm() {
 	})
 
 	NameForm := widget.NewFormItem("Name:", nameEntry)
-	IDForm := widget.NewFormItem("ID:", idEntry)
+	IDForm := widget.NewFormItem("DNI:", DniEntry)
 	AgeForm := widget.NewFormItem("Age:", ageEntry)
 	PhoneForm := widget.NewFormItem("Phone:", phoneEntry)
 	GradeForm := widget.NewFormItem("Select Grades:", gradeSelect)
@@ -215,38 +210,37 @@ func AddStudentForm() {
 	)
 	Form.OnSubmit = func() {
 		// Validate form fields
-		if !checkValues(ageEntry.Text, idEntry.Text, phoneEntry.Text, nameEntry.Text) {
+		if !checkValues(ageEntry.Text, DniEntry.Text, phoneEntry.Text, nameEntry.Text) {
 			wins.ErrWin(app, "Some value in the form is empty")
 			return
 		}
-		if existsId(idEntry.Text, Db.GetStudentIDs()) {
-			wins.ErrWin(app, "The ID already exists")
+		if existsId(DniEntry.Text, Db.GetStudentDNIs()) {
+			wins.ErrWin(app, "The DNI already exists")
 			return
 		}
 		StGrades := func() []data.StudentGrade {
 			var stgrades []data.StudentGrade
 			for _, grade := range GradesStr {
-				tmpGrade := data.StudentGrade{Grade: grade}
+				tmpGrade := data.StudentGrade{GradeID: grade.ID}
 				stgrades = append(stgrades, tmpGrade)
 			}
 			return stgrades
 		}()
 
 		// Add a new student
-		Db.AddStudent(data.Student{
+		lastInsert, _ := Db.AddStudent(data.Student{
 			Name:          nameEntry.Text,
 			Age:           atoi(ageEntry.Text),
-			DNI:           idEntry.Text,
+			DNI:           DniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 			Grades:        StGrades,
 		})
 		fmt.Println(GradesStr)
 		fmt.Println(Db.Students[len(Db.Students)-1])
-		data.SaveStudentsData()
-		data.GetStundentData()
 		StundentList.Refresh()
-		LoadStudentInfo(Db.FindStudentByID(idEntry.Text))
+		s := Db.Students[Db.FindStudentIndexByID(int(lastInsert))]
+		LoadStudentInfo(&s)
 		window.Close()
 
 	}

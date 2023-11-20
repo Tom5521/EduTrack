@@ -17,43 +17,43 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func GetRegisterList(student *data.Student) {
+func GetRecordsList(student *data.Student) *widget.List {
 	list := widget.NewList(
 		func() int {
-			return len(student.Registers)
+			return len(student.Records)
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
-			o.(*widget.Label).SetText(student.Registers[i].Name)
+			o.(*widget.Label).SetText(student.Records[i].Name)
 		},
 	)
 	list.OnSelected = func(id widget.ListItemID) {
 		list.UnselectAll()
 		EditRecordsData(student, id)
 	}
-	RegisterList = list
+	return list
 }
 
-func GetGradesList(grades *[]*data.Grade) *widget.List {
+func GetGradesList(grades []data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
-			return len(*grades)
+			return len(grades)
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
-			mod := *grades
+			mod := grades
 			o.(*widget.Label).SetText(mod[i].Name)
 		},
 	)
 
 	list.OnSelected = func(id widget.ListItemID) {
 		list.UnselectAll()
-		g := *grades
-		GradeDetailsWin(g[id])
+		g := grades[id]
+		GradeDetailsWin(&g)
 	}
 
 	return list
@@ -65,13 +65,20 @@ func GradeDetailsWin(g *data.Grade) {
 
 }
 
-func StudentGradeDetailsWin(g *data.StudentGrade) {
+func StudentGradeDetailsWin(Sg *data.StudentGrade) {
+
+	getGrade := func() *data.Grade {
+		i := Db.FindGradeIndexByID(Sg.GradeID)
+		return &Db.Grades[i]
+	}
+	g := getGrade()
+
 	window := app.NewWindow("Details for " + g.Name)
 
 	gradeNameLabel := widget.NewLabel(g.Name)
 	gradePricePMLabel := widget.NewLabel(g.Price)
-	gradeStartLabel := widget.NewLabel(g.Start)
-	gradeEndLabel := widget.NewLabel(g.End)
+	gradeStartLabel := widget.NewLabel(Sg.Start)
+	gradeEndLabel := widget.NewLabel(Sg.End)
 	gradeInfoLabel := widget.NewMultiLineEntry()
 	gradeInfoLabel.SetText(g.Info)
 	gradeInfoLabel.Disable()

@@ -24,10 +24,11 @@ func Search() {
 	w.Resize(sizes.SearchSize)
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton("Search", func() {
-		studentID := entry.Text
-		student := Db.FindStudentByID(studentID)
-		if student != nil {
-			LoadStudentInfo(student)
+		studentDNI := entry.Text
+		i := Db.FindStudentIndexByDNI(studentDNI)
+		student := Db.Students[i]
+		if &student != nil {
+			LoadStudentInfo(&student)
 			w.Close()
 		} else {
 			wins.ErrWin(app, "Student not found!")
@@ -35,7 +36,7 @@ func Search() {
 	})
 
 	content := container.NewVBox(
-		widget.NewLabel("Enter Student ID:"),
+		widget.NewLabel("Enter Student DNI:"),
 		entry,
 		searchButton,
 	)
