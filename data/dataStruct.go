@@ -54,6 +54,10 @@ func InitDB() DbStr {
 		if err != nil {
 			log.Println(err)
 		}
+		err = student.LoadGrades()
+		if err != nil {
+			log.Println(err)
+		}
 	}
 	return db
 }

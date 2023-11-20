@@ -32,8 +32,8 @@ func (d *DbStr) FindGradeIndexByID(id int) (index int) {
 }
 
 func (s Student) Delete() error {
-	DB.DeleteFrom("Students", "student_id", s.ID)
-	err := DB.LoadStudents()
+	Db.DeleteFrom("Students", "student_id", s.ID)
+	err := Db.LoadStudents()
 	if err != nil {
 		log.Println(err)
 	}
@@ -122,10 +122,11 @@ func (s *Student) LoadGrades() error {
 	for rows.Next() {
 		var grade StudentGrade
 		if err := rows.Scan(
-			&grade.Student_id,
-			&grade.ID,
+			&grade.StudentID,
+			&grade.GradeID,
 			&grade.Start,
 			&grade.End,
+			&grade.StudentGradeID,
 		); err != nil {
 			log.Println(err)
 			return err

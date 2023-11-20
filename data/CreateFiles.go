@@ -26,7 +26,7 @@ type ConfigStr struct {
 	Lang         string // TODO: Add multilanguage support
 }
 
-//go:embed database-template.db
+//go:embed database.db
 var SqlTemplate []byte
 
 func CreateDatabase() error {

@@ -18,16 +18,16 @@ import (
 )
 
 func TestDeleteRecords(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	assert := assert.New(t)
-	if len(DB.Students) == 0 {
-		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(Db.Students) == 0 {
+		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		if err != nil {
 			assert.Fail("Error adding temporal student")
 		}
 	}
 
-	student := &DB.Students[0]
+	student := &Db.Students[0]
 	err := student.LoadRecords()
 	if err != nil {
 		assert.Fail("Error loading student records")

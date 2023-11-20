@@ -13,7 +13,7 @@ import (
 	"github.com/ncruces/zenity"
 )
 
-var DB = InitDB()
+var Db = InitDB()
 
 func NotifyError(text string, err error) {
 	zenity.Notify(text + "::" + err.Error())

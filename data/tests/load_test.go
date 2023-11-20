@@ -19,7 +19,7 @@ import (
 )
 
 func TestLoadDatabase(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	assert := assert.New(t)
 	data.LoadFiles()
 	var seconds int = 3
@@ -30,10 +30,10 @@ func TestLoadDatabase(t *testing.T) {
 	}
 	for t := seconds; t != 0; t-- {
 		time.Sleep(1 * time.Second)
-		DB.LoadStudents()
-		DB.LoadGrade()
-		fmt.Println("Grades:", DB.Grades)
-		fmt.Println("Students:", DB.Students)
+		Db.LoadStudents()
+		Db.LoadGrade()
+		fmt.Println("Grades:", Db.Grades)
+		fmt.Println("Students:", Db.Students)
 		fmt.Println("Seconds left:", t)
 	}
 }
@@ -55,33 +55,33 @@ func TestCreateDatabase(t *testing.T) {
 }
 
 func TestLoadStudentRecords(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	assert := assert.New(t)
-	if len(DB.Students) == 0 {
-		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(Db.Students) == 0 {
+		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		if err != nil {
 			log.Println(err)
 			assert.Fail("Error adding temporal student")
 		}
 	}
 
-	fmt.Println(DB.Students[0])
-	fmt.Println(DB.Students[0].Records)
-	DB.LoadStudents()
-	err := DB.Students[0].LoadRecords()
+	fmt.Println(Db.Students[0])
+	fmt.Println(Db.Students[0].Records)
+	Db.LoadStudents()
+	err := Db.Students[0].LoadRecords()
 	if err != nil {
 		assert.Fail("Error loading records", err.Error())
 	}
-	fmt.Println(DB.Students[0])
-	fmt.Println(DB.Students[0].Records)
+	fmt.Println(Db.Students[0])
+	fmt.Println(Db.Students[0].Records)
 }
 
 func TestLoadAllStudentRecords(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	//assert := assert.New(t)
-	for _, student := range DB.Students {
+	for _, student := range Db.Students {
 		student.LoadRecords()
 		fmt.Printf("Student Name:%v\nRecords:%v\n", student.Name, student.Records)
 	}
-	fmt.Println(DB.Students[0].Records)
+	fmt.Println(Db.Students[0].Records)
 }

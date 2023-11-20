@@ -14,8 +14,8 @@ type Deleter interface {
 }
 
 func (g Grade) Delete() error {
-	err := DB.DeleteFrom("grades", "grade_id", g.ID)
-	err = DB.LoadGrade()
+	err := Db.DeleteFrom("grades", "grade_id", g.ID)
+	err = Db.LoadGrade()
 	if err != nil {
 		log.Println(err)
 	}
@@ -52,11 +52,11 @@ func (r Record) Delete() error {
 		log.Println(err)
 		return err
 	}
-	id := DB.FindStudentIndexByID(r.StudentId)
+	id := Db.FindStudentIndexByID(r.StudentId)
 	if id == -1 {
 		return errors.New("Can't find student ID")
 	}
-	err = DB.Students[id].LoadRecords()
+	err = Db.Students[id].LoadRecords()
 	if err != nil {
 		log.Println(err)
 		return err

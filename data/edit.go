@@ -80,18 +80,18 @@ func (r Record) Edit(NewRec Record) (err error) {
 		return err
 	}
 
-	i := DB.FindStudentIndexByID(NewRec.StudentId)
+	i := Db.FindStudentIndexByID(NewRec.StudentId)
 	if NewRec.StudentId != r.StudentId {
-		i := DB.FindStudentIndexByID(r.StudentId)
+		i := Db.FindStudentIndexByID(r.StudentId)
 		if i != -1 {
-			err := DB.Students[i].LoadRecords()
+			err := Db.Students[i].LoadRecords()
 			if err != nil {
 				log.Println(err)
 			}
 		}
 	}
 	if i != -1 {
-		err = DB.Students[i].LoadRecords()
+		err = Db.Students[i].LoadRecords()
 		if err != nil {
 			log.Println(err)
 		}

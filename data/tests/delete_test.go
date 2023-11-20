@@ -1,5 +1,5 @@
-//go:build delete
-// +build delete
+//go/:build delete
+// /+build delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
@@ -19,78 +19,78 @@ import (
 )
 
 func TestDeleteGrade(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	assert := assert.New(t)
-	if len(DB.Grades) == 0 {
-		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	if len(Db.Grades) == 0 {
+		_, err := Db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		if err != nil {
 			log.Println(err)
 			assert.Fail("Error adding temporal grade")
 		}
-		log.Println(DB.Grades)
+		log.Println(Db.Grades)
 	}
-	originalLen := len(DB.Grades)
-	err := DB.Grades[0].Delete()
+	originalLen := len(Db.Grades)
+	err := Db.Grades[0].Delete()
 	if err != nil {
 		assert.Fail("Error deleting grade", err)
 	}
-	fmt.Println(DB.Grades)
-	assert.NotEqual(originalLen, len(DB.Grades), "Grades array not modified!")
+	fmt.Println(Db.Grades)
+	assert.NotEqual(originalLen, len(Db.Grades), "Grades array not modified!")
 }
 
 func TestDeleteStudent(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	assert := assert.New(t)
-	if len(DB.Students) == 0 {
-		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(Db.Students) == 0 {
+		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		if err != nil {
 			log.Println(err)
 			assert.Fail("Error adding temporal student")
 		}
-		log.Println(DB.Grades)
+		log.Println(Db.Grades)
 	}
-	originalLen := len(DB.Students)
-	err := DB.Students[0].Delete()
+	originalLen := len(Db.Students)
+	err := Db.Students[0].Delete()
 	if err != nil {
 		assert.Fail("Error deleting student")
 	}
-	fmt.Println(DB.Students)
-	assert.NotEqual(originalLen, len(DB.Grades))
+	fmt.Println(Db.Students)
+	assert.NotEqual(originalLen, len(Db.Grades))
 }
 
 func TestDeleteIn(t *testing.T) {
-	var DB = &data.DB
+	var Db = &data.Db
 	assert := assert.New(t)
 	// Test grades
-	if len(DB.Grades) == 0 {
-		_, err := DB.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	if len(Db.Grades) == 0 {
+		_, err := Db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		if err != nil {
 			log.Println(err)
 			assert.Fail("Error adding temporal grade")
 		}
-		log.Println(DB.Grades)
+		log.Println(Db.Grades)
 	}
 	// Test Students
-	if len(DB.Students) == 0 {
-		_, err := DB.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(Db.Students) == 0 {
+		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		if err != nil {
 			log.Println(err)
 			assert.Fail("Error adding temporal student")
 		}
-		log.Println(DB.Grades)
+		log.Println(Db.Grades)
 	}
 
-	originalStudentlen := len(DB.Students)
-	originalGradelen := len(DB.Grades)
+	originalStudentlen := len(Db.Students)
+	originalGradelen := len(Db.Grades)
 
 	// Exec Deleter
-	data.Delete(DB.Students[0])
-	data.Delete(DB.Grades[0])
+	data.Delete(Db.Students[0])
+	data.Delete(Db.Grades[0])
 
-	fmt.Println(DB.Students)
-	fmt.Println(DB.Grades)
+	fmt.Println(Db.Students)
+	fmt.Println(Db.Grades)
 
-	assert.NotEqual(originalStudentlen, len(DB.Students), "Student table not modified!")
-	assert.NotEqual(originalGradelen, len(DB.Grades), "Grades table not modified!")
+	assert.NotEqual(originalStudentlen, len(Db.Students), "Student table not modified!")
+	assert.NotEqual(originalGradelen, len(Db.Grades), "Grades table not modified!")
 
 }
