@@ -60,6 +60,12 @@ func CreateDatabase() error {
 		return err
 	}
 	defer db.Close()
+	defer func() { // Delete temporal database file
+		err := os.Remove("database.db")
+		if err != nil {
+			log.Println(err)
+		}
+	}()
 	const Query string = `
 CREATE TABLE IF NOT EXISTS "Grades" (
 	"grade_id"	INTEGER,
