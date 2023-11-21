@@ -61,9 +61,11 @@ func CreateDatabase() error {
 	}
 	defer db.Close()
 	defer func() { // Delete temporal database file
-		err := os.Remove("database.db")
-		if err != nil {
-			log.Println(err)
+		if (runtime.GOOS == "linux" || runtime.GOOS == "unix") && "database.db" != Config.DatabaseFile {
+			err := os.Remove("database.db")
+			if err != nil {
+				log.Println(err)
+			}
 		}
 	}()
 	const Query string = `
