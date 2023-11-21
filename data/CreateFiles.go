@@ -7,15 +7,16 @@
 package data
 
 import (
-	_ "embed"
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 	"os/user"
 	"runtime"
-	"strconv"
 
 	"gopkg.in/yaml.v3"
+
+	_ "github.com/glebarez/go-sqlite"
 )
 
 var Config ConfigStr
@@ -26,33 +27,93 @@ type ConfigStr struct {
 	Lang         string // TODO: Add multilanguage support
 }
 
-//go:embed database.db
-var SqlTemplate []byte
+//goasd:embed database.db
+//var SqlTemplate []byte
 
 func CreateDatabase() error {
-	_, err := os.Create(Config.DatabaseFile)
+	/*
+		file, err := os.Create(Config.DatabaseFile)
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+		defer file.Close()
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+		defer file.Close()
+		_, err = file.Write(SqlTemplate)
+		if err != nil {
+			log.Println(err)
+			return err
+		}*/
+	db, err := sql.Open("sqlite", Config.DatabaseFile)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	file, err := os.OpenFile(Config.DatabaseFile, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+	defer db.Close()
+	const Query string = `
+CREATE TABLE IF NOT EXISTS "Grades" (
+	"grade_id"	INTEGER,
+	"Name"	TEXT,
+	"Info"	TEXT,
+	"Price"	INTEGER,
+	PRIMARY KEY("grade_id" AUTOINCREMENT)
+);
+
+CREATE TABLE IF NOT EXISTS "Records" (
+	"record_id"	INTEGER,
+	"student_id"	INTEGER,
+	"Name"	TEXT,
+	"Date"	TEXT,
+	"Info"	TEXT,
+	PRIMARY KEY("record_id" AUTOINCREMENT)
+);
+
+CREATE TABLE IF NOT EXISTS "Student_grades" (
+	"student_id"	INTEGER,
+	"grade_id"	INTEGER,
+	"start"	TEXT,
+	"end"	BLOB,
+	"student_grade_id"	INTEGER,
+	PRIMARY KEY("student_grade_id" AUTOINCREMENT)
+);
+
+CREATE TABLE IF NOT EXISTS "Students" (
+	"student_id"	INTEGER,
+	"Name"	TEXT,
+	"DNI"	TEXT,
+	"Age"	INTEGER,
+	"Phone_Number"	TEXT,
+	"ImagePath"	TEXT,
+	PRIMARY KEY("student_id" AUTOINCREMENT)
+);
+`
+
+	_, err = db.Exec(Query)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	_, err = file.Write(SqlTemplate)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	currentUser, _ := user.Current()
+	return err
+
+	/*currentUser, _ := user.Current()
 
 	atoi := func(s string) int {
 		res, _ := strconv.Atoi(s)
 		return res
 	}
 	err = os.Chown(Config.DatabaseFile, atoi(currentUser.Uid), atoi(currentUser.Gid))
-	return err
+	if err != nil {
+		log.Println(err)
+	}
+	_, err = file.Write(SqlTemplate)
+	if err != nil {
+		log.Println(err)
+	}
+	return err*/
 }
 
 func GetConfData() ConfigStr {

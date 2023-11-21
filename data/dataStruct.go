@@ -39,6 +39,7 @@ func (d *DbStr) Update() error {
 }
 
 func InitDB() DbStr {
+	CheckFiles()
 	Config = GetConfData()
 	db := DbStr{}
 	err := db.LoadGrade()
