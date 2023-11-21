@@ -11,3 +11,4 @@ config.yml
 __pycache__
 *.yml
 EduTrack
+database.db
