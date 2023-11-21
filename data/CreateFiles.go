@@ -9,6 +9,7 @@ package data
 import (
 	"database/sql"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"os/user"
@@ -27,28 +28,33 @@ type ConfigStr struct {
 	Lang         string // TODO: Add multilanguage support
 }
 
-//goasd:embed database.db
-//var SqlTemplate []byte
+func CopyFile(src, dst string) (int64, error) {
+	sourceFileStat, err := os.Stat(src)
+	if err != nil {
+		return 0, err
+	}
+
+	if !sourceFileStat.Mode().IsRegular() {
+		return 0, fmt.Errorf("%s is not a regular file", src)
+	}
+
+	source, err := os.Open(src)
+	if err != nil {
+		return 0, err
+	}
+	defer source.Close()
+
+	destination, err := os.Create(dst)
+	if err != nil {
+		return 0, err
+	}
+	defer destination.Close()
+	nBytes, err := io.Copy(destination, source)
+	return nBytes, err
+}
 
 func CreateDatabase() error {
-	/*
-		file, err := os.Create(Config.DatabaseFile)
-		if err != nil {
-			log.Println(err)
-			return err
-		}
-		defer file.Close()
-		if err != nil {
-			log.Println(err)
-			return err
-		}
-		defer file.Close()
-		_, err = file.Write(SqlTemplate)
-		if err != nil {
-			log.Println(err)
-			return err
-		}*/
-	db, err := sql.Open("sqlite", Config.DatabaseFile)
+	db, err := sql.Open("sqlite", "database.db")
 	if err != nil {
 		log.Println(err)
 		return err
@@ -97,23 +103,12 @@ CREATE TABLE IF NOT EXISTS "Students" (
 		log.Println(err)
 		return err
 	}
+
+	_, err = CopyFile("database.db", Config.DatabaseFile)
+	if err != nil {
+		log.Println(err)
+	}
 	return err
-
-	/*currentUser, _ := user.Current()
-
-	atoi := func(s string) int {
-		res, _ := strconv.Atoi(s)
-		return res
-	}
-	err = os.Chown(Config.DatabaseFile, atoi(currentUser.Uid), atoi(currentUser.Gid))
-	if err != nil {
-		log.Println(err)
-	}
-	_, err = file.Write(SqlTemplate)
-	if err != nil {
-		log.Println(err)
-	}
-	return err*/
 }
 
 func GetConfData() ConfigStr {

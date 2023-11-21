@@ -13,7 +13,7 @@ import (
 	"github.com/ncruces/zenity"
 )
 
-var Db = InitDB()
+var Db DbStr
 
 func NotifyError(text string, err error) {
 	zenity.Notify(text + "::" + err.Error())
@@ -45,4 +45,5 @@ func CheckFiles() {
 func LoadFiles() {
 	Config = GetConfData()
 	CheckFiles()
+	Db = InitDB()
 }
