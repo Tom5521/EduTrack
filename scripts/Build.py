@@ -11,16 +11,20 @@ import sys
 
 OS = platform.system()
 
+
+def SetEnvForWin():
+    os.environ["GGO_ENABLED"] = "1"
+    os.environ["CC"] = "/usr/bin/x86_64-w64-mingw32-gcc"
+    os.environ["CXX"] = "/usr/bin/x86_64-w64-mingw32-c++"
+    os.environ["GOOS"] = "windows"
+
 def BuildForWindows():
     if not os.path.exists("builds"):
         os.mkdir("builds")
 
     # Check the platform (Windows or not).
     if OS != "Windows":
-        os.environ["GGO_ENABLED"] = "1"
-        os.environ["CC"] = "/usr/bin/x86_64-w64-mingw32-gcc"
-        os.environ["CXX"] = "/usr/bin/x86_64-w64-mingw32-c++"
-        os.environ["GOOS"] = "windows"
+        SetEnvForWin()
 
     # Package the application for Windows using fyne package.
     os.system("fyne package --os windows --exe builds/EduTrack.exe --release")
