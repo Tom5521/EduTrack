@@ -8,6 +8,7 @@ package graph
 
 import (
 	"EduTrack/data"
+	"EduTrack/ui/sizes"
 	"EduTrack/ui/wintools"
 
 	"fyne.io/fyne/v2"
@@ -42,7 +43,7 @@ func MainWindow() {
 	})
 	AddGradeButton := widget.NewButton("Show grades", func() {
 		window := app.NewWindow("Grades")
-
+		window.Resize(sizes.ListSize)
 		content := container.NewStack(GradesList)
 
 		window.SetContent(content)

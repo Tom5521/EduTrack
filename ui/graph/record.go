@@ -89,7 +89,7 @@ func ShowRecords(student *data.Student) {
 	UpdateRecordsList(student)
 	var content *fyne.Container
 	window := app.NewWindow(student.Name + " records")
-	window.Resize(sizes.RecsListSize)
+	window.Resize(sizes.ListSize)
 	if len(student.Records) == 0 {
 		noRegistersLabel := widget.NewLabel("No records found")
 		noRegistersLabel.Alignment = fyne.TextAlignCenter

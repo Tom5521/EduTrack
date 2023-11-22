@@ -7,6 +7,7 @@
 package graph
 
 import (
+	"EduTrack/data"
 	"EduTrack/iconloader"
 	"EduTrack/ui/sizes"
 	"strconv"
@@ -38,13 +39,13 @@ func TemplateUser() *fyne.Container {
 	iconloader.SetThemeIcons(app.Settings().ThemeVariant())
 	image := canvas.NewImageFromResource(iconloader.UserTemplateICON)
 	image.SetMinSize(sizes.ProfileSize)
-	dataLabel := widget.NewLabel(
-		"Name: " + "--" + "\n" +
-			"Age: " + "--" + "\n" +
-			"ID: " + "--" + "\n" +
-			"Phone number: " + "--",
+	dataForm := widget.NewForm(
+		widget.NewFormItem("Name:", widget.NewLabel("--")),
+		widget.NewFormItem("Age:", widget.NewLabel("--")),
+		widget.NewFormItem("DNI:", widget.NewLabel("--")),
+		widget.NewFormItem("Phone number:", widget.NewLabel("--")),
 	)
-	content := container.NewVBox(image, dataLabel)
+	content := container.NewVBox(image, dataForm)
 	return content
 }
 
@@ -53,18 +54,13 @@ func Menu() *fyne.MainMenu {
 	// Create the main menu
 	menu := fyne.NewMainMenu(
 		fyne.NewMenu("File",
-			fyne.NewMenuItem("Load a config file", func() {
-				//data.LoadConf(wins.FilePicker(app))
-			}),
 			fyne.NewMenuItem("Add Student", func() {
 				AddStudentForm()
 			}),
-			fyne.NewMenuItem("Re-Save Changes", func() {
-				//data.SaveStudentsData()
-			})),
+		),
 		fyne.NewMenu("Edit",
 			fyne.NewMenuItem("Reload data", func() {
-				//data.GetStundentData()
+				data.Db.Update()
 			}),
 		),
 		fyne.NewMenu("Help",

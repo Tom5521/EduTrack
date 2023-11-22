@@ -23,5 +23,5 @@ var (
 	ScreenWidth, ScreenHeight = resolution.GetResolution()              // Screen resolution in pixels.
 	FyneScreenSize            = fyne.NewSize(ScreenWidth, ScreenHeight) // Size of the Fyne application window.
 	RecInfoSize               = fyne.NewSize(200, 100)
-	RecsListSize              = fyne.NewSize(400, 200)
+	ListSize                  = fyne.NewSize(400, 200)
 )

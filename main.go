@@ -11,10 +11,9 @@ import (
 	"EduTrack/ui/graph"
 )
 
-// The main function is the entry point for the application.
 func main() {
 	// Load the configuration and data files
 	data.LoadFiles()
-	// Open the main application window provided by the "MGraph" package.
+	// Init windows
 	graph.MainWindow()
 }

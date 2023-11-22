@@ -29,7 +29,11 @@ func (d *DbStr) Update() error {
 		return err
 	}
 	for _, student := range d.Students {
-		err := student.LoadRecords()
+		err := student.LoadGrades()
+		if err != nil {
+			log.Println(err)
+		}
+		err = student.LoadRecords()
 		if err != nil {
 			log.Println(err)
 			return err
