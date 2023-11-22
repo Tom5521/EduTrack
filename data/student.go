@@ -40,7 +40,7 @@ func (s Student) Delete() error {
 	return err
 }
 
-func (d *DbStr) EditStudent(id int, EdStudent Student) error {
+func (s Student) Edit(EdStudent Student) error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
@@ -57,13 +57,23 @@ func (d *DbStr) EditStudent(id int, EdStudent Student) error {
 		EdStudent.DNI,
 		EdStudent.PhoneNumber,
 		EdStudent.ImageFilePath,
-		id,
+		s.ID,
 	)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	err = d.LoadStudents()
+	err = Db.LoadStudents()
+	if err != nil {
+		log.Println(err)
+	}
+	return err
+}
+
+func (d *DbStr) EditStudent(id int, EdStudent Student) error {
+	i := d.FindStudentIndexByID(id)
+	student := d.Students[i]
+	err := student.Edit(EdStudent)
 	if err != nil {
 		log.Println(err)
 	}

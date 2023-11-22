@@ -1,66 +1,30 @@
+/*
+ * Copyright (c) 2023 Tom5521- All Rights Reserved.
+ *
+ * This project is licensed under the MIT License.
+ */
+
 package data
 
 import (
-	"errors"
+	"fmt"
 	"log"
 )
 
-func Delete(i Deleter) {
-	i.Delete()
-}
-
-type Deleter interface {
-	Delete() error
-}
-
-func (g Grade) Delete() error {
-	err := Db.DeleteFrom("grades", "grade_id", g.ID)
-	err = Db.LoadGrade()
-	if err != nil {
-		log.Println(err)
-	}
-	return nil
-}
-
-func (s *Student) DeleteRecord(id int) error {
-	i := s.FindRecordIndexByID(id)
-	err := s.Records[i].Delete()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	err = s.LoadRecords()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	return nil
-}
-
-func (r Record) Delete() error {
+func (d *DbStr) DeleteFrom(table, column string, id int) error {
 	db, err := GetNewDb()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query string = `
-		delete from records where record_id = ?
+	const DeleteQuery string = `
+		delete from %v where %v = %v
 	`
-	_, err = db.Exec(Query, r.ID)
+	_, err = db.Exec(fmt.Sprintf(DeleteQuery, table, column, id))
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	id := Db.FindStudentIndexByID(r.StudentId)
-	if id == -1 {
-		return errors.New("Can't find student ID")
-	}
-	err = Db.Students[id].LoadRecords()
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-
 	return nil
 }

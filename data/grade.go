@@ -51,6 +51,43 @@ func (d *DbStr) AddGrade(NGrade Grade) (LastInsertId int, err error) {
 	return int(lastIns), err
 }
 
+func (d *DbStr) EditGrade(id int, EdGrade Grade) error {
+	db, err := GetNewDb()
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	defer db.Close()
+	const Query string = `
+		update grades set Name = ?,info = ?,price = ? 
+		where grade_id = ?
+	`
+	_, err = db.Exec(Query,
+		EdGrade.Name,
+		EdGrade.Info,
+		EdGrade.Price,
+		id,
+	)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	err = d.LoadGrade()
+	if err != nil {
+		log.Println(err)
+	}
+	return nil
+}
+
+func (g Grade) Delete() error {
+	err := Db.DeleteFrom("grades", "grade_id", g.ID)
+	err = Db.LoadGrade()
+	if err != nil {
+		log.Println(err)
+	}
+	return nil
+}
+
 func (d DbStr) FindGradeByName(name string) Grade {
 	for _, grade := range d.Grades {
 		if grade.Name == name {

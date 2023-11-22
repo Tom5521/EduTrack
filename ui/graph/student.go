@@ -81,60 +81,75 @@ func LoadStudentInfo(student *data.Student) {
 
 // EditFormWindow opens a window to edit a student's information.
 func EditFormWindow(student *data.Student) {
-	return
-	/*
-		window := app.NewWindow("Edit " + student.Name)
-		window.Resize(sizes.FormSize)
+	window := app.NewWindow("Edit " + student.Name)
+	window.Resize(sizes.FormSize)
 
-		// Initialize form fields
-		var imagePath string = student.ImageFilePath
-		nameEntry := widget.NewEntry()
-		nameEntry.SetText(student.Name)
-		ageEntry := widget.NewEntry()
-		ageEntry.SetText(fmt.Sprintf("%v", student.Age))
-		idEntry := widget.NewEntry()
-		idEntry.SetText(student.ID)
-		phoneEntry := widget.NewEntry()
-		phoneEntry.SetText(student.Phone_number)
+	// Initialize form fields
+	var imagePath string = student.ImageFilePath
+	nameEntry := widget.NewEntry()
+	nameEntry.SetText(student.Name)
+	ageEntry := widget.NewEntry()
+	ageEntry.SetText(fmt.Sprintf("%v", student.Age))
+	DNIEntry := widget.NewEntry()
+	DNIEntry.SetText(student.DNI)
+	phoneEntry := widget.NewEntry()
+	phoneEntry.SetText(student.PhoneNumber)
 
-		saveEdited := func() {
-			// Validate form fields
-			if !checkValues(formReturn{NameEntry: nameEntry, AgeEntry: ageEntry, IDEntry: idEntry, PhoneEntry: phoneEntry}) {
-				wins.ErrWin(app, "Some value in the form is empty")
+	imageLabel := widget.NewLabel(imagePath)
+
+	NameForm := widget.NewFormItem("Name:", nameEntry)
+	AgeForm := widget.NewFormItem("Age:", ageEntry)
+	DniForm := widget.NewFormItem("DNI:", DNIEntry)
+
+	PhoneForm := widget.NewFormItem("Phone:", phoneEntry)
+
+	DeleteImgButton := widget.NewButton("Delete selected image", func() {
+		imagePath = ""
+		imageLabel.SetText(imagePath)
+	})
+	SelectImgButton := widget.NewButton("Select student image", func() {
+		wins.ImagePicker(app, &imagePath)
+		imageLabel.SetText(imagePath)
+	})
+
+	ImgCont := container.NewAdaptiveGrid(2, DeleteImgButton, SelectImgButton)
+	ImgForm := widget.NewFormItem("", ImgCont)
+	ImgInfoForm := widget.NewFormItem("Image path:", imageLabel)
+
+	Form := widget.NewForm(
+		NameForm,
+		AgeForm,
+		DniForm,
+		PhoneForm,
+		ImgForm,
+		ImgInfoForm,
+	)
+	Form.OnSubmit = func() {
+		// Validate form fields
+		if !checkValues(data.Student{Age: atoi(ageEntry.Text), DNI: DNIEntry.Text, PhoneNumber: phoneEntry.Text, Name: nameEntry.Text}) {
+			wins.ErrWin(app, "Some value in the form is empty")
+			return
+		}
+		if DNIEntry.Text != student.DNI {
+			if existsId(DNIEntry.Text, Db.GetStudentDNIs()) {
+				wins.ErrWin(app, "The DNI already exists")
 				return
 			}
-
-			if existsId(idEntry.Text, data.GetStudentIDs()) && idEntry.Text != student.ID {
-				wins.ErrWin(app, "The ID already exists")
-				return
-			}
-
-			// Update student information
-			student.Age = atoi(ageEntry.Text)
-			student.Name = nameEntry.Text
-			student.Phone_number = phoneEntry.Text
-			student.ID = idEntry.Text
-			student.ImageFilePath = imagePath
-			data.SaveStudentsData()
-			data.GetStundentData()
-			StundentList.Refresh()
-			LoadStudentInfo(student)
-			window.Close()
 		}
+		student.Edit(data.Student{
+			Name:          nameEntry.Text,
+			Age:           atoi(ageEntry.Text),
+			DNI:           DNIEntry.Text,
+			PhoneNumber:   phoneEntry.Text,
+			ImageFilePath: imagePath,
+		})
+		StundentList.Refresh()
+		LoadStudentInfo(&Db.Students[Db.FindStudentIndexByID(student.ID)])
+		window.Close()
+	}
 
-		retForm := formReturn{
-			NameEntry:  nameEntry,
-			AgeEntry:   ageEntry,
-			IDEntry:    idEntry,
-			PhoneEntry: phoneEntry,
-			ExecFunc:   saveEdited,
-			ImagePath:  &imagePath,
-		}
-
-		content := GetForm(&retForm)
-
-		window.SetContent(content)
-		window.Show()*/
+	window.SetContent(Form)
+	window.Show()
 }
 
 // DeleteForm opens a confirmation window to delete a student.
@@ -210,7 +225,7 @@ func AddStudentForm() {
 	)
 	Form.OnSubmit = func() {
 		// Validate form fields
-		if !checkValues(ageEntry.Text, DniEntry.Text, phoneEntry.Text, nameEntry.Text) {
+		if !checkValues(data.Student{Age: atoi(ageEntry.Text), DNI: DniEntry.Text, PhoneNumber: phoneEntry.Text, Name: nameEntry.Text}) {
 			wins.ErrWin(app, "Some value in the form is empty")
 			return
 		}

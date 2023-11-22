@@ -7,6 +7,7 @@
 package graph
 
 import (
+	"EduTrack/data"
 	"EduTrack/iconloader"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
@@ -58,17 +59,17 @@ func existsId(check string, list []string) bool {
 }
 
 // checkValues checks if all required form fields are not empty.
-func checkValues(Age, ID, Phone, Name string) bool {
-	if Age == "" {
+func checkValues(s data.Student) bool {
+	if s.Age == 0 {
 		return false
 	}
-	if ID == "" {
+	if s.DNI == "" {
 		return false
 	}
-	if Phone == "" {
+	if s.PhoneNumber == "" {
 		return false
 	}
-	if Name == "" {
+	if s.Name == "" {
 		return false
 	}
 	return true
