@@ -8,8 +8,6 @@ package data
 
 import (
 	"log"
-
-	_ "github.com/glebarez/go-sqlite"
 )
 
 type Grade struct {
