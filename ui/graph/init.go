@@ -23,17 +23,17 @@ import (
 var (
 	app        fyne.App        = fyne_app.New()
 	StudentTab *fyne.Container = TemplateUser()
-	Db                         = &data.Db
+	DB                         = &data.Db
 )
 
 // MainWindow is the main entry point of the application.
 func MainWindow() {
 	app.Settings().SetTheme(xtheme.AdwaitaTheme())
-	MainWin := app.NewWindow("EduTrack")
-	//MainWin.SetFullScreen(true)
-	MainWin.SetMaster()
-	MainWin.SetMainMenu(Menu())
-	wintools.MaximizeWin(MainWin)
+	mainWin := app.NewWindow("EduTrack")
+	// MainWin.SetFullScreen(true)
+	mainWin.SetMaster()
+	mainWin.SetMainMenu(Menu())
+	wintools.MaximizeWin(mainWin)
 
 	searchButton := widget.NewButton("Search", func() {
 		Search()
@@ -41,7 +41,7 @@ func MainWindow() {
 	addButton := widget.NewButton("Add a student", func() {
 		AddStudentForm()
 	})
-	AddGradeButton := widget.NewButton("Show grades", func() {
+	addGradeButton := widget.NewButton("Show grades", func() {
 		window := app.NewWindow("Grades")
 		window.Resize(sizes.ListSize)
 		content := container.NewStack(GradesList)
@@ -53,11 +53,12 @@ func MainWindow() {
 		AddGrade()
 	})
 
-	list := CreateStudentList(&Db.Students)
-	buttonsGrid := container.NewAdaptiveGrid(2, searchButton, addButton, AddGradeButton, testButton)
+	list := CreateStudentList(&DB.Students)
+	const gridNumber int = 2
+	buttonsGrid := container.NewAdaptiveGrid(gridNumber, searchButton, addButton, addGradeButton, testButton)
 	vbox := container.NewVBox(buttonsGrid, widget.NewSeparator(), StudentTab)
 	mainbox := container.NewHSplit(vbox, list)
 	mainbox.SetOffset(0)
-	MainWin.SetContent(mainbox)
-	MainWin.ShowAndRun()
+	mainWin.SetContent(mainbox)
+	mainWin.ShowAndRun()
 }

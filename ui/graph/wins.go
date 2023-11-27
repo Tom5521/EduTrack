@@ -26,14 +26,14 @@ func Search() {
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton("Search", func() {
 		studentDNI := entry.Text
-		i := Db.FindStudentIndexByDNI(studentDNI)
-		student := Db.Students[i]
-		if &student != nil {
-			LoadStudentInfo(&student)
-			w.Close()
-		} else {
+		i := DB.FindStudentIndexByDNI(studentDNI)
+		if i == -1 {
 			wins.ErrWin(app, "Student not found!")
+			return
 		}
+		student := DB.Students[i]
+		LoadStudentInfo(&student)
+		w.Close()
 	})
 
 	content := container.NewVBox(
@@ -46,8 +46,8 @@ func Search() {
 	w.Show()
 }
 
-// existsId checks if a given string exists in a list of strings.
-func existsId(check string, list []string) bool {
+// existsID checks if a given string exists in a list of strings.
+func existsID(check string, list []string) bool {
 	var contains bool
 	for _, v := range list {
 		if v == check {
@@ -81,13 +81,14 @@ func AboutWin() {
 	label1 := widget.NewLabel("Created by:")
 	link, _ := url.Parse("https://github.com/Tom5521")
 	gitLabel := widget.NewHyperlink("Tom5521", link)
-	LicenceLabel := widget.NewLabel("Under the MIT license")
-	AuthorCont := container.NewHBox(label1, gitLabel)
+	licenceLabel := widget.NewLabel("Under the MIT license")
+	authorCont := container.NewHBox(label1, gitLabel)
 	logo := canvas.NewImageFromResource(iconloader.AppICON)
-	logo.SetMinSize(fyne.NewSize(300, 300))
+	const w, h float32 = 300, 300
+	logo.SetMinSize(fyne.NewSize(w, h))
 	vbox1 := container.NewVBox(
-		AuthorCont,
-		LicenceLabel,
+		authorCont,
+		licenceLabel,
 		logo,
 	)
 	window.SetContent(vbox1)

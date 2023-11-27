@@ -27,10 +27,9 @@ func UpdateRecordsList(student *data.Student) {
 // AddRecord opens a window to add a register for a student.
 func AddRecord(student *data.Student) {
 	getTimeNow := func() string {
-		time := time.Now().Format("02/01/2006 12:14")
-		return time
+		return time.Now().Format("02/01/2006 12:14")
 	}
-	var tmpDate string = getTimeNow()
+	var tmpDate = getTimeNow()
 
 	window := app.NewWindow("Add a record")
 	window.Resize(sizes.RecSize)
@@ -40,14 +39,15 @@ func AddRecord(student *data.Student) {
 	recnameEntry.SetPlaceHolder(getTimeNow())
 
 	recDateButton := widget.NewButton("Select Date", func() {
+		const year int = 2023
 		ret, err := zenity.Calendar("Select a date from below:",
-			zenity.DefaultDate(2023, time.December, 1))
+			zenity.DefaultDate(year, time.December, 1))
 		if err != nil {
 			wins.ErrWin(app, err.Error())
 		}
 		tmpDate = ret.Format("02/01/2006")
 	})
-	DetailsLabel := widget.NewLabel("Details")
+	detailsLabel := widget.NewLabel("Details")
 	recDetails := widget.NewMultiLineEntry()
 	recDetails.SetPlaceHolder("E.g., The student has not attended")
 
@@ -60,20 +60,27 @@ func AddRecord(student *data.Student) {
 		}*/
 
 	submitButton := widget.NewButton("Submit", func() {
-		student.AddRecord(data.Record{
+		_, err := student.AddRecord(data.Record{
 			Date: tmpDate,
 			Name: recnameEntry.Text,
 			Info: recDetails.Text,
 		})
-		student.LoadRecords()
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
+		err = student.LoadRecords()
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
 		UpdateRecordsList(student)
 		window.Close()
 	})
 
-	endBox := container.NewAdaptiveGrid(2, recDateButton, submitButton)
+	const gridNumber int = 2
+	endBox := container.NewAdaptiveGrid(gridNumber, recDateButton, submitButton)
 
 	vbox := container.NewVBox(
-		DetailsLabel,
+		detailsLabel,
 		recNameLabel,
 		recnameEntry,
 		endBox,
@@ -85,7 +92,10 @@ func AddRecord(student *data.Student) {
 }
 
 func ShowRecords(student *data.Student) {
-	student.LoadRecords()
+	err := student.LoadRecords()
+	if err != nil {
+		wins.ErrWin(app, err.Error())
+	}
 	UpdateRecordsList(student)
 	var content *fyne.Container
 	window := app.NewWindow(student.Name + " records")
@@ -93,11 +103,11 @@ func ShowRecords(student *data.Student) {
 	if len(student.Records) == 0 {
 		noRegistersLabel := widget.NewLabel("No records found")
 		noRegistersLabel.Alignment = fyne.TextAlignCenter
-		AddRegisterButton := widget.NewButton("Add record", func() {
+		addRegisterButton := widget.NewButton("Add record", func() {
 			AddRecord(student)
 			window.Close()
 		})
-		content = container.NewVBox(noRegistersLabel, AddRegisterButton)
+		content = container.NewVBox(noRegistersLabel, addRegisterButton)
 	} else {
 		GetRecordsList(student)
 		content = container.NewStack(GetRecordsList(student))
@@ -112,13 +122,14 @@ func EditRecordsData(student *data.Student, index int) {
 	window.Resize(sizes.RecSize)
 	rec := &student.Records[index]
 
-	RecNameEntry := widget.NewEntry()
-	RecNameEntry.SetText(rec.Name)
+	recNameEntry := widget.NewEntry()
+	recNameEntry.SetText(rec.Name)
 
 	recDate := widget.NewLabel("Date: " + rec.Date)
-	DateButton := widget.NewButton("Select Date", func() {
+	dateButton := widget.NewButton("Select Date", func() {
+		const year, day int = 2023, 1
 		ret, err := zenity.Calendar("Select a date from below:",
-			zenity.DefaultDate(2023, time.December, 1))
+			zenity.DefaultDate(year, time.December, day))
 		if err != nil {
 			wins.ErrWin(app, err.Error())
 		}
@@ -126,30 +137,38 @@ func EditRecordsData(student *data.Student, index int) {
 		recDate.SetText(tmpDate)
 	})
 
-	DetailsLabel := widget.NewLabel("Details")
+	detailsLabel := widget.NewLabel("Details")
 	recDetails := widget.NewMultiLineEntry()
 	recDetails.SetText(rec.Info)
 
 	// FormItems
-	RecNameForm := widget.NewFormItem("Record name:", RecNameEntry)
-	RecDateForm := widget.NewFormItem("Record date:", container.NewAdaptiveGrid(2, recDate, DateButton))
+	const gridNumber int = 2
+	recNameForm := widget.NewFormItem("Record name:", recNameEntry)
+	recDateForm := widget.NewFormItem("Record date:", container.NewAdaptiveGrid(gridNumber, recDate, dateButton))
 
 	submitFunc := func() {
-		rec.Edit(data.Record{Name: RecNameEntry.Text, Info: recDetails.Text, Date: tmpDate, StudentId: student.ID})
-		student.LoadRecords()
+		err := rec.Edit(data.Record{Name: recNameEntry.Text, Info: recDetails.Text, Date: tmpDate, StudentId: student.ID})
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
+
+		err = student.LoadRecords()
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
 		UpdateRecordsList(student)
 		window.Close()
 	}
 
-	Form := widget.NewForm(
-		RecNameForm,
-		RecDateForm,
+	form := widget.NewForm(
+		recNameForm,
+		recDateForm,
 	)
-	Form.OnSubmit = submitFunc
+	form.OnSubmit = submitFunc
 
 	vbox := container.NewVBox(
-		DetailsLabel,
-		Form,
+		detailsLabel,
+		form,
 	)
 
 	box := container.NewVSplit(recDetails, vbox)

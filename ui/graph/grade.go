@@ -10,6 +10,7 @@ import (
 	"EduTrack/data"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
+	"fmt"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -62,14 +63,13 @@ func GetGradesList(grades []data.Grade) *widget.List {
 func EditGrade() {}
 
 func GradeDetailsWin(g *data.Grade) {
-
+	fmt.Println(g)
 }
 
-func StudentGradeDetailsWin(Sg *data.StudentGrade) {
-
+func StudentGradeDetailsWin(sg *data.StudentGrade) {
 	getGrade := func() *data.Grade {
-		i := Db.FindGradeIndexByID(Sg.GradeID)
-		return &Db.Grades[i]
+		i := DB.FindGradeIndexByID(sg.GradeID)
+		return &DB.Grades[i]
 	}
 	g := getGrade()
 
@@ -77,8 +77,8 @@ func StudentGradeDetailsWin(Sg *data.StudentGrade) {
 
 	gradeNameLabel := widget.NewLabel(g.Name)
 	gradePricePMLabel := widget.NewLabel(g.Price)
-	gradeStartLabel := widget.NewLabel(Sg.Start)
-	gradeEndLabel := widget.NewLabel(Sg.End)
+	gradeStartLabel := widget.NewLabel(sg.Start)
+	gradeEndLabel := widget.NewLabel(sg.End)
 	gradeInfoLabel := widget.NewMultiLineEntry()
 	gradeInfoLabel.SetText(g.Info)
 	gradeInfoLabel.Disable()
@@ -86,24 +86,30 @@ func StudentGradeDetailsWin(Sg *data.StudentGrade) {
 	editGradeButton := widget.NewButton("Edit Grade", func() {})
 	editStudentButton := widget.NewButton("Edit Student", func() {})
 
-	NameForm := widget.NewFormItem("Name:", gradeNameLabel)
-	PriceForm := widget.NewFormItem("Price:", gradePricePMLabel)
-	StartForm := widget.NewFormItem("Start:", gradeStartLabel)
-	EndForm := widget.NewFormItem("End:", gradeEndLabel)
-	InfoForm := widget.NewFormItem("Info:", gradeInfoLabel)
-	EditForm := widget.NewFormItem("", container.NewAdaptiveGrid(2, editGradeButton, editStudentButton))
-
-	Form := widget.NewForm(
-		NameForm,
-		PriceForm,
-		StartForm,
-		EditForm,
-		EndForm,
-		InfoForm,
-		EditForm,
+	nameForm := widget.NewFormItem("Name:", gradeNameLabel)
+	priceForm := widget.NewFormItem("Price:", gradePricePMLabel)
+	startForm := widget.NewFormItem("Start:", gradeStartLabel)
+	endForm := widget.NewFormItem("End:", gradeEndLabel)
+	infoForm := widget.NewFormItem("Info:", gradeInfoLabel)
+	const gridNumber int = 2
+	editForm := widget.NewFormItem("",
+		container.NewAdaptiveGrid(gridNumber,
+			editGradeButton,
+			editStudentButton,
+		),
 	)
 
-	window.SetContent(Form)
+	form := widget.NewForm(
+		nameForm,
+		priceForm,
+		startForm,
+		editForm,
+		endForm,
+		infoForm,
+		editForm,
+	)
+
+	window.SetContent(form)
 	window.Show()
 }
 
@@ -112,11 +118,11 @@ func AddGrade() {
 	window.Resize(sizes.FormSize)
 	gradeEntry := widget.NewEntry()
 	priceEntry := widget.NewEntry()
-	InfoEntry := widget.NewMultiLineEntry()
+	infoEntry := widget.NewMultiLineEntry()
 
 	gradeFormInput := widget.NewFormItem("Grade name:", gradeEntry)
 	priceFormInput := widget.NewFormItem("Price per moth:", priceEntry)
-	infoFormInput := widget.NewFormItem("Grade Info:", InfoEntry)
+	infoFormInput := widget.NewFormItem("Grade Info:", infoEntry)
 
 	form := widget.NewForm(
 		gradeFormInput,
@@ -132,16 +138,19 @@ func AddGrade() {
 			wins.ErrWin(app, "Info entry is empty")
 			return
 		}
-		if strings.Contains(strings.Join(Db.GetGradesNames(), " "), gradeEntry.Text) {
+		if strings.Contains(strings.Join(DB.GetGradesNames(), " "), gradeEntry.Text) {
 			wins.ErrWin(app, "This grade already exists!")
 			return
 		}
 
-		Db.AddGrade(data.Grade{
+		_, err := DB.AddGrade(data.Grade{
 			Name:  gradeEntry.Text,
-			Info:  InfoEntry.Text,
+			Info:  infoEntry.Text,
 			Price: priceEntry.Text,
 		})
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
 		window.Close()
 	}
 	content := container.NewVBox(form)

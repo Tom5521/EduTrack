@@ -12,6 +12,7 @@ import (
 	"EduTrack/ui/sizes"
 	"EduTrack/ui/wintools"
 	"fmt"
+	"strconv"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -21,38 +22,38 @@ import (
 
 // LoadStudentInfo loads information for a specific student.
 func LoadStudentInfo(student *data.Student) {
-	var Nlb = widget.NewLabel
-	var Nhbx = container.NewHBox
+	var nlb = widget.NewLabel
+	var nhbx = container.NewHBox
 
 	image := wintools.LoadProfileImg(student.ImageFilePath)
 
 	// Name Label
-	NameLabel := Nlb("Name: ")
-	NameLabel.TextStyle.Bold = true
-	NameCont := Nhbx(NameLabel, Nlb(student.Name))
+	nameLabel := nlb("Name: ")
+	nameLabel.TextStyle.Bold = true
+	nameCont := nhbx(nameLabel, nlb(student.Name))
 	// Age Label
-	AgeLabel := Nlb("Age: ")
-	AgeLabel.TextStyle.Bold = true
-	AgeCont := Nhbx(AgeLabel, Nlb(fmt.Sprintf("%v", student.Age)))
+	ageLabel := nlb("Age: ")
+	ageLabel.TextStyle.Bold = true
+	ageCont := nhbx(ageLabel, nlb(strconv.Itoa(student.Age)))
 	// ID Label
-	IDLabel := Nlb("DNI: ")
-	IDLabel.TextStyle.Bold = true
-	IDCont := Nhbx(IDLabel, Nlb(student.DNI))
+	idLabel := nlb("DNI: ")
+	idLabel.TextStyle.Bold = true
+	idCont := nhbx(idLabel, nlb(student.DNI))
 	// Phone Label
-	PhoneLabel := Nlb("Phone Number: ")
-	PhoneLabel.TextStyle.Bold = true
-	PhoneCont := Nhbx(PhoneLabel, Nlb(student.PhoneNumber))
+	phoneLabel := nlb("Phone Number: ")
+	phoneLabel.TextStyle.Bold = true
+	phoneCont := nhbx(phoneLabel, nlb(student.PhoneNumber))
 
-	GradesLabel := Nlb("Grades:")
-	GradesLabel.TextStyle.Bold = true
+	gradesLabel := nlb("Grades:")
+	gradesLabel.TextStyle.Bold = true
 	getGrades := func() string {
 		d := student.GetGradeNames()
 		p := strings.Join(d, ",")
 		return p
 	}
-	GradesCont := Nhbx(GradesLabel, Nlb(getGrades()))
+	gradesCont := nhbx(gradesLabel, nlb(getGrades()))
 
-	dataContainer := container.NewVBox(NameCont, AgeCont, IDCont, PhoneCont, GradesCont)
+	dataContainer := container.NewVBox(nameCont, ageCont, idCont, phoneCont, gradesCont)
 	editButton := widget.NewButton("Edit", func() {
 		EditFormWindow(student)
 	})
@@ -60,20 +61,21 @@ func LoadStudentInfo(student *data.Student) {
 	deleteButton := widget.NewButton("Delete", func() {
 		DeleteForm(student)
 	})
-	RecordButton := widget.NewButton("Add a record", func() {
+	recordButton := widget.NewButton("Add a record", func() {
 		AddRecord(student)
 	})
-	ShowRecordsBt := widget.NewButton("Show records", func() {
+	showRecordsBt := widget.NewButton("Show records", func() {
 		ShowRecords(student)
 	})
 
+	const gridNumber int = 2
 	content := container.NewVBox(image,
 		dataContainer,
-		container.NewAdaptiveGrid(2,
+		container.NewAdaptiveGrid(gridNumber,
 			editButton,
 			deleteButton,
-			RecordButton,
-			ShowRecordsBt,
+			recordButton,
+			showRecordsBt,
 		),
 	)
 	StudentTab.Objects = []fyne.CanvasObject{content}
@@ -85,81 +87,94 @@ func EditFormWindow(student *data.Student) {
 	window.Resize(sizes.FormSize)
 
 	// Initialize form fields
-	var imagePath string = student.ImageFilePath
+	var imagePath = student.ImageFilePath
 	nameEntry := widget.NewEntry()
 	nameEntry.SetText(student.Name)
 	ageEntry := widget.NewEntry()
-	ageEntry.SetText(fmt.Sprintf("%v", student.Age))
-	DNIEntry := widget.NewEntry()
-	DNIEntry.SetText(student.DNI)
+	ageEntry.SetText(strconv.Itoa(student.Age))
+	dniEntry := widget.NewEntry()
+	dniEntry.SetText(student.DNI)
 	phoneEntry := widget.NewEntry()
 	phoneEntry.SetText(student.PhoneNumber)
 
 	imageLabel := widget.NewLabel(imagePath)
 
-	NameForm := widget.NewFormItem("Name:", nameEntry)
-	AgeForm := widget.NewFormItem("Age:", ageEntry)
-	DniForm := widget.NewFormItem("DNI:", DNIEntry)
+	nameForm := widget.NewFormItem("Name:", nameEntry)
+	ageForm := widget.NewFormItem("Age:", ageEntry)
+	dniForm := widget.NewFormItem("DNI:", dniEntry)
 
-	PhoneForm := widget.NewFormItem("Phone:", phoneEntry)
+	phoneForm := widget.NewFormItem("Phone:", phoneEntry)
 
-	DeleteImgButton := widget.NewButton("Delete selected image", func() {
+	deleteImgButton := widget.NewButton("Delete selected image", func() {
 		imagePath = ""
 		imageLabel.SetText(imagePath)
 	})
-	SelectImgButton := widget.NewButton("Select student image", func() {
+	selectImgButton := widget.NewButton("Select student image", func() {
 		wins.ImagePicker(app, &imagePath)
 		imageLabel.SetText(imagePath)
 	})
 
-	ImgCont := container.NewAdaptiveGrid(2, DeleteImgButton, SelectImgButton)
-	ImgForm := widget.NewFormItem("", ImgCont)
-	ImgInfoForm := widget.NewFormItem("Image path:", imageLabel)
+	const gridNumber int = 2
+	imgCont := container.NewAdaptiveGrid(gridNumber, deleteImgButton, selectImgButton)
+	imgForm := widget.NewFormItem("", imgCont)
+	imgInfoForm := widget.NewFormItem("Image path:", imageLabel)
 
-	Form := widget.NewForm(
-		NameForm,
-		AgeForm,
-		DniForm,
-		PhoneForm,
-		ImgForm,
-		ImgInfoForm,
+	form := widget.NewForm(
+		nameForm,
+		ageForm,
+		dniForm,
+		phoneForm,
+		imgForm,
+		imgInfoForm,
 	)
-	Form.OnSubmit = func() {
+	form.OnSubmit = func() {
 		// Validate form fields
-		if !checkValues(data.Student{Age: atoi(ageEntry.Text), DNI: DNIEntry.Text, PhoneNumber: phoneEntry.Text, Name: nameEntry.Text}) {
+		if !checkValues(data.Student{
+			Age:         atoi(ageEntry.Text),
+			DNI:         dniEntry.Text,
+			PhoneNumber: phoneEntry.Text,
+			Name:        nameEntry.Text,
+		}) {
 			wins.ErrWin(app, "Some value in the form is empty")
 			return
 		}
-		if DNIEntry.Text != student.DNI {
-			if existsId(DNIEntry.Text, Db.GetStudentDNIs()) {
+		if dniEntry.Text != student.DNI {
+			if existsID(dniEntry.Text, DB.GetStudentDNIs()) {
 				wins.ErrWin(app, "The DNI already exists")
 				return
 			}
 		}
-		student.Edit(data.Student{
+		err := student.Edit(data.Student{
 			Name:          nameEntry.Text,
 			Age:           atoi(ageEntry.Text),
-			DNI:           DNIEntry.Text,
+			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 		})
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
 		StundentList.Refresh()
-		LoadStudentInfo(&Db.Students[Db.FindStudentIndexByID(student.ID)])
+		LoadStudentInfo(&DB.Students[DB.FindStudentIndexByID(student.ID)])
 		window.Close()
 	}
 
-	window.SetContent(Form)
+	window.SetContent(form)
 	window.Show()
 }
 
 // DeleteForm opens a confirmation window to delete a student.
 func DeleteForm(student *data.Student) {
 	window := app.NewWindow("Delete Student")
+	const gridNumber int = 2
 	content := container.NewVBox(
 		widget.NewLabel("Are you sure you want to delete the student?"),
-		container.NewAdaptiveGrid(2,
+		container.NewAdaptiveGrid(gridNumber,
 			widget.NewButton("Yes", func() {
-				data.Delete(student)
+				err := data.Delete(student)
+				if err != nil {
+					wins.ErrWin(app, err.Error())
+				}
 				window.Close()
 			}),
 			widget.NewButton("No", func() {
@@ -173,14 +188,14 @@ func DeleteForm(student *data.Student) {
 // AddStudentForm opens a window to add a new student.
 func AddStudentForm() {
 	var imagePath string
-	var GradesStr []data.Grade
+	var gradesStr []data.Grade
 	window := app.NewWindow("Add a student")
 	window.Resize(sizes.FormSize)
 
 	// Initialize form fields
 	nameEntry := widget.NewEntry()
 	ageEntry := widget.NewEntry()
-	DniEntry := widget.NewEntry()
+	dniEntry := widget.NewEntry()
 	phoneEntry := widget.NewEntry()
 
 	imageButton := widget.NewButton("Select Image", func() {
@@ -192,7 +207,7 @@ func AddStudentForm() {
 
 	getStGrade := func() string {
 		var grades string
-		for _, g := range GradesStr {
+		for _, g := range gradesStr {
 			grades += g.Name + ","
 		}
 		return grades
@@ -200,42 +215,48 @@ func AddStudentForm() {
 
 	studentGradesLabel := widget.NewLabel("")
 	studentGradesLabel.SetText(getStGrade())
-	gradeSelect := widget.NewSelect(Db.GetGradesNames(), func(s string) {
-		GradesStr = append(GradesStr, Db.FindGradeByName(s))
+	gradeSelect := widget.NewSelect(DB.GetGradesNames(), func(s string) {
+		gradesStr = append(gradesStr, DB.FindGradeByName(s))
 
 		studentGradesLabel.SetText(getStGrade())
 	})
 
-	NameForm := widget.NewFormItem("Name:", nameEntry)
-	IDForm := widget.NewFormItem("DNI:", DniEntry)
-	AgeForm := widget.NewFormItem("Age:", ageEntry)
-	PhoneForm := widget.NewFormItem("Phone:", phoneEntry)
-	GradeForm := widget.NewFormItem("Select Grades:", gradeSelect)
-	GradesShowForm := widget.NewFormItem("Grades:", studentGradesLabel)
-	ImageForm := widget.NewFormItem("Image:", container.NewAdaptiveGrid(2, imageButton, deleteImgBtn))
+	nameForm := widget.NewFormItem("Name:", nameEntry)
+	idForm := widget.NewFormItem("DNI:", dniEntry)
+	ageForm := widget.NewFormItem("Age:", ageEntry)
+	phoneForm := widget.NewFormItem("Phone:", phoneEntry)
+	gradeForm := widget.NewFormItem("Select Grades:", gradeSelect)
+	gradesShowForm := widget.NewFormItem("Grades:", studentGradesLabel)
+	const gridNumber int = 2
+	imageForm := widget.NewFormItem("Image:", container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn))
 
-	Form := widget.NewForm(
-		NameForm,
-		IDForm,
-		AgeForm,
-		PhoneForm,
-		GradeForm,
-		GradesShowForm,
-		ImageForm,
+	form := widget.NewForm(
+		nameForm,
+		idForm,
+		ageForm,
+		phoneForm,
+		gradeForm,
+		gradesShowForm,
+		imageForm,
 	)
-	Form.OnSubmit = func() {
+	form.OnSubmit = func() {
 		// Validate form fields
-		if !checkValues(data.Student{Age: atoi(ageEntry.Text), DNI: DniEntry.Text, PhoneNumber: phoneEntry.Text, Name: nameEntry.Text}) {
+		if !checkValues(data.Student{
+			Age:         atoi(ageEntry.Text),
+			DNI:         dniEntry.Text,
+			PhoneNumber: phoneEntry.Text,
+			Name:        nameEntry.Text,
+		}) {
 			wins.ErrWin(app, "Some value in the form is empty")
 			return
 		}
-		if existsId(DniEntry.Text, Db.GetStudentDNIs()) {
+		if existsID(dniEntry.Text, DB.GetStudentDNIs()) {
 			wins.ErrWin(app, "The DNI already exists")
 			return
 		}
 		StGrades := func() []data.StudentGrade {
 			var stgrades []data.StudentGrade
-			for _, grade := range GradesStr {
+			for _, grade := range gradesStr {
 				tmpGrade := data.StudentGrade{GradeID: grade.ID}
 				stgrades = append(stgrades, tmpGrade)
 			}
@@ -243,66 +264,22 @@ func AddStudentForm() {
 		}()
 
 		// Add a new student
-		lastInsert, _ := Db.AddStudent(data.Student{
+		lastInsert, _ := DB.AddStudent(data.Student{
 			Name:          nameEntry.Text,
 			Age:           atoi(ageEntry.Text),
-			DNI:           DniEntry.Text,
+			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 			Grades:        StGrades,
 		})
-		fmt.Println(GradesStr)
-		fmt.Println(Db.Students[len(Db.Students)-1])
+		fmt.Println(gradesStr)
+		fmt.Println(DB.Students[len(DB.Students)-1])
 		StundentList.Refresh()
-		s := Db.Students[Db.FindStudentIndexByID(int(lastInsert))]
+		s := DB.Students[DB.FindStudentIndexByID(lastInsert)]
 		LoadStudentInfo(&s)
 		window.Close()
-
 	}
-	window.SetContent(Form)
-
-	/*
-			submitFunc := func() {
-
-				// Validate form fields
-				if !checkValues(formReturn{NameEntry: nameEntry, AgeEntry: ageEntry, IDEntry: idEntry, PhoneEntry: phoneEntry}) {
-					wins.ErrWin(app, "Some value in the form is empty")
-					return
-				}
-				if existsId(idEntry.Text, data.GetStudentIDs()) {
-					wins.ErrWin(app, "The ID already exists")
-					return
-				}
-
-				// Add a new student
-				data.Students = append(data.Students, data.Student{
-					Name:          nameEntry.Text,
-					Age:           atoi(ageEntry.Text),
-					ID:            idEntry.Text,
-					Phone_number:  phoneEntry.Text,
-					ImageFilePath: imagePath,
-					Grades:        GradesStr,
-				})
-				fmt.Println(GradesStr)
-				fmt.Println(data.Students[len(data.Students)-1])
-				data.SaveStudentsData()
-				data.GetStundentData()
-				StundentList.Refresh()
-				LoadStudentInfo(data.FindStudentByID(idEntry.Text))
-				window.Close()
-			}
-
-			formRet := formReturn{
-				ExecFunc:       submitFunc,
-				NameEntry:      nameEntry,
-				IDEntry:        idEntry,
-				AgeEntry:       ageEntry,
-				PhoneEntry:     phoneEntry,
-				ImagePath:      &imagePath,
-				StundentGrades: &GradesStr,
-			}
-		content := GetForm(&formRet)
-		window.SetContent(content)*/
+	window.SetContent(form)
 	window.Show()
 }
 
@@ -317,8 +294,8 @@ func CreateStudentList(students *[]data.Student) fyne.Widget {
 			return widget.NewLabel("---")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
-			student_ := *students
-			o.(*widget.Label).SetText(student_[i].Name)
+			student2 := *students
+			o.(*widget.Label).SetText(student2[i].Name)
 		},
 	)
 
@@ -332,66 +309,3 @@ func CreateStudentList(students *[]data.Student) fyne.Widget {
 
 	return StundentList
 }
-
-/*
-// GetForm returns a container with form elements.
-func GetForm(d *formReturn) *fyne.Container {
-	// Create buttons
-	imageButton := widget.NewButton("Select Image", func() {
-		wins.ImagePicker(app, d.ImagePath)
-	})
-	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
-		*d.ImagePath = ""
-	})
-
-	getStGrade := func() string {
-		var grades string
-		for _, g := range *d.StundentGrades {
-			grades += g.Name + ","
-		}
-		return grades
-	}
-
-	studentGradesLabel := widget.NewLabel("")
-	studentGradesLabel.SetText(getStGrade())
-
-	gradeSelect := widget.NewSelect(data.GetGradesNames(data.Grades), func(s string) {
-		*d.StundentGrades = append(*d.StundentGrades, *data.FindGradeByName(s))
-		studentGradesLabel.SetText(getStGrade())
-	})
-
-	NameFormEntry := widget.NewFormItem("Name", d.NameEntry)
-	AgeFormEntry := widget.NewFormItem("Age", d.AgeEntry)
-	IDFormEntry := widget.NewFormItem("ID", d.IDEntry)
-	Phone_numberFormEntry := widget.NewFormItem("Phone number", d.PhoneEntry)
-	selectGradeForm := widget.NewFormItem("Select grade", gradeSelect)
-	imageSelectForm := widget.NewFormItem("Stundet Image:", container.NewAdaptiveGrid(2, imageButton, deleteImgBtn))
-	GradesFormLabel := widget.NewFormItem("Grades:", studentGradesLabel)
-	// Create the form
-	form := widget.NewForm(
-		NameFormEntry,
-		AgeFormEntry,
-		IDFormEntry,
-		Phone_numberFormEntry,
-		selectGradeForm,
-		GradesFormLabel,
-		imageSelectForm,
-	)
-	form.OnSubmit = d.ExecFunc
-
-	// Create the content container
-	content := container.NewVBox(form)
-	return content
-}
-
-// formReturn represents a structure for form elements.
-type formReturn struct {
-	ExecFunc       func()
-	NameEntry      *widget.Entry
-	AgeEntry       *widget.Entry
-	IDEntry        *widget.Entry
-	PhoneEntry     *widget.Entry
-	ImagePath      *string
-	StundentGrades *[]data.Grade
-}
-*/
