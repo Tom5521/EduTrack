@@ -1,5 +1,6 @@
-//go:build delete
-// +build delete
+//goasd:build delete
+
+// +asdbuild delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
@@ -14,32 +15,28 @@ import (
 	"log"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDeleteRecords(t *testing.T) {
-	var Db = &data.Db
-	assert := assert.New(t)
-	if len(Db.Students) == 0 {
-		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
-		if err != nil {
-			assert.Fail("Error adding temporal student")
-		}
+	data.LoadFiles()
+	var db = &data.DB
+	// assert := assert.New(t)
+	require := require.New(t)
+	if len(db.Students) == 0 {
+		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		require.NoError(err)
 	}
 
-	student := &Db.Students[0]
+	student := &db.Students[0]
 	err := student.LoadRecords()
-	if err != nil {
-		assert.Fail("Error loading student records")
-	}
+	require.NoError(err)
 	if len(student.Records) == 0 {
-		_, err := student.AddRecord(data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777"})
-		if err != nil {
-			assert.Fail("Error adding new record for test", err)
-		}
+		_, err = student.AddRecord(data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777"})
+		require.NoError(err)
 	}
 	log.Println(student.Records)
-	student.Records[0].Delete()
+	err = student.Records[0].Delete()
+	require.NoError(err)
 	log.Println(student.Records)
-
 }

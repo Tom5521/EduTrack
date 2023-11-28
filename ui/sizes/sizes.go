@@ -13,15 +13,29 @@ import (
 )
 
 // These constants define various sizes used in the application's user interface.
+
+const (
+	recW, recH         float32 = 620, 520
+	formW, formH       float32 = 500, 240
+	pickW, pickH       float32 = 600, 400
+	errW, errH         float32 = 400, 80
+	profileW, profileH float32 = 300, 300
+	searchW, searchH   float32 = 300, 100
+	recInfoW, recInfoH float32 = 200, 100
+	listW, listH       float32 = 400, 200
+)
+
+var screenWidth, screenHeight = resolution.GetResolution() // Screen resolution in pixels.
+var FyneScreenSize = fyne.NewSize(screenWidth, screenHeight)
 var (
-	RecSize                   = fyne.NewSize(620, 520)                  // Size for registration window.
-	FormSize                  = fyne.NewSize(500, 240)                  // Size for the form window.
-	PickSize                  = fyne.NewSize(600, 400)                  // Size for file picker window.
-	ErrSize                   = fyne.NewSize(400, 80)                   // Size for error window.
-	ProfileSize               = fyne.NewSize(300, 300)                  // Size for a student profile window.
-	SearchSize                = fyne.NewSize(300, 100)                  // Size for student search window.
-	ScreenWidth, ScreenHeight = resolution.GetResolution()              // Screen resolution in pixels.
-	FyneScreenSize            = fyne.NewSize(ScreenWidth, ScreenHeight) // Size of the Fyne application window.
-	RecInfoSize               = fyne.NewSize(200, 100)
-	ListSize                  = fyne.NewSize(400, 200)
+	RecSize     = fyne.NewSize(recW, recH)         // Size for registration window.
+	FormSize    = fyne.NewSize(formW, formH)       // Size for the form window.
+	PickSize    = fyne.NewSize(pickW, pickH)       // Size for file picker window.
+	ErrSize     = fyne.NewSize(errW, errH)         // Size for error window.
+	ProfileSize = fyne.NewSize(profileW, profileH) // Size for a student profile window.
+	SearchSize  = fyne.NewSize(searchW, searchH)   // Size for student search window.
+
+	// Size of the Fyne application window.
+	RecInfoSize = fyne.NewSize(recInfoW, recInfoH)
+	ListSize    = fyne.NewSize(listW, listH)
 )

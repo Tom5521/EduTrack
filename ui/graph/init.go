@@ -23,7 +23,7 @@ import (
 var (
 	app        fyne.App        = fyne_app.New()
 	StudentTab *fyne.Container = TemplateUser()
-	DB                         = &data.Db
+	DB                         = &data.DB
 )
 
 // MainWindow is the main entry point of the application.

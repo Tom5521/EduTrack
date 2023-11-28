@@ -22,7 +22,8 @@ func MaximizeWin(window fyne.Window) {
 	window.Resize(sizes.FyneScreenSize)
 }
 
-// LoadProfileImg loads and returns a profile image from the specified file path, or a default image if the file doesn't exist.
+// LoadProfileImg loads and returns a profile image from the specified file path,
+// or a default image if the file doesn't exist.
 func LoadProfileImg(file string) *canvas.Image {
 	var image *canvas.Image
 

@@ -14,17 +14,17 @@ type StudentGrade struct {
 }
 
 func (s StudentGrade) Edit(newData StudentGrade) error {
-	db, err := GetNewDb()
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
     update student_grades set student_id = ?,start = ?,end = ?,grade_id = ?
     where student_grade_id = ?
     `
-	_, err = db.Exec(Query,
+	_, err = db.Exec(query,
 		newData.StudentID,
 		newData.Start,
 		newData.End,
@@ -35,11 +35,11 @@ func (s StudentGrade) Edit(newData StudentGrade) error {
 		log.Println(err)
 		return err
 	}
-	id := Db.FindStudentIndexByID(s.StudentID)
+	id := DB.FindStudentIndexByID(s.StudentID)
 	if id == -1 {
-		return errors.New("Can't find student index")
+		return errors.New("can't find student index")
 	}
-	err = Db.Students[id].LoadGrades()
+	err = DB.Students[id].LoadGrades()
 	if err != nil {
 		log.Println(err)
 	}
@@ -47,18 +47,18 @@ func (s StudentGrade) Edit(newData StudentGrade) error {
 	return err
 }
 
-func (s *Student) AddGrade(newGrade StudentGrade) (lastInsertID int, err error) {
-	db, err := GetNewDb()
+func (s *Student) AddGrade(newGrade StudentGrade) (int, error) {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return -1, err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
 		insert into student_grades (student_id,grade_id,start,end)
 		values (?,?,?,?)
 	`
-	result, err := db.Exec(Query, newGrade.StudentID, newGrade.GradeID, newGrade.Start, newGrade.End)
+	result, err := db.Exec(query, newGrade.StudentID, newGrade.GradeID, newGrade.Start, newGrade.End)
 	if err != nil {
 		log.Println(err)
 		return -1, err
@@ -75,7 +75,7 @@ func (s *Student) AddGrade(newGrade StudentGrade) (lastInsertID int, err error) 
 	return int(id), err
 }
 
-func (s Student) FindGradeIndexByID(id int) (index int) {
+func (s Student) FindGradeIndexByID(id int) int {
 	for i, grade := range s.Grades {
 		if grade.StudentGradeID == id {
 			return i

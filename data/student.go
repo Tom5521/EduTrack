@@ -21,8 +21,11 @@ type Student struct {
 	Grades        []StudentGrade
 }
 
-func (d *DbStr) FindGradeIndexByID(id int) (index int) {
-	d.LoadGrade()
+func (d *DBStr) FindGradeIndexByID(id int) int {
+	err := d.LoadGrade()
+	if err != nil {
+		log.Println(err)
+	}
 	for i, grade := range d.Grades {
 		if grade.ID == id {
 			return i
@@ -32,71 +35,75 @@ func (d *DbStr) FindGradeIndexByID(id int) (index int) {
 }
 
 func (s Student) Delete() error {
-	Db.DeleteFrom("Students", "student_id", s.ID)
-	err := Db.LoadStudents()
+	err := DB.DeleteFrom("Students", "student_id", s.ID)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	err = DB.LoadStudents()
 	if err != nil {
 		log.Println(err)
 	}
 	return err
 }
 
-func (s Student) Edit(EdStudent Student) error {
-	db, err := GetNewDb()
+func (s Student) Edit(edStudent Student) error {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
 		update students set Name = ?,Age = ?,DNI = ?,Phone_number = ?,ImagePath = ? 
 		where student_id = ?
 	`
-	_, err = db.Exec(Query,
-		EdStudent.Name,
-		EdStudent.Age,
-		EdStudent.DNI,
-		EdStudent.PhoneNumber,
-		EdStudent.ImageFilePath,
+	_, err = db.Exec(query,
+		edStudent.Name,
+		edStudent.Age,
+		edStudent.DNI,
+		edStudent.PhoneNumber,
+		edStudent.ImageFilePath,
 		s.ID,
 	)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	err = Db.LoadStudents()
+	err = DB.LoadStudents()
 	if err != nil {
 		log.Println(err)
 	}
 	return err
 }
 
-func (d *DbStr) EditStudent(id int, EdStudent Student) error {
+func (d *DBStr) EditStudent(id int, edStudent Student) error {
 	i := d.FindStudentIndexByID(id)
 	student := d.Students[i]
-	err := student.Edit(EdStudent)
+	err := student.Edit(edStudent)
 	if err != nil {
 		log.Println(err)
 	}
 	return err
 }
 
-func (d *DbStr) AddStudent(NStudent Student) (LastInsertId int, err error) {
-	db, err := GetNewDb()
+func (d *DBStr) AddStudent(nStudent Student) (int, error) {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return -1, err
 	}
 	defer db.Close()
-	const AddStudentQuery string = `
+	const addStudentQuery string = `
 		insert into students (Name,Age,DNI,Phone_number,ImagePath)
 		values (?,?,?,?,?)
 	`
-	result, err := db.Exec(AddStudentQuery,
-		NStudent.Name,
-		NStudent.Age,
-		NStudent.DNI,
-		NStudent.PhoneNumber,
-		NStudent.ImageFilePath,
+	result, err := db.Exec(addStudentQuery,
+		nStudent.Name,
+		nStudent.Age,
+		nStudent.DNI,
+		nStudent.PhoneNumber,
+		nStudent.ImageFilePath,
 	)
 	if err != nil {
 		log.Println(err)
@@ -114,24 +121,28 @@ func (d *DbStr) AddStudent(NStudent Student) (LastInsertId int, err error) {
 }
 
 func (s *Student) LoadGrades() error {
-	db, err := GetNewDb()
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
 		select * from student_grades where student_id = ?
 	`
-	rows, err := db.Query(Query, s.ID)
+	rows, err := db.Query(query, s.ID)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
+	if rows.Err() != nil {
+		log.Println(rows.Err())
+		return rows.Err()
+	}
 	defer rows.Close()
 	for rows.Next() {
 		var grade StudentGrade
-		if err := rows.Scan(
+		if err = rows.Scan(
 			&grade.StudentID,
 			&grade.GradeID,
 			&grade.Start,
@@ -146,7 +157,7 @@ func (s *Student) LoadGrades() error {
 	return nil
 }
 
-func (d DbStr) GetStudentDNIs() []string {
+func (d DBStr) GetStudentDNIs() []string {
 	var students []string
 	for _, student := range d.Students {
 		students = append(students, student.DNI)
@@ -161,11 +172,11 @@ func (s Student) GetGradeNames() []string {
 		if i == -1 {
 			continue
 		}
-		names = append(names, Db.Grades[i].Name)
+		names = append(names, DB.Grades[i].Name)
 	}
 	return names
 }
-func (d DbStr) FindStudentIndexByDNI(dni string) (index int) {
+func (d DBStr) FindStudentIndexByDNI(dni string) int {
 	for i, student := range d.Students {
 		if student.DNI == dni {
 			return i

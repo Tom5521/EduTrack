@@ -13,7 +13,7 @@ import (
 	_ "github.com/glebarez/go-sqlite"
 )
 
-func GetNewDb() (*sql.DB, error) {
+func GetNewDB() (*sql.DB, error) {
 	db, err := sql.Open("sqlite", Config.DatabaseFile)
 	if err != nil {
 		log.Println(err)
@@ -22,26 +22,30 @@ func GetNewDb() (*sql.DB, error) {
 	return db, nil
 }
 
-func (d *DbStr) LoadStudents() error {
-	db, err := GetNewDb()
+func (d *DBStr) LoadStudents() error {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const GetStudentsQuery string = `
+	const getStudentsQuery string = `
 		select * from students
 	`
-	rows, err := db.Query(GetStudentsQuery)
+	rows, err := db.Query(getStudentsQuery)
 	if err != nil {
 		log.Println(err)
 		return err
+	}
+	if rows.Err() != nil {
+		log.Println(rows.Err())
+		return rows.Err()
 	}
 	defer rows.Close()
 	var students []Student
 	for rows.Next() {
 		var student Student
-		if err := rows.Scan(
+		if err = rows.Scan(
 			&student.ID,
 			&student.Name,
 			&student.DNI,
@@ -58,26 +62,30 @@ func (d *DbStr) LoadStudents() error {
 	return nil
 }
 
-func (d *DbStr) LoadGrade() error {
-	db, err := GetNewDb()
+func (d *DBStr) LoadGrade() error {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const GetGradesQuery string = `
+	const getGradesQuery string = `
 		select * from grades
 	`
-	rows, err := db.Query(GetGradesQuery)
+	rows, err := db.Query(getGradesQuery)
 	if err != nil {
 		log.Println(err)
 		return err
+	}
+	if rows.Err() != nil {
+		log.Println(rows.Err())
+		return rows.Err()
 	}
 	defer rows.Close()
 	var grades []Grade
 	for rows.Next() {
 		var grade Grade
-		if err := rows.Scan(
+		if err = rows.Scan(
 			&grade.ID,
 			&grade.Name,
 			&grade.Info,
@@ -93,28 +101,32 @@ func (d *DbStr) LoadGrade() error {
 }
 
 func (s *Student) LoadRecords() error {
-	db, err := GetNewDb()
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query = `
+	const query = `
 	  select * from records where student_id = ?
 	`
 
-	rows, err := db.Query(Query, s.ID)
+	rows, err := db.Query(query, s.ID)
 	if err != nil {
 		log.Println(err)
 		return err
+	}
+	if rows.Err() != nil {
+		log.Println(rows.Err())
+		return rows.Err()
 	}
 	defer rows.Close()
 	var records []Record
 	for rows.Next() {
 		var record Record
-		if err := rows.Scan(
+		if err = rows.Scan(
 			&record.ID,
-			&record.StudentId,
+			&record.StudentID,
 			&record.Name,
 			&record.Date,
 			&record.Info,

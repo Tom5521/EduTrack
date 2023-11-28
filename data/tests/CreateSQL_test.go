@@ -2,22 +2,26 @@ package data_test
 
 import (
 	"EduTrack/data"
+	"fmt"
 	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCreateSQL(t *testing.T) {
+	data.LoadFiles()
 	assert := assert.New(t)
+	require := require.New(t)
 	err := data.CreateDatabase()
-	if err != nil {
-		assert.Fail("Error creating new database:", err)
-	}
-	if _, err := os.Stat(data.Config.DatabaseFile); os.IsNotExist(err) {
+	fmt.Println(data.Config.DatabaseFile)
+	require.NoError(err)
+	if _, err = os.Stat(data.Config.DatabaseFile); os.IsNotExist(err) {
 		assert.Fail("database File not created!:", err)
 	}
-	if file, err := os.Stat(data.Config.DatabaseFile); os.IsExist(err) {
+	file, err := os.Stat(data.Config.DatabaseFile)
+	if os.IsExist(err) {
 		if file.Size() == 0 {
 			assert.Fail("Database filesize is 0!")
 		}

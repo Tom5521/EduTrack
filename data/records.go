@@ -7,13 +7,13 @@ import (
 
 type Record struct {
 	ID        int
-	StudentId int
+	StudentID int
 	Name      string
 	Date      string
 	Info      string
 }
 
-func (s Student) FindRecordIndexByID(id int) (index int) {
+func (s Student) FindRecordIndexByID(id int) int {
 	for i, student := range s.Records {
 		if student.ID == id {
 			return i
@@ -37,18 +37,18 @@ func (s *Student) DeleteRecord(id int) error {
 	return nil
 }
 
-func (s *Student) AddRecord(newR Record) (lastInsertID int, err error) {
-	db, err := GetNewDb()
+func (s *Student) AddRecord(newR Record) (int, error) {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return -1, err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
 		insert into records (student_id,name,date,info)
 		values (?,?,?,?)
 	`
-	result, err := db.Exec(Query,
+	result, err := db.Exec(query,
 		s.ID,
 		newR.Name,
 		newR.Date,
@@ -71,22 +71,22 @@ func (s *Student) AddRecord(newR Record) (lastInsertID int, err error) {
 	return int(id), err
 }
 
-func (r Record) Edit(NewRec Record) (err error) {
-	db, err := GetNewDb()
+func (r Record) Edit(newRec Record) error {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
 		update records set student_id = ?,name = ?,date = ?,info = ?
 		where record_id = ?
 `
-	_, err = db.Exec(Query,
-		NewRec.StudentId,
-		NewRec.Name,
-		NewRec.Date,
-		NewRec.Info,
+	_, err = db.Exec(query,
+		newRec.StudentID,
+		newRec.Name,
+		newRec.Date,
+		newRec.Info,
 		r.ID,
 	)
 	if err != nil {
@@ -94,18 +94,18 @@ func (r Record) Edit(NewRec Record) (err error) {
 		return err
 	}
 
-	i := Db.FindStudentIndexByID(NewRec.StudentId)
-	if NewRec.StudentId != r.StudentId {
-		i := Db.FindStudentIndexByID(r.StudentId)
+	i := DB.FindStudentIndexByID(newRec.StudentID)
+	if newRec.StudentID != r.StudentID {
+		i = DB.FindStudentIndexByID(r.StudentID)
 		if i != -1 {
-			err := Db.Students[i].LoadRecords()
+			err = DB.Students[i].LoadRecords()
 			if err != nil {
 				log.Println(err)
 			}
 		}
 	}
 	if i != -1 {
-		err = Db.Students[i].LoadRecords()
+		err = DB.Students[i].LoadRecords()
 		if err != nil {
 			log.Println(err)
 		}
@@ -114,25 +114,25 @@ func (r Record) Edit(NewRec Record) (err error) {
 }
 
 func (r Record) Delete() error {
-	db, err := GetNewDb()
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const Query string = `
+	const query string = `
 		delete from records where record_id = ?
 	`
-	_, err = db.Exec(Query, r.ID)
+	_, err = db.Exec(query, r.ID)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	id := Db.FindStudentIndexByID(r.StudentId)
+	id := DB.FindStudentIndexByID(r.StudentID)
 	if id == -1 {
-		return errors.New("Can't find student ID")
+		return errors.New("can't find student ID")
 	}
-	err = Db.Students[id].LoadRecords()
+	err = DB.Students[id].LoadRecords()
 	if err != nil {
 		log.Println(err)
 		return err

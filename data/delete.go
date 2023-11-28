@@ -7,21 +7,20 @@
 package data
 
 import (
-	"fmt"
 	"log"
 )
 
-func (d *DbStr) DeleteFrom(table, column string, id int) error {
-	db, err := GetNewDb()
+func (d *DBStr) DeleteFrom(table, column string, id int) error {
+	db, err := GetNewDB()
 	if err != nil {
 		log.Println(err)
 		return err
 	}
 	defer db.Close()
-	const DeleteQuery string = `
-		delete from %v where %v = %v
+	const deleteQuery string = `
+		delete from ? where ? = ?
 	`
-	_, err = db.Exec(fmt.Sprintf(DeleteQuery, table, column, id))
+	_, err = db.Exec(deleteQuery, table, column, id)
 	if err != nil {
 		log.Println(err)
 		return err

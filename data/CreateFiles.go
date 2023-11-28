@@ -21,11 +21,11 @@ import (
 )
 
 var Config ConfigStr
-var DatabaseFile, ConfigFile = getOSConfFile()
+var databaseFile, configFile = getOSConfFile()
 
 type ConfigStr struct {
-	DatabaseFile string
-	Lang         string // TODO: Add multilanguage support
+	DatabaseFile string `yaml:"database"`
+	Lang         string `yaml:"lang"` // TODO: Add multilanguage support
 }
 
 func CopyFile(src, dst string) (int64, error) {
@@ -61,14 +61,14 @@ func CreateDatabase() error {
 	}
 	defer db.Close()
 	defer func() { // Delete temporal database file
-		if (runtime.GOOS == "linux" || runtime.GOOS == "unix") && "database.db" != Config.DatabaseFile {
-			err := os.Remove("database.db")
+		if (runtime.GOOS == "linux" || runtime.GOOS == "unix") && Config.DatabaseFile != "database.db" {
+			err = os.Remove("database.db")
 			if err != nil {
 				log.Println(err)
 			}
 		}
 	}()
-	const Query string = `
+	const query string = `
 CREATE TABLE IF NOT EXISTS "Grades" (
 	"grade_id"	INTEGER,
 	"Name"	TEXT,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS "Students" (
 );
 `
 
-	_, err = db.Exec(Query)
+	_, err = db.Exec(query)
 	if err != nil {
 		log.Println(err)
 		return err
@@ -120,42 +120,44 @@ CREATE TABLE IF NOT EXISTS "Students" (
 }
 
 func GetConfData() ConfigStr {
-	var err error
 	conf := ConfigStr{}
-	data, err := os.ReadFile(ConfigFile)
+	data, err := os.ReadFile(configFile)
 	if err != nil {
 		NotifyError("Error reading config file!", err)
 	}
-	yaml.Unmarshal(data, &conf)
+	err = yaml.Unmarshal(data, &conf)
+	if err != nil {
+		log.Println(err)
+	}
 	return conf
 }
 
-func getOSConfFile() (dataDB string, ConfYml string) {
-	if runtime.GOOS == "linux" || runtime.GOOS == "unix" {
-		CurrentUser, err := user.Current()
+func getOSConfFile() (string, string) {
+	cOS := runtime.GOOS
+	if cOS == "linux" || cOS == "unix" {
+		currentUser, err := user.Current()
 		if err != nil {
 			fmt.Println(err)
 		}
-		confDir := fmt.Sprintf("%v/.config/EduTrack", CurrentUser.HomeDir)
-		if _, err := os.Stat(confDir); os.IsNotExist(err) {
-			err := os.Mkdir(confDir, os.ModePerm)
+		confDir := fmt.Sprintf("%v/.config/EduTrack", currentUser.HomeDir)
+		if _, err = os.Stat(confDir); os.IsNotExist(err) {
+			err = os.Mkdir(confDir, os.ModePerm)
 			if err != nil {
 				NotifyError("Error creating ~/.config/EduTrack/", err)
 			}
 		}
 		return confDir + "/database.db", confDir + "/config.yml"
-	} else {
-		return "database.db", "config.yml"
 	}
+	return "database.db", "config.yml"
 }
 
 func NewConfigurationFile() {
 	var err error
-	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: DatabaseFile})
+	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile})
 	if err != nil {
 		NotifyError("Error marshalling new configuration file", err)
 	}
-	err = os.WriteFile(ConfigFile, ymlData, os.ModePerm)
+	err = os.WriteFile(configFile, ymlData, os.ModePerm)
 	if err != nil {
 		NotifyError("Error writing config file", err)
 	}

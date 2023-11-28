@@ -7,17 +7,16 @@
 package data
 
 import (
-	"errors"
 	"fmt"
 	"log"
 )
 
-type DbStr struct {
+type DBStr struct {
 	Students []Student
 	Grades   []Grade
 }
 
-func (d *DbStr) Update() error {
+func (d *DBStr) Update() error {
 	err := d.LoadGrade()
 	if err != nil {
 		log.Println(err)
@@ -29,7 +28,7 @@ func (d *DbStr) Update() error {
 		return err
 	}
 	for _, student := range d.Students {
-		err := student.LoadGrades()
+		err = student.LoadGrades()
 		if err != nil {
 			log.Println(err)
 		}
@@ -42,10 +41,10 @@ func (d *DbStr) Update() error {
 	return nil
 }
 
-func InitDB() DbStr {
+func InitDB() DBStr {
 	CheckFiles()
 	Config = GetConfData()
-	db := DbStr{}
+	db := DBStr{}
 	err := db.LoadGrade()
 	if err != nil {
 		log.Println(err)
@@ -55,7 +54,7 @@ func InitDB() DbStr {
 		log.Println(err)
 	}
 	for _, student := range db.Students {
-		err := student.LoadRecords()
+		err = student.LoadRecords()
 		if err != nil {
 			log.Println(err)
 		}
@@ -67,7 +66,7 @@ func InitDB() DbStr {
 	return db
 }
 
-func (d *DbStr) FindStudentIndexByID(id int) (index int) {
+func (d *DBStr) FindStudentIndexByID(id int) int {
 	for i, s := range d.Students {
 		if s.ID == id {
 			return i
@@ -76,16 +75,16 @@ func (d *DbStr) FindStudentIndexByID(id int) (index int) {
 	return -1
 }
 
-func (d DbStr) FindStudentByID(id int) (Student, error) {
+func (d DBStr) FindStudentByID(id int) (Student, error) {
 	for _, student := range d.Students {
 		if student.ID == id {
 			return student, nil
 		}
 	}
-	return Student{}, errors.New(fmt.Sprintf("Can't find student by id <%v>", id))
+	return Student{}, fmt.Errorf("can't find student by id <%v>", id)
 }
 
-func (d DbStr) GetGradesNames() []string {
+func (d DBStr) GetGradesNames() []string {
 	var grades []string
 	for _, grade := range d.Grades {
 		grades = append(grades, grade.Name)

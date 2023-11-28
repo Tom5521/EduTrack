@@ -1,5 +1,5 @@
-//go/:build delete
-// /+build delete
+//asdgo:build delete
+// dd+dbuild delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
@@ -16,81 +16,72 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestDeleteGrade(t *testing.T) {
-	var Db = &data.Db
+	data.LoadFiles()
+	var db = &data.DB
 	assert := assert.New(t)
-	if len(Db.Grades) == 0 {
-		_, err := Db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
-		if err != nil {
-			log.Println(err)
-			assert.Fail("Error adding temporal grade")
-		}
-		log.Println(Db.Grades)
+	require := require.New(t)
+	if len(db.Grades) == 0 {
+		_, err := db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		require.NoError(err)
+		log.Println(db.Grades)
 	}
-	originalLen := len(Db.Grades)
-	err := Db.Grades[0].Delete()
+	originalLen := len(db.Grades)
+	err := db.Grades[0].Delete()
 	if err != nil {
 		assert.Fail("Error deleting grade", err)
 	}
-	fmt.Println(Db.Grades)
-	assert.NotEqual(originalLen, len(Db.Grades), "Grades array not modified!")
+	fmt.Println(db.Grades)
+	assert.NotEqual(originalLen, len(db.Grades), "Grades array not modified!")
 }
 
 func TestDeleteStudent(t *testing.T) {
-	var Db = &data.Db
+	var db = &data.DB
 	assert := assert.New(t)
-	if len(Db.Students) == 0 {
-		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
-		if err != nil {
-			log.Println(err)
-			assert.Fail("Error adding temporal student")
-		}
-		log.Println(Db.Grades)
+	require := require.New(t)
+	if len(db.Students) == 0 {
+		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		require.NoError(err)
 	}
-	originalLen := len(Db.Students)
-	err := Db.Students[0].Delete()
-	if err != nil {
-		assert.Fail("Error deleting student")
-	}
-	fmt.Println(Db.Students)
-	assert.NotEqual(originalLen, len(Db.Grades))
+	originalLen := len(db.Students)
+	err := db.Students[0].Delete()
+	require.NoError(err)
+	fmt.Println(db.Students)
+	assert.NotEqual(originalLen, len(db.Grades))
 }
 
 func TestDeleteIn(t *testing.T) {
-	var Db = &data.Db
+	var db = &data.DB
 	assert := assert.New(t)
+	require := require.New(t)
 	// Test grades
-	if len(Db.Grades) == 0 {
-		_, err := Db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
-		if err != nil {
-			log.Println(err)
-			assert.Fail("Error adding temporal grade")
-		}
-		log.Println(Db.Grades)
+	if len(db.Grades) == 0 {
+		_, err := db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		require.NoError(err)
+		log.Println(db.Grades)
 	}
 	// Test Students
-	if len(Db.Students) == 0 {
-		_, err := Db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
-		if err != nil {
-			log.Println(err)
-			assert.Fail("Error adding temporal student")
-		}
-		log.Println(Db.Grades)
+	if len(db.Students) == 0 {
+		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		require.NoError(err)
+		log.Println(db.Grades)
 	}
 
-	originalStudentlen := len(Db.Students)
-	originalGradelen := len(Db.Grades)
+	originalStudentlen := len(db.Students)
+	originalGradelen := len(db.Grades)
 
 	// Exec Deleter
-	data.Delete(Db.Students[0])
-	data.Delete(Db.Grades[0])
+	err := data.Delete(db.Students[0])
+	require.NoError(err)
+	err = data.Delete(db.Grades[0])
+	require.NoError(err)
 
-	fmt.Println(Db.Students)
-	fmt.Println(Db.Grades)
+	fmt.Println(db.Students)
+	fmt.Println(db.Grades)
 
-	assert.NotEqual(originalStudentlen, len(Db.Students), "Student table not modified!")
-	assert.NotEqual(originalGradelen, len(Db.Grades), "Grades table not modified!")
-
+	assert.NotEqual(originalStudentlen, len(db.Students), "Student table not modified!")
+	assert.NotEqual(originalGradelen, len(db.Grades), "Grades table not modified!")
 }
