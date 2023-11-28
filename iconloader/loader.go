@@ -22,6 +22,7 @@ var (
 	InfoICONDark         fyne.Resource = Info_Dark
 	UninstallICONDark    fyne.Resource = Uninstall_Dark
 	UserTemplateICONDark fyne.Resource = TemplateUser_Dark
+	AddUserICONDark      fyne.Resource = AddUser_Dark
 	AppICONDark          fyne.Resource = App_dark
 )
 
@@ -37,6 +38,7 @@ var (
 	InfoICONLight         fyne.Resource = Info_Light
 	UninstallICONLight    fyne.Resource = Uninstall_Light
 	UserTemplateICONLight fyne.Resource = TemplateUser_Light
+	AddUserICONLight      fyne.Resource = AddUser_Light
 	AppICONLight          fyne.Resource = App_light
 )
 
@@ -52,6 +54,7 @@ var (
 	InfoICON         fyne.Resource
 	UninstallICON    fyne.Resource
 	UserTemplateICON fyne.Resource
+	AddUserICON      fyne.Resource
 	AppICON          fyne.Resource
 )
 
@@ -73,6 +76,7 @@ func SetThemeIcons(thememode fyne.ThemeVariant) {
 		InfoICON = InfoICONLight
 		UninstallICON = UninstallICONLight
 		UserTemplateICON = UserTemplateICONLight
+		AddUserICON = AddUserICONLight
 		AppICON = AppICONLight
 	} else if thememode == 0 { // Set dark mode
 		DevICON = DevICONDark
@@ -84,6 +88,7 @@ func SetThemeIcons(thememode fyne.ThemeVariant) {
 		InfoICON = InfoICONDark
 		UninstallICON = UninstallICONDark
 		UserTemplateICON = UserTemplateICONDark
+		AddUserICON = AddUserICONDark
 		AppICON = AppICONDark
 	}
 }
