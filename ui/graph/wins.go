@@ -7,7 +7,7 @@
 package graph
 
 import (
-	assets "EduTrack/Assets"
+	"EduTrack/assets"
 	"EduTrack/data"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"

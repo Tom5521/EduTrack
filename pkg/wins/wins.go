@@ -12,7 +12,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/ncruces/zenity"
 
-	assets "EduTrack/Assets"
+	"EduTrack/assets"
 	"EduTrack/ui/sizes"
 )
 

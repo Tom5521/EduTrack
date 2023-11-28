@@ -7,7 +7,7 @@
 package wintools
 
 import (
-	assets "EduTrack/Assets"
+	"EduTrack/assets"
 	"EduTrack/ui/resolution"
 	"EduTrack/ui/sizes"
 
