@@ -73,8 +73,8 @@ func MainWindow() {
 	downbox := container.NewHSplit(vbox, listContainer)
 	downbox.SetOffset(0)
 
-	//mainbox := container.NewVSplit(toolbar, downbox)
-	//mainbox.SetOffset(0)
+	// mainbox := container.NewVSplit(toolbar, downbox)
+	// mainbox.SetOffset(0)
 
 	mainWin.SetContent(downbox)
 	mainWin.ShowAndRun()
