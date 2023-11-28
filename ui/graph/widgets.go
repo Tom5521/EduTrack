@@ -7,7 +7,7 @@
 package graph
 
 import (
-	"EduTrack/iconloader"
+	assets "EduTrack/Assets"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
 	"strconv"
@@ -36,8 +36,7 @@ func atoi(s string) int {
 // TemplateUser returns a container with user data.
 func TemplateUser() *fyne.Container {
 	// Create user data elements
-	iconloader.SetThemeIcons(app.Settings().ThemeVariant())
-	image := canvas.NewImageFromResource(iconloader.UserTemplateICON)
+	image := canvas.NewImageFromResource(assets.UserTemplate)
 	image.SetMinSize(sizes.ProfileSize)
 	dataForm := widget.NewForm(
 		widget.NewFormItem("Name:", widget.NewLabel("--")),

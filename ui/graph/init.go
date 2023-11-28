@@ -7,9 +7,11 @@
 package graph
 
 import (
+	assets "EduTrack/Assets"
 	"EduTrack/data"
 	"EduTrack/ui/sizes"
 	"EduTrack/ui/wintools"
+	"fmt"
 
 	"fyne.io/fyne/v2"
 	fyne_app "fyne.io/fyne/v2/app"
@@ -21,26 +23,24 @@ import (
 // basicVars is a struct to hold basic variables used in the application.
 
 var (
-	app        fyne.App        = fyne_app.New()
-	StudentTab *fyne.Container = TemplateUser()
-	DB                         = &data.DB
+	app        fyne.App = fyne_app.New()
+	StudentTab *fyne.Container
+	DB         *data.DBStr = &data.DB
 )
 
 // MainWindow is the main entry point of the application.
 func MainWindow() {
 	app.Settings().SetTheme(xtheme.AdwaitaTheme())
+	assets.Load()
+
+	StudentTab = TemplateUser()
+
 	mainWin := app.NewWindow("EduTrack")
 	// MainWin.SetFullScreen(true)
 	mainWin.SetMaster()
 	mainWin.SetMainMenu(Menu())
 	wintools.MaximizeWin(mainWin)
 
-	searchButton := widget.NewButton("Search", func() {
-		Search()
-	})
-	addButton := widget.NewButton("Add a student", func() {
-		AddStudentForm()
-	})
 	addGradeButton := widget.NewButton("Show grades", func() {
 		window := app.NewWindow("Grades")
 		window.Resize(sizes.ListSize)
@@ -53,12 +53,29 @@ func MainWindow() {
 		AddGrade()
 	})
 
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(assets.AddUser, func() {
+			AddStudentForm()
+		}),
+		widget.NewToolbarAction(assets.Lens1, func() {
+			Search()
+		}),
+	)
+
 	list := CreateStudentList(&DB.Students)
-	const gridNumber int = 2
-	buttonsGrid := container.NewAdaptiveGrid(gridNumber, searchButton, addButton, addGradeButton, testButton)
-	vbox := container.NewVBox(buttonsGrid, widget.NewSeparator(), StudentTab)
-	mainbox := container.NewHSplit(vbox, list)
-	mainbox.SetOffset(0)
-	mainWin.SetContent(mainbox)
+	const gridNumber int = 4
+	buttonsGrid := container.NewAdaptiveGrid(gridNumber, addGradeButton, testButton)
+	fmt.Println(buttonsGrid)
+	vbox := container.NewVBox( /*buttonsGrid, widget.NewSeparator(),*/ StudentTab)
+
+	listContainer := container.NewVSplit(toolbar, list)
+	listContainer.SetOffset(0)
+	downbox := container.NewHSplit(vbox, listContainer)
+	downbox.SetOffset(0)
+
+	//mainbox := container.NewVSplit(toolbar, downbox)
+	//mainbox.SetOffset(0)
+
+	mainWin.SetContent(downbox)
 	mainWin.ShowAndRun()
 }

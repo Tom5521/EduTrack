@@ -1,9 +1,7 @@
 
-
 # Icon Sources
 
-
-![App Icon](./Icon.png) 
+![App Icon](./Icon.png)
 
 ./Icon.png from [Faenza Icon Library](https://iconduck.com/sets/faenza-icon-library)
 
@@ -43,5 +41,8 @@
 
 ./Icons-\*/User-Template.png from [Font Awesome Icons](https://iconduck.com/sets/font-awesome-icons)
 
+./Icons-\*/AddUser.png from [Font Awesome Icons](https://iconduck.com/sets/font-awesome-icons)
+
+./Icons-\*/lens1.png from [Batch Icon set](https://iconduck.com/sets/batch-icon-set)
 
 **Note:** The dark icons are only the light icons with the colors inverted so they share authorship.

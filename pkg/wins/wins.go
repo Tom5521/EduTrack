@@ -12,7 +12,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/ncruces/zenity"
 
-	"EduTrack/iconloader"
+	assets "EduTrack/Assets"
 	"EduTrack/ui/sizes"
 )
 
@@ -52,7 +52,7 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 	window := app.NewWindow("Error")
 	window.RequestFocus()
 	window.Resize(sizes.ErrSize)
-	window.SetIcon(iconloader.ErrorICON)
+	window.SetIcon(assets.Error)
 	errlabel := widget.NewLabel(err)
 	errlabel.TextStyle.Bold = true
 	errlabel.Alignment = fyne.TextAlignCenter

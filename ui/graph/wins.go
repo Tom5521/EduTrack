@@ -7,8 +7,8 @@
 package graph
 
 import (
+	assets "EduTrack/Assets"
 	"EduTrack/data"
-	"EduTrack/iconloader"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
 	"net/url"
@@ -83,7 +83,7 @@ func AboutWin() {
 	gitLabel := widget.NewHyperlink("Tom5521", link)
 	licenceLabel := widget.NewLabel("Under the MIT license")
 	authorCont := container.NewHBox(label1, gitLabel)
-	logo := canvas.NewImageFromResource(iconloader.AppICON)
+	logo := canvas.NewImageFromResource(assets.App)
 	const w, h float32 = 300, 300
 	logo.SetMinSize(fyne.NewSize(w, h))
 	vbox1 := container.NewVBox(

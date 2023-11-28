@@ -7,7 +7,7 @@
 package wintools
 
 import (
-	"EduTrack/iconloader"
+	assets "EduTrack/Assets"
 	"EduTrack/ui/resolution"
 	"EduTrack/ui/sizes"
 
@@ -29,7 +29,7 @@ func LoadProfileImg(file string) *canvas.Image {
 
 	// Check if the file exists; if not, use a default user template icon.
 	if check, _ := files.CheckFile(file); !check {
-		image = canvas.NewImageFromResource(iconloader.UserTemplateICON)
+		image = canvas.NewImageFromResource(assets.UserTemplate)
 		image.SetMinSize(sizes.ProfileSize)
 		return image
 	}

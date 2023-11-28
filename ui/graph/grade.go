@@ -157,3 +157,7 @@ func AddGrade() {
 	window.SetContent(content)
 	window.Show()
 }
+
+func GradesMainWin() {
+
+}
