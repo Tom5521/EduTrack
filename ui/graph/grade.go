@@ -7,35 +7,18 @@
 package graph
 
 import (
+	"EduTrack/assets"
 	"EduTrack/data"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
 	"fmt"
+	"log"
 	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
-
-func GetRecordsList(student *data.Student) *widget.List {
-	list := widget.NewList(
-		func() int {
-			return len(student.Records)
-		},
-		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
-		},
-		func(i widget.ListItemID, o fyne.CanvasObject) {
-			o.(*widget.Label).SetText(student.Records[i].Name)
-		},
-	)
-	list.OnSelected = func(id widget.ListItemID) {
-		list.UnselectAll()
-		EditRecordsData(student, id)
-	}
-	return list
-}
 
 func GetGradesList(grades []data.Grade) *widget.List {
 	list := widget.NewList(
@@ -52,7 +35,6 @@ func GetGradesList(grades []data.Grade) *widget.List {
 	)
 
 	list.OnSelected = func(id widget.ListItemID) {
-		list.UnselectAll()
 		g := grades[id]
 		GradeDetailsWin(&g)
 	}
@@ -60,10 +42,55 @@ func GetGradesList(grades []data.Grade) *widget.List {
 	return list
 }
 
-func EditGrade() {}
+func EditGrade(g *data.Grade) {
+	window := app.NewWindow("Edit " + g.Name)
+
+	nameEntry := widget.NewEntry()
+	nameEntry.SetText(g.Name)
+
+	priceEntry := widget.NewEntry()
+	priceEntry.SetText(g.Price)
+
+	infoEntry := widget.NewMultiLineEntry()
+	infoEntry.SetText(g.Info)
+
+	form := widget.NewForm(
+		widget.NewFormItem("Name:", nameEntry),
+		widget.NewFormItem("Price:", priceEntry),
+		widget.NewFormItem("Info:", infoEntry),
+	)
+
+	form.OnSubmit = func() {
+		newGrade := data.Grade{
+			Name:  nameEntry.Text,
+			Price: priceEntry.Text,
+			Info:  infoEntry.Text,
+		}
+		err := g.Edit(newGrade)
+		if err != nil {
+			log.Println(err)
+			wins.ErrWin(app, err.Error())
+		}
+		window.Close()
+	}
+
+	window.SetContent(form)
+
+	window.Show()
+}
 
 func GradeDetailsWin(g *data.Grade) {
-	fmt.Println(g)
+	window := app.NewWindow(g.Name)
+
+	form := widget.NewForm(
+		widget.NewFormItem("Name:", widget.NewLabel(g.Name)),
+		widget.NewFormItem("Price:", widget.NewLabel(g.Price)),
+		widget.NewFormItem("Info", widget.NewLabel(g.Info)),
+		widget.NewFormItem("", widget.NewButton("Edit", func() { EditGrade(g); window.Close() })),
+	)
+
+	window.SetContent(form)
+	window.Show()
 }
 
 func StudentGradeDetailsWin(sg *data.StudentGrade) {
@@ -159,5 +186,46 @@ func AddGrade() {
 }
 
 func GradesMainWin() {
+	var currentSelected int = -1
+	var mainContent *container.Split
+	window := app.NewWindow("Grades")
+	window.Resize(sizes.ListSize)
 
+	err := DB.LoadGrade()
+	if err != nil {
+		wins.ErrWin(app, err.Error())
+	}
+	fmt.Println(len(DB.Grades))
+
+	GradesList = GetGradesList(DB.Grades)
+
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(assets.DeleteGrade, func() {
+			fmt.Println(currentSelected)
+			if currentSelected == -1 {
+				return
+			}
+			err = data.Delete(DB.Grades[currentSelected])
+			if err != nil {
+				wins.ErrWin(app, err.Error())
+			}
+			DB.LoadGrade()
+			GradesList = GetGradesList(DB.Grades)
+		}),
+		widget.NewToolbarAction(assets.AddUser, func() {
+			AddGrade()
+			DB.LoadGrade()
+			GradesList = GetGradesList(DB.Grades)
+
+		}),
+	)
+	GradesList.OnSelected = func(id int) {
+		currentSelected = id
+	}
+
+	mainContent = container.NewVSplit(toolbar, GradesList)
+	mainContent.SetOffset(0)
+
+	window.SetContent(mainContent)
+	window.Show()
 }

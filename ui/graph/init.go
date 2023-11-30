@@ -9,9 +9,7 @@ package graph
 import (
 	"EduTrack/assets"
 	"EduTrack/data"
-	"EduTrack/ui/sizes"
 	"EduTrack/ui/wintools"
-	"fmt"
 
 	"fyne.io/fyne/v2"
 	fyne_app "fyne.io/fyne/v2/app"
@@ -41,36 +39,17 @@ func MainWindow() {
 	mainWin.SetMainMenu(Menu())
 	wintools.MaximizeWin(mainWin)
 
-	addGradeButton := widget.NewButton("Show grades", func() {
-		window := app.NewWindow("Grades")
-		window.Resize(sizes.ListSize)
-		content := container.NewStack(GradesList)
-
-		window.SetContent(content)
-		window.Show()
-	})
-	testButton := widget.NewButton("Add a grade", func() {
-		AddGrade()
-	})
-
 	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(assets.AddUser, func() {
-			AddStudentForm()
-		}),
-		widget.NewToolbarAction(assets.Lens1, func() {
-			Search()
-		}),
+		widget.NewToolbarAction(assets.AddUser, AddStudentForm),
+		widget.NewToolbarAction(assets.Lens1, Search),
+		widget.NewToolbarAction(assets.ShowGrades, GradesMainWin),
 	)
 
 	list := CreateStudentList(&DB.Students)
-	const gridNumber int = 4
-	buttonsGrid := container.NewAdaptiveGrid(gridNumber, addGradeButton, testButton)
-	fmt.Println(buttonsGrid)
-	vbox := container.NewVBox( /*buttonsGrid, widget.NewSeparator(),*/ StudentTab)
 
 	listContainer := container.NewVSplit(toolbar, list)
 	listContainer.SetOffset(0)
-	downbox := container.NewHSplit(vbox, listContainer)
+	downbox := container.NewHSplit(StudentTab, listContainer)
 	downbox.SetOffset(0)
 
 	// mainbox := container.NewVSplit(toolbar, downbox)

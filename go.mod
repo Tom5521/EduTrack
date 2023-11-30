@@ -8,9 +8,11 @@ require (
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
 	github.com/glebarez/go-sqlite v1.21.2
+	github.com/glebarez/sqlite v1.10.0
 	github.com/ncruces/zenity v0.10.10
 	github.com/stretchr/testify v1.8.4
 	gopkg.in/yaml.v3 v3.0.1
+	gorm.io/gorm v1.25.5
 )
 
 require (
@@ -31,6 +33,8 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/josephspurrier/goversioninfo v1.4.0 // indirect
 	github.com/jsummers/gobmp v0.0.0-20151104160322-e2ba15ffa76e // indirect
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect

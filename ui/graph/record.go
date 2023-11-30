@@ -24,6 +24,25 @@ func UpdateRecordsList(student *data.Student) {
 	RecordsList = GetRecordsList(student)
 }
 
+func GetRecordsList(student *data.Student) *widget.List {
+	list := widget.NewList(
+		func() int {
+			return len(student.Records)
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i widget.ListItemID, o fyne.CanvasObject) {
+			o.(*widget.Label).SetText(student.Records[i].Name)
+		},
+	)
+	list.OnSelected = func(id widget.ListItemID) {
+		list.UnselectAll()
+		EditRecordsData(student, id)
+	}
+	return list
+}
+
 // AddRecord opens a window to add a register for a student.
 func AddRecord(student *data.Student) {
 	getTimeNow := func() string {

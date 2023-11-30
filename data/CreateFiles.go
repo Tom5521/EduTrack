@@ -7,7 +7,6 @@
 package data
 
 import (
-	"database/sql"
 	"fmt"
 	"io"
 	"log"
@@ -16,8 +15,9 @@ import (
 	"runtime"
 
 	"gopkg.in/yaml.v3"
+	"gorm.io/gorm"
 
-	_ "github.com/glebarez/go-sqlite"
+	"github.com/glebarez/sqlite"
 )
 
 var Config ConfigStr
@@ -54,12 +54,21 @@ func CopyFile(src, dst string) (int64, error) {
 }
 
 func CreateDatabase() error {
-	db, err := sql.Open("sqlite", "database.db")
+	db, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 		return err
 	}
-	defer db.Close()
+
+	err = db.AutoMigrate(&Student{})
+	printErr(err)
+	err = db.AutoMigrate(&Grade{})
+	printErr(err)
+	err = db.AutoMigrate(&StudentGrade{})
+	printErr(err)
+	err = db.AutoMigrate(&Record{})
+	printErr(err)
+
 	defer func() { // Delete temporal database file
 		if (runtime.GOOS == "linux" || runtime.GOOS == "unix") && Config.DatabaseFile != "database.db" {
 			err = os.Remove("database.db")
@@ -68,49 +77,6 @@ func CreateDatabase() error {
 			}
 		}
 	}()
-	const query string = `
-CREATE TABLE IF NOT EXISTS "Grades" (
-	"grade_id"	INTEGER,
-	"Name"	TEXT,
-	"Info"	TEXT,
-	"Price"	INTEGER,
-	PRIMARY KEY("grade_id" AUTOINCREMENT)
-);
-
-CREATE TABLE IF NOT EXISTS "Records" (
-	"record_id"	INTEGER,
-	"student_id"	INTEGER,
-	"Name"	TEXT,
-	"Date"	TEXT,
-	"Info"	TEXT,
-	PRIMARY KEY("record_id" AUTOINCREMENT)
-);
-
-CREATE TABLE IF NOT EXISTS "Student_grades" (
-	"student_id"	INTEGER,
-	"grade_id"	INTEGER,
-	"start"	TEXT,
-	"end"	BLOB,
-	"student_grade_id"	INTEGER,
-	PRIMARY KEY("student_grade_id" AUTOINCREMENT)
-);
-
-CREATE TABLE IF NOT EXISTS "Students" (
-	"student_id"	INTEGER,
-	"Name"	TEXT,
-	"DNI"	TEXT,
-	"Age"	INTEGER,
-	"Phone_Number"	TEXT,
-	"ImagePath"	TEXT,
-	PRIMARY KEY("student_id" AUTOINCREMENT)
-);
-`
-
-	_, err = db.Exec(query)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
 
 	_, err = CopyFile("database.db", Config.DatabaseFile)
 	if err != nil {
@@ -123,7 +89,7 @@ func GetConfData() ConfigStr {
 	conf := ConfigStr{}
 	data, err := os.ReadFile(configFile)
 	if err != nil {
-		NotifyError("Error reading config file!", err)
+		log.Println("Error reading config file!", err)
 	}
 	err = yaml.Unmarshal(data, &conf)
 	if err != nil {
@@ -143,7 +109,7 @@ func getOSConfFile() (string, string) {
 		if _, err = os.Stat(confDir); os.IsNotExist(err) {
 			err = os.Mkdir(confDir, os.ModePerm)
 			if err != nil {
-				NotifyError("Error creating ~/.config/EduTrack/", err)
+				log.Println("Error creating ~/.config/EduTrack/", err)
 			}
 		}
 		return confDir + "/database.db", confDir + "/config.yml"
@@ -155,10 +121,10 @@ func NewConfigurationFile() {
 	var err error
 	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile})
 	if err != nil {
-		NotifyError("Error marshalling new configuration file", err)
+		log.Println("Error marshalling new configuration file", err)
 	}
 	err = os.WriteFile(configFile, ymlData, os.ModePerm)
 	if err != nil {
-		NotifyError("Error writing config file", err)
+		log.Println("Error writing config file", err)
 	}
 }

@@ -1,26 +1,9 @@
-/*
- * Copyright (c) 2023 Tom5521- All Rights Reserved.
- *
- * This project is licensed under the MIT License.
- */
-
 package data
 
 import (
 	"log"
 	"os"
-
-	"github.com/ncruces/zenity"
 )
-
-var DB DBStr
-
-func NotifyError(text string, cerr error) {
-	err := zenity.Notify(text + "::" + cerr.Error())
-	if err != nil {
-		log.Println(cerr)
-	}
-}
 
 func CheckFiles() {
 	check := func(file string) bool {
@@ -48,5 +31,5 @@ func CheckFiles() {
 func LoadFiles() {
 	Config = GetConfData()
 	CheckFiles()
-	DB = InitDB()
+	DB = GetDB()
 }

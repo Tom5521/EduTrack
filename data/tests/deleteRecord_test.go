@@ -20,23 +20,22 @@ import (
 
 func TestDeleteRecords(t *testing.T) {
 	data.LoadFiles()
-	var db = &data.DB
 	// assert := assert.New(t)
 	require := require.New(t)
-	if len(db.Students) == 0 {
-		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(data.Students) == 0 {
+		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
 
-	student := &db.Students[0]
-	err := student.LoadRecords()
+	student := &data.Students[0]
+	err := data.LoadRecords()
 	require.NoError(err)
-	if len(student.Records) == 0 {
-		_, err = student.AddRecord(data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777"})
+	if len(data.Records) == 0 {
+		err = student.AddRecord(data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777"})
 		require.NoError(err)
 	}
-	log.Println(student.Records)
-	err = student.Records[0].Delete()
+	log.Println(data.Records)
+	err = data.Records[0].Delete()
 	require.NoError(err)
-	log.Println(student.Records)
+	log.Println(data.Records)
 }

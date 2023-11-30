@@ -21,67 +21,64 @@ import (
 
 func TestDeleteGrade(t *testing.T) {
 	data.LoadFiles()
-	var db = &data.DB
 	assert := assert.New(t)
 	require := require.New(t)
-	if len(db.Grades) == 0 {
-		_, err := db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	if len(data.Grades) == 0 {
+		err := data.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
-		log.Println(db.Grades)
+		log.Println(data.Grades)
 	}
-	originalLen := len(db.Grades)
-	err := db.Grades[0].Delete()
+	originalLen := len(data.Grades)
+	err := data.Grades[0].Delete()
 	if err != nil {
 		assert.Fail("Error deleting grade", err)
 	}
-	fmt.Println(db.Grades)
-	assert.NotEqual(originalLen, len(db.Grades), "Grades array not modified!")
+	fmt.Println(data.Grades)
+	assert.NotEqual(originalLen, len(data.Grades), "Grades array not modified!")
 }
 
 func TestDeleteStudent(t *testing.T) {
-	var db = &data.DB
 	assert := assert.New(t)
 	require := require.New(t)
-	if len(db.Students) == 0 {
-		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(data.Students) == 0 {
+		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
-	originalLen := len(db.Students)
-	err := db.Students[0].Delete()
+	originalLen := len(data.Students)
+	err := data.Students[0].Delete()
 	require.NoError(err)
-	fmt.Println(db.Students)
-	assert.NotEqual(originalLen, len(db.Grades))
+	fmt.Println(data.Students)
+	assert.NotEqual(originalLen, len(data.Grades))
 }
 
 func TestDeleteIn(t *testing.T) {
-	var db = &data.DB
 	assert := assert.New(t)
 	require := require.New(t)
 	// Test grades
-	if len(db.Grades) == 0 {
-		_, err := db.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	if len(data.Grades) == 0 {
+		err := data.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
-		log.Println(db.Grades)
+		log.Println(data.Grades)
 	}
 	// Test Students
-	if len(db.Students) == 0 {
-		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(data.Students) == 0 {
+		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
-		log.Println(db.Grades)
+		log.Println(data.Grades)
 	}
 
-	originalStudentlen := len(db.Students)
-	originalGradelen := len(db.Grades)
+	originalStudentlen := len(data.Students)
+	originalGradelen := len(data.Grades)
 
 	// Exec Deleter
-	err := data.Delete(db.Students[0])
+	err := data.Delete(data.Students[0])
 	require.NoError(err)
-	err = data.Delete(db.Grades[0])
+	err = data.Delete(data.Grades[0])
 	require.NoError(err)
 
-	fmt.Println(db.Students)
-	fmt.Println(db.Grades)
+	fmt.Println(data.Students)
+	fmt.Println(data.Grades)
 
-	assert.NotEqual(originalStudentlen, len(db.Students), "Student table not modified!")
-	assert.NotEqual(originalGradelen, len(db.Grades), "Grades table not modified!")
+	assert.NotEqual(originalStudentlen, len(data.Students), "Student table not modified!")
+	assert.NotEqual(originalGradelen, len(data.Grades), "Grades table not modified!")
 }
