@@ -23,3 +23,11 @@ func (r Record) Delete() error {
 	printErr(err)
 	return LoadRecords()
 }
+
+type Deleter interface {
+	Delete() error
+}
+
+func Delete(i Deleter) error {
+	return i.Delete()
+}

@@ -32,6 +32,12 @@ func TestEditGrade(t *testing.T) {
 func TestEditStudent(t *testing.T) {
 	// assert := assert.New(t)
 	fmt.Println(data.Students)
+	if len(data.Students) == 0 {
+		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		if err != nil {
+			log.Println(err)
+		}
+	}
 	err := data.EditStudent(data.Students[0].ID, data.Student{Name: "Carlos pajas"})
 	require.NoError(t, err)
 	fmt.Println(data.Students)
@@ -75,16 +81,17 @@ func TestEditStudentGrade(t *testing.T) {
 	}
 	err := data.LoadGrades()
 	require.NoError(err)
-	if len(data.Grades) == 0 {
-		err = data.AddGrade(data.Grade{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
+	if len(student.Grades) == 0 {
+		err = student.AddGrade(data.StudentGrade{GradeID: data.Grades[0].ID, StudentID: student.ID, Start: "123", End: "23123"})
 		require.NoError(err)
 	}
+	student.GetGrades()
 	dbgrade := data.Grades[0]
-	if len(data.Grades) == 0 {
+	if len(student.Grades) == 0 {
 		err = student.AddGrade(data.StudentGrade{StudentID: student.ID, GradeID: dbgrade.ID, Start: "1234", End: "12344"})
 		require.NoError(err)
 	}
-	grade := &data.Grades[0]
+	grade := &student.Grades[0]
 	fmt.Println(grade)
 	err = grade.Edit(data.StudentGrade{
 		StudentID: student.ID,

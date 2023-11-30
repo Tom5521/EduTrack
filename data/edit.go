@@ -35,7 +35,8 @@ func (s *StudentGrade) Edit(nSG StudentGrade) error {
 // Global
 
 func EditStudentGrade(id uint, newStudentGrade StudentGrade) error {
-
+	i := FindStudentGradeIndexByID(id)
+	return StudentGrades[i].Edit(newStudentGrade)
 }
 
 func EditStudent(id uint, newStudent Student) error {

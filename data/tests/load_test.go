@@ -18,7 +18,6 @@ import (
 
 func TestLoadDatabase(t *testing.T) {
 	data.LoadFiles()
-	var db = &data.DB
 	require := require.New(t)
 	// assert := assert.New(t)
 	data.LoadFiles()
@@ -30,12 +29,12 @@ func TestLoadDatabase(t *testing.T) {
 	}*/
 	for ts := seconds; ts != 0; ts-- {
 		time.Sleep(1 * time.Second)
-		err := db.LoadStudents()
+		err := data.LoadStudents()
 		require.NoError(err)
-		err = db.LoadGrade()
+		err = data.LoadGrades()
 		require.NoError(err)
-		fmt.Println("Grades:", db.Grades)
-		fmt.Println("Students:", db.Students)
+		fmt.Println("Grades:", data.Grades)
+		fmt.Println("Students:", data.Students)
 		fmt.Println("Seconds left:", ts)
 	}
 }
@@ -57,31 +56,17 @@ func TestCreateDatabase(t *testing.T) {
 }
 
 func TestLoadStudentRecords(t *testing.T) {
-	var db = &data.DB
 	// assert := assert.New(t)
 	require := require.New(t)
-	if len(db.Students) == 0 {
-		_, err := db.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+	if len(data.Students) == 0 {
+		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
 
-	fmt.Println(db.Students[0])
-	fmt.Println(db.Students[0].Records)
-	err := db.LoadStudents()
+	fmt.Println(data.Students[0])
+	fmt.Println(data.Students[0].Records)
+	err := data.LoadStudents()
 	require.NoError(err)
-	err = db.Students[0].LoadRecords()
-	require.NoError(err)
-	fmt.Println(db.Students[0])
-	fmt.Println(db.Students[0].Records)
-}
-
-func TestLoadAllStudentRecords(t *testing.T) {
-	var db = &data.DB
-	// assert := assert.New(t)
-	for _, student := range db.Students {
-		err := student.LoadRecords()
-		require.NoError(t, err)
-		fmt.Printf("Student Name:%v\nRecords:%v\n", student.Name, student.Records)
-	}
-	fmt.Println(db.Students[0].Records)
+	fmt.Println(data.Students[0])
+	fmt.Println(data.Students[0].Records)
 }
