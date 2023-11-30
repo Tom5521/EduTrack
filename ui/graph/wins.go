@@ -26,12 +26,12 @@ func Search() {
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton("Search", func() {
 		studentDNI := entry.Text
-		i := DB.FindStudentIndexByDNI(studentDNI)
+		i := data.FindStudentIndexByDNI(studentDNI)
 		if i == -1 {
 			wins.ErrWin(app, "Student not found!")
 			return
 		}
-		student := DB.Students[i]
+		student := data.Students[i]
 		LoadStudentInfo(&student)
 		w.Close()
 	})

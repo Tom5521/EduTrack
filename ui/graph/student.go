@@ -34,7 +34,7 @@ func LoadStudentInfo(student *data.Student) {
 	// Age Label
 	ageLabel := nlb("Age: ")
 	ageLabel.TextStyle.Bold = true
-	ageCont := nhbx(ageLabel, nlb(strconv.Itoa(student.Age)))
+	ageCont := nhbx(ageLabel, nlb(strconv.Itoa(int(student.Age))))
 	// ID Label
 	idLabel := nlb("DNI: ")
 	idLabel.TextStyle.Bold = true
@@ -47,7 +47,7 @@ func LoadStudentInfo(student *data.Student) {
 	gradesLabel := nlb("Grades:")
 	gradesLabel.TextStyle.Bold = true
 	getGrades := func() string {
-		d := student.GetGradeNames()
+		d := student.GetGradesNames()
 		p := strings.Join(d, ",")
 		return p
 	}
@@ -91,7 +91,7 @@ func EditFormWindow(student *data.Student) {
 	nameEntry := widget.NewEntry()
 	nameEntry.SetText(student.Name)
 	ageEntry := widget.NewEntry()
-	ageEntry.SetText(strconv.Itoa(student.Age))
+	ageEntry.SetText(strconv.Itoa(int(student.Age)))
 	dniEntry := widget.NewEntry()
 	dniEntry.SetText(student.DNI)
 	phoneEntry := widget.NewEntry()
@@ -130,7 +130,7 @@ func EditFormWindow(student *data.Student) {
 	form.OnSubmit = func() {
 		// Validate form fields
 		if !checkValues(data.Student{
-			Age:         atoi(ageEntry.Text),
+			Age:         uint(atoi(ageEntry.Text)),
 			DNI:         dniEntry.Text,
 			PhoneNumber: phoneEntry.Text,
 			Name:        nameEntry.Text,
@@ -139,14 +139,14 @@ func EditFormWindow(student *data.Student) {
 			return
 		}
 		if dniEntry.Text != student.DNI {
-			if existsID(dniEntry.Text, DB.GetStudentDNIs()) {
+			if existsID(dniEntry.Text, data.GetStudentDNIs()) {
 				wins.ErrWin(app, "The DNI already exists")
 				return
 			}
 		}
 		err := student.Edit(data.Student{
 			Name:          nameEntry.Text,
-			Age:           atoi(ageEntry.Text),
+			Age:           uint(atoi(ageEntry.Text)),
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
@@ -155,7 +155,7 @@ func EditFormWindow(student *data.Student) {
 			wins.ErrWin(app, err.Error())
 		}
 		StundentList.Refresh()
-		LoadStudentInfo(&DB.Students[DB.FindStudentIndexByID(student.ID)])
+		LoadStudentInfo(&data.Students[data.FindStudentIndexByID(student.ID)])
 		window.Close()
 	}
 
@@ -215,8 +215,8 @@ func AddStudentForm() {
 
 	studentGradesLabel := widget.NewLabel("")
 	studentGradesLabel.SetText(getStGrade())
-	gradeSelect := widget.NewSelect(DB.GetGradesNames(), func(s string) {
-		gradesStr = append(gradesStr, DB.FindGradeByName(s))
+	gradeSelect := widget.NewSelect(data.GetGradesNames(), func(s string) {
+		gradesStr = append(gradesStr, data.FindGradeByName(s))
 
 		studentGradesLabel.SetText(getStGrade())
 	})
@@ -242,7 +242,7 @@ func AddStudentForm() {
 	form.OnSubmit = func() {
 		// Validate form fields
 		if !checkValues(data.Student{
-			Age:         atoi(ageEntry.Text),
+			Age:         uint(atoi(ageEntry.Text)),
 			DNI:         dniEntry.Text,
 			PhoneNumber: phoneEntry.Text,
 			Name:        nameEntry.Text,
@@ -250,7 +250,7 @@ func AddStudentForm() {
 			wins.ErrWin(app, "Some value in the form is empty")
 			return
 		}
-		if existsID(dniEntry.Text, DB.GetStudentDNIs()) {
+		if existsID(dniEntry.Text, data.GetStudentDNIs()) {
 			wins.ErrWin(app, "The DNI already exists")
 			return
 		}
@@ -264,18 +264,22 @@ func AddStudentForm() {
 		}()
 
 		// Add a new student
-		lastInsert, _ := DB.AddStudent(data.Student{
+		newStudent := data.Student{
 			Name:          nameEntry.Text,
-			Age:           atoi(ageEntry.Text),
+			Age:           uint(atoi(ageEntry.Text)),
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 			Grades:        StGrades,
-		})
+		}
+		err := data.AddStudent(&newStudent)
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
 		fmt.Println(gradesStr)
-		fmt.Println(DB.Students[len(DB.Students)-1])
+		fmt.Println(data.Students[len(data.Students)-1])
 		StundentList.Refresh()
-		s := DB.Students[DB.FindStudentIndexByID(lastInsert)]
+		s := data.Students[data.FindStudentIndexByID(newStudent.ID)]
 		LoadStudentInfo(&s)
 		window.Close()
 	}

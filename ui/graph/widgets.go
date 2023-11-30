@@ -8,7 +8,7 @@ package graph
 
 import (
 	"EduTrack/assets"
-	"EduTrack/pkg/wins"
+	"EduTrack/data"
 	"EduTrack/ui/sizes"
 	"strconv"
 
@@ -21,7 +21,7 @@ import (
 // Define global variables.
 var (
 	StundentList *widget.List
-	GradesList   *widget.List = GetGradesList(DB.Grades)
+	GradesList   *widget.List = GetGradesList(data.Grades)
 )
 
 // atoi converts a string to an integer, handling errors.
@@ -59,10 +59,7 @@ func Menu() *fyne.MainMenu {
 		),
 		fyne.NewMenu("Edit",
 			fyne.NewMenuItem("Reload data", func() {
-				err := DB.Update()
-				if err != nil {
-					wins.ErrWin(app, err.Error())
-				}
+				data.LoadEverything()
 			}),
 		),
 		fyne.NewMenu("Help",

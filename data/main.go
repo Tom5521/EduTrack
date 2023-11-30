@@ -32,4 +32,5 @@ func LoadFiles() {
 	Config = GetConfData()
 	CheckFiles()
 	DB = GetDB()
+	LoadEverything()
 }

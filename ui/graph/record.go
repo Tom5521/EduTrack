@@ -79,7 +79,7 @@ func AddRecord(student *data.Student) {
 		}*/
 
 	submitButton := widget.NewButton("Submit", func() {
-		_, err := student.AddRecord(data.Record{
+		err := student.AddRecord(&data.Record{
 			Date: tmpDate,
 			Name: recnameEntry.Text,
 			Info: recDetails.Text,
@@ -87,10 +87,7 @@ func AddRecord(student *data.Student) {
 		if err != nil {
 			wins.ErrWin(app, err.Error())
 		}
-		err = student.LoadRecords()
-		if err != nil {
-			wins.ErrWin(app, err.Error())
-		}
+		student.GetRecords()
 		UpdateRecordsList(student)
 		window.Close()
 	})
@@ -111,10 +108,7 @@ func AddRecord(student *data.Student) {
 }
 
 func ShowRecords(student *data.Student) {
-	err := student.LoadRecords()
-	if err != nil {
-		wins.ErrWin(app, err.Error())
-	}
+	student.GetRecords()
 	UpdateRecordsList(student)
 	var content *fyne.Container
 	window := app.NewWindow(student.Name + " records")
@@ -171,7 +165,7 @@ func EditRecordsData(student *data.Student, index int) {
 			wins.ErrWin(app, err.Error())
 		}
 
-		err = student.LoadRecords()
+		student.GetRecords()
 		if err != nil {
 			wins.ErrWin(app, err.Error())
 		}

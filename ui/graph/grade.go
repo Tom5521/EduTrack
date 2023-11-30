@@ -95,8 +95,8 @@ func GradeDetailsWin(g *data.Grade) {
 
 func StudentGradeDetailsWin(sg *data.StudentGrade) {
 	getGrade := func() *data.Grade {
-		i := DB.FindGradeIndexByID(sg.GradeID)
-		return &DB.Grades[i]
+		i := data.FindGradeIndexByID(sg.GradeID)
+		return &data.Grades[i]
 	}
 	g := getGrade()
 
@@ -165,19 +165,21 @@ func AddGrade() {
 			wins.ErrWin(app, "Info entry is empty")
 			return
 		}
-		if strings.Contains(strings.Join(DB.GetGradesNames(), " "), gradeEntry.Text) {
+		if strings.Contains(strings.Join(data.GetGradesNames(), " "), gradeEntry.Text) {
 			wins.ErrWin(app, "This grade already exists!")
 			return
 		}
-
-		_, err := DB.AddGrade(data.Grade{
+		newGrade := data.Grade{
 			Name:  gradeEntry.Text,
 			Info:  infoEntry.Text,
 			Price: priceEntry.Text,
-		})
+		}
+		err := data.AddGrade(&newGrade)
 		if err != nil {
 			wins.ErrWin(app, err.Error())
 		}
+		GradesList = GetGradesList(data.Grades)
+		GradesList.Refresh()
 		window.Close()
 	}
 	content := container.NewVBox(form)
@@ -191,13 +193,13 @@ func GradesMainWin() {
 	window := app.NewWindow("Grades")
 	window.Resize(sizes.ListSize)
 
-	err := DB.LoadGrade()
+	err := data.LoadGrades()
 	if err != nil {
 		wins.ErrWin(app, err.Error())
 	}
-	fmt.Println(len(DB.Grades))
+	fmt.Println(len(data.Grades))
 
-	GradesList = GetGradesList(DB.Grades)
+	GradesList = GetGradesList(data.Grades)
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.DeleteGrade, func() {
@@ -205,17 +207,20 @@ func GradesMainWin() {
 			if currentSelected == -1 {
 				return
 			}
-			err = data.Delete(DB.Grades[currentSelected])
+			err = data.Delete(data.Grades[currentSelected])
 			if err != nil {
 				wins.ErrWin(app, err.Error())
 			}
-			DB.LoadGrade()
-			GradesList = GetGradesList(DB.Grades)
+			GradesList = GetGradesList(data.Grades)
+			GradesList.Refresh()
+			GradesList.UnselectAll()
 		}),
 		widget.NewToolbarAction(assets.AddUser, func() {
 			AddGrade()
-			DB.LoadGrade()
-			GradesList = GetGradesList(DB.Grades)
+			data.LoadGrades()
+			GradesList = GetGradesList(data.Grades)
+			GradesList.Refresh()
+			GradesList.UnselectAll()
 
 		}),
 	)

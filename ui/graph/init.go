@@ -23,7 +23,6 @@ import (
 var (
 	app        fyne.App = fyne_app.New()
 	StudentTab *fyne.Container
-	DB         *data.DBStr = &data.DB
 )
 
 // MainWindow is the main entry point of the application.
@@ -44,8 +43,8 @@ func MainWindow() {
 		widget.NewToolbarAction(assets.Lens1, Search),
 		widget.NewToolbarAction(assets.ShowGrades, GradesMainWin),
 	)
-
-	list := CreateStudentList(&DB.Students)
+	data.LoadStudents()
+	list := CreateStudentList(&data.Students)
 
 	listContainer := container.NewVSplit(toolbar, list)
 	listContainer.SetOffset(0)
