@@ -59,7 +59,7 @@ func TestLoadStudentRecords(t *testing.T) {
 	// assert := assert.New(t)
 	require := require.New(t)
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
 

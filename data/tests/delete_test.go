@@ -24,7 +24,7 @@ func TestDeleteGrade(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
 	if len(data.Grades) == 0 {
-		err := data.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 		log.Println(data.Grades)
 	}
@@ -41,7 +41,7 @@ func TestDeleteStudent(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
 	originalLen := len(data.Students)
@@ -56,13 +56,13 @@ func TestDeleteIn(t *testing.T) {
 	require := require.New(t)
 	// Test grades
 	if len(data.Grades) == 0 {
-		err := data.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 		log.Println(data.Grades)
 	}
 	// Test Students
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 		log.Println(data.Grades)
 	}

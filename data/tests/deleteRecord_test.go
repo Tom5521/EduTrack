@@ -23,7 +23,7 @@ func TestDeleteRecords(t *testing.T) {
 	// assert := assert.New(t)
 	require := require.New(t)
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
 
@@ -31,7 +31,7 @@ func TestDeleteRecords(t *testing.T) {
 	err := data.LoadRecords()
 	require.NoError(err)
 	if len(data.Records) == 0 {
-		err = student.AddRecord(data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777"})
+		err = student.AddRecord(&data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777"})
 		require.NoError(err)
 	}
 	log.Println(data.Records)

@@ -20,7 +20,7 @@ func TestEditGrade(t *testing.T) {
 	// assert := assert.New(t)
 	fmt.Println(data.Grades)
 	if len(data.Grades) == 0 {
-		err := data.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(t, err)
 		log.Println(data.Grades)
 	}
@@ -33,7 +33,7 @@ func TestEditStudent(t *testing.T) {
 	// assert := assert.New(t)
 	fmt.Println(data.Students)
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		if err != nil {
 			log.Println(err)
 		}
@@ -48,14 +48,14 @@ func TestEditRecord(t *testing.T) {
 	fmt.Println("Starter records len:", len(data.Records))
 	// assert := assert.New(t)
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(t, err)
 	}
 	student := &data.Students[0]
 	fmt.Println("records loaded Len:", len(data.Records))
 	tmpRecord := data.Record{Name: "Testt", Info: "Lorem ipsum", Date: "777", StudentID: student.ID}
 	if len(data.Records) == 0 {
-		err := student.AddRecord(tmpRecord)
+		err := student.AddRecord(&tmpRecord)
 		require.NoError(t, err)
 	}
 	tmpRecord.Info = "Edited for testing!"
@@ -71,24 +71,24 @@ func TestEditStudentGrade(t *testing.T) {
 	// assert := assert.New(t)
 	require := require.New(t)
 	if len(data.Students) == 0 {
-		err := data.AddStudent(data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
+		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
 	}
 	student := &data.Students[0]
 	if len(data.Grades) == 0 {
-		err := data.AddGrade(data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 	}
 	err := data.LoadGrades()
 	require.NoError(err)
 	if len(student.Grades) == 0 {
-		err = student.AddGrade(data.StudentGrade{GradeID: data.Grades[0].ID, StudentID: student.ID, Start: "123", End: "23123"})
+		err = student.AddGrade(&data.StudentGrade{GradeID: data.Grades[0].ID, StudentID: student.ID, Start: "123", End: "23123"})
 		require.NoError(err)
 	}
 	student.GetGrades()
 	dbgrade := data.Grades[0]
 	if len(student.Grades) == 0 {
-		err = student.AddGrade(data.StudentGrade{StudentID: student.ID, GradeID: dbgrade.ID, Start: "1234", End: "12344"})
+		err = student.AddGrade(&data.StudentGrade{StudentID: student.ID, GradeID: dbgrade.ID, Start: "1234", End: "12344"})
 		require.NoError(err)
 	}
 	grade := &student.Grades[0]
