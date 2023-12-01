@@ -54,13 +54,6 @@ func LoadStudentInfo(student *data.Student) {
 	gradesCont := nhbx(gradesLabel, nlb(getGrades()))
 
 	dataContainer := container.NewVBox(nameCont, ageCont, idCont, phoneCont, gradesCont)
-	editButton := widget.NewButton("Edit", func() {
-		EditFormWindow(student)
-	})
-
-	deleteButton := widget.NewButton("Delete", func() {
-		DeleteForm(student)
-	})
 	recordButton := widget.NewButton("Add a record", func() {
 		AddRecord(student)
 	})
@@ -72,8 +65,6 @@ func LoadStudentInfo(student *data.Student) {
 	content := container.NewVBox(image,
 		dataContainer,
 		container.NewAdaptiveGrid(gridNumber,
-			editButton,
-			deleteButton,
 			recordButton,
 			showRecordsBt,
 		),

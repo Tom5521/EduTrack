@@ -51,6 +51,14 @@ func MainWindow() {
 			}
 			DeleteForm(&data.Students[selected])
 		}),
+		widget.NewToolbarAction(assets.Edit, func() {
+			if selected == -1 {
+				return
+			}
+			EditFormWindow(&data.Students[selected])
+		}),
+
+		widget.NewToolbarSeparator(),
 		widget.NewToolbarAction(assets.Lens1, Search),
 		widget.NewToolbarAction(assets.ShowGrades, GradesMainWin),
 	)
