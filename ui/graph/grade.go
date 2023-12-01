@@ -214,6 +214,7 @@ func GradesMainWin() {
 	list := GetGradesList(&data.Grades)
 
 	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(assets.Plus, func() { AddGrade() }),
 		widget.NewToolbarAction(assets.DeleteGrade, func() {
 			if selected == -1 {
 				return
@@ -223,22 +224,30 @@ func GradesMainWin() {
 				wins.ErrWin(app, err.Error())
 				return
 			}
+			list.UnselectAll()
 			selected = -1
 		}),
-		widget.NewToolbarAction(assets.Plus, func() { AddGrade() }),
-		widget.NewToolbarAction(assets.ShowGrades, func() { GradeDetailsWin(&data.Grades[selected]) }),
-		widget.NewToolbarAction(assets.Edit, func() { EditGrade(&data.Grades[selected]) }),
+		widget.NewToolbarAction(assets.ShowGrades, func() {
+			if selected == -1 {
+				return
+			}
+			GradeDetailsWin(&data.Grades[selected])
+		}),
+		widget.NewToolbarAction(assets.Edit, func() {
+			if selected == -1 {
+				return
+			}
+			EditGrade(&data.Grades[selected])
+		}),
 	)
 
 	list.OnSelected = func(id widget.ListItemID) {
 		selected = id
 	}
 
-	ncontent := container.NewBorder(toolbar, nil, nil, nil, list)
-	//content := container.NewStack(ncontent, list)
-	//content.SetOffset(0)
+	content := container.NewBorder(toolbar, nil, nil, nil, list)
 	w.SetIcon(assets.ShowGrades)
-	w.SetContent(ncontent)
+	w.SetContent(content)
 
 	w.Show()
 }

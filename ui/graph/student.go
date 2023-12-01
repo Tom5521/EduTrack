@@ -288,7 +288,7 @@ func AddStudentForm() {
 }
 
 // CreateStudentList creates a list of students and their names.
-func CreateStudentList(students *[]data.Student) fyne.Widget {
+func CreateStudentList(students *[]data.Student) *widget.List {
 	// Initialize the student list widget
 	StundentList = widget.NewList(
 		func() int {

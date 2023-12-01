@@ -37,25 +37,29 @@ func MainWindow() {
 	mainWin.SetMaster()
 	mainWin.SetMainMenu(Menu())
 	wintools.MaximizeWin(mainWin)
+	var selected = -1
+	list := CreateStudentList(&data.Students)
+	list.OnSelected = func(id widget.ListItemID) {
+		selected = id
+	}
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.AddUser, AddStudentForm),
+		widget.NewToolbarAction(assets.DeleteStudent, func() {
+			if selected == -1 {
+				return
+			}
+			DeleteForm(&data.Students[selected])
+		}),
 		widget.NewToolbarAction(assets.Lens1, Search),
 		widget.NewToolbarAction(assets.ShowGrades, GradesMainWin),
 	)
-	list := CreateStudentList(&data.Students)
 
 	listContainer := container.NewBorder(toolbar, nil, nil, nil, list)
 	ncontent := container.NewBorder(nil, nil, container.NewHBox(StudentTab, widget.NewSeparator()), nil, listContainer)
 
-	//listContainer := container.NewVSplit(toolbar, list)
-	//listContainer.SetOffset(0)
 	downbox := container.NewHSplit(StudentTab, listContainer)
 	downbox.SetOffset(0)
-
-	// mainbox := container.NewVSplit(toolbar, downbox)
-	// mainbox.SetOffset(0)
-
 	mainWin.SetContent(ncontent)
 	mainWin.ShowAndRun()
 }

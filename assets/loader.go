@@ -11,22 +11,23 @@ import "fyne.io/fyne/v2"
 // Themed
 
 var (
-	App          fyne.Resource
-	AddUser      fyne.Resource
-	Dev          fyne.Resource
-	Download     fyne.Resource
-	Error        fyne.Resource
-	Info         fyne.Resource
-	Install      fyne.Resource
-	Restart      fyne.Resource
-	Save         fyne.Resource
-	Uninstall    fyne.Resource
-	UserTemplate fyne.Resource
-	Lens1        fyne.Resource
-	ShowGrades   fyne.Resource
-	DeleteGrade  fyne.Resource
-	Plus         fyne.Resource
-	Edit         fyne.Resource
+	App           fyne.Resource
+	AddUser       fyne.Resource
+	Dev           fyne.Resource
+	Download      fyne.Resource
+	Error         fyne.Resource
+	Info          fyne.Resource
+	Install       fyne.Resource
+	Restart       fyne.Resource
+	Save          fyne.Resource
+	Uninstall     fyne.Resource
+	UserTemplate  fyne.Resource
+	Lens1         fyne.Resource
+	ShowGrades    fyne.Resource
+	DeleteGrade   fyne.Resource
+	Plus          fyne.Resource
+	Edit          fyne.Resource
+	DeleteStudent fyne.Resource
 )
 
 // Shared
@@ -52,6 +53,7 @@ func Load() {
 	DeleteGrade = getResource("DeleteGrade.png")
 	Plus = getResource("plus.png")
 	Edit = getResource("Edit.png")
+	DeleteStudent = getResource("deleteStudent.png")
 
 	Placeholder = getCmResource("Placeholder.png")
 }
