@@ -25,6 +25,8 @@ var (
 	Lens1        fyne.Resource
 	ShowGrades   fyne.Resource
 	DeleteGrade  fyne.Resource
+	Plus         fyne.Resource
+	Edit         fyne.Resource
 )
 
 // Shared
@@ -48,6 +50,8 @@ func Load() {
 	AddUser = getResource("AddUser.png")
 	App = getResource("Icon.png")
 	DeleteGrade = getResource("DeleteGrade.png")
+	Plus = getResource("plus.png")
+	Edit = getResource("Edit.png")
 
 	Placeholder = getCmResource("Placeholder.png")
 }

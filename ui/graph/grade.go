@@ -11,33 +11,26 @@ import (
 	"EduTrack/data"
 	"EduTrack/pkg/wins"
 	"EduTrack/ui/sizes"
-	"fmt"
 	"log"
-	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
 
-func GetGradesList(grades []data.Grade) *widget.List {
+func GetGradesList(grades *[]data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
-			return len(grades)
+			return len(*grades)
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
-			mod := grades
+			mod := *grades
 			o.(*widget.Label).SetText(mod[i].Name)
 		},
 	)
-
-	list.OnSelected = func(id widget.ListItemID) {
-		g := grades[id]
-		GradeDetailsWin(&g)
-	}
 
 	return list
 }
@@ -79,15 +72,35 @@ func EditGrade(g *data.Grade) {
 	window.Show()
 }
 
-func GradeDetailsWin(g *data.Grade) {
-	window := app.NewWindow(g.Name)
+func GetGradeDetailsCont(g *data.Grade, window fyne.Window) *fyne.Container {
+	editButton := widget.NewButton("Edit", func() {
+		EditGrade(g)
+		window.Close()
+	})
+	deleteButton := widget.NewButton("Delete", func() {
+		err := data.Delete(g)
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+		}
+		GradesList = GetGradesList(&data.Grades)
+		GradesList.Refresh()
+		window.Close()
+	})
+	const gridNumber int = 2
 
 	form := widget.NewForm(
 		widget.NewFormItem("Name:", widget.NewLabel(g.Name)),
 		widget.NewFormItem("Price:", widget.NewLabel(g.Price)),
 		widget.NewFormItem("Info", widget.NewLabel(g.Info)),
-		widget.NewFormItem("", widget.NewButton("Edit", func() { EditGrade(g); window.Close() })),
+		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
+	return container.NewStack(form)
+}
+
+func GradeDetailsWin(g *data.Grade) {
+	window := app.NewWindow(g.Name)
+
+	form := GetGradeDetailsCont(g, window)
 
 	window.SetContent(form)
 	window.Show()
@@ -165,7 +178,14 @@ func AddGrade() {
 			wins.ErrWin(app, "Info entry is empty")
 			return
 		}
-		if strings.Contains(strings.Join(data.GetGradesNames(), " "), gradeEntry.Text) {
+		if func() bool {
+			for _, grade := range data.Grades {
+				if grade.Name == gradeEntry.Text {
+					return true
+				}
+			}
+			return false
+		}() {
 			wins.ErrWin(app, "This grade already exists!")
 			return
 		}
@@ -178,8 +198,7 @@ func AddGrade() {
 		if err != nil {
 			wins.ErrWin(app, err.Error())
 		}
-		GradesList = GetGradesList(data.Grades)
-		GradesList.Refresh()
+		GradesList = GetGradesList(&data.Grades)
 		window.Close()
 	}
 	content := container.NewVBox(form)
@@ -188,49 +207,38 @@ func AddGrade() {
 }
 
 func GradesMainWin() {
-	var currentSelected int = -1
-	var mainContent *container.Split
-	window := app.NewWindow("Grades")
-	window.Resize(sizes.ListSize)
+	w := app.NewWindow("Grades")
 
-	err := data.LoadGrades()
-	if err != nil {
-		wins.ErrWin(app, err.Error())
-	}
-	fmt.Println(len(data.Grades))
+	var selected = -1
 
-	GradesList = GetGradesList(data.Grades)
+	list := GetGradesList(&data.Grades)
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.DeleteGrade, func() {
-			fmt.Println(currentSelected)
-			if currentSelected == -1 {
+			if selected == -1 {
 				return
 			}
-			err = data.Delete(data.Grades[currentSelected])
+			err := data.Delete(data.Grades[selected])
 			if err != nil {
 				wins.ErrWin(app, err.Error())
+				return
 			}
-			GradesList = GetGradesList(data.Grades)
-			GradesList.Refresh()
-			GradesList.UnselectAll()
+			selected = -1
 		}),
-		widget.NewToolbarAction(assets.AddUser, func() {
-			AddGrade()
-			data.LoadGrades()
-			GradesList = GetGradesList(data.Grades)
-			GradesList.Refresh()
-			GradesList.UnselectAll()
-
-		}),
+		widget.NewToolbarAction(assets.Plus, func() { AddGrade() }),
+		widget.NewToolbarAction(assets.ShowGrades, func() { GradeDetailsWin(&data.Grades[selected]) }),
+		widget.NewToolbarAction(assets.Edit, func() { EditGrade(&data.Grades[selected]) }),
 	)
-	GradesList.OnSelected = func(id int) {
-		currentSelected = id
+
+	list.OnSelected = func(id widget.ListItemID) {
+		selected = id
 	}
 
-	mainContent = container.NewVSplit(toolbar, GradesList)
-	mainContent.SetOffset(0)
+	ncontent := container.NewBorder(toolbar, nil, nil, nil, list)
+	//content := container.NewStack(ncontent, list)
+	//content.SetOffset(0)
+	w.SetIcon(assets.ShowGrades)
+	w.SetContent(ncontent)
 
-	window.SetContent(mainContent)
-	window.Show()
+	w.Show()
 }

@@ -43,17 +43,19 @@ func MainWindow() {
 		widget.NewToolbarAction(assets.Lens1, Search),
 		widget.NewToolbarAction(assets.ShowGrades, GradesMainWin),
 	)
-	data.LoadStudents()
 	list := CreateStudentList(&data.Students)
 
-	listContainer := container.NewVSplit(toolbar, list)
-	listContainer.SetOffset(0)
+	listContainer := container.NewBorder(toolbar, nil, nil, nil, list)
+	ncontent := container.NewBorder(nil, nil, container.NewHBox(StudentTab, widget.NewSeparator()), nil, listContainer)
+
+	//listContainer := container.NewVSplit(toolbar, list)
+	//listContainer.SetOffset(0)
 	downbox := container.NewHSplit(StudentTab, listContainer)
 	downbox.SetOffset(0)
 
 	// mainbox := container.NewVSplit(toolbar, downbox)
 	// mainbox.SetOffset(0)
 
-	mainWin.SetContent(downbox)
+	mainWin.SetContent(ncontent)
 	mainWin.ShowAndRun()
 }

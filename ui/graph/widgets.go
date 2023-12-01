@@ -21,7 +21,7 @@ import (
 // Define global variables.
 var (
 	StundentList *widget.List
-	GradesList   *widget.List = GetGradesList(data.Grades)
+	GradesList   *widget.List = GetGradesList(&data.Grades)
 )
 
 // atoi converts a string to an integer, handling errors.
