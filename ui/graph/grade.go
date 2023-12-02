@@ -18,6 +18,17 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
+// TODO: Implement the UI in a structure...
+// I'm a really bad programmer...
+// But the point of this project is to learn...
+// It was worth it (for me),
+// for any other programmer it would probably burn your eyes just to start reading the code.
+
+type ui struct {
+	app        fyne.App
+	StudentTab *fyne.Container
+}
+
 func GetGradesList(grades *[]data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
@@ -209,7 +220,7 @@ func AddGrade() {
 func GradesMainWin() {
 	w := app.NewWindow("Grades")
 
-	var selected = -1
+	selected := -1
 
 	list := GetGradesList(&data.Grades)
 

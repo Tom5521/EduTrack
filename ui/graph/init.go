@@ -64,10 +64,10 @@ func MainWindow() {
 	)
 
 	listContainer := container.NewBorder(toolbar, nil, nil, nil, list)
-	ncontent := container.NewBorder(nil, nil, container.NewHBox(StudentTab, widget.NewSeparator()), nil, listContainer)
+	content := container.NewBorder(nil, nil, container.NewHBox(StudentTab, widget.NewSeparator()), nil, listContainer)
 
 	downbox := container.NewHSplit(StudentTab, listContainer)
 	downbox.SetOffset(0)
-	mainWin.SetContent(ncontent)
+	mainWin.SetContent(content)
 	mainWin.ShowAndRun()
 }
