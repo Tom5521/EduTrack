@@ -7,10 +7,10 @@
 package data_test
 
 import (
-	"EduTrack/data"
 	"fmt"
 	"testing"
 
+	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
