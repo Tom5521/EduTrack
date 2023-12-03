@@ -10,11 +10,11 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
-	"github.com/Tom5521/EduTrack/internal/pkg/resolution"
+	"github.com/Tom5521/EduTrack/pkg/resolution"
 	"github.com/ncruces/zenity"
 
-	"EduTrack/assets"
-	"EduTrack/ui/sizes"
+	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 )
 
 // ImagePicker opens a file picker window to select an image file.
