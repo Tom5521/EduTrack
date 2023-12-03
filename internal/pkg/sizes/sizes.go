@@ -7,7 +7,7 @@
 package sizes
 
 import (
-	"EduTrack/ui/resolution"
+	"github.com/Tom5521/EduTrack/pkg/resolution"
 
 	"fyne.io/fyne/v2"
 )

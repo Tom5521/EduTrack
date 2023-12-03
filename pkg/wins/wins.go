@@ -10,6 +10,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/Tom5521/EduTrack/internal/pkg/resolution"
 	"github.com/ncruces/zenity"
 
 	"EduTrack/assets"
@@ -70,4 +71,10 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 	window.SetContent(content)
 	window.SetMainMenu(window.MainMenu())
 	window.Show()
+}
+
+// MaximizeWin resizes a given window to match the screen's resolution.
+func MaximizeWin(window fyne.Window) {
+	resolution.GetResolution()
+	window.Resize(sizes.FyneScreenSize)
 }

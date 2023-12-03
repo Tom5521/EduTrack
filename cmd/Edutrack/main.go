@@ -7,13 +7,12 @@
 package main
 
 import (
-	"EduTrack/data"
-	"EduTrack/ui/graph"
+	"github.com/Tom5521/EduTrack/pkg/data"
 )
 
 func main() {
 	// Load the configuration and data files
 	data.LoadFiles()
 	// Init windows
-	graph.MainWindow()
+	//graph.MainWindow()
 }

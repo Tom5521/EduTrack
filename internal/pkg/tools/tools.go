@@ -1,26 +1,13 @@
-/*
- * Copyright (c) 2023 Tom5521- All Rights Reserved.
- *
- * This project is licensed under the MIT License.
- */
-
-package wintools
+package tools
 
 import (
-	"EduTrack/assets"
-	"EduTrack/ui/resolution"
-	"EduTrack/ui/sizes"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
+	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
+
 	files "github.com/Tom5521/MyGolangTools/file"
 )
-
-// MaximizeWin resizes a given window to match the screen's resolution.
-func MaximizeWin(window fyne.Window) {
-	resolution.GetResolution()
-	window.Resize(sizes.FyneScreenSize)
-}
 
 // LoadProfileImg loads and returns a profile image from the specified file path,
 // or a default image if the file doesn't exist.
