@@ -3,9 +3,9 @@
 name: Go
 on:
   push:
-    branches: [master, newUI]
+    branches: ['*']
   pull_request:
-    branches: [master, newUI]
+    branches: ['*']
 jobs:
   Test:
     runs-on: ubuntu-latest
