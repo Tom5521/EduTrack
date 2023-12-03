@@ -18,12 +18,12 @@ jobs:
       - name: Create SQL database test
         run: go test -v ./tests/data/CreateSQL_test.go
       - name: Load data test
-        run: go test -v ./tests/data/tests/load_test.go
+        run: go test -v ./tests/data/load_test.go
       - name: Add functions test
-        run: go test -v ./tests/data/tests/add_test.go
+        run: go test -v ./tests/data/add_test.go
       - name: Edit data test
-        run: go test -v ./tests/data/tests/edit_test.go
+        run: go test -v ./tests/data/edit_test.go
       - name: delete records test
-        run: go test -v ./tests/data/tests/deleteRecord_test.go
+        run: go test -v ./tests/data/deleteRecord_test.go
       - name: delete general test
-        run: go test -v ./tests/data/tests/delete_test.go
+        run: go test -v ./tests/data/delete_test.go
