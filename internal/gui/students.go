@@ -271,6 +271,8 @@ func (ui *ui) DeleteStudentWin(s *data.Student) {
 					wins.ErrWin(ui.App, err.Error())
 				}
 				ui.StudentList.UnselectAll()
+				ui.StudentTab = ui.GetTemplateUser()
+				ui.StudentTab.Refresh()
 				window.Close()
 			}),
 			widget.NewButton("No", func() {

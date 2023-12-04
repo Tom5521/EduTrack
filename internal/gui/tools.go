@@ -37,9 +37,6 @@ func checkValues(s data.Student) bool {
 	if s.DNI == "" {
 		return false
 	}
-	if existsDNI(s.DNI, data.GetStudentDNIs()) {
-		return false
-	}
 	if s.PhoneNumber == "" {
 		return false
 	}

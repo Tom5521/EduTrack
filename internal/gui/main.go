@@ -46,7 +46,7 @@ func (ui *ui) MainWin() {
 	wins.MaximizeWin(w)
 	w.SetMainMenu(ui.MainMenu())
 
-	var selected int
+	var selected = -1
 	ui.StudentList = ui.GetStudentsList(&data.Students, func(id int) {
 		selected = id
 		ui.LoadStudentInfo(&data.Students[id])
@@ -59,6 +59,7 @@ func (ui *ui) MainWin() {
 				return
 			}
 			ui.DeleteStudentWin(&data.Students[selected])
+			selected = -1
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
