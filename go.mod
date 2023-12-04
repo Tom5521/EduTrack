@@ -1,4 +1,4 @@
-module EduTrack
+module github.com/Tom5521/EduTrack
 
 go 1.21
 

@@ -1,35 +1,18 @@
-/*
- * Copyright (c) 2023 Tom5521- All Rights Reserved.
- *
- * This project is licensed under the MIT License.
- */
-
-package graph
+package gui
 
 import (
-	"EduTrack/assets"
-	"EduTrack/data"
-	"EduTrack/pkg/wins"
-	"EduTrack/ui/sizes"
 	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
+	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-// TODO: Implement the UI in a structure...
-// I'm a really bad programmer...
-// But the point of this project is to learn...
-// It was worth it (for me),
-// for any other programmer it would probably burn your eyes just to start reading the code.
-
-type ui struct {
-	app        fyne.App
-	StudentTab *fyne.Container
-}
-
-func GetGradesList(grades *[]data.Grade) *widget.List {
+func (ui ui) GetGradesList(grades *[]data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*grades)
@@ -46,8 +29,8 @@ func GetGradesList(grades *[]data.Grade) *widget.List {
 	return list
 }
 
-func EditGrade(g *data.Grade) {
-	window := app.NewWindow("Edit " + g.Name)
+func (ui *ui) EditGrade(g *data.Grade) {
+	window := ui.App.NewWindow("Edit " + g.Name)
 
 	nameEntry := widget.NewEntry()
 	nameEntry.SetText(g.Name)
@@ -73,7 +56,7 @@ func EditGrade(g *data.Grade) {
 		err := g.Edit(newGrade)
 		if err != nil {
 			log.Println(err)
-			wins.ErrWin(app, err.Error())
+			wins.ErrWin(ui.App, err.Error())
 		}
 		window.Close()
 	}
@@ -83,18 +66,18 @@ func EditGrade(g *data.Grade) {
 	window.Show()
 }
 
-func GetGradeDetailsCont(g *data.Grade, window fyne.Window) *fyne.Container {
+func (ui *ui) GetGradeDetailsCont(g *data.Grade, window fyne.Window) *fyne.Container {
 	editButton := widget.NewButton("Edit", func() {
-		EditGrade(g)
+		ui.EditGrade(g)
 		window.Close()
 	})
 	deleteButton := widget.NewButton("Delete", func() {
 		err := data.Delete(g)
 		if err != nil {
-			wins.ErrWin(app, err.Error())
+			wins.ErrWin(ui.App, err.Error())
 		}
-		GradesList = GetGradesList(&data.Grades)
-		GradesList.Refresh()
+		ui.GradesList = ui.GetGradesList(&data.Grades)
+		ui.GradesList.Refresh()
 		window.Close()
 	})
 	const gridNumber int = 2
@@ -108,23 +91,23 @@ func GetGradeDetailsCont(g *data.Grade, window fyne.Window) *fyne.Container {
 	return container.NewStack(form)
 }
 
-func GradeDetailsWin(g *data.Grade) {
-	window := app.NewWindow(g.Name)
+func (ui *ui) GradeDetailsWin(g *data.Grade) {
+	window := ui.App.NewWindow(g.Name)
 
-	form := GetGradeDetailsCont(g, window)
+	form := ui.GetGradeDetailsCont(g, window)
 
 	window.SetContent(form)
 	window.Show()
 }
 
-func StudentGradeDetailsWin(sg *data.StudentGrade) {
+func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
 	getGrade := func() *data.Grade {
 		i := data.FindGradeIndexByID(sg.GradeID)
 		return &data.Grades[i]
 	}
 	g := getGrade()
 
-	window := app.NewWindow("Details for " + g.Name)
+	window := ui.App.NewWindow("Details for " + g.Name)
 
 	gradeNameLabel := widget.NewLabel(g.Name)
 	gradePricePMLabel := widget.NewLabel(g.Price)
@@ -164,8 +147,8 @@ func StudentGradeDetailsWin(sg *data.StudentGrade) {
 	window.Show()
 }
 
-func AddGrade() {
-	window := app.NewWindow("Add a grade")
+func (ui *ui) AddGrade() {
+	window := ui.App.NewWindow("Add a grade")
 	window.Resize(sizes.FormSize)
 	gradeEntry := widget.NewEntry()
 	priceEntry := widget.NewEntry()
@@ -182,11 +165,11 @@ func AddGrade() {
 	)
 	form.OnSubmit = func() {
 		if gradeEntry.Text == "" {
-			wins.ErrWin(app, "Grade name entry is empty")
+			wins.ErrWin(ui.App, "Grade name entry is empty")
 			return
 		}
 		if priceEntry.Text == "" {
-			wins.ErrWin(app, "Info entry is empty")
+			wins.ErrWin(ui.App, "Info entry is empty")
 			return
 		}
 		if func() bool {
@@ -197,7 +180,7 @@ func AddGrade() {
 			}
 			return false
 		}() {
-			wins.ErrWin(app, "This grade already exists!")
+			wins.ErrWin(ui.App, "This grade already exists!")
 			return
 		}
 		newGrade := data.Grade{
@@ -207,9 +190,9 @@ func AddGrade() {
 		}
 		err := data.AddGrade(&newGrade)
 		if err != nil {
-			wins.ErrWin(app, err.Error())
+			wins.ErrWin(ui.App, err.Error())
 		}
-		GradesList = GetGradesList(&data.Grades)
+		ui.GradesList = ui.GetGradesList(&data.Grades)
 		window.Close()
 	}
 	content := container.NewVBox(form)
@@ -217,22 +200,22 @@ func AddGrade() {
 	window.Show()
 }
 
-func GradesMainWin() {
-	w := app.NewWindow("Grades")
+func (ui *ui) GradesMainWin() {
+	w := ui.App.NewWindow("Grades")
 
 	selected := -1
 
-	list := GetGradesList(&data.Grades)
+	list := ui.GetGradesList(&data.Grades)
 
 	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(assets.Plus, func() { AddGrade() }),
+		widget.NewToolbarAction(assets.Plus, func() { ui.AddGrade() }),
 		widget.NewToolbarAction(assets.DeleteGrade, func() {
 			if selected == -1 {
 				return
 			}
 			err := data.Delete(data.Grades[selected])
 			if err != nil {
-				wins.ErrWin(app, err.Error())
+				wins.ErrWin(ui.App, err.Error())
 				return
 			}
 			list.UnselectAll()
@@ -242,13 +225,13 @@ func GradesMainWin() {
 			if selected == -1 {
 				return
 			}
-			GradeDetailsWin(&data.Grades[selected])
+			ui.GradeDetailsWin(&data.Grades[selected])
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
 				return
 			}
-			EditGrade(&data.Grades[selected])
+			ui.EditGrade(&data.Grades[selected])
 		}),
 	)
 

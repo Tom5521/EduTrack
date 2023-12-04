@@ -1,6 +1,5 @@
-//goasd:build delete
-
-// +asdbuild delete
+//go:build delete
+// +build delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
@@ -11,9 +10,10 @@
 package data_test
 
 import (
-	"EduTrack/data"
 	"log"
 	"testing"
+
+	"github.com/Tom5521/EduTrack/pkg/data"
 
 	"github.com/stretchr/testify/require"
 )

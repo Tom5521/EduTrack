@@ -8,7 +8,6 @@ package data
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"os"
 	"os/user"
@@ -17,6 +16,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"gorm.io/gorm"
 
+	"github.com/Tom5521/EduTrack/pkg/files"
 	"github.com/glebarez/sqlite"
 )
 
@@ -26,31 +26,6 @@ var databaseFile, configFile = getOSConfFile()
 type ConfigStr struct {
 	DatabaseFile string `yaml:"database"`
 	Lang         string `yaml:"lang"` // TODO: Add multilanguage support
-}
-
-func CopyFile(src, dst string) (int64, error) {
-	sourceFileStat, err := os.Stat(src)
-	if err != nil {
-		return 0, err
-	}
-
-	if !sourceFileStat.Mode().IsRegular() {
-		return 0, fmt.Errorf("%s is not a regular file", src)
-	}
-
-	source, err := os.Open(src)
-	if err != nil {
-		return 0, err
-	}
-	defer source.Close()
-
-	destination, err := os.Create(dst)
-	if err != nil {
-		return 0, err
-	}
-	defer destination.Close()
-	nBytes, err := io.Copy(destination, source)
-	return nBytes, err
 }
 
 func CreateDatabase() error {
@@ -78,7 +53,7 @@ func CreateDatabase() error {
 		}
 	}()
 
-	_, err = CopyFile("database.db", Config.DatabaseFile)
+	_, err = files.CopyFile("database.db", Config.DatabaseFile)
 	if err != nil {
 		log.Println(err)
 	}

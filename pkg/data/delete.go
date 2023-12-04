@@ -24,6 +24,14 @@ func (r Record) Delete() error {
 	return LoadRecords()
 }
 
+func (s *Student) DeleteRecord(id uint) error {
+	i := FindRecordIndexByID(id)
+	err := Delete(Records[i])
+	printErr(err)
+	s.GetRecords()
+	return nil
+}
+
 type Deleter interface {
 	Delete() error
 }
