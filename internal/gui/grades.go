@@ -12,7 +12,7 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-func (ui ui) GetGradesList(grades *[]data.Grade) *widget.List {
+func (_ ui) GetGradesList(grades *[]data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*grades)
@@ -26,6 +26,22 @@ func (ui ui) GetGradesList(grades *[]data.Grade) *widget.List {
 		},
 	)
 
+	return list
+}
+func (_ ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
+	list := widget.NewList(
+		func() int {
+			return len(*g)
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("template")
+		},
+		func(i widget.ListItemID, o fyne.CanvasObject) {
+			// mod := *g
+			name := data.Grades[data.FindGradeIndexByID(data.StudentGrades[i].GradeID)].Name
+			o.(*widget.Label).SetText(name)
+		},
+	)
 	return list
 }
 
@@ -245,4 +261,15 @@ func (ui *ui) GradesMainWin() {
 	w.SetContent(content)
 
 	w.Show()
+}
+
+func (ui *ui) StudentGradesMainWin(s *data.Student) {
+	w := ui.App.NewWindow(s.Name + " Grades")
+	s.GetGrades()
+	list := ui.GetStudentGradesList(&s.Grades)
+
+	w.SetContent(list)
+
+	w.Show()
+
 }

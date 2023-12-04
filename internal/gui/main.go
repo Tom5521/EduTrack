@@ -18,6 +18,7 @@ type ui struct {
 	StudentList *widget.List
 	GradesList  *widget.List
 }
+
 type Gui struct {
 	ui
 }

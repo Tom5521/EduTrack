@@ -69,12 +69,16 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	showRecordsBt := widget.NewButton("Show student records", func() {
 		ui.StudentRecordsMainWin(s)
 	})
+	showGradesBt := widget.NewButton("Show student grades", func() {
+		ui.StudentGradesMainWin(s)
+	})
 
 	const gridNumber int = 1
 	content := container.NewVBox(image,
 		dataContainer,
 		container.NewAdaptiveGrid(gridNumber,
 			showRecordsBt,
+			showGradesBt,
 		),
 	)
 	ui.StudentTab.Objects = []fyne.CanvasObject{content}
