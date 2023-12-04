@@ -66,18 +66,14 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	gradesCont := nhbx(gradesLabel, nlb(getGrades()))
 
 	dataContainer := container.NewVBox(nameCont, ageCont, idCont, phoneCont, gradesCont)
-	recordButton := widget.NewButton("Add a record", func() {
-		//AddRecord(s)
-	})
-	showRecordsBt := widget.NewButton("Show records", func() {
-		//ShowRecords(s)
+	showRecordsBt := widget.NewButton("Show student records", func() {
+		ui.StudentRecordsMainWin(s)
 	})
 
-	const gridNumber int = 2
+	const gridNumber int = 1
 	content := container.NewVBox(image,
 		dataContainer,
 		container.NewAdaptiveGrid(gridNumber,
-			recordButton,
 			showRecordsBt,
 		),
 	)

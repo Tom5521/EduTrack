@@ -60,13 +60,9 @@ func (ui *ui) MainWin() {
 		widget.NewToolbarAction(assets.Lens1, ui.SearchWindow),
 		widget.NewToolbarAction(assets.ShowGrades, ui.GradesMainWin))
 
-	listCont := container.NewBorder(
-		toolbar,
-		nil, nil, nil,
-		ui.StudentList,
-	)
-	mainContainer := container.NewBorder(nil, nil, ui.StudentTab, nil,
-		container.NewHBox(widget.NewSeparator(), listCont))
+	tabCont := container.NewBorder(nil, nil, nil, widget.NewSeparator(), ui.StudentTab)
+	listCont := container.NewBorder(toolbar, nil, nil, nil, ui.StudentList)
+	mainContainer := container.NewBorder(nil, nil, tabCont, nil, listCont)
 
 	w.SetContent(mainContainer)
 

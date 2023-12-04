@@ -6,7 +6,7 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/data"
 )
 
-func itoa[T int | uint](i T) string {
+func itoa[T ~int | ~uint](i T) string {
 	return strconv.Itoa(int(i))
 }
 

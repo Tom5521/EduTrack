@@ -73,3 +73,12 @@ func FindStudentIndexByDNI(dni string) int {
 	}
 	return -1
 }
+
+func FindRecordIndexByID(id uint) int {
+	for i, record := range Records {
+		if record.ID == id {
+			return i
+		}
+	}
+	return -1
+}
