@@ -185,7 +185,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 		widget.NewToolbarAction(assets.Plus, func() {
 			ui.AddRecord(student.ID)
 			student.GetRecords()
-			list.UnselectAll()
+			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Cross, func() {
 			if selected == -1 {
@@ -195,7 +195,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
-			list.UnselectAll()
+			list.Refresh()
 			selected = -1
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
@@ -204,7 +204,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 			}
 			ui.EditRecordData(data.Records[selected].ID)
 			student.GetRecords()
-			list.UnselectAll()
+			list.Refresh()
 		}),
 	)
 

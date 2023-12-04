@@ -218,7 +218,7 @@ func (ui *ui) GradesMainWin() {
 				wins.ErrWin(ui.App, err.Error())
 				return
 			}
-			list.UnselectAll()
+			list.Refresh()
 			selected = -1
 		}),
 		widget.NewToolbarAction(assets.ShowGrades, func() {
@@ -232,6 +232,7 @@ func (ui *ui) GradesMainWin() {
 				return
 			}
 			ui.EditGrade(&data.Grades[selected])
+			list.Refresh()
 		}),
 	)
 

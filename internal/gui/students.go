@@ -246,7 +246,7 @@ func (ui *ui) EditFormWindow(s *data.Student) {
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		ui.StudentList.Refresh()
+		ui.StudentList.UnselectAll()
 		ui.LoadStudentInfo(&data.Students[data.FindStudentIndexByID(s.ID)])
 		window.Close()
 	}
@@ -266,6 +266,7 @@ func (ui *ui) DeleteStudentWin(s *data.Student) {
 				if err != nil {
 					wins.ErrWin(ui.App, err.Error())
 				}
+				ui.StudentList.UnselectAll()
 				window.Close()
 			}),
 			widget.NewButton("No", func() {
