@@ -73,6 +73,10 @@ func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
 	window.Show()
 }
 
+func (ui *ui) selectGradeWin(selected *int) {
+
+}
+
 func (ui *ui) AddStudentGradeWin(student *data.Student) {
 	w := ui.App.NewWindow("Add Grade")
 

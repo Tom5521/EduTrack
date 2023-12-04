@@ -26,6 +26,7 @@ var databaseFile, configFile = getOSConfFile()
 type ConfigStr struct {
 	DatabaseFile string `yaml:"database"`
 	Lang         string `yaml:"lang"` // TODO: Add multilanguage support
+	Theme        string `yaml:"theme"`
 }
 
 func CreateDatabase() error {
@@ -94,7 +95,7 @@ func getOSConfFile() (string, string) {
 
 func NewConfigurationFile() {
 	var err error
-	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile})
+	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile, Theme: "Adwaita"})
 	if err != nil {
 		log.Println("Error marshalling new configuration file", err)
 	}
