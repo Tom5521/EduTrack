@@ -28,22 +28,6 @@ func (_ ui) GetGradesList(grades *[]data.Grade) *widget.List {
 
 	return list
 }
-func (_ ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
-	list := widget.NewList(
-		func() int {
-			return len(*g)
-		},
-		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
-		},
-		func(i widget.ListItemID, o fyne.CanvasObject) {
-			// mod := *g
-			name := data.Grades[data.FindGradeIndexByID(data.StudentGrades[i].GradeID)].Name
-			o.(*widget.Label).SetText(name)
-		},
-	)
-	return list
-}
 
 func (ui *ui) EditGrade(g *data.Grade) {
 	window := ui.App.NewWindow("Edit " + g.Name)
@@ -111,53 +95,6 @@ func (ui *ui) GradeDetailsWin(g *data.Grade) {
 	window := ui.App.NewWindow(g.Name)
 
 	form := ui.GetGradeDetailsCont(g, window)
-
-	window.SetContent(form)
-	window.Show()
-}
-
-func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
-	getGrade := func() *data.Grade {
-		i := data.FindGradeIndexByID(sg.GradeID)
-		return &data.Grades[i]
-	}
-	g := getGrade()
-
-	window := ui.App.NewWindow("Details for " + g.Name)
-
-	gradeNameLabel := widget.NewLabel(g.Name)
-	gradePricePMLabel := widget.NewLabel(g.Price)
-	gradeStartLabel := widget.NewLabel(sg.Start)
-	gradeEndLabel := widget.NewLabel(sg.End)
-	gradeInfoLabel := widget.NewMultiLineEntry()
-	gradeInfoLabel.SetText(g.Info)
-	gradeInfoLabel.Disable()
-
-	editGradeButton := widget.NewButton("Edit Grade", func() {})
-	editStudentButton := widget.NewButton("Edit Student", func() {})
-
-	nameForm := widget.NewFormItem("Name:", gradeNameLabel)
-	priceForm := widget.NewFormItem("Price:", gradePricePMLabel)
-	startForm := widget.NewFormItem("Start:", gradeStartLabel)
-	endForm := widget.NewFormItem("End:", gradeEndLabel)
-	infoForm := widget.NewFormItem("Info:", gradeInfoLabel)
-	const gridNumber int = 2
-	editForm := widget.NewFormItem("",
-		container.NewAdaptiveGrid(gridNumber,
-			editGradeButton,
-			editStudentButton,
-		),
-	)
-
-	form := widget.NewForm(
-		nameForm,
-		priceForm,
-		startForm,
-		editForm,
-		endForm,
-		infoForm,
-		editForm,
-	)
 
 	window.SetContent(form)
 	window.Show()
@@ -261,15 +198,4 @@ func (ui *ui) GradesMainWin() {
 	w.SetContent(content)
 
 	w.Show()
-}
-
-func (ui *ui) StudentGradesMainWin(s *data.Student) {
-	w := ui.App.NewWindow(s.Name + " Grades")
-	s.GetGrades()
-	list := ui.GetStudentGradesList(&s.Grades)
-
-	w.SetContent(list)
-
-	w.Show()
-
 }
