@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/internal/pkg/credits"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
@@ -19,6 +20,9 @@ func (ui *ui) AboutWin() {
 	link, _ := url.Parse("https://github.com/Tom5521")
 	gitLabel := widget.NewHyperlink("Tom5521", link)
 	licenceLabel := widget.NewLabel("Under the MIT license")
+	creditsButton := widget.NewButton("CREDITS", func() {
+		credits.CreditsWindow(ui.App, fyne.NewSize(800, 400)).Show()
+	})
 	authorCont := container.NewHBox(label1, gitLabel)
 	logo := canvas.NewImageFromResource(assets.App)
 	const w, h float32 = 300, 300
@@ -26,6 +30,7 @@ func (ui *ui) AboutWin() {
 	vbox1 := container.NewVBox(
 		authorCont,
 		licenceLabel,
+		creditsButton,
 		logo,
 	)
 	window.SetContent(vbox1)
