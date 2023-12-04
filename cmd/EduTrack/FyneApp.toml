@@ -1,6 +1,6 @@
 [Details]
-  Icon = "assets/IconsLight/Icon.png"
+  Icon = "../../assets/IconsDark/Icon.png"
   Name = "EduTrack"
   ID = "github.Tom5521.EduTrack"
   Version = "1.0"
-  Build = 48
+  Build = 53

@@ -27,7 +27,7 @@ def BuildForWindows():
         SetEnvForWin()
 
     # Package the application for Windows using fyne package.
-    os.system("fyne package --os windows --exe builds/EduTrack.exe --release")
+    os.system("fyne package --os windows --exe ../../builds/EduTrack.exe --release --src ./cmd/EduTrack/")
 
 
 def BuildForLinux():
@@ -35,9 +35,9 @@ def BuildForLinux():
         os.mkdir("builds")
 
     if OS != "Windows":
-        os.system("fyne package --os linux --release")
+        os.system("fyne package --os linux --release --src ./cmd/EduTrack/")
     else:
-        os.system("sudo fyne-cross -os linux -release")
+        os.system("sudo fyne-cross -os linux -release -dir ./cmd/EduTrack/")
 
     if os.path.exists("EduTrack.tar.xz"):
         shutil.move("EduTrack.tar.xz","builds/EduTrack-linux64.tar.xz")

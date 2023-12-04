@@ -7,7 +7,7 @@ def Exec():
     print("Setting enviromevent values...")
     Build.SetEnvForWin()
     print("Compiling and running...")
-    os.system("go run .")
+    os.system("go run cmd/EduTrack/main.go")
 
 if __name__ == "__main__":
    Exec() 
