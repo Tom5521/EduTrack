@@ -1,6 +1,6 @@
-# TODO list 
+# TODO list
 
-- Debug UI 
+- ~~Debug UI~~
 - ~~Fix UI~~
 - ~~Add support for remaining tables of the sql database~~
 - ~~Add tests for everything (in data lib)~~
@@ -9,5 +9,3 @@
 - Add translations
 - ~~Improve the use of the interfaces~~
 - ~~Update libraries~~
-
-
