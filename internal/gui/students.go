@@ -2,7 +2,6 @@ package gui
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -46,7 +45,7 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	// Age Label
 	ageLabel := nlb("Age: ")
 	ageLabel.TextStyle.Bold = true
-	ageCont := nhbx(ageLabel, nlb(strconv.Itoa(int(s.Age))))
+	ageCont := nhbx(ageLabel, nlb(itoa(s.Age)))
 	// ID Label
 	idLabel := nlb("DNI: ")
 	idLabel.TextStyle.Bold = true
@@ -191,7 +190,7 @@ func (ui *ui) EditFormWindow(s *data.Student) {
 	nameEntry := widget.NewEntry()
 	nameEntry.SetText(s.Name)
 	ageEntry := widget.NewEntry()
-	ageEntry.SetText(strconv.Itoa(int(s.Age)))
+	ageEntry.SetText(itoa(s.Age))
 	dniEntry := widget.NewEntry()
 	dniEntry.SetText(s.DNI)
 	phoneEntry := widget.NewEntry()

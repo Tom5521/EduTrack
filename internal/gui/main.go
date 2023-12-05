@@ -43,6 +43,7 @@ func Init() *Gui {
 
 func (ui *ui) MainWin() {
 	w := ui.App.NewWindow("EduTrack")
+	w.SetMaster()
 	wins.MaximizeWin(w)
 	w.SetMainMenu(ui.MainMenu())
 
@@ -53,7 +54,8 @@ func (ui *ui) MainWin() {
 	})
 	ui.StudentTab = ui.GetTemplateUser()
 
-	toolbar := widget.NewToolbar(widget.NewToolbarAction(assets.AddUser, ui.AddStudentForm),
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(assets.AddUser, ui.AddStudentForm),
 		widget.NewToolbarAction(assets.DeleteStudent, func() {
 			if selected == -1 {
 				return

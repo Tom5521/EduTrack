@@ -3,12 +3,30 @@ package data
 func (g Grade) Delete() error {
 	err := DB.Delete(&g).Error
 	printErr(err)
+	for _, studentGrade := range StudentGrades {
+		if studentGrade.GradeID == g.ID {
+			err = studentGrade.Delete()
+			printErr(err)
+		}
+	}
 	return LoadGrades()
 }
 
 func (s Student) Delete() error {
 	err := DB.Delete(&s).Error
 	printErr(err)
+	for _, record := range Records {
+		if record.StudentID == s.ID {
+			err := record.Delete()
+			printErr(err)
+		}
+	}
+	for _, studentGrade := range StudentGrades {
+		if studentGrade.StudentID == s.ID {
+			err := studentGrade.Delete()
+			printErr(err)
+		}
+	}
 	return LoadStudents()
 }
 
