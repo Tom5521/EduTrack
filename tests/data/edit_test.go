@@ -63,7 +63,7 @@ func TestEditRecord(t *testing.T) {
 	fmt.Println(data.Records[0])
 	err := data.Records[0].Edit(tmpRecord)
 	require.NoError(t, err)
-	data.LoadRecords()
+	err = data.LoadRecords()
 	require.NoError(t, err)
 	fmt.Println(data.Records[0])
 }
