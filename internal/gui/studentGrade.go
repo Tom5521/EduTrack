@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"slices"
 
 	"fyne.io/fyne/v2"
@@ -51,39 +50,26 @@ func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
 	gradeEndLabel := widget.NewLabel(sg.End)
 	gradeInfoLabel := widget.NewMultiLineEntry()
 	gradeInfoLabel.SetText(g.Info)
-	gradeInfoLabel.Disable()
-
-	editGradeButton := widget.NewButton("Edit Grade", func() {})
-	editStudentButton := widget.NewButton("Edit Student", func() {})
 
 	nameForm := widget.NewFormItem("Name:", gradeNameLabel)
 	priceForm := widget.NewFormItem("Price:", gradePricePMLabel)
 	startForm := widget.NewFormItem("Start:", gradeStartLabel)
 	endForm := widget.NewFormItem("End:", gradeEndLabel)
 	infoForm := widget.NewFormItem("Info:", gradeInfoLabel)
-	const gridNumber int = 2
-	editForm := widget.NewFormItem("",
-		container.NewAdaptiveGrid(gridNumber,
-			editGradeButton,
-			editStudentButton,
-		),
-	)
 
 	form := widget.NewForm(
 		nameForm,
 		priceForm,
 		startForm,
-		editForm,
 		endForm,
 		infoForm,
-		editForm,
 	)
 
 	window.SetContent(form)
 	window.Show()
 }
 
-func (ui *ui) StartEndWin(start, end *string) {
+func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
 	w := ui.App.NewWindow("Select start and end")
 	startEntry := widget.NewEntry()
 	endEntry := widget.NewEntry()
@@ -93,8 +79,7 @@ func (ui *ui) StartEndWin(start, end *string) {
 	)
 
 	form.OnSubmit = func() {
-		*start = startEntry.Text
-		*end = endEntry.Text
+		submitFunc(startEntry.Text, endEntry.Text)
 		w.Close()
 	}
 	w.SetContent(form)
@@ -107,10 +92,26 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 
 	// Selection vars
 	var addedSelected, toAddSelected = -1, -1
-	fmt.Println(addedSelected)
+
+	getNoAddedGrades := func() []data.Grade {
+		var grades []data.Grade
+		for _, grade := range data.Grades {
+			var found bool
+			for _, sg := range s.Grades {
+				if grade.ID == sg.GradeID {
+					found = true
+					break
+				}
+			}
+			if !found {
+				grades = append(grades, grade)
+			}
+		}
+		return grades
+	}
 
 	// Temporal lists
-	tmpToAddList := data.Grades
+	tmpToAddList := getNoAddedGrades()
 
 	// Lists (widgets)
 	toAddList := ui.GetGradesList(&tmpToAddList)
@@ -126,24 +127,36 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 		if toAddSelected == -1 {
 			return
 		}
-		var start, end string
-		ui.StartEndWin(&start, &end)
-		studentGrade := data.StudentGrade{
-			Start:     start,
-			End:       end,
-			GradeID:   tmpToAddList[toAddSelected].ID,
-			StudentID: s.ID,
+		ui.StartEndWin(func(start, end string) {
+			studentGrade := data.StudentGrade{
+				Start:     start,
+				End:       end,
+				GradeID:   tmpToAddList[toAddSelected].ID,
+				StudentID: s.ID,
+			}
+			err := data.AddStudentGrade(&studentGrade)
+			if err != nil {
+				wins.ErrWin(ui.App, err.Error())
+			}
+			tmpToAddList = slices.Delete(tmpToAddList, toAddSelected, toAddSelected+1)
+			s.GetGrades()
+			addedList.Refresh()
+			toAddList.Refresh()
+		})
+	}
+	quitGrade := func() {
+		if addedSelected == -1 {
+			return
 		}
-		err := data.AddStudentGrade(&studentGrade)
+		i := data.FindStudentGradeIndexByID(s.Grades[addedSelected].ID)
+		err := data.Delete(data.StudentGrades[i])
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		slices.Delete(tmpToAddList, toAddSelected, toAddSelected+1)
 		s.GetGrades()
-		addedList.UnselectAll()
-	}
-	quitGrade := func() {
-
+		addedList.Refresh()
+		tmpToAddList = getNoAddedGrades()
+		toAddList.Refresh()
 	}
 
 	addToButton := widget.NewButton("Add grade to student", addGrade)
@@ -169,30 +182,6 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 	w.Show()
 }
 
-func (ui *ui) AddStudentGradeWin(student *data.Student) {
-	w := ui.App.NewWindow("Add Grade")
-
-	currrentGradesLabel := widget.NewLabel("Current labels")
-	currrentGradesLabel.Alignment = fyne.TextAlignCenter
-	currentGradesList := ui.GetStudentGradesList(&student.Grades)
-
-	var selectedID int
-
-	bar := widget.NewToolbar(
-		widget.NewToolbarAction(assets.Plus, func() {
-			ui.SelectGradeWin(student)
-			fmt.Println(selectedID)
-		}),
-	)
-
-	barCont := container.NewVBox(bar, currrentGradesLabel)
-
-	mainBox := container.NewBorder(barCont, nil, nil, nil, currentGradesList)
-
-	w.SetContent(mainBox)
-	w.Show()
-}
-
 func (ui *ui) StudentGradesMainWin(s *data.Student) {
 	w := ui.App.NewWindow(s.Name + " Grades")
 	s.GetGrades()
@@ -212,19 +201,26 @@ func (ui *ui) StudentGradesMainWin(s *data.Student) {
 				return
 			}
 			tg := s.Grades[selected]
-			i := data.FindGradeIndexByID(tg.GradeID)
-			err := data.Delete(data.Grades[i])
+			i := data.FindStudentGradeIndexByID(tg.ID)
+			err := data.Delete(data.StudentGrades[i])
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
 			s.GetGrades()
 			list.Refresh()
 		}),
+		widget.NewToolbarAction(assets.Edit, func() {
+
+		}),
+		widget.NewToolbarAction(assets.Info, func() {
+			if selected == -1 {
+				return
+			}
+			ui.StudentGradeDetailsWin(&data.StudentGrades[selected])
+		}),
 	)
 
 	content := container.NewBorder(bar, nil, nil, nil, list)
-
 	w.SetContent(content)
-
 	w.Show()
 }
