@@ -27,7 +27,7 @@ Install my-project with go or by executing the binary in its own folder
 
 Install with go:
 ```bash
-go install github.com/Tom5521/EduTrack
+go install github.com/Tom5521/EduTrack@latest
 ```
 
 You can compile it, you need a C compiler for your system, git and the go compiler.
