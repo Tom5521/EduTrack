@@ -21,7 +21,8 @@ func (ui *ui) AboutWin() {
 	gitLabel := widget.NewHyperlink("Tom5521", link)
 	licenceLabel := widget.NewLabel("Under the MIT license")
 	creditsButton := widget.NewButton("CREDITS", func() {
-		credits.CreditsWindow(ui.App, fyne.NewSize(800, 400)).Show()
+		const size1, size2 float32 = 800, 400
+		credits.CreditsWindow(ui.App, fyne.NewSize(size1, size2)).Show()
 	})
 	authorCont := container.NewHBox(label1, gitLabel)
 	logo := canvas.NewImageFromResource(assets.App)

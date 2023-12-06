@@ -12,7 +12,9 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-func (_ ui) GetGradesList(grades *[]data.Grade) *widget.List {
+const editString string = "Edit "
+
+func (ui ui) GetGradesList(grades *[]data.Grade) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*grades)
@@ -30,7 +32,7 @@ func (_ ui) GetGradesList(grades *[]data.Grade) *widget.List {
 }
 
 func (ui *ui) EditGrade(g *data.Grade) {
-	window := ui.App.NewWindow("Edit " + g.Name)
+	window := ui.App.NewWindow(editString + g.Name)
 	window.Resize(sizes.FormSize)
 
 	nameEntry := widget.NewEntry()

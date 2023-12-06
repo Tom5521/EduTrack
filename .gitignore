@@ -8,7 +8,6 @@ data.yml
 *.test.exe
 config.yml
 __pycache__
-*.yml
 ./EduTrack
 database.db
 fyne_metadata_init.go

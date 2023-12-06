@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"strings"
 
 	"fyne.io/fyne/v2"
@@ -170,8 +169,6 @@ func (ui *ui) AddStudentForm() {
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		fmt.Println(gradesStr)
-		fmt.Println(data.Students[len(data.Students)-1])
 		ui.StudentList.Refresh()
 		s := data.Students[data.FindStudentIndexByID(newStudent.ID)]
 		ui.LoadStudentInfo(&s)

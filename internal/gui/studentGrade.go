@@ -12,7 +12,7 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-func (_ ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
+func (ui ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*g)
@@ -24,11 +24,11 @@ func (_ ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
 			// mod := *g
 			var name string
 			if len(data.Grades) != 0 {
-				i := data.FindGradeIndexByID(data.StudentGrades[i].GradeID)
-				if i == -1 {
+				index := data.FindGradeIndexByID(data.StudentGrades[i].GradeID)
+				if index == -1 {
 					return
 				}
-				name = data.Grades[i].Name
+				name = data.Grades[index].Name
 			}
 			o.(*widget.Label).SetText(name)
 		},
@@ -94,32 +94,32 @@ func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
 	w.Show()
 }
 
+func getNoAddedGrades(s *data.Student) []data.Grade {
+	var grades []data.Grade
+	for _, grade := range data.Grades {
+		var found bool
+		for _, sg := range s.Grades {
+			if grade.ID == sg.GradeID {
+				found = true
+				break
+			}
+		}
+		if !found {
+			grades = append(grades, grade)
+		}
+	}
+	return grades
+}
+
 func (ui *ui) SelectGradeWin(s *data.Student) {
 	w := ui.App.NewWindow("Select a grade!")
-	w.Resize(fyne.NewSize(600, 500))
+	const size1, size2 float32 = 600, 500
+	w.Resize(fyne.NewSize(size1, size2))
 
 	// Selection vars
 	var addedSelected, toAddSelected = -1, -1
-
-	getNoAddedGrades := func() []data.Grade {
-		var grades []data.Grade
-		for _, grade := range data.Grades {
-			var found bool
-			for _, sg := range s.Grades {
-				if grade.ID == sg.GradeID {
-					found = true
-					break
-				}
-			}
-			if !found {
-				grades = append(grades, grade)
-			}
-		}
-		return grades
-	}
-
 	// Temporal lists
-	tmpToAddList := getNoAddedGrades()
+	tmpToAddList := getNoAddedGrades(s)
 
 	// Lists (widgets)
 	toAddList := ui.GetGradesList(&tmpToAddList)
@@ -163,7 +163,7 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 		}
 		s.GetGrades()
 		addedList.Refresh()
-		tmpToAddList = getNoAddedGrades()
+		tmpToAddList = getNoAddedGrades(s)
 		toAddList.Refresh()
 	}
 
@@ -192,7 +192,8 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 
 func (ui *ui) StudentGradesMainWin(s *data.Student) {
 	w := ui.App.NewWindow(s.Name + " Grades")
-	w.Resize(fyne.NewSize(300, 300))
+	const size float32 = 300
+	w.Resize(fyne.NewSize(size, size))
 	s.GetGrades()
 	var selected = -1
 	list := ui.GetStudentGradesList(&s.Grades)
@@ -224,7 +225,6 @@ func (ui *ui) StudentGradesMainWin(s *data.Student) {
 			}
 			i := data.FindStudentGradeIndexByID(s.Grades[selected].ID)
 			ui.EditStudentGradeWin(&data.StudentGrades[i])
-
 		}),
 		widget.NewToolbarAction(assets.Info, func() {
 			if selected == -1 {
@@ -248,7 +248,8 @@ func (ui *ui) EditStudentGradeWin(g *data.StudentGrade) {
 	i := data.FindGradeIndexByID(g.GradeID)
 	grade := data.Grades[i]
 	window := ui.App.NewWindow("Edit " + grade.Name)
-	window.Resize(fyne.NewSize(500, 100))
+	const size1, size2 float32 = 500, 100
+	window.Resize(fyne.NewSize(size1, size2))
 
 	gradeNameLabel := widget.NewLabel(grade.Name)
 	gradeSelectButton := widget.NewButton("Select a new grade", func() {
