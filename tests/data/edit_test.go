@@ -61,7 +61,7 @@ func TestEditRecord(t *testing.T) {
 	}
 	tmpRecord.Info = "Edited for testing!"
 	fmt.Println(data.Records[0])
-	err := data.Records[0].Edit(tmpRecord)
+	err := data.Records[0].Edit(&tmpRecord)
 	require.NoError(t, err)
 	err = data.LoadRecords()
 	require.NoError(t, err)
@@ -94,7 +94,7 @@ func TestEditStudentGrade(t *testing.T) {
 	}
 	grade := &student.Grades[0]
 	fmt.Println(grade)
-	err = grade.Edit(data.StudentGrade{
+	err = grade.Edit(&data.StudentGrade{
 		StudentID: student.ID,
 		GradeID:   dbgrade.ID,
 		Start:     "Edited for testing!",

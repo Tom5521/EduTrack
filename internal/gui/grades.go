@@ -53,7 +53,7 @@ func (ui *ui) EditGrade(g *data.Grade) {
 			Price: priceEntry.Text,
 			Info:  infoEntry.Text,
 		}
-		err := g.Edit(newGrade)
+		err := g.Edit(&newGrade)
 		if err != nil {
 			log.Println(err)
 			wins.ErrWin(ui.App, err.Error())

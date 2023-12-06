@@ -147,7 +147,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 	recDateForm := widget.NewFormItem("Record date:", container.NewAdaptiveGrid(gridNumber, recDate, dateButton))
 
 	submitFunc := func() {
-		err := rec.Edit(data.Record{Name: recNameEntry.Text, Info: recDetails.Text, Date: tmpDate, StudentID: student.ID})
+		err := rec.Edit(&data.Record{Name: recNameEntry.Text, Info: recDetails.Text, Date: tmpDate, StudentID: student.ID})
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}

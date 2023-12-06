@@ -245,7 +245,7 @@ func (ui *ui) EditFormWindow(s *data.Student) {
 				return
 			}
 		}
-		err := s.Edit(edited)
+		err := s.Edit(&edited)
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}

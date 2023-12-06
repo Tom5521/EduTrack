@@ -64,6 +64,10 @@ func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
 		endForm,
 		infoForm,
 	)
+	form.OnSubmit = func() {
+		window.Close()
+	}
+	form.SubmitText = "Close"
 
 	window.SetContent(form)
 	window.Show()
@@ -210,6 +214,11 @@ func (ui *ui) StudentGradesMainWin(s *data.Student) {
 			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
+			if selected == -1 {
+				return
+			}
+			i := data.FindStudentGradeIndexByID(s.Grades[selected].ID)
+			ui.EditStudentGradeWin(&data.StudentGrades[i])
 
 		}),
 		widget.NewToolbarAction(assets.Info, func() {
@@ -223,4 +232,69 @@ func (ui *ui) StudentGradesMainWin(s *data.Student) {
 	content := container.NewBorder(bar, nil, nil, nil, list)
 	w.SetContent(content)
 	w.Show()
+}
+
+func (ui *ui) EditStudentGradeWin(g *data.StudentGrade) {
+	i := data.FindGradeIndexByID(g.GradeID)
+	grade := data.Grades[i]
+	window := ui.App.NewWindow("Edit " + grade.Name)
+
+	gradeNameLabel := widget.NewLabel(grade.Name)
+	gradeSelectButton := widget.NewButton("Select a new grade", func() {
+		w := ui.App.NewWindow("Select a grade")
+		var selected = -1
+		list := ui.GetGradesList(&data.Grades)
+		list.OnSelected = func(id widget.ListItemID) {
+			selected = id
+		}
+		addGradeButton := widget.NewButton("Select grade", func() {
+			if selected == -1 {
+				return
+			}
+			g.GradeID = data.Grades[selected].ID
+			err := g.Edit(g)
+			if err != nil {
+				wins.ErrWin(ui.App, err.Error())
+			}
+			gradeNameLabel.SetText(data.Grades[selected].Name)
+			w.Close()
+		})
+		cancelButton := widget.NewButton("Cancel", func() {
+			w.Close()
+		})
+
+		const gridNumber int = 2
+		buttonsCont := container.NewAdaptiveGrid(gridNumber, cancelButton, addGradeButton)
+		content := container.NewBorder(buttonsCont, nil, nil, nil, list)
+		w.SetContent(content)
+		w.Show()
+	})
+	const gridNumber = 2
+	gradeSelectCont := container.NewAdaptiveGrid(gridNumber, gradeNameLabel, gradeSelectButton)
+
+	startEntry := widget.NewEntry()
+	startEntry.SetText(g.Start)
+	endEntry := widget.NewEntry()
+	endEntry.SetText(g.End)
+
+	form := widget.NewForm(
+		widget.NewFormItem("Current grade:", gradeSelectCont),
+		widget.NewFormItem("Start:", startEntry),
+		widget.NewFormItem("End:", endEntry),
+	)
+	form.OnSubmit = func() {
+		g.Start = startEntry.Text
+		g.End = endEntry.Text
+		err := g.Edit(g)
+		if err != nil {
+			wins.ErrWin(ui.App, err.Error())
+		}
+		window.Close()
+	}
+	form.OnCancel = func() {
+		window.Close()
+	}
+
+	window.SetContent(form)
+	window.Show()
 }
