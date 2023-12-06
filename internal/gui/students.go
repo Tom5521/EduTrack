@@ -174,6 +174,9 @@ func (ui *ui) AddStudentForm() {
 		ui.LoadStudentInfo(&s)
 		window.Close()
 	}
+	form.OnCancel = func() {
+		window.Close()
+	}
 	window.SetContent(form)
 	window.Show()
 }
@@ -248,6 +251,9 @@ func (ui *ui) EditFormWindow(s *data.Student) {
 		}
 		ui.StudentList.UnselectAll()
 		ui.LoadStudentInfo(&data.Students[data.FindStudentIndexByID(s.ID)])
+		window.Close()
+	}
+	form.OnCancel = func() {
 		window.Close()
 	}
 

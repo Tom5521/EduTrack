@@ -71,7 +71,7 @@ func (ui *ui) MainWin() {
 		}),
 
 		widget.NewToolbarSpacer(),
-		widget.NewToolbarAction(assets.Lens1, ui.SearchWindow),
+		widget.NewToolbarAction(assets.Lens1, ui.SearchMainWin),
 		widget.NewToolbarAction(assets.ShowGrades, ui.GradesMainWin))
 
 	tabCont := container.NewBorder(nil, nil, nil, widget.NewSeparator(), ui.StudentTab)

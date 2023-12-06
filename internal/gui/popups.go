@@ -9,9 +9,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/credits"
-	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
-	"github.com/Tom5521/EduTrack/pkg/data"
-	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
 func (ui *ui) AboutWin() {
@@ -36,30 +33,4 @@ func (ui *ui) AboutWin() {
 	)
 	window.SetContent(vbox1)
 	window.Show()
-}
-
-func (ui *ui) SearchWindow() {
-	w := ui.App.NewWindow("Search Student")
-	w.Resize(sizes.SearchSize)
-	entry := widget.NewEntry()
-	searchButton := widget.NewButton("Search", func() {
-		studentDNI := entry.Text
-		i := data.FindStudentIndexByDNI(studentDNI)
-		if i == -1 {
-			wins.ErrWin(ui.App, "Student not found!")
-			return
-		}
-		student := data.Students[i]
-		ui.LoadStudentInfo(&student)
-		w.Close()
-	})
-
-	content := container.NewVBox(
-		widget.NewLabel("Enter Student DNI:"),
-		entry,
-		searchButton,
-	)
-
-	w.SetContent(content)
-	w.Show()
 }

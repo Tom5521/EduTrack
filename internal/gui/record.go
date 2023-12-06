@@ -164,6 +164,9 @@ func (ui *ui) EditRecordData(recordID uint) {
 		recDateForm,
 	)
 	form.OnSubmit = submitFunc
+	form.OnCancel = func() {
+		window.Close()
+	}
 
 	vbox := container.NewVBox(
 		detailsLabel,
