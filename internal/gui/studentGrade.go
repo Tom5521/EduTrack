@@ -7,6 +7,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
@@ -43,6 +44,7 @@ func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
 	g := getGrade()
 
 	window := ui.App.NewWindow("Details for " + g.Name)
+	window.Resize(sizes.ListSize)
 
 	gradeNameLabel := widget.NewLabel(g.Name)
 	gradePricePMLabel := widget.NewLabel(g.Price)
@@ -75,6 +77,7 @@ func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
 
 func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
 	w := ui.App.NewWindow("Select start and end")
+	w.Resize(sizes.StartEndSize)
 	startEntry := widget.NewEntry()
 	endEntry := widget.NewEntry()
 	form := widget.NewForm(
@@ -93,6 +96,7 @@ func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
 
 func (ui *ui) SelectGradeWin(s *data.Student) {
 	w := ui.App.NewWindow("Select a grade!")
+	w.Resize(fyne.NewSize(600, 500))
 
 	// Selection vars
 	var addedSelected, toAddSelected = -1, -1
@@ -188,6 +192,7 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 
 func (ui *ui) StudentGradesMainWin(s *data.Student) {
 	w := ui.App.NewWindow(s.Name + " Grades")
+	w.Resize(fyne.NewSize(300, 300))
 	s.GetGrades()
 	var selected = -1
 	list := ui.GetStudentGradesList(&s.Grades)
@@ -227,6 +232,11 @@ func (ui *ui) StudentGradesMainWin(s *data.Student) {
 			}
 			ui.StudentGradeDetailsWin(&data.StudentGrades[selected])
 		}),
+		widget.NewToolbarSpacer(),
+		widget.NewToolbarAction(assets.Refresh, func() {
+			s.GetGrades()
+			list.Refresh()
+		}),
 	)
 
 	content := container.NewBorder(bar, nil, nil, nil, list)
@@ -238,10 +248,12 @@ func (ui *ui) EditStudentGradeWin(g *data.StudentGrade) {
 	i := data.FindGradeIndexByID(g.GradeID)
 	grade := data.Grades[i]
 	window := ui.App.NewWindow("Edit " + grade.Name)
+	window.Resize(fyne.NewSize(500, 100))
 
 	gradeNameLabel := widget.NewLabel(grade.Name)
 	gradeSelectButton := widget.NewButton("Select a new grade", func() {
 		w := ui.App.NewWindow("Select a grade")
+		w.Resize(sizes.ListSize)
 		var selected = -1
 		list := ui.GetGradesList(&data.Grades)
 		list.OnSelected = func(id widget.ListItemID) {

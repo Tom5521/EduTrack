@@ -29,6 +29,7 @@ var (
 	Edit          fyne.Resource
 	DeleteStudent fyne.Resource
 	Cross         fyne.Resource
+	Refresh       fyne.Resource
 )
 
 // Shared
@@ -56,6 +57,7 @@ func Load() {
 	Edit = getResource("Edit.png")
 	DeleteStudent = getResource("deleteStudent.png")
 	Cross = getResource("cross.png")
+	Refresh = getResource("refresh.png")
 
 	Placeholder = getCmResource("Placeholder.png")
 }

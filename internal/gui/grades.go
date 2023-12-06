@@ -31,6 +31,7 @@ func (_ ui) GetGradesList(grades *[]data.Grade) *widget.List {
 
 func (ui *ui) EditGrade(g *data.Grade) {
 	window := ui.App.NewWindow("Edit " + g.Name)
+	window.Resize(sizes.FormSize)
 
 	nameEntry := widget.NewEntry()
 	nameEntry.SetText(g.Name)
@@ -66,7 +67,10 @@ func (ui *ui) EditGrade(g *data.Grade) {
 	window.Show()
 }
 
-func (ui *ui) GetGradeDetailsCont(g *data.Grade, window fyne.Window) *fyne.Container {
+func (ui *ui) GradeDetailsWin(g *data.Grade) {
+	window := ui.App.NewWindow(g.Name)
+	window.Resize(sizes.FormSize)
+
 	editButton := widget.NewButton("Edit", func() {
 		ui.EditGrade(g)
 		window.Close()
@@ -88,13 +92,6 @@ func (ui *ui) GetGradeDetailsCont(g *data.Grade, window fyne.Window) *fyne.Conta
 		widget.NewFormItem("Info", widget.NewLabel(g.Info)),
 		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
-	return container.NewStack(form)
-}
-
-func (ui *ui) GradeDetailsWin(g *data.Grade) {
-	window := ui.App.NewWindow(g.Name)
-
-	form := ui.GetGradeDetailsCont(g, window)
 
 	window.SetContent(form)
 	window.Show()
@@ -155,6 +152,7 @@ func (ui *ui) AddGrade() {
 
 func (ui *ui) GradesMainWin() {
 	w := ui.App.NewWindow("Grades")
+	w.Resize(sizes.ListSize)
 
 	selected := -1
 

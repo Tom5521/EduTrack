@@ -70,7 +70,7 @@ func (ui *ui) MainWin() {
 			ui.EditFormWindow(&data.Students[selected])
 		}),
 
-		widget.NewToolbarSeparator(),
+		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Lens1, ui.SearchWindow),
 		widget.NewToolbarAction(assets.ShowGrades, ui.GradesMainWin))
 
