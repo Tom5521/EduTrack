@@ -67,7 +67,7 @@ func (ui *ui) MainWin() {
 			if selected == -1 {
 				return
 			}
-			ui.EditFormWindow(&data.Students[selected])
+			ui.EditStudentWindow(&data.Students[selected])
 		}),
 
 		widget.NewToolbarSpacer(),

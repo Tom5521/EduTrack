@@ -3,6 +3,7 @@ package gui
 import (
 	"fmt"
 	"image/color"
+	"math"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -89,6 +90,16 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	ui.StudentTab.Objects = []fyne.CanvasObject{content}
 }
 
+func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
+	text := ageEntry.Text
+	ret := uint(atoi(text))
+	if (ret == math.MaxUint) || (atoi(text) == -1) {
+		wins.ErrWin(app, "Overflow in age entry!")
+		ret = math.MaxUint
+	}
+	return ret
+}
+
 func (ui *ui) AddStudentForm() {
 	var imagePath string
 	var gradesStr []data.Grade
@@ -154,7 +165,7 @@ func (ui *ui) AddStudentForm() {
 
 		newStudent := data.Student{
 			Name:          nameEntry.Text,
-			Age:           uint(atoi(ageEntry.Text)),
+			Age:           getAgeEntry(ui.App, ageEntry),
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
@@ -188,28 +199,24 @@ func (ui *ui) AddStudentForm() {
 	window.Show()
 }
 
-func (ui *ui) EditFormWindow(s *data.Student) {
+func (ui *ui) EditStudentWindow(s *data.Student) {
 	window := ui.App.NewWindow("Edit " + s.Name)
 	window.Resize(sizes.FormSize)
 
+	initEntry := func(input any) *widget.Entry {
+		entry := widget.NewEntry()
+		entry.SetText(fmt.Sprint(input))
+		return entry
+	}
+
 	// Initialize form fields
 	var imagePath = s.ImageFilePath
-	nameEntry := widget.NewEntry()
-	nameEntry.SetText(s.Name)
-	ageEntry := widget.NewEntry()
-	ageEntry.SetText(itoa(s.Age))
-	dniEntry := widget.NewEntry()
-	dniEntry.SetText(s.DNI)
-	phoneEntry := widget.NewEntry()
-	phoneEntry.SetText(s.PhoneNumber)
+	nameEntry := initEntry(s.Name)
+	ageEntry := initEntry(s.Age)
+	dniEntry := initEntry(s.DNI)
+	phoneEntry := initEntry(s.PhoneNumber)
 
 	imageLabel := widget.NewLabel(imagePath)
-
-	nameForm := widget.NewFormItem("Name:", nameEntry)
-	ageForm := widget.NewFormItem("Age:", ageEntry)
-	dniForm := widget.NewFormItem("DNI:", dniEntry)
-
-	phoneForm := widget.NewFormItem("Phone:", phoneEntry)
 
 	deleteImgButton := widget.NewButton("Delete selected image", func() {
 		imagePath = ""
@@ -222,21 +229,20 @@ func (ui *ui) EditFormWindow(s *data.Student) {
 
 	const gridNumber int = 2
 	imgCont := container.NewAdaptiveGrid(gridNumber, deleteImgButton, selectImgButton)
-	imgForm := widget.NewFormItem("", imgCont)
-	imgInfoForm := widget.NewFormItem("Image path:", imageLabel)
 
 	form := widget.NewForm(
-		nameForm,
-		ageForm,
-		dniForm,
-		phoneForm,
-		imgForm,
-		imgInfoForm,
+		widget.NewFormItem("Name:", nameEntry),
+		widget.NewFormItem("Age:", ageEntry),
+		widget.NewFormItem("DNI:", dniEntry),
+		widget.NewFormItem("Phone:", phoneEntry),
+		widget.NewFormItem("", imgCont),
+		widget.NewFormItem("Image path:", imageLabel),
 	)
+
 	form.OnSubmit = func() {
 		edited := data.Student{
 			Name:          nameEntry.Text,
-			Age:           uint(atoi(ageEntry.Text)),
+			Age:           getAgeEntry(ui.App, ageEntry),
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
