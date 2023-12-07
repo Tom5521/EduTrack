@@ -1,7 +1,8 @@
 package gui
 
 import (
-	"strings"
+	"fmt"
+	"image/color"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -32,38 +33,47 @@ func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget
 }
 
 func (ui *ui) LoadStudentInfo(s *data.Student) {
-	var nlb = widget.NewLabel
+	var currentColor color.Color
+	if fyne.CurrentApp().Settings().ThemeVariant() == 1 {
+		currentColor = color.Black
+	} else {
+		currentColor = color.White
+	}
+
+	itemLabel := func(inputText any) *canvas.Text {
+		text := fmt.Sprint(inputText)
+		maxTextSize := 19
+		if len(text) > maxTextSize {
+			text = text[:maxTextSize] + "..."
+		}
+		label := canvas.NewText(text, currentColor)
+		label.TextSize = 20
+		return label
+	}
+	tagLabel := func(inputText any) *canvas.Text {
+		text := fmt.Sprint(inputText)
+		label := itemLabel(text)
+		label.TextSize = 20
+		label.TextStyle.Bold = true
+		return label
+	}
+
 	var nhbx = container.NewHBox
 
 	image := tools.LoadProfileImg(s.ImageFilePath)
 
 	// Name Label
-	nameLabel := nlb("Name: ")
+	nameLabel := tagLabel("Name: ")
 	nameLabel.TextStyle.Bold = true
-	nameCont := nhbx(nameLabel, nlb(s.Name))
+	nameCont := nhbx(nameLabel, itemLabel(s.Name))
 	// Age Label
-	ageLabel := nlb("Age: ")
-	ageLabel.TextStyle.Bold = true
-	ageCont := nhbx(ageLabel, nlb(itoa(s.Age)))
-	// ID Label
-	idLabel := nlb("DNI: ")
-	idLabel.TextStyle.Bold = true
-	idCont := nhbx(idLabel, nlb(s.DNI))
+	ageCont := nhbx(tagLabel("Age:"), itemLabel(s.Age))
+	// DNI Label
+	dniCont := nhbx(tagLabel("DNI:"), itemLabel(s.DNI))
 	// Phone Label
-	phoneLabel := nlb("Phone Number: ")
-	phoneLabel.TextStyle.Bold = true
-	phoneCont := nhbx(phoneLabel, nlb(s.PhoneNumber))
+	phoneCont := nhbx(tagLabel("Phone number:"), itemLabel(s.PhoneNumber))
 
-	gradesLabel := nlb("Grades:")
-	gradesLabel.TextStyle.Bold = true
-	getGrades := func() string {
-		d := s.GetGradesNames()
-		p := strings.Join(d, ",")
-		return p
-	}
-	gradesCont := nhbx(gradesLabel, nlb(getGrades()))
-
-	dataContainer := container.NewVBox(nameCont, ageCont, idCont, phoneCont, gradesCont)
+	dataContainer := container.NewVBox(nameCont, ageCont, dniCont, phoneCont)
 	showRecordsBt := widget.NewButton("Show student records", func() {
 		ui.StudentRecordsMainWin(s)
 	})
