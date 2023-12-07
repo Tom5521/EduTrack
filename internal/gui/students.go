@@ -298,12 +298,7 @@ func (ui *ui) DeleteStudentWin(s *data.Student) {
 func (ui ui) GetTemplateUser() *fyne.Container {
 	image := canvas.NewImageFromResource(assets.UserTemplate)
 	image.SetMinSize(sizes.ProfileSize)
-	dataForm := widget.NewForm(
-		widget.NewFormItem("Name:", widget.NewLabel("--")),
-		widget.NewFormItem("Age:", widget.NewLabel("--")),
-		widget.NewFormItem("DNI:", widget.NewLabel("--")),
-		widget.NewFormItem("Phone number:", widget.NewLabel("--")),
-	)
-	content := container.NewVBox(image, dataForm)
+
+	content := container.NewVBox(image)
 	return content
 }
