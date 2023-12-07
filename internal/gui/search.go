@@ -10,12 +10,12 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-func (ui *ui) SearchByDNIWindow() {
-	w := ui.App.NewWindow("Search Student")
+func (ui *ui) SearchStudentsMainWin() {
+	w := ui.App.NewWindow("Search students")
 	w.Resize(sizes.SearchSize)
-	entry := widget.NewEntry()
-	searchButton := widget.NewButton("Search", func() {
-		studentDNI := entry.Text
+	dniEntry := widget.NewEntry()
+	dniSearchButton := widget.NewButton("Search", func() {
+		studentDNI := dniEntry.Text
 		i := data.FindStudentIndexByDNI(studentDNI)
 		if i == -1 {
 			wins.ErrWin(ui.App, "Student not found!")
@@ -23,21 +23,39 @@ func (ui *ui) SearchByDNIWindow() {
 		}
 		student := data.Students[i]
 		ui.LoadStudentInfo(&student)
-		w.Close()
 	})
 
-	content := container.NewVBox(
+	byDNIContainer := container.NewVBox(
 		widget.NewLabel("Enter Student DNI:"),
-		entry,
-		searchButton,
+		dniEntry,
+		dniSearchButton,
+	)
+
+	nameEntry := widget.NewEntry()
+	nameSearchButton := widget.NewButton("Search", func() {
+		studentName := nameEntry.Text
+		i := data.FindStudentIndexByName(studentName)
+		if i == -1 {
+			wins.ErrWin(ui.App, "Student not found!")
+			return
+		}
+		student := data.Students[i]
+		ui.LoadStudentInfo(&student)
+	})
+
+	byNameContainer := container.NewVBox(
+		widget.NewLabel("Enter Student name:"),
+		nameEntry,
+		nameSearchButton,
+	)
+
+	content := container.NewAppTabs(
+		container.NewTabItem("Search by name", byNameContainer),
+		container.NewTabItem("Search by DNI", byDNIContainer),
 	)
 
 	w.SetContent(content)
 	w.Show()
-}
-
-func (ui *ui) SearchStudentsMainWin() {
-
 }
 
 func (ui *ui) SearchGradesMainWin() {

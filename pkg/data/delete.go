@@ -17,13 +17,13 @@ func (s Student) Delete() error {
 	printErr(err)
 	for _, record := range Records {
 		if record.StudentID == s.ID {
-			err := record.Delete()
+			err = record.Delete()
 			printErr(err)
 		}
 	}
 	for _, studentGrade := range StudentGrades {
 		if studentGrade.StudentID == s.ID {
-			err := studentGrade.Delete()
+			err = studentGrade.Delete()
 			printErr(err)
 		}
 	}

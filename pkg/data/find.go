@@ -82,3 +82,12 @@ func FindRecordIndexByID(id uint) int {
 	}
 	return -1
 }
+
+func FindStudentIndexByName(name string) int {
+	for i, student := range Students {
+		if student.Name == name {
+			return i
+		}
+	}
+	return -1
+}

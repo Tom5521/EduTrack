@@ -48,14 +48,14 @@ func read(file string) []byte {
 	return r
 }
 
-func getResource(resourceName string) fyne.Resource {
+func getResource(resourceName string) *fyne.StaticResource {
 	return &fyne.StaticResource{
 		StaticName:    resourceName,
 		StaticContent: read(resourceName),
 	}
 }
 
-func getCmResource(name string) fyne.Resource {
+func getCmResource(name string) *fyne.StaticResource {
 	return &fyne.StaticResource{
 		StaticName:    name,
 		StaticContent: cmReader(name),
