@@ -59,7 +59,16 @@ func (ui *ui) SearchStudentsMainWin() {
 }
 
 func (ui *ui) SearchGradesMainWin() {
+	w := ui.App.NewWindow("Search grades")
+	w.Resize(sizes.SearchSize)
 
+	searchGradeEntry := widget.NewEntry()
+	searchGradeButton := widget.NewButton("Search", func() {
+		text := searchGradeEntry.Text
+		i := data.FindGradeIndexBy
+	})
+
+	w.Show()
 }
 
 func (ui *ui) SearchRecordsMainWin() {
