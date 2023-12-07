@@ -81,5 +81,4 @@ func (ui *ui) SearchMainWin() {
 	w.SetContent(content)
 
 	w.Show()
-
 }

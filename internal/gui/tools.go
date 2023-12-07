@@ -6,9 +6,11 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/data"
 )
 
+/*
 func itoa[T ~int | ~uint](i T) string {
 	return strconv.Itoa(int(i))
 }
+*/
 
 func atoi[T ~string](s T) int {
 	ret, err := strconv.Atoi(string(s))
