@@ -100,3 +100,12 @@ func FindGradeIndexbyName(name string) int {
 	}
 	return -1
 }
+
+func FindRecordIndexByName(name string) int {
+	for i, record := range Records {
+		if record.Name == name {
+			return i
+		}
+	}
+	return -1
+}

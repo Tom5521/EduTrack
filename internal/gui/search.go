@@ -84,7 +84,27 @@ func (ui *ui) SearchGradesMainWin() {
 }
 
 func (ui *ui) SearchRecordsMainWin() {
+	w := ui.App.NewWindow("Search Records")
+	w.Resize(sizes.SearchSize)
+	entry := widget.NewEntry()
+	button := widget.NewButton("Search in records", func() {
+		text := entry.Text
+		i := data.FindRecordIndexByName(text)
+		if i == -1 {
+			wins.ErrWin(ui.App, "Record not found!")
+			return
+		}
+		record := data.Records[i]
+		ui.EditRecordData(record.ID)
+	})
+	content := container.NewVBox(
+		widget.NewLabel("Enter a record name"),
+		entry,
+		button,
+	)
 
+	w.SetContent(content)
+	w.Show()
 }
 
 func (ui *ui) SearchStudentGradesMainWin() {
