@@ -40,11 +40,10 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 		currentColor = color.White
 	}
 
-	itemLabel := func(inputText any) *canvas.Text {
+	itemLabel := func(inputText any, limit int) *canvas.Text {
 		text := fmt.Sprint(inputText)
-		maxTextSize := 19
-		if len(text) > maxTextSize {
-			text = text[:maxTextSize] + "..."
+		if len(text) > limit {
+			text = text[:limit] + "..."
 		}
 		label := canvas.NewText(text, currentColor)
 		label.TextSize = 20
@@ -52,7 +51,7 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	}
 	tagLabel := func(inputText any) *canvas.Text {
 		text := fmt.Sprint(inputText)
-		label := itemLabel(text)
+		label := itemLabel(text, 90)
 		label.TextSize = 20
 		label.TextStyle.Bold = true
 		return label
@@ -63,15 +62,13 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	image := tools.LoadProfileImg(s.ImageFilePath)
 
 	// Name Label
-	nameLabel := tagLabel("Name: ")
-	nameLabel.TextStyle.Bold = true
-	nameCont := nhbx(nameLabel, itemLabel(s.Name))
+	nameCont := nhbx(tagLabel("Name:"), itemLabel(s.Name, 21))
 	// Age Label
-	ageCont := nhbx(tagLabel("Age:"), itemLabel(s.Age))
+	ageCont := nhbx(tagLabel("Age:"), itemLabel(s.Age, 20))
 	// DNI Label
-	dniCont := nhbx(tagLabel("DNI:"), itemLabel(s.DNI))
+	dniCont := nhbx(tagLabel("DNI:"), itemLabel(s.DNI, 20))
 	// Phone Label
-	phoneCont := nhbx(tagLabel("Phone number:"), itemLabel(s.PhoneNumber))
+	phoneCont := nhbx(tagLabel("Phone number:"), itemLabel(s.PhoneNumber, 20))
 
 	dataContainer := container.NewVBox(nameCont, ageCont, dniCont, phoneCont)
 	showRecordsBt := widget.NewButton("Show student records", func() {
