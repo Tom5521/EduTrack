@@ -19,6 +19,10 @@ This is a program that manages a database of students and grades.
 
 ![App Screenshot](./screenshots/Screenshot1.png)
 
+![App Screenshot](./screenshots/Screenshot2.png)
+
+![App Screenshot](./screenshots/Screenshot3.png)
+
 ## Installation
 
 Install my-project with go or by executing the binary in its own folder

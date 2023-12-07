@@ -161,7 +161,10 @@ func (ui *ui) GradesMainWin() {
 	list := ui.GetGradesList(&data.Grades)
 
 	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(assets.Plus, func() { ui.AddGrade() }),
+		widget.NewToolbarAction(assets.Plus, func() {
+			ui.AddGrade()
+			list.Refresh()
+		}),
 		widget.NewToolbarAction(assets.DeleteGrade, func() {
 			if selected == -1 {
 				return
@@ -171,7 +174,7 @@ func (ui *ui) GradesMainWin() {
 				wins.ErrWin(ui.App, err.Error())
 				return
 			}
-			list.Refresh()
+			list.UnselectAll()
 			selected = -1
 		}),
 		widget.NewToolbarAction(assets.ShowGrades, func() {
@@ -185,6 +188,11 @@ func (ui *ui) GradesMainWin() {
 				return
 			}
 			ui.EditGrade(&data.Grades[selected])
+			list.Refresh()
+		}),
+		widget.NewToolbarSpacer(),
+		widget.NewToolbarAction(assets.Refresh, func() {
+			list.UnselectAll()
 			list.Refresh()
 		}),
 	)
