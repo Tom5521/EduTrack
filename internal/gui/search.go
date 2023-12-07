@@ -65,8 +65,20 @@ func (ui *ui) SearchGradesMainWin() {
 	searchGradeEntry := widget.NewEntry()
 	searchGradeButton := widget.NewButton("Search", func() {
 		text := searchGradeEntry.Text
-		i := data.FindGradeIndexBy
+		i := data.FindGradeIndexbyName(text)
+		if i == -1 {
+			wins.ErrWin(ui.App, "Grade not found!")
+			return
+		}
+		ui.GradeDetailsWin(&data.Grades[i])
 	})
+
+	content := container.NewVBox(
+		widget.NewLabel("Enter a grade name"),
+		searchGradeEntry,
+		searchGradeButton,
+	)
+	w.SetContent(content)
 
 	w.Show()
 }

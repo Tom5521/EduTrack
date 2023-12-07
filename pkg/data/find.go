@@ -91,3 +91,12 @@ func FindStudentIndexByName(name string) int {
 	}
 	return -1
 }
+
+func FindGradeIndexbyName(name string) int {
+	for i, grade := range Grades {
+		if grade.Name == name {
+			return i
+		}
+	}
+	return -1
+}
