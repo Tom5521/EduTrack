@@ -95,7 +95,7 @@ func getOSConfFile() (string, string) {
 
 func NewConfigurationFile() {
 	var err error
-	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile, Theme: "Adwaita"})
+	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile, Theme: "Adwaita", Lang: "en"})
 	if err != nil {
 		log.Println("Error marshalling new configuration file", err)
 	}

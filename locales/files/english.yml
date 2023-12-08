@@ -1,0 +1,27 @@
+StudentInfo:
+  Name: Name
+  Age: Age
+  DNI: DNI
+  Phone Number: Phone Number
+MainMenu:
+  File: File
+  Edit: Edit
+  Help: Help
+WindowTitles:
+  StudentGradesWindows:
+    Select start and end: Select start and end
+    Details of X: Details of %v
+    Edit X: Edit %v
+  GradesWindows:
+    X Grades: '%v Grades'
+    Grades: Grades
+    Select a grade: Select a grade!
+  StudentWindows:
+    Students: Students
+  RecordsWindows:
+    Records: Records
+  OtherWindows:
+    Search: Search
+Dialogs:
+  Student:
+    Delete Student Dialog: Do you want to delete the student?

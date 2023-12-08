@@ -1,0 +1,27 @@
+StudentInfo:
+  Name: Nombre
+  Age: Edad
+  DNI: CI
+  Phone Number: Numero de telefono
+MainMenu:
+  File: Archivo
+  Edit: Editar
+  Help: Ayuda
+WindowTitles:
+  StudentGradesWindows:
+    Select start and end: Selecciona el inicio y el final
+    Details of X: Detalles de %v
+    Edit X: Editar %v
+  GradesWindows:
+    X Grades: Cursos de %v
+    Grades: Cursos
+    Select a grade: Selecciona un curso!
+  StudentWindows:
+    Students: Estudiantes
+  RecordsWindows:
+    Records: Registros
+  OtherWindows:
+    Search: Buscar
+Dialogs:
+  Student:
+    Delete Student Dialog: Quieres realmente quieres borrar el estudiante?
