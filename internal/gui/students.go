@@ -119,28 +119,10 @@ func (ui *ui) AddStudentForm() {
 		imagePath = ""
 	})
 
-	getStGrade := func() string {
-		var grades string
-		for _, g := range gradesStr {
-			grades += g.Name + ","
-		}
-		return grades
-	}
-
-	studentGradesLabel := widget.NewLabel("")
-	studentGradesLabel.SetText(getStGrade())
-	gradeSelect := widget.NewSelect(data.GetGradesNames(), func(s string) {
-		gradesStr = append(gradesStr, data.FindGradeByName(s))
-
-		studentGradesLabel.SetText(getStGrade())
-	})
-
 	nameForm := widget.NewFormItem("Name:", nameEntry)
 	idForm := widget.NewFormItem("DNI:", dniEntry)
 	ageForm := widget.NewFormItem("Age:", ageEntry)
 	phoneForm := widget.NewFormItem("Phone:", phoneEntry)
-	gradeForm := widget.NewFormItem("Select Grades:", gradeSelect)
-	gradesShowForm := widget.NewFormItem("Grades:", studentGradesLabel)
 	const gridNumber int = 2
 	imageForm := widget.NewFormItem("Image:", container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn))
 
@@ -149,8 +131,6 @@ func (ui *ui) AddStudentForm() {
 		idForm,
 		ageForm,
 		phoneForm,
-		gradeForm,
-		gradesShowForm,
 		imageForm,
 	)
 	form.OnSubmit = func() {
@@ -296,6 +276,26 @@ func (ui *ui) DeleteStudentWin(s *data.Student) {
 		))
 	window.SetContent(content)
 	window.Show()
+}
+
+func (ui *ui) StudentDetailsWin(s *data.Student) {
+	w := ui.App.NewWindow(s.Name + " Details")
+
+	form := widget.NewForm(
+		widget.NewFormItem("Name:", widget.NewLabel(s.Name)),
+		widget.NewFormItem("Age:", widget.NewLabel(itoa(s.Age))),
+		widget.NewFormItem("DNI:", widget.NewLabel(s.DNI)),
+		widget.NewFormItem("Phone Number:", widget.NewLabel(s.PhoneNumber)),
+		widget.NewFormItem("", widget.NewButton("Show student grades", func() { ui.StudentGradesMainWin(s) })),
+		widget.NewFormItem("", widget.NewButton("Show student records", func() { ui.StudentRecordsMainWin(s) })),
+	)
+
+	form.SubmitText = "Close"
+	form.OnSubmit = func() {
+		w.Close()
+	}
+	w.SetContent(form)
+	w.Show()
 }
 
 func (ui ui) GetTemplateUser() *fyne.Container {

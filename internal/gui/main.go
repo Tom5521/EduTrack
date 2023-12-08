@@ -69,6 +69,12 @@ func (ui *ui) MainWin() {
 			}
 			ui.EditStudentWindow(&data.Students[selected])
 		}),
+		widget.NewToolbarAction(assets.Info, func() {
+			if selected == -1 {
+				return
+			}
+			ui.StudentDetailsWin(&data.Students[selected])
+		}),
 
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Lens1, ui.SearchMainWin),
