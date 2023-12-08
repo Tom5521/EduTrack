@@ -8,12 +8,12 @@ This is a program that manages a database of students and grades.
 
 ## Features
 
-- Light/dark mode
-- Fullscreen mode
-- Cross platform
-- User profile pictures and detailed fields to fill out
-- SQLite managed database
-- Embedded SQLite (no additional installations required)
+- Light/dark mode.
+- Fullscreen mode.
+- Cross platform.
+- User profile pictures and detailed fields to fill out.
+- SQLite managed database.
+- Embedded SQLite (no additional installations required).
 
 ## Screenshots
 
