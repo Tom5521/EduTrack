@@ -196,10 +196,11 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 			if selected == -1 {
 				return
 			}
-			err := student.DeleteRecord(student.Records[selected].ID)
+			err := data.Delete(data.Records[data.FindRecordIndexByID(student.Records[selected].ID)])
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
+			student.GetRecords()
 			list.UnselectAll()
 			selected = -1
 		}),
