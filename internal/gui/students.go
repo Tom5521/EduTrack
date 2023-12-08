@@ -254,30 +254,6 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 	window.Show()
 }
 
-func (ui *ui) DeleteStudentWin(s *data.Student) {
-	window := ui.App.NewWindow("Delete Student")
-	const gridNumber int = 2
-	content := container.NewVBox(
-		widget.NewLabel("Are you sure you want to delete the student?"),
-		container.NewAdaptiveGrid(gridNumber,
-			widget.NewButton("Yes", func() {
-				err := data.Delete(s)
-				if err != nil {
-					wins.ErrWin(ui.App, err.Error())
-				}
-				ui.StudentList.UnselectAll()
-				ui.StudentTab = ui.GetTemplateUser()
-				ui.StudentTab.Refresh()
-				window.Close()
-			}),
-			widget.NewButton("No", func() {
-				window.Close()
-			}),
-		))
-	window.SetContent(content)
-	window.Show()
-}
-
 func (ui *ui) StudentDetailsWin(s *data.Student) {
 	w := ui.App.NewWindow(s.Name + " Details")
 

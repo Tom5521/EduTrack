@@ -6,6 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
@@ -182,6 +183,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 
 func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 	w := ui.App.NewWindow(student.Name + " Records")
+	w.Resize(sizes.FormSize)
 	var selected int
 	list := ui.GetStudentRecordsList(student)
 	bar := widget.NewToolbar(
@@ -198,7 +200,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
-			list.Refresh()
+			list.UnselectAll()
 			selected = -1
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
@@ -206,6 +208,18 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 				return
 			}
 			ui.EditRecordData(data.Records[selected].ID)
+			student.GetRecords()
+			list.Refresh()
+		}),
+		widget.NewToolbarAction(assets.Info, func() {
+			if selected == -1 {
+				return
+			}
+			i := data.FindRecordIndexByID(student.Records[selected].ID)
+			ui.RegisterDetailsWin(&data.Records[i])
+		}),
+		widget.NewToolbarSpacer(),
+		widget.NewToolbarAction(assets.Refresh, func() {
 			student.GetRecords()
 			list.Refresh()
 		}),
@@ -224,5 +238,49 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 	}
 
 	w.SetContent(content)
+	w.Show()
+}
+
+func (ui *ui) RegisterDetailsWin(r *data.Record) {
+	w := ui.App.NewWindow("Details for " + r.Name)
+	// w.Resize(sizes.RecSize)
+	infoEntry := widget.NewMultiLineEntry()
+	infoEntry.SetText(r.Info)
+
+	editButton := widget.NewButton("Edit", func() {
+		ui.EditRecordData(r.ID)
+	})
+	deleteButton := widget.NewButton("Delete", func() {
+		dialog.ShowConfirm("Please Confirm", "Do you really want to delete the record?", func(b bool) {
+			if b {
+				err := data.Delete(r)
+				if err != nil {
+					wins.ErrWin(ui.App, err.Error())
+				}
+				w.Close()
+			}
+		},
+			w,
+		)
+	})
+
+	const gridNumber int = 2
+	buttonsCont := container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)
+
+	student := data.Students[data.FindStudentIndexByID(r.StudentID)]
+	form := widget.NewForm(
+		widget.NewFormItem("Student Name:", widget.NewLabel(student.Name)),
+		widget.NewFormItem("Name:", widget.NewLabel(r.Name)),
+		widget.NewFormItem("Date:", widget.NewLabel(r.Date)),
+		widget.NewFormItem("Info:", infoEntry),
+		widget.NewFormItem("", buttonsCont),
+	)
+	form.OnSubmit = func() {
+		w.Close()
+	}
+	form.SubmitText = "Close"
+
+	w.SetContent(form)
+
 	w.Show()
 }

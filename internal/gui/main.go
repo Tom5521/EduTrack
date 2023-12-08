@@ -4,6 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/pkg/data"
@@ -60,8 +61,20 @@ func (ui *ui) MainWin() {
 			if selected == -1 {
 				return
 			}
-			ui.DeleteStudentWin(&data.Students[selected])
-			selected = -1
+			dialog.ShowConfirm("Please Confirm", "Do you really want to delete the student?", func(b bool) {
+				if b {
+					err := data.Delete(data.Students[selected])
+					if err != nil {
+						wins.ErrWin(ui.App, err.Error())
+					}
+					ui.StudentList.UnselectAll()
+					ui.StudentTab = ui.GetTemplateUser()
+					ui.StudentTab.Refresh()
+					selected = -1
+				}
+			},
+				w,
+			)
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
@@ -75,16 +88,13 @@ func (ui *ui) MainWin() {
 			}
 			ui.StudentDetailsWin(&data.Students[selected])
 		}),
-
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Lens1, ui.SearchMainWin),
 		widget.NewToolbarAction(assets.ShowGrades, ui.GradesMainWin))
-
 	tabCont := container.NewBorder(nil, nil, nil, widget.NewSeparator(), ui.StudentTab)
 	listCont := container.NewBorder(toolbar, nil, nil, nil, ui.StudentList)
 	mainContainer := container.NewBorder(nil, nil, tabCont, nil, listCont)
 
 	w.SetContent(mainContainer)
-
 	w.ShowAndRun()
 }

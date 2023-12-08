@@ -29,7 +29,7 @@ const (
 var screenWidth, screenHeight = resolution.GetResolution() // Screen resolution in pixels.
 var FyneScreenSize = fyne.NewSize(screenWidth, screenHeight)
 var (
-	RecSize      = fyne.NewSize(recW, recH)         // Size for registration window.
+	RecSize      = fyne.NewSize(recW, recH)         // Size for record window.
 	FormSize     = fyne.NewSize(formW, formH)       // Size for the form window.
 	PickSize     = fyne.NewSize(pickW, pickH)       // Size for file picker window.
 	ErrSize      = fyne.NewSize(errW, errH)         // Size for error window.
