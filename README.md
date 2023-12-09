@@ -4,7 +4,7 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 ![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/Tom5521/EduTrack)
 
-This is a program that manages a database of students and grades.
+This is a program that manages a database of students and courses.
 
 ## Features
 
