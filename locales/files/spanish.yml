@@ -1,27 +1,48 @@
+GradeInfo:
+  Name: 'Nombre:'
+  Price: 'Precio:'
+  Info: 'Información:'
+StudentGradeInfo:
+  Start: 'Inicio:'
+  End: 'Fin:'
 StudentInfo:
-  Name: Nombre
-  Age: Edad
-  DNI: CI
-  Phone Number: Numero de telefono
+  Name: 'Nombre:'
+  Age: 'Edad:'
+  DNI: 'DNI:'
+  Phone Number: 'Número de Teléfono:'
+  Image Path: 'Ruta de la Imagen:'
 MainMenu:
   File: Archivo
   Edit: Editar
   Help: Ayuda
 WindowTitles:
   StudentGradesWindows:
-    Select start and end: Selecciona el inicio y el final
+    Select start and end: Seleccionar inicio y fin
     Details of X: Detalles de %v
     Edit X: Editar %v
+    Select a grade: Seleccionar una calificación
+    X Grades: '%v Calificaciones'
   GradesWindows:
-    X Grades: Cursos de %v
-    Grades: Cursos
-    Select a grade: Selecciona un curso!
+    X Grades: '%v Calificaciones'
+    Grades: Calificaciones
+    Select a grade: Seleccionar una calificación
+    Edit X: Editar %v
+    Add a Grade: Agregar una Calificación
   StudentWindows:
     Students: Estudiantes
+    Add a student: Agregar un estudiante
+    Edit X: Editar %v
+    X Details: Detalles de %v
   RecordsWindows:
     Records: Registros
-  OtherWindows:
+    Add a Record: Agregar un Registro
+    Edit Record: Editar Registro
+    X Records: '%v Registros'
+    Details for X: Detalles de %v
+  SearchWindows:
     Search: Buscar
+    Search Students: Buscar Estudiantes
+    Search Records: Buscar Registros
 Dialogs:
   Student:
-    Delete Student Dialog: Quieres realmente quieres borrar el estudiante?
+    Delete Student Dialog: ¿Deseas eliminar al estudiante?

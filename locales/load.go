@@ -1,14 +1,24 @@
 package locales
 
 import (
+	"embed"
 	"fmt"
 
 	"gopkg.in/yaml.v3"
 )
 
+//go:embed files
+var LocaleFiles embed.FS
+
 func LoadFiles(lang string) Locale {
-	english, _ := LocaleFiles.ReadFile("english.yml")
-	spanish, _ := LocaleFiles.ReadFile("spanish.yml")
+	english, err := LocaleFiles.ReadFile("files/english.yml")
+	if err != nil {
+		fmt.Println(err)
+	}
+	spanish, err := LocaleFiles.ReadFile("files/spanish.yml")
+	if err != nil {
+		fmt.Println(err)
+	}
 	var (
 		locale     Locale
 		fileToRead []byte
@@ -19,7 +29,7 @@ func LoadFiles(lang string) Locale {
 	if lang == "en" {
 		fileToRead = english
 	}
-	err := yaml.Unmarshal(fileToRead, &locale)
+	err = yaml.Unmarshal(fileToRead, &locale)
 	if err != nil {
 		fmt.Println(err)
 	}

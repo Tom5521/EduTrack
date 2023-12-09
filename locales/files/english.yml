@@ -1,8 +1,16 @@
+GradeInfo:
+  Name: 'Name:'
+  Price: 'Price:'
+  Info: 'Info:'
+StudentGradeInfo:
+  Start: 'Start:'
+  End: 'End:'
 StudentInfo:
-  Name: Name
-  Age: Age
-  DNI: DNI
-  Phone Number: Phone Number
+  Name: 'Name:'
+  Age: 'Age:'
+  DNI: 'DNI:'
+  Phone Number: 'Phone Number:'
+  Image Path: 'Image path:'
 MainMenu:
   File: File
   Edit: Edit
@@ -10,18 +18,31 @@ MainMenu:
 WindowTitles:
   StudentGradesWindows:
     Select start and end: Select start and end
-    Details of X: Details of %v
+    Details of X: Details for %v
     Edit X: Edit %v
+    Select a grade: Select a grade!
+    X Grades: '%v Grades'
   GradesWindows:
     X Grades: '%v Grades'
     Grades: Grades
     Select a grade: Select a grade!
+    Edit X: Edit %v
+    Add a Grade: Add a Grade
   StudentWindows:
     Students: Students
+    Add a student: Add a student
+    Edit X: Edit %v
+    X Details: '%v Details'
   RecordsWindows:
     Records: Records
-  OtherWindows:
+    Add a Record: Add a Record
+    Edit Record: Edit Record
+    X Records: '%v Records'
+    Details for X: Details for %v
+  SearchWindows:
     Search: Search
+    Search Students: Search Students
+    Search Records: Search Records
 Dialogs:
   Student:
     Delete Student Dialog: Do you want to delete the student?
