@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"log"
 
 	"fyne.io/fyne/v2"
@@ -11,6 +12,9 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
+
+var CourseWins = locale.WindowTitles.CoursesWindows
+var CourseLocals = locale.CourseInfo
 
 func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
 	list := widget.NewList(
@@ -30,7 +34,7 @@ func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
 }
 
 func (ui *ui) EditCourse(c *data.Course) {
-	window := ui.App.NewWindow("Edit " + c.Name)
+	window := ui.App.NewWindow(fmt.Sprintf(CourseWins["Edit X"], c.Name))
 	window.Resize(sizes.FormSize)
 
 	nameEntry := widget.NewEntry()

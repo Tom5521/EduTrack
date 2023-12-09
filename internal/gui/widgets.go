@@ -8,18 +8,18 @@ import (
 func (ui *ui) MainMenu() *fyne.MainMenu {
 	// Create the main menu
 	menu := fyne.NewMainMenu(
-		fyne.NewMenu("File",
+		fyne.NewMenu(locale.MainMenu["File"],
 			fyne.NewMenuItem("Add Student", func() {
 				ui.AddStudentForm()
 			}),
 		),
-		fyne.NewMenu("Edit",
+		fyne.NewMenu(locale.MainMenu["Edit"],
 			fyne.NewMenuItem("Reload data", func() {
 				data.LoadEverything()
 			}),
 		),
-		fyne.NewMenu("Help",
-			fyne.NewMenuItem("About", func() {
+		fyne.NewMenu(locale.MainMenu["Help"],
+			fyne.NewMenuItem(locale.MainMenu["About"], func() {
 				ui.AboutWin()
 			}),
 		),

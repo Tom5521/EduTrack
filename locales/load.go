@@ -29,6 +29,9 @@ func LoadFiles(lang string) Locale {
 	if lang == "en" {
 		fileToRead = english
 	}
+	if lang == "" {
+		fileToRead = english
+	}
 	err = yaml.Unmarshal(fileToRead, &locale)
 	if err != nil {
 		fmt.Println(err)

@@ -63,13 +63,13 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	image := tools.LoadProfileImg(s.ImageFilePath)
 
 	// Name Label
-	nameCont := nhbx(tagLabel("Name:"), itemLabel(s.Name, 21))
+	nameCont := nhbx(tagLabel(locale.StudentInfo["Name"]), itemLabel(s.Name, 21))
 	// Age Label
-	ageCont := nhbx(tagLabel("Age:"), itemLabel(s.Age, 20))
+	ageCont := nhbx(tagLabel(locale.StudentInfo["Age"]), itemLabel(s.Age, 20))
 	// DNI Label
-	dniCont := nhbx(tagLabel("DNI:"), itemLabel(s.DNI, 20))
+	dniCont := nhbx(tagLabel(locale.StudentInfo["DNI"]), itemLabel(s.DNI, 20))
 	// Phone Label
-	phoneCont := nhbx(tagLabel("Phone number:"), itemLabel(s.PhoneNumber, 20))
+	phoneCont := nhbx(tagLabel(locale.StudentInfo["Phone Number"]), itemLabel(s.PhoneNumber, 20))
 
 	dataContainer := container.NewVBox(nameCont, ageCont, dniCont, phoneCont)
 	showRecordsBt := widget.NewButton("Show student records", func() {

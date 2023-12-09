@@ -13,6 +13,7 @@ type Locale struct {
 		SearchWindows         map[string]string `yaml:"SearchWindows"`
 	} `yaml:"WindowTitles"`
 	Dialogs struct {
+		General map[string]string `yaml:"General"`
 		Student map[string]string `yaml:"Student"`
 	} `yaml:"Dialogs"`
 }

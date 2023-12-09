@@ -15,34 +15,37 @@ MainMenu:
   File: File
   Edit: Edit
   Help: Help
+  About: About
 WindowTitles:
   StudentCoursesWindows:
     Select start and end: Select start and end
-    Details of X: Details for %v
-    Edit X: Edit %v
+    Details of X: Details for %s
+    Edit X: Edit %s
     Select a course: Select a course!
-    X Courses: '%v courses'
+    X Courses: '%s courses'
   CoursesWindows:
-    X Courses: '%v Courses'
+    X Courses: '%s Courses'
     Courses: Courses
     Select a course: Select a course!
-    Edit X: Edit %v
+    Edit X: Edit %s
     Add a Course: Add a Course
   StudentWindows:
     Students: Students
     Add a student: Add a student
-    Edit X: Edit %v
-    X Details: '%v Details'
+    Edit X: Edit %s
+    X Details: '%s Details'
   RecordsWindows:
     Records: Records
     Add a Record: Add a Record
     Edit Record: Edit Record
-    X Records: '%v Records'
-    Details for X: Details for %v
+    X Records: '%s Records'
+    Details for X: Details for %s
   SearchWindows:
     Search: Search
     Search Students: Search Students
     Search Records: Search Records
 Dialogs:
+  General:
+    Please Confirm: Please Confirm
   Student:
     Delete Student Dialog: Do you want to delete the student?

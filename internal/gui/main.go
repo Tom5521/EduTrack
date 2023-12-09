@@ -7,12 +7,15 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/locales"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/themes"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 
 	xtheme "fyne.io/x/fyne/theme"
 )
+
+var locale locales.Locale
 
 type ui struct {
 	App         fyne.App
@@ -39,6 +42,7 @@ func Init() *Gui {
 	}
 	ui.App.Settings().SetTheme(th)
 	assets.Load()
+	locale = locales.LoadFiles(data.Config.Lang)
 	return ui
 }
 
@@ -61,7 +65,9 @@ func (ui *ui) MainWin() {
 			if selected == -1 {
 				return
 			}
-			dialog.ShowConfirm("Please Confirm", "Do you really want to delete the student?", func(b bool) {
+			pleaseConfirm := locale.Dialogs.General["Please Confirm"]
+			deleteQuestion := locale.Dialogs.Student["Delete Student Dialog"]
+			dialog.ShowConfirm(pleaseConfirm, deleteQuestion, func(b bool) {
 				if b {
 					err := data.Delete(data.Students[selected])
 					if err != nil {

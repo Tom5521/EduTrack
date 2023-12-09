@@ -9,40 +9,43 @@ StudentInfo:
   Name: 'Nombre:'
   Age: 'Edad:'
   DNI: 'DNI:'
-  Phone Number: 'Número de Teléfono:'
+  Phone Number: 'Teléfono:'
   Image Path: 'Ruta de la Imagen:'
 MainMenu:
   File: Archivo
   Edit: Editar
   Help: Ayuda
+  About: Acerca de
 WindowTitles:
   StudentCoursesWindows:
     Select start and end: Seleccionar inicio y fin
-    Details of X: Detalles de %v
-    Edit X: Editar %v
+    Details of X: Detalles de %s
+    Edit X: Editar %s
     Select a course: Seleccionar un curso
-    X Courses: '%v cursos'
+    X Courses: '%s cursos'
   CoursesWindows:
-    X Courses: '%v Cursos'
+    X Courses: '%s Cursos'
     Courses: Cursos
     Select a course: Seleccionar un curso
-    Edit X: Editar %v
+    Edit X: Editar %s
     Add a Course: Agregar un Curso
   StudentWindows:
     Students: Estudiantes
     Add a student: Agregar un estudiante
-    Edit X: Editar %v
-    X Details: Detalles de %v
+    Edit X: Editar %s
+    X Details: Detalles de %s
   RecordsWindows:
     Records: Registros
     Add a Record: Agregar un Registro
     Edit Record: Editar Registro
-    X Records: '%v Registros'
-    Details for X: Detalles de %v
+    X Records: '%s Registros'
+    Details for X: Detalles de %s
   SearchWindows:
     Search: Buscar
     Search Students: Buscar Estudiantes
     Search Records: Buscar Registros
 Dialogs:
+  General:
+    Please Confirm: Por favor confirma
   Student:
     Delete Student Dialog: ¿Quieres eliminar al estudiante?
