@@ -1,8 +1,8 @@
-GradeInfo:
+CourseInfo:
   Name: 'Nombre:'
   Price: 'Precio:'
   Info: 'Información:'
-StudentGradeInfo:
+StudentCourseInfo:
   Start: 'Inicio:'
   End: 'Fin:'
 StudentInfo:
@@ -16,18 +16,18 @@ MainMenu:
   Edit: Editar
   Help: Ayuda
 WindowTitles:
-  StudentGradesWindows:
+  StudentCoursesWindows:
     Select start and end: Seleccionar inicio y fin
     Details of X: Detalles de %v
     Edit X: Editar %v
-    Select a grade: Seleccionar una calificación
-    X Grades: '%v Calificaciones'
-  GradesWindows:
-    X Grades: '%v Calificaciones'
-    Grades: Calificaciones
-    Select a grade: Seleccionar una calificación
+    Select a course: Seleccionar un curso
+    X Courses: '%v cursos'
+  CoursesWindows:
+    X Courses: '%v Cursos'
+    Courses: Cursos
+    Select a course: Seleccionar un curso
     Edit X: Editar %v
-    Add a Grade: Agregar una Calificación
+    Add a Course: Agregar un Curso
   StudentWindows:
     Students: Estudiantes
     Add a student: Agregar un estudiante
@@ -45,4 +45,4 @@ WindowTitles:
     Search Records: Buscar Registros
 Dialogs:
   Student:
-    Delete Student Dialog: ¿Deseas eliminar al estudiante?
+    Delete Student Dialog: ¿Quieres eliminar al estudiante?

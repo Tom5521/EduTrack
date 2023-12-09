@@ -19,15 +19,15 @@ import (
 func TestEditGrade(t *testing.T) {
 	data.LoadFiles()
 	// assert := assert.New(t)
-	fmt.Println(data.Grades)
-	if len(data.Grades) == 0 {
-		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	fmt.Println(data.Courses)
+	if len(data.Courses) == 0 {
+		err := data.AddGrade(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(t, err)
-		log.Println(data.Grades)
+		log.Println(data.Courses)
 	}
-	err := data.EditGrade(data.Grades[0].ID, data.Grade{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
+	err := data.EditGrade(data.Courses[0].ID, data.Course{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
 	require.NoError(t, err)
-	fmt.Println(data.Grades)
+	fmt.Println(data.Courses)
 }
 
 func TestEditStudent(t *testing.T) {
@@ -76,27 +76,27 @@ func TestEditStudentGrade(t *testing.T) {
 		require.NoError(err)
 	}
 	student := &data.Students[0]
-	if len(data.Grades) == 0 {
-		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	if len(data.Courses) == 0 {
+		err := data.AddGrade(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 	}
-	err := data.LoadGrades()
+	err := data.LoadCourses()
 	require.NoError(err)
-	if len(student.Grades) == 0 {
-		err = student.AddGrade(&data.StudentGrade{GradeID: data.Grades[0].ID, StudentID: student.ID, Start: "123", End: "23123"})
+	if len(student.Courses) == 0 {
+		err = student.AddCourse(&data.StudentCourse{CourseID: data.Courses[0].ID, StudentID: student.ID, Start: "123", End: "23123"})
 		require.NoError(err)
 	}
-	student.GetGrades()
-	dbgrade := data.Grades[0]
-	if len(student.Grades) == 0 {
-		err = student.AddGrade(&data.StudentGrade{StudentID: student.ID, GradeID: dbgrade.ID, Start: "1234", End: "12344"})
+	student.GetCourses()
+	dbgrade := data.Courses[0]
+	if len(student.Courses) == 0 {
+		err = student.AddCourse(&data.StudentCourse{StudentID: student.ID, CourseID: dbgrade.ID, Start: "1234", End: "12344"})
 		require.NoError(err)
 	}
-	grade := &student.Grades[0]
+	grade := &student.Courses[0]
 	fmt.Println(grade)
-	err = grade.Edit(&data.StudentGrade{
+	err = grade.Edit(&data.StudentCourse{
 		StudentID: student.ID,
-		GradeID:   dbgrade.ID,
+		CourseID:  dbgrade.ID,
 		Start:     "Edited for testing!",
 		End:       "12344"})
 	fmt.Println(grade)

@@ -32,9 +32,9 @@ func TestLoadDatabase(t *testing.T) {
 		time.Sleep(1 * time.Second)
 		err := data.LoadStudents()
 		require.NoError(err)
-		err = data.LoadGrades()
+		err = data.LoadCourses()
 		require.NoError(err)
-		fmt.Println("Grades:", data.Grades)
+		fmt.Println("Grades:", data.Courses)
 		fmt.Println("Students:", data.Students)
 		fmt.Println("Seconds left:", ts)
 	}

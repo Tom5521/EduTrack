@@ -12,18 +12,16 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-const editString string = "Edit "
-
-func (ui ui) GetGradesList(grades *[]data.Grade) *widget.List {
+func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
 	list := widget.NewList(
 		func() int {
-			return len(*grades)
+			return len(*courses)
 		},
 		func() fyne.CanvasObject {
 			return widget.NewLabel("template")
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
-			mod := *grades
+			mod := *courses
 			o.(*widget.Label).SetText(mod[i].Name)
 		},
 	)
@@ -31,18 +29,18 @@ func (ui ui) GetGradesList(grades *[]data.Grade) *widget.List {
 	return list
 }
 
-func (ui *ui) EditGrade(g *data.Grade) {
-	window := ui.App.NewWindow(editString + g.Name)
+func (ui *ui) EditCourse(c *data.Course) {
+	window := ui.App.NewWindow("Edit " + c.Name)
 	window.Resize(sizes.FormSize)
 
 	nameEntry := widget.NewEntry()
-	nameEntry.SetText(g.Name)
+	nameEntry.SetText(c.Name)
 
 	priceEntry := widget.NewEntry()
-	priceEntry.SetText(g.Price)
+	priceEntry.SetText(c.Price)
 
 	infoEntry := widget.NewMultiLineEntry()
-	infoEntry.SetText(g.Info)
+	infoEntry.SetText(c.Info)
 
 	form := widget.NewForm(
 		widget.NewFormItem("Name:", nameEntry),
@@ -51,12 +49,12 @@ func (ui *ui) EditGrade(g *data.Grade) {
 	)
 
 	form.OnSubmit = func() {
-		newGrade := data.Grade{
+		newGrade := data.Course{
 			Name:  nameEntry.Text,
 			Price: priceEntry.Text,
 			Info:  infoEntry.Text,
 		}
-		err := g.Edit(&newGrade)
+		err := c.Edit(&newGrade)
 		if err != nil {
 			log.Println(err)
 			wins.ErrWin(ui.App, err.Error())
@@ -69,29 +67,29 @@ func (ui *ui) EditGrade(g *data.Grade) {
 	window.Show()
 }
 
-func (ui *ui) GradeDetailsWin(g *data.Grade) {
-	window := ui.App.NewWindow(g.Name)
+func (ui *ui) CourseDetailsWin(c *data.Course) {
+	window := ui.App.NewWindow(c.Name)
 	window.Resize(sizes.FormSize)
 
 	editButton := widget.NewButton("Edit", func() {
-		ui.EditGrade(g)
+		ui.EditCourse(c)
 		window.Close()
 	})
 	deleteButton := widget.NewButton("Delete", func() {
-		err := data.Delete(g)
+		err := data.Delete(c)
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		ui.GradesList = ui.GetGradesList(&data.Grades)
-		ui.GradesList.Refresh()
+		ui.CoursesList = ui.GetCoursesList(&data.Courses)
+		ui.CoursesList.Refresh()
 		window.Close()
 	})
 	const gridNumber int = 2
 
 	form := widget.NewForm(
-		widget.NewFormItem("Name:", widget.NewLabel(g.Name)),
-		widget.NewFormItem("Price:", widget.NewLabel(g.Price)),
-		widget.NewFormItem("Info", widget.NewLabel(g.Info)),
+		widget.NewFormItem("Name:", widget.NewLabel(c.Name)),
+		widget.NewFormItem("Price:", widget.NewLabel(c.Price)),
+		widget.NewFormItem("Info", widget.NewLabel(c.Info)),
 		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
 
@@ -99,24 +97,24 @@ func (ui *ui) GradeDetailsWin(g *data.Grade) {
 	window.Show()
 }
 
-func (ui *ui) AddGrade() {
+func (ui *ui) AddCourse() {
 	window := ui.App.NewWindow("Add a grade")
 	window.Resize(sizes.FormSize)
-	gradeEntry := widget.NewEntry()
+	courseEntry := widget.NewEntry()
 	priceEntry := widget.NewEntry()
 	infoEntry := widget.NewMultiLineEntry()
 
-	gradeFormInput := widget.NewFormItem("Grade name:", gradeEntry)
+	coruseFormInput := widget.NewFormItem("Grade name:", courseEntry)
 	priceFormInput := widget.NewFormItem("Price per moth:", priceEntry)
 	infoFormInput := widget.NewFormItem("Grade Info:", infoEntry)
 
 	form := widget.NewForm(
-		gradeFormInput,
+		coruseFormInput,
 		priceFormInput,
 		infoFormInput,
 	)
 	form.OnSubmit = func() {
-		if gradeEntry.Text == "" {
+		if courseEntry.Text == "" {
 			wins.ErrWin(ui.App, "Grade name entry is empty")
 			return
 		}
@@ -125,8 +123,8 @@ func (ui *ui) AddGrade() {
 			return
 		}
 		if func() bool {
-			for _, grade := range data.Grades {
-				if grade.Name == gradeEntry.Text {
+			for _, grade := range data.Courses {
+				if grade.Name == courseEntry.Text {
 					return true
 				}
 			}
@@ -135,8 +133,8 @@ func (ui *ui) AddGrade() {
 			wins.ErrWin(ui.App, "This grade already exists!")
 			return
 		}
-		newGrade := data.Grade{
-			Name:  gradeEntry.Text,
+		newGrade := data.Course{
+			Name:  courseEntry.Text,
 			Info:  infoEntry.Text,
 			Price: priceEntry.Text,
 		}
@@ -144,7 +142,7 @@ func (ui *ui) AddGrade() {
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		ui.GradesList = ui.GetGradesList(&data.Grades)
+		ui.CoursesList = ui.GetCoursesList(&data.Courses)
 		window.Close()
 	}
 	content := container.NewVBox(form)
@@ -152,24 +150,24 @@ func (ui *ui) AddGrade() {
 	window.Show()
 }
 
-func (ui *ui) GradesMainWin() {
+func (ui *ui) CoursesMainWin() {
 	w := ui.App.NewWindow("Grades")
 	w.Resize(sizes.ListSize)
 
 	selected := -1
 
-	list := ui.GetGradesList(&data.Grades)
+	list := ui.GetCoursesList(&data.Courses)
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.Plus, func() {
-			ui.AddGrade()
+			ui.AddCourse()
 			list.Refresh()
 		}),
-		widget.NewToolbarAction(assets.DeleteGrade, func() {
+		widget.NewToolbarAction(assets.DeleteCourse, func() {
 			if selected == -1 {
 				return
 			}
-			err := data.Delete(data.Grades[selected])
+			err := data.Delete(data.Courses[selected])
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 				return
@@ -177,17 +175,17 @@ func (ui *ui) GradesMainWin() {
 			list.UnselectAll()
 			selected = -1
 		}),
-		widget.NewToolbarAction(assets.ShowGrades, func() {
+		widget.NewToolbarAction(assets.ShowCourses, func() {
 			if selected == -1 {
 				return
 			}
-			ui.GradeDetailsWin(&data.Grades[selected])
+			ui.CourseDetailsWin(&data.Courses[selected])
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
 				return
 			}
-			ui.EditGrade(&data.Grades[selected])
+			ui.EditCourse(&data.Courses[selected])
 			list.Refresh()
 		}),
 		widget.NewToolbarSpacer(),
@@ -202,7 +200,7 @@ func (ui *ui) GradesMainWin() {
 	}
 
 	content := container.NewBorder(toolbar, nil, nil, nil, list)
-	w.SetIcon(assets.ShowGrades)
+	w.SetIcon(assets.ShowCourses)
 	w.SetContent(content)
 
 	w.Show()

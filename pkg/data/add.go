@@ -1,9 +1,9 @@
 package data
 
-func AddGrade(newGrade *Grade) error {
+func AddGrade(newGrade *Course) error {
 	err := DB.Create(&newGrade).Error
 	printErr(err)
-	return LoadGrades()
+	return LoadCourses()
 }
 
 func AddStudent(newStudent *Student) error {
@@ -18,18 +18,18 @@ func AddRecord(newRecord *Record) error {
 	return LoadRecords()
 }
 
-func AddStudentGrade(newGrade *StudentGrade) error {
+func AddStudentCourse(newGrade *StudentCourse) error {
 	err := DB.Create(&newGrade).Error
 	printErr(err)
-	return LoadStudentGrades()
+	return LoadStudentCourses()
 }
 
 // Student
 
-func (s Student) AddGrade(newGrade *StudentGrade) error {
+func (s Student) AddCourse(newGrade *StudentCourse) error {
 	newGrade.StudentID = s.ID
-	err := AddStudentGrade(newGrade)
-	s.GetGrades()
+	err := AddStudentCourse(newGrade)
+	s.GetCourses()
 	return err
 }
 

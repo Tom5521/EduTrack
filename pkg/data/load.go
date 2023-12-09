@@ -27,14 +27,14 @@ func GetDB() *gorm.DB {
 }
 
 func LoadEverything() {
-	printErr(LoadGrades())
+	printErr(LoadCourses())
 	printErr(LoadStudents())
 	printErr(LoadRecords())
-	printErr(LoadStudentGrades())
+	printErr(LoadStudentCourses())
 }
 
-func LoadGrades() error {
-	return DB.Find(&Grades).Error
+func LoadCourses() error {
+	return DB.Find(&Courses).Error
 }
 func LoadStudents() error {
 	return DB.Find(&Students).Error
@@ -42,18 +42,18 @@ func LoadStudents() error {
 func LoadRecords() error {
 	return DB.Find(&Records).Error
 }
-func LoadStudentGrades() error {
-	return DB.Find(&StudentGrades).Error
+func LoadStudentCourses() error {
+	return DB.Find(&StudentCourses).Error
 }
 
 // Student
 
-func (s *Student) GetGrades() {
-	var cleanGrades []StudentGrade
-	s.Grades = cleanGrades
-	for _, grade := range StudentGrades {
+func (s *Student) GetCourses() {
+	var cleanGrades []StudentCourse
+	s.Courses = cleanGrades
+	for _, grade := range StudentCourses {
 		if grade.StudentID == s.ID {
-			s.Grades = append(s.Grades, grade)
+			s.Courses = append(s.Courses, grade)
 		}
 	}
 }

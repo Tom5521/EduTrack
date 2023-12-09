@@ -1,15 +1,15 @@
 package data
 
-func (g Grade) Delete() error {
+func (g Course) Delete() error {
 	err := DB.Delete(&g).Error
 	printErr(err)
-	for _, studentGrade := range StudentGrades {
-		if studentGrade.GradeID == g.ID {
-			err = studentGrade.Delete()
+	for _, studentCourse := range StudentCourses {
+		if studentCourse.CourseID == g.ID {
+			err = studentCourse.Delete()
 			printErr(err)
 		}
 	}
-	return LoadGrades()
+	return LoadCourses()
 }
 
 func (s Student) Delete() error {
@@ -21,19 +21,19 @@ func (s Student) Delete() error {
 			printErr(err)
 		}
 	}
-	for _, studentGrade := range StudentGrades {
-		if studentGrade.StudentID == s.ID {
-			err = studentGrade.Delete()
+	for _, studentCourse := range StudentCourses {
+		if studentCourse.StudentID == s.ID {
+			err = studentCourse.Delete()
 			printErr(err)
 		}
 	}
 	return LoadStudents()
 }
 
-func (s StudentGrade) Delete() error {
+func (s StudentCourse) Delete() error {
 	err := DB.Delete(&s).Error
 	printErr(err)
-	return LoadStudentGrades()
+	return LoadStudentCourses()
 }
 
 func (r Record) Delete() error {

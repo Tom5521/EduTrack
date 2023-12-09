@@ -30,12 +30,12 @@ func TestAddGrade(t *testing.T) {
 	require := require.New(t)
 	assert := assert.New(t)
 	data.LoadFiles()
-	originalLen := len(data.Grades)
-	err := data.AddGrade(&data.Grade{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
+	originalLen := len(data.Courses)
+	err := data.AddGrade(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
 	require.NoError(err)
-	fmt.Println("Grades:", data.Grades)
+	fmt.Println("Grades:", data.Courses)
 
-	assert.NotEqual(originalLen, len(data.Grades), "Grades array not modified!")
+	assert.NotEqual(originalLen, len(data.Courses), "Grades array not modified!")
 }
 
 func TestAddStudent(t *testing.T) {
@@ -73,16 +73,16 @@ func TestAddStudentGrade(t *testing.T) {
 		err := data.AddStudent(&data.Student{Name: "T", Age: 12, DNI: "123", PhoneNumber: "", ImageFilePath: ""})
 		require.NoError(err)
 	}
-	if len(data.Grades) == 0 {
-		err := data.AddGrade(&data.Grade{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
+	if len(data.Courses) == 0 {
+		err := data.AddGrade(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
 		require.NoError(err)
 	}
 	student := &data.Students[0]
-	grade := &data.Grades[0]
-	fmt.Println(data.Grades)
-	orgLen := len(data.Grades)
-	err := student.AddGrade(&data.StudentGrade{StudentID: student.ID, GradeID: grade.ID, Start: "1234", End: "12344"})
-	fmt.Println(data.Grades)
+	grade := &data.Courses[0]
+	fmt.Println(data.Courses)
+	orgLen := len(data.Courses)
+	err := student.AddCourse(&data.StudentCourse{StudentID: student.ID, CourseID: grade.ID, Start: "1234", End: "12344"})
+	fmt.Println(data.Courses)
 	require.NoError(err)
-	assert.Equal(orgLen, len(data.Grades))
+	assert.Equal(orgLen, len(data.Courses))
 }

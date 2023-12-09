@@ -75,8 +75,8 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	showRecordsBt := widget.NewButton("Show student records", func() {
 		ui.StudentRecordsMainWin(s)
 	})
-	showGradesBt := widget.NewButton("Show student grades", func() {
-		ui.StudentGradesMainWin(s)
+	showCoursesBt := widget.NewButton("Show student grades", func() {
+		ui.StudentCoursesMainWin(s)
 	})
 
 	const gridNumber int = 1
@@ -84,7 +84,7 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 		dataContainer,
 		container.NewAdaptiveGrid(gridNumber,
 			showRecordsBt,
-			showGradesBt,
+			showCoursesBt,
 		),
 	)
 	ui.StudentTab.Objects = []fyne.CanvasObject{content}
@@ -102,7 +102,7 @@ func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 
 func (ui *ui) AddStudentForm() {
 	var imagePath string
-	var gradesStr []data.Grade
+	var gradesStr []data.Course
 	window := ui.App.NewWindow("Add a student")
 	window.Resize(sizes.FormSize)
 
@@ -112,11 +112,15 @@ func (ui *ui) AddStudentForm() {
 	dniEntry := widget.NewEntry()
 	phoneEntry := widget.NewEntry()
 
+	imagePathLabel := widget.NewLabel(imagePath)
+
 	imageButton := widget.NewButton("Select Image", func() {
 		wins.ImagePicker(ui.App, &imagePath)
+		imagePathLabel.SetText(imagePath)
 	})
 	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
 		imagePath = ""
+		imagePathLabel.SetText(imagePath)
 	})
 
 	nameForm := widget.NewFormItem("Name:", nameEntry)
@@ -125,6 +129,7 @@ func (ui *ui) AddStudentForm() {
 	phoneForm := widget.NewFormItem("Phone:", phoneEntry)
 	const gridNumber int = 2
 	imageForm := widget.NewFormItem("Image:", container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn))
+	imagePathForm := widget.NewFormItem("Image path:", imagePathLabel)
 
 	form := widget.NewForm(
 		nameForm,
@@ -132,12 +137,13 @@ func (ui *ui) AddStudentForm() {
 		ageForm,
 		phoneForm,
 		imageForm,
+		imagePathForm,
 	)
 	form.OnSubmit = func() {
-		StGrades := func() []data.StudentGrade {
-			var stgrades []data.StudentGrade
+		StGrades := func() []data.StudentCourse {
+			var stgrades []data.StudentCourse
 			for _, grade := range gradesStr {
-				tmpGrade := data.StudentGrade{GradeID: grade.ID}
+				tmpGrade := data.StudentCourse{CourseID: grade.ID}
 				stgrades = append(stgrades, tmpGrade)
 			}
 			return stgrades
@@ -149,7 +155,7 @@ func (ui *ui) AddStudentForm() {
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
-			Grades:        StGrades,
+			Courses:       StGrades,
 		}
 		// Validate form fields
 		if !checkValues(newStudent) {
@@ -262,7 +268,7 @@ func (ui *ui) StudentDetailsWin(s *data.Student) {
 		widget.NewFormItem("Age:", widget.NewLabel(itoa(s.Age))),
 		widget.NewFormItem("DNI:", widget.NewLabel(s.DNI)),
 		widget.NewFormItem("Phone Number:", widget.NewLabel(s.PhoneNumber)),
-		widget.NewFormItem("", widget.NewButton("Show student grades", func() { ui.StudentGradesMainWin(s) })),
+		widget.NewFormItem("", widget.NewButton("Show student grades", func() { ui.StudentCoursesMainWin(s) })),
 		widget.NewFormItem("", widget.NewButton("Show student records", func() { ui.StudentRecordsMainWin(s) })),
 	)
 

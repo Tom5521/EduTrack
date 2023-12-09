@@ -23,8 +23,8 @@ var (
 	Uninstall     fyne.Resource
 	UserTemplate  fyne.Resource
 	Lens1         fyne.Resource
-	ShowGrades    fyne.Resource
-	DeleteGrade   fyne.Resource
+	ShowCourses   fyne.Resource
+	DeleteCourse  fyne.Resource
 	Plus          fyne.Resource
 	Edit          fyne.Resource
 	DeleteStudent fyne.Resource
@@ -39,7 +39,7 @@ var (
 )
 
 func Load() {
-	ShowGrades = getResource("showGrades.png")
+	ShowCourses = getResource("showCourses.png")
 	Lens1 = getResource("lens1.png")
 	UserTemplate = getResource("UserTemplate.png")
 	Uninstall = getResource("Uninstall.png")
@@ -52,7 +52,7 @@ func Load() {
 	Dev = getResource("Dev.png")
 	AddUser = getResource("AddUser.png")
 	App = getResource("Icon.png")
-	DeleteGrade = getResource("DeleteGrade.png")
+	DeleteCourse = getResource("DeleteCourse.png")
 	Plus = getResource("plus.png")
 	Edit = getResource("Edit.png")
 	DeleteStudent = getResource("deleteStudent.png")

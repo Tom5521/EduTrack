@@ -10,7 +10,7 @@ type Record struct {
 	Info      string
 }
 
-type Grade struct {
+type Course struct {
 	gorm.Model
 	Name  string
 	Info  string
@@ -24,21 +24,21 @@ type Student struct {
 	DNI           string
 	PhoneNumber   string
 	ImageFilePath string
-	Grades        []StudentGrade `gorm:"-"`
-	Records       []Record       `gorm:"-"`
+	Courses       []StudentCourse `gorm:"-"`
+	Records       []Record        `gorm:"-"`
 }
 
-type StudentGrade struct {
+type StudentCourse struct {
 	gorm.Model
-	GradeID   uint
+	CourseID  uint
 	StudentID uint
 	Start     string
 	End       string
 }
 
 var Students []Student
-var Grades []Grade
-var StudentGrades []StudentGrade
+var Courses []Course
+var StudentCourses []StudentCourse
 var Records []Record
 
 var DB *gorm.DB

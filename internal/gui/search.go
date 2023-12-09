@@ -58,25 +58,25 @@ func (ui *ui) SearchStudentsMainWin() {
 	w.Show()
 }
 
-func (ui *ui) SearchGradesMainWin() {
+func (ui *ui) SearchCoursesMainWin() {
 	w := ui.App.NewWindow("Search grades")
 	w.Resize(sizes.SearchSize)
 
-	searchGradeEntry := widget.NewEntry()
-	searchGradeButton := widget.NewButton("Search", func() {
-		text := searchGradeEntry.Text
+	searchCourseEntry := widget.NewEntry()
+	searchCourseButton := widget.NewButton("Search", func() {
+		text := searchCourseEntry.Text
 		i := data.FindGradeIndexbyName(text)
 		if i == -1 {
 			wins.ErrWin(ui.App, "Grade not found!")
 			return
 		}
-		ui.GradeDetailsWin(&data.Grades[i])
+		ui.CourseDetailsWin(&data.Courses[i])
 	})
 
 	content := container.NewVBox(
 		widget.NewLabel("Enter a grade name"),
-		searchGradeEntry,
-		searchGradeButton,
+		searchCourseEntry,
+		searchCourseButton,
 	)
 	w.SetContent(content)
 
@@ -121,8 +121,8 @@ func (ui *ui) SearchMainWin() {
 	searchStudentsButton := widget.NewButtonWithIcon("Search in students", assets.Lens1, func() {
 		ui.SearchStudentsMainWin()
 	})
-	searchGradesButton := widget.NewButtonWithIcon("Search in grades", assets.Lens1, func() {
-		ui.SearchGradesMainWin()
+	searchCoursesButton := widget.NewButtonWithIcon("Search in grades", assets.Lens1, func() {
+		ui.SearchCoursesMainWin()
 	})
 	searchRecordsButton := widget.NewButtonWithIcon("Search in records", assets.Lens1, func() {
 		ui.SearchRecordsMainWin()
@@ -132,7 +132,7 @@ func (ui *ui) SearchMainWin() {
 	})
 	content := container.NewAdaptiveGrid(gridNumber,
 		searchStudentsButton,
-		searchGradesButton,
+		searchCoursesButton,
 		searchRecordsButton,
 		searchStudentGradesButton,
 	)

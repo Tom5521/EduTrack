@@ -12,7 +12,7 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-func (ui ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
+func (ui ui) GetStudentCoursesList(g *[]data.StudentCourse) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*g)
@@ -23,12 +23,12 @@ func (ui ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			// mod := *g
 			var name string
-			if len(data.Grades) != 0 {
-				index := data.FindGradeIndexByID(data.StudentGrades[i].GradeID)
+			if len(data.Courses) != 0 {
+				index := data.FindCourseIndexByID(data.StudentCourses[i].CourseID)
 				if index == -1 {
 					return
 				}
-				name = data.Grades[index].Name
+				name = data.Courses[index].Name
 			}
 			o.(*widget.Label).SetText(name)
 		},
@@ -36,28 +36,28 @@ func (ui ui) GetStudentGradesList(g *[]data.StudentGrade) *widget.List {
 	return list
 }
 
-func (ui *ui) StudentGradeDetailsWin(sg *data.StudentGrade) {
-	getGrade := func() *data.Grade {
-		i := data.FindGradeIndexByID(sg.GradeID)
-		return &data.Grades[i]
+func (ui *ui) StudentCourseDetailsWin(sc *data.StudentCourse) {
+	getCourse := func() *data.Course {
+		i := data.FindCourseIndexByID(sc.CourseID)
+		return &data.Courses[i]
 	}
-	g := getGrade()
+	c := getCourse()
 
-	window := ui.App.NewWindow("Details for " + g.Name)
+	window := ui.App.NewWindow("Details for " + c.Name)
 	window.Resize(sizes.ListSize)
 
-	gradeNameLabel := widget.NewLabel(g.Name)
-	gradePricePMLabel := widget.NewLabel(g.Price)
-	gradeStartLabel := widget.NewLabel(sg.Start)
-	gradeEndLabel := widget.NewLabel(sg.End)
-	gradeInfoLabel := widget.NewMultiLineEntry()
-	gradeInfoLabel.SetText(g.Info)
+	courseNameLabel := widget.NewLabel(c.Name)
+	coursePricePMLabel := widget.NewLabel(c.Price)
+	courseStartLabel := widget.NewLabel(sc.Start)
+	courseEndLabel := widget.NewLabel(sc.End)
+	courseInfoLabel := widget.NewMultiLineEntry()
+	courseInfoLabel.SetText(c.Info)
 
-	nameForm := widget.NewFormItem("Name:", gradeNameLabel)
-	priceForm := widget.NewFormItem("Price:", gradePricePMLabel)
-	startForm := widget.NewFormItem("Start:", gradeStartLabel)
-	endForm := widget.NewFormItem("End:", gradeEndLabel)
-	infoForm := widget.NewFormItem("Info:", gradeInfoLabel)
+	nameForm := widget.NewFormItem("Name:", courseNameLabel)
+	priceForm := widget.NewFormItem("Price:", coursePricePMLabel)
+	startForm := widget.NewFormItem("Start:", courseStartLabel)
+	endForm := widget.NewFormItem("End:", courseEndLabel)
+	infoForm := widget.NewFormItem("Info:", courseInfoLabel)
 
 	form := widget.NewForm(
 		nameForm,
@@ -94,12 +94,12 @@ func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
 	w.Show()
 }
 
-func getNoAddedGrades(s *data.Student) []data.Grade {
-	var grades []data.Grade
-	for _, grade := range data.Grades {
+func getNoAddedCourses(s *data.Student) []data.Course {
+	var grades []data.Course
+	for _, grade := range data.Courses {
 		var found bool
-		for _, sg := range s.Grades {
-			if grade.ID == sg.GradeID {
+		for _, sg := range s.Courses {
+			if grade.ID == sg.CourseID {
 				found = true
 				break
 			}
@@ -111,7 +111,7 @@ func getNoAddedGrades(s *data.Student) []data.Grade {
 	return grades
 }
 
-func (ui *ui) SelectGradeWin(s *data.Student) {
+func (ui *ui) SelectCourseWin(s *data.Student) {
 	w := ui.App.NewWindow("Select a grade!")
 	const size1, size2 float32 = 600, 500
 	w.Resize(fyne.NewSize(size1, size2))
@@ -119,14 +119,14 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 	// Selection vars
 	var addedSelected, toAddSelected = -1, -1
 	// Temporal lists
-	tmpToAddList := getNoAddedGrades(s)
+	tmpToAddList := getNoAddedCourses(s)
 
 	// Lists (widgets)
-	toAddList := ui.GetGradesList(&tmpToAddList)
+	toAddList := ui.GetCoursesList(&tmpToAddList)
 	toAddList.OnSelected = func(id widget.ListItemID) {
 		toAddSelected = id
 	}
-	addedList := ui.GetStudentGradesList(&s.Grades)
+	addedList := ui.GetStudentCoursesList(&s.Courses)
 	addedList.OnSelected = func(id widget.ListItemID) {
 		addedSelected = id
 	}
@@ -136,18 +136,18 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 			return
 		}
 		ui.StartEndWin(func(start, end string) {
-			studentGrade := data.StudentGrade{
+			studentGrade := data.StudentCourse{
 				Start:     start,
 				End:       end,
-				GradeID:   tmpToAddList[toAddSelected].ID,
+				CourseID:  tmpToAddList[toAddSelected].ID,
 				StudentID: s.ID,
 			}
-			err := data.AddStudentGrade(&studentGrade)
+			err := data.AddStudentCourse(&studentGrade)
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
 			tmpToAddList = slices.Delete(tmpToAddList, toAddSelected, toAddSelected+1)
-			s.GetGrades()
+			s.GetCourses()
 			addedList.Refresh()
 			toAddList.Refresh()
 		})
@@ -156,14 +156,14 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 		if addedSelected == -1 {
 			return
 		}
-		i := data.FindStudentGradeIndexByID(s.Grades[addedSelected].ID)
-		err := data.Delete(data.StudentGrades[i])
+		i := data.FindStudentCourseIndexByID(s.Courses[addedSelected].ID)
+		err := data.Delete(data.StudentCourses[i])
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		s.GetGrades()
+		s.GetCourses()
 		addedList.Refresh()
-		tmpToAddList = getNoAddedGrades(s)
+		tmpToAddList = getNoAddedCourses(s)
 		toAddList.Refresh()
 	}
 
@@ -190,51 +190,51 @@ func (ui *ui) SelectGradeWin(s *data.Student) {
 	w.Show()
 }
 
-func (ui *ui) StudentGradesMainWin(s *data.Student) {
+func (ui *ui) StudentCoursesMainWin(s *data.Student) {
 	w := ui.App.NewWindow(s.Name + " Grades")
 	const size float32 = 300
 	w.Resize(fyne.NewSize(size, size))
-	s.GetGrades()
+	s.GetCourses()
 	var selected = -1
-	list := ui.GetStudentGradesList(&s.Grades)
+	list := ui.GetStudentCoursesList(&s.Courses)
 	list.OnSelected = func(id widget.ListItemID) {
 		selected = id
 	}
 
 	bar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.Plus, func() {
-			ui.SelectGradeWin(s)
+			ui.SelectCourseWin(s)
 			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Cross, func() {
 			if selected == -1 {
 				return
 			}
-			tg := s.Grades[selected]
-			i := data.FindStudentGradeIndexByID(tg.ID)
-			err := data.Delete(data.StudentGrades[i])
+			tg := s.Courses[selected]
+			i := data.FindStudentCourseIndexByID(tg.ID)
+			err := data.Delete(data.StudentCourses[i])
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
-			s.GetGrades()
+			s.GetCourses()
 			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
 				return
 			}
-			i := data.FindStudentGradeIndexByID(s.Grades[selected].ID)
-			ui.EditStudentGradeWin(&data.StudentGrades[i])
+			i := data.FindStudentCourseIndexByID(s.Courses[selected].ID)
+			ui.EditStudentCourseWin(&data.StudentCourses[i])
 		}),
 		widget.NewToolbarAction(assets.Info, func() {
 			if selected == -1 {
 				return
 			}
-			ui.StudentGradeDetailsWin(&data.StudentGrades[selected])
+			ui.StudentCourseDetailsWin(&data.StudentCourses[selected])
 		}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Refresh, func() {
-			s.GetGrades()
+			s.GetCourses()
 			list.Refresh()
 		}),
 	)
@@ -244,19 +244,19 @@ func (ui *ui) StudentGradesMainWin(s *data.Student) {
 	w.Show()
 }
 
-func (ui *ui) EditStudentGradeWin(g *data.StudentGrade) {
-	i := data.FindGradeIndexByID(g.GradeID)
-	grade := data.Grades[i]
-	window := ui.App.NewWindow("Edit " + grade.Name)
+func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
+	i := data.FindCourseIndexByID(sc.CourseID)
+	course := data.Courses[i]
+	window := ui.App.NewWindow("Edit " + course.Name)
 	const size1, size2 float32 = 500, 100
 	window.Resize(fyne.NewSize(size1, size2))
 
-	gradeNameLabel := widget.NewLabel(grade.Name)
-	gradeSelectButton := widget.NewButton("Select a new grade", func() {
+	courseNameLabel := widget.NewLabel(course.Name)
+	courseSelectButton := widget.NewButton("Select a new grade", func() {
 		w := ui.App.NewWindow("Select a grade")
 		w.Resize(sizes.ListSize)
 		var selected = -1
-		list := ui.GetGradesList(&data.Grades)
+		list := ui.GetCoursesList(&data.Courses)
 		list.OnSelected = func(id widget.ListItemID) {
 			selected = id
 		}
@@ -264,12 +264,12 @@ func (ui *ui) EditStudentGradeWin(g *data.StudentGrade) {
 			if selected == -1 {
 				return
 			}
-			g.GradeID = data.Grades[selected].ID
-			err := g.Edit(g)
+			sc.CourseID = data.Courses[selected].ID
+			err := sc.Edit(sc)
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
-			gradeNameLabel.SetText(data.Grades[selected].Name)
+			courseNameLabel.SetText(data.Courses[selected].Name)
 			w.Close()
 		})
 		cancelButton := widget.NewButton("Cancel", func() {
@@ -283,22 +283,22 @@ func (ui *ui) EditStudentGradeWin(g *data.StudentGrade) {
 		w.Show()
 	})
 	const gridNumber = 2
-	gradeSelectCont := container.NewAdaptiveGrid(gridNumber, gradeNameLabel, gradeSelectButton)
+	courseSelectCont := container.NewAdaptiveGrid(gridNumber, courseNameLabel, courseSelectButton)
 
 	startEntry := widget.NewEntry()
-	startEntry.SetText(g.Start)
+	startEntry.SetText(sc.Start)
 	endEntry := widget.NewEntry()
-	endEntry.SetText(g.End)
+	endEntry.SetText(sc.End)
 
 	form := widget.NewForm(
-		widget.NewFormItem("Current grade:", gradeSelectCont),
+		widget.NewFormItem("Current grade:", courseSelectCont),
 		widget.NewFormItem("Start:", startEntry),
 		widget.NewFormItem("End:", endEntry),
 	)
 	form.OnSubmit = func() {
-		g.Start = startEntry.Text
-		g.End = endEntry.Text
-		err := g.Edit(g)
+		sc.Start = startEntry.Text
+		sc.End = endEntry.Text
+		err := sc.Edit(sc)
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}

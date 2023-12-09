@@ -10,31 +10,31 @@ func FindStudentIndexByID(id uint) int {
 	})
 }
 
-func FindGradeIndexByID(id uint) int {
-	return slices.IndexFunc(Grades, func(g Grade) bool {
+func FindCourseIndexByID(id uint) int {
+	return slices.IndexFunc(Courses, func(g Course) bool {
 		return g.ID == id
 	})
 }
 
-func FindStudentGradeIndexByID(id uint) int {
-	return slices.IndexFunc(StudentGrades, func(sg StudentGrade) bool {
+func FindStudentCourseIndexByID(id uint) int {
+	return slices.IndexFunc(StudentCourses, func(sg StudentCourse) bool {
 		return sg.ID == id
 	})
 }
 
-func GetGradesNames() []string {
+func GetCoursesNames() []string {
 	var names []string
-	for _, grade := range Grades {
+	for _, grade := range Courses {
 		names = append(names, grade.Name)
 	}
 	return names
 }
 
 func (s Student) GetGradesNames() []string {
-	s.GetGrades()
+	s.GetCourses()
 	var names []string
-	for _, sgrade := range s.Grades {
-		for _, grade := range Grades {
+	for _, sgrade := range s.Courses {
+		for _, grade := range Courses {
 			if sgrade.ID == grade.ID {
 				names = append(names, grade.Name)
 			}
@@ -51,13 +51,13 @@ func GetStudentDNIs() []string {
 	return dnis
 }
 
-func FindGradeByName(name string) Grade {
-	for _, grade := range Grades {
+func FindGradeByName(name string) Course {
+	for _, grade := range Courses {
 		if name == grade.Name {
 			return grade
 		}
 	}
-	return Grade{}
+	return Course{}
 }
 
 func FindStudentIndexByDNI(dni string) int {
@@ -79,7 +79,7 @@ func FindStudentIndexByName(name string) int {
 }
 
 func FindGradeIndexbyName(name string) int {
-	return slices.IndexFunc(Grades, func(g Grade) bool {
+	return slices.IndexFunc(Courses, func(g Course) bool {
 		return g.Name == name
 	})
 }

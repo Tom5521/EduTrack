@@ -17,16 +17,16 @@ func (r *Record) Edit(newRecord *Record) error {
 	return DB.Save(r).Error
 }
 
-func (g *Grade) Edit(newGrade *Grade) error {
+func (g *Course) Edit(newGrade *Course) error {
 	g.Name = newGrade.Name
 	g.Info = newGrade.Info
 	g.Price = newGrade.Price
 	return DB.Save(g).Error
 }
 
-func (s *StudentGrade) Edit(nSG *StudentGrade) error {
+func (s *StudentCourse) Edit(nSG *StudentCourse) error {
 	s.StudentID = nSG.StudentID
-	s.GradeID = nSG.GradeID
+	s.CourseID = nSG.CourseID
 	s.Start = nSG.Start
 	s.End = nSG.End
 	return DB.Save(s).Error
@@ -34,24 +34,24 @@ func (s *StudentGrade) Edit(nSG *StudentGrade) error {
 
 // Global
 
-func EditStudentGrade(id uint, newStudentGrade StudentGrade) error {
-	i := FindStudentGradeIndexByID(id)
-	return StudentGrades[i].Edit(&newStudentGrade)
+func EditStudentCourse(id uint, newStudentGrade StudentCourse) error {
+	i := FindStudentCourseIndexByID(id)
+	return StudentCourses[i].Edit(&newStudentGrade)
 }
 
 func EditStudent(id uint, newStudent Student) error {
 	i := FindStudentIndexByID(id)
 	return Students[i].Edit(&newStudent)
 }
-func EditGrade(id uint, newGrade Grade) error {
-	i := FindGradeIndexByID(id)
-	return Grades[i].Edit(&newGrade)
+func EditGrade(id uint, newGrade Course) error {
+	i := FindCourseIndexByID(id)
+	return Courses[i].Edit(&newGrade)
 }
 
 func EditStudentByStruct(s *Student, newStudent Student) error {
 	return s.Edit(&newStudent)
 }
 
-func EditGradeByStruct(g *Grade, newGrade Grade) error {
+func EditGradeByStruct(g *Course, newGrade Course) error {
 	return g.Edit(&newGrade)
 }

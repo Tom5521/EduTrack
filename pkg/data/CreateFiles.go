@@ -38,9 +38,9 @@ func CreateDatabase() error {
 
 	err = db.AutoMigrate(&Student{})
 	printErr(err)
-	err = db.AutoMigrate(&Grade{})
+	err = db.AutoMigrate(&Course{})
 	printErr(err)
-	err = db.AutoMigrate(&StudentGrade{})
+	err = db.AutoMigrate(&StudentCourse{})
 	printErr(err)
 	err = db.AutoMigrate(&Record{})
 	printErr(err)

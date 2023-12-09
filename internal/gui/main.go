@@ -18,7 +18,7 @@ type ui struct {
 	App         fyne.App
 	StudentTab  *fyne.Container
 	StudentList *widget.List
-	GradesList  *widget.List
+	CoursesList *widget.List
 }
 
 type Gui struct {
@@ -68,7 +68,7 @@ func (ui *ui) MainWin() {
 						wins.ErrWin(ui.App, err.Error())
 					}
 					ui.StudentList.UnselectAll()
-					ui.StudentTab = ui.GetTemplateUser()
+					ui.StudentTab.Objects = ui.GetTemplateUser().Objects
 					ui.StudentTab.Refresh()
 					selected = -1
 				}
@@ -90,7 +90,7 @@ func (ui *ui) MainWin() {
 		}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Lens1, ui.SearchMainWin),
-		widget.NewToolbarAction(assets.ShowGrades, ui.GradesMainWin))
+		widget.NewToolbarAction(assets.ShowCourses, ui.CoursesMainWin))
 	tabCont := container.NewBorder(nil, nil, nil, widget.NewSeparator(), ui.StudentTab)
 	listCont := container.NewBorder(toolbar, nil, nil, nil, ui.StudentList)
 	mainContainer := container.NewBorder(nil, nil, tabCont, nil, listCont)

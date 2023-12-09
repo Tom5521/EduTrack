@@ -1,6 +1,5 @@
 //go:build delete
-
-// build delete
+// +build delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
@@ -25,18 +24,18 @@ func TestDeleteGrade(t *testing.T) {
 	data.LoadFiles()
 	assert := assert.New(t)
 	require := require.New(t)
-	if len(data.Grades) == 0 {
-		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+	if len(data.Courses) == 0 {
+		err := data.AddGrade(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
-		log.Println(data.Grades)
+		log.Println(data.Courses)
 	}
-	originalLen := len(data.Grades)
-	err := data.Grades[0].Delete()
+	originalLen := len(data.Courses)
+	err := data.Courses[0].Delete()
 	if err != nil {
 		assert.Fail("Error deleting grade", err)
 	}
-	fmt.Println(data.Grades)
-	assert.NotEqual(originalLen, len(data.Grades), "Grades array not modified!")
+	fmt.Println(data.Courses)
+	assert.NotEqual(originalLen, len(data.Courses), "Grades array not modified!")
 }
 
 func TestDeleteStudent(t *testing.T) {
@@ -50,37 +49,37 @@ func TestDeleteStudent(t *testing.T) {
 	err := data.Students[0].Delete()
 	require.NoError(err)
 	fmt.Println(data.Students)
-	assert.NotEqual(originalLen, len(data.Grades))
+	assert.NotEqual(originalLen, len(data.Courses))
 }
 
 func TestDeleteIn(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
 	// Test grades
-	if len(data.Grades) == 0 {
+	if len(data.Courses) == 0 {
 		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
-		log.Println(data.Grades)
+		log.Println(data.Courses)
 	}
 	// Test Students
 	if len(data.Students) == 0 {
 		err := data.AddStudent(&data.Student{Name: "Angel", DNI: "123", Age: 123, PhoneNumber: "123", ImageFilePath: "123"})
 		require.NoError(err)
-		log.Println(data.Grades)
+		log.Println(data.Courses)
 	}
 
 	originalStudentlen := len(data.Students)
-	originalGradelen := len(data.Grades)
+	originalGradelen := len(data.Courses)
 
 	// Exec Deleter
 	err := data.Delete(data.Students[0])
 	require.NoError(err)
-	err = data.Delete(data.Grades[0])
+	err = data.Delete(data.Courses[0])
 	require.NoError(err)
 
 	fmt.Println(data.Students)
-	fmt.Println(data.Grades)
+	fmt.Println(data.Courses)
 
 	assert.NotEqual(originalStudentlen, len(data.Students), "Student table not modified!")
-	assert.NotEqual(originalGradelen, len(data.Grades), "Grades table not modified!")
+	assert.NotEqual(originalGradelen, len(data.Courses), "Grades table not modified!")
 }

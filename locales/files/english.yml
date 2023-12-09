@@ -1,8 +1,8 @@
-GradeInfo:
+CourseInfo:
   Name: 'Name:'
   Price: 'Price:'
   Info: 'Info:'
-StudentGradeInfo:
+StudentCourseInfo:
   Start: 'Start:'
   End: 'End:'
 StudentInfo:
@@ -16,18 +16,18 @@ MainMenu:
   Edit: Edit
   Help: Help
 WindowTitles:
-  StudentGradesWindows:
+  StudentCoursesWindows:
     Select start and end: Select start and end
     Details of X: Details for %v
     Edit X: Edit %v
-    Select a grade: Select a grade!
-    X Grades: '%v Grades'
-  GradesWindows:
-    X Grades: '%v Grades'
-    Grades: Grades
-    Select a grade: Select a grade!
+    Select a course: Select a course!
+    X Courses: '%v courses'
+  CoursesWindows:
+    X Courses: '%v Courses'
+    Courses: Courses
+    Select a course: Select a course!
     Edit X: Edit %v
-    Add a Grade: Add a Grade
+    Add a Course: Add a Course
   StudentWindows:
     Students: Students
     Add a student: Add a student
