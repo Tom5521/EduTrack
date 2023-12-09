@@ -266,7 +266,7 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 }
 
 func (ui *ui) StudentDetailsWin(s *data.Student) {
-	w := ui.App.NewWindow(s.Name + " Details")
+	w := ui.App.NewWindow(fmt.Sprintf(LocStudentWins["X Details"], s.Name))
 
 	form := widget.NewForm(
 		widget.NewFormItem(locale.StudentInfo["Name"], widget.NewLabel(s.Name)),
