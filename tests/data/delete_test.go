@@ -1,5 +1,5 @@
-///go:adasbuild delete
-/// asdasadbuild delete
+///go:build delete
+/// +build delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
