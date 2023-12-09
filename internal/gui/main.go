@@ -47,6 +47,7 @@ func Init() *Gui {
 	CourseWins = locale.WindowTitles.CoursesWindows
 	LocSearchWins = locale.WindowTitles.SearchWindows
 	LocStudentCourseWin = locale.WindowTitles.StudentCoursesWindows
+	LocStudentWins = locale.WindowTitles.StudentWindows
 	return ui
 }
 

@@ -16,6 +16,8 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
+var LocStudentWins map[string]string
+
 func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget.ListItemID)) *widget.List {
 	list := widget.NewList(
 		func() int {
@@ -103,7 +105,7 @@ func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 func (ui *ui) AddStudentForm() {
 	var imagePath string
 	var coursesStr []data.Course
-	window := ui.App.NewWindow("Add a student")
+	window := ui.App.NewWindow(LocStudentWins["Add a student"])
 	window.Resize(sizes.FormSize)
 
 	// Initialize form fields
@@ -189,7 +191,7 @@ func (ui *ui) AddStudentForm() {
 }
 
 func (ui *ui) EditStudentWindow(s *data.Student) {
-	window := ui.App.NewWindow("Edit " + s.Name)
+	window := ui.App.NewWindow(fmt.Sprintf(LocStudentWins["Edit X"], s.Name))
 	window.Resize(sizes.FormSize)
 
 	initEntry := func(input any) *widget.Entry {
@@ -220,12 +222,12 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 	imgCont := container.NewAdaptiveGrid(gridNumber, deleteImgButton, selectImgButton)
 
 	form := widget.NewForm(
-		widget.NewFormItem("Name:", nameEntry),
-		widget.NewFormItem("Age:", ageEntry),
-		widget.NewFormItem("DNI:", dniEntry),
-		widget.NewFormItem("Phone:", phoneEntry),
+		widget.NewFormItem(locale.StudentInfo["Name"], nameEntry),
+		widget.NewFormItem(locale.StudentInfo["Age"], ageEntry),
+		widget.NewFormItem(locale.StudentInfo["DNI"], dniEntry),
+		widget.NewFormItem(locale.StudentInfo["Phone Number"], phoneEntry),
 		widget.NewFormItem("", imgCont),
-		widget.NewFormItem("Image path:", imageLabel),
+		widget.NewFormItem(locale.StudentInfo["Image Path"], imageLabel),
 	)
 
 	form.OnSubmit = func() {
@@ -267,10 +269,10 @@ func (ui *ui) StudentDetailsWin(s *data.Student) {
 	w := ui.App.NewWindow(s.Name + " Details")
 
 	form := widget.NewForm(
-		widget.NewFormItem("Name:", widget.NewLabel(s.Name)),
-		widget.NewFormItem("Age:", widget.NewLabel(itoa(s.Age))),
-		widget.NewFormItem("DNI:", widget.NewLabel(s.DNI)),
-		widget.NewFormItem("Phone Number:", widget.NewLabel(s.PhoneNumber)),
+		widget.NewFormItem(locale.StudentInfo["Name"], widget.NewLabel(s.Name)),
+		widget.NewFormItem(locale.StudentInfo["Age"], widget.NewLabel(itoa(s.Age))),
+		widget.NewFormItem(locale.StudentInfo["DNI"], widget.NewLabel(s.DNI)),
+		widget.NewFormItem(locale.StudentInfo["Phone Number"], widget.NewLabel(s.PhoneNumber)),
 		widget.NewFormItem("", widget.NewButton("Show student grades", func() { ui.StudentCoursesMainWin(s) })),
 		widget.NewFormItem("", widget.NewButton("Show student records", func() { ui.StudentRecordsMainWin(s) })),
 	)
