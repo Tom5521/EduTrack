@@ -43,6 +43,10 @@ func Init() *Gui {
 	ui.App.Settings().SetTheme(th)
 	assets.Load()
 	locale = locales.LoadFiles(data.Config.Lang)
+	CourseLocals = locale.CourseInfo
+	CourseWins = locale.WindowTitles.CoursesWindows
+	LocSearchWins = locale.WindowTitles.SearchWindows
+	LocStudentCourseWin = locale.WindowTitles.StudentCoursesWindows
 	return ui
 }
 

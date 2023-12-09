@@ -11,6 +11,7 @@ StudentInfo:
   DNI: 'DNI:'
   Phone Number: 'Teléfono:'
   Image Path: 'Ruta de la Imagen:'
+  Image: 'Imagen:'
 MainMenu:
   File: Archivo
   Edit: Editar
@@ -22,7 +23,7 @@ WindowTitles:
     Details of X: Detalles de %s
     Edit X: Editar %s
     Select a course: Seleccionar un curso
-    X Courses: '%s cursos'
+    X Courses: Cursos de %s
   CoursesWindows:
     X Courses: '%s Cursos'
     Courses: Cursos
@@ -41,6 +42,7 @@ WindowTitles:
     X Records: '%s Registros'
     Details for X: Detalles de %s
   SearchWindows:
+    Search Courses: Buscar cursos
     Search: Buscar
     Search Students: Buscar Estudiantes
     Search Records: Buscar Registros

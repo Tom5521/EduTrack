@@ -10,10 +10,14 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
+var LocSearchWins map[string]string
+
 func (ui *ui) SearchStudentsMainWin() {
-	w := ui.App.NewWindow("Search students")
+	w := ui.App.NewWindow(LocSearchWins["Search Students"])
 	w.Resize(sizes.SearchSize)
 	dniEntry := widget.NewEntry()
+	label := widget.NewLabel("Enter Student name:")
+	label.Alignment = fyne.TextAlignCenter
 	dniSearchButton := widget.NewButton("Search", func() {
 		studentDNI := dniEntry.Text
 		i := data.FindStudentIndexByDNI(studentDNI)
@@ -25,8 +29,11 @@ func (ui *ui) SearchStudentsMainWin() {
 		ui.LoadStudentInfo(&student)
 	})
 
+	dniLabel := widget.NewLabel("Enter Student DNI:")
+	dniLabel.Alignment = fyne.TextAlignCenter
+
 	byDNIContainer := container.NewVBox(
-		widget.NewLabel("Enter Student DNI:"),
+		dniLabel,
 		dniEntry,
 		dniSearchButton,
 	)
@@ -44,7 +51,7 @@ func (ui *ui) SearchStudentsMainWin() {
 	})
 
 	byNameContainer := container.NewVBox(
-		widget.NewLabel("Enter Student name:"),
+		label,
 		nameEntry,
 		nameSearchButton,
 	)
@@ -59,9 +66,11 @@ func (ui *ui) SearchStudentsMainWin() {
 }
 
 func (ui *ui) SearchCoursesMainWin() {
-	w := ui.App.NewWindow("Search grades")
+	w := ui.App.NewWindow(LocSearchWins["Search Courses"])
 	w.Resize(sizes.SearchSize)
 
+	label := widget.NewLabel("Enter a grade name")
+	label.Alignment = fyne.TextAlignCenter
 	searchCourseEntry := widget.NewEntry()
 	searchCourseButton := widget.NewButton("Search", func() {
 		text := searchCourseEntry.Text
@@ -74,7 +83,7 @@ func (ui *ui) SearchCoursesMainWin() {
 	})
 
 	content := container.NewVBox(
-		widget.NewLabel("Enter a grade name"),
+		label,
 		searchCourseEntry,
 		searchCourseButton,
 	)
@@ -84,8 +93,10 @@ func (ui *ui) SearchCoursesMainWin() {
 }
 
 func (ui *ui) SearchRecordsMainWin() {
-	w := ui.App.NewWindow("Search Records")
+	w := ui.App.NewWindow(LocSearchWins["Search Records"])
 	w.Resize(sizes.SearchSize)
+	label := widget.NewLabel("Enter a record name")
+	label.Alignment = fyne.TextAlignCenter
 	entry := widget.NewEntry()
 	button := widget.NewButton("Search in records", func() {
 		text := entry.Text
@@ -98,7 +109,7 @@ func (ui *ui) SearchRecordsMainWin() {
 		ui.EditRecordData(record.ID)
 	})
 	content := container.NewVBox(
-		widget.NewLabel("Enter a record name"),
+		label,
 		entry,
 		button,
 	)
@@ -113,7 +124,7 @@ func (ui *ui) SearchStudentGradesMainWin() {
 
 func (ui *ui) SearchMainWin() {
 	const size1, size2 float32 = 300, 400
-	w := ui.App.NewWindow("Search")
+	w := ui.App.NewWindow(LocSearchWins["Search"])
 	w.Resize(fyne.NewSize(size1, size2))
 	w.SetIcon(assets.Lens1)
 	const gridNumber int = 1

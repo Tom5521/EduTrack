@@ -11,6 +11,7 @@ StudentInfo:
   DNI: 'DNI:'
   Phone Number: 'Phone Number:'
   Image Path: 'Image path:'
+  Image: 'Image:'
 MainMenu:
   File: File
   Edit: Edit
@@ -41,6 +42,7 @@ WindowTitles:
     X Records: '%s Records'
     Details for X: Details for %s
   SearchWindows:
+    Search Courses: Search Courses
     Search: Search
     Search Students: Search Students
     Search Records: Search Records

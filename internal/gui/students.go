@@ -123,13 +123,16 @@ func (ui *ui) AddStudentForm() {
 		imagePathLabel.SetText(imagePath)
 	})
 
-	nameForm := widget.NewFormItem("Name:", nameEntry)
-	idForm := widget.NewFormItem("DNI:", dniEntry)
-	ageForm := widget.NewFormItem("Age:", ageEntry)
-	phoneForm := widget.NewFormItem("Phone:", phoneEntry)
+	nameForm := widget.NewFormItem(locale.StudentInfo["Name"], nameEntry)
+	idForm := widget.NewFormItem(locale.StudentInfo["DNI"], dniEntry)
+	ageForm := widget.NewFormItem(locale.StudentInfo["Age"], ageEntry)
+	phoneForm := widget.NewFormItem(locale.StudentInfo["Phone Number"], phoneEntry)
 	const gridNumber int = 2
-	imageForm := widget.NewFormItem("Image:", container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn))
-	imagePathForm := widget.NewFormItem("Image path:", imagePathLabel)
+	imageForm := widget.NewFormItem(
+		locale.StudentInfo["Image"],
+		container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn),
+	)
+	imagePathForm := widget.NewFormItem(locale.StudentInfo["Image Path"], imagePathLabel)
 
 	form := widget.NewForm(
 		nameForm,

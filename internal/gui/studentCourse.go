@@ -1,6 +1,7 @@
 package gui
 
 import (
+	"fmt"
 	"slices"
 
 	"fyne.io/fyne/v2"
@@ -10,6 +11,10 @@ import (
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
+)
+
+var (
+	LocStudentCourseWin map[string]string
 )
 
 func (ui ui) GetStudentCoursesList(g *[]data.StudentCourse) *widget.List {
@@ -43,7 +48,7 @@ func (ui *ui) StudentCourseDetailsWin(sc *data.StudentCourse) {
 	}
 	c := getCourse()
 
-	window := ui.App.NewWindow("Details for " + c.Name)
+	window := ui.App.NewWindow(fmt.Sprintf(LocStudentCourseWin["Details of X"], c.Name))
 	window.Resize(sizes.ListSize)
 
 	courseNameLabel := widget.NewLabel(c.Name)
@@ -53,11 +58,11 @@ func (ui *ui) StudentCourseDetailsWin(sc *data.StudentCourse) {
 	courseInfoLabel := widget.NewMultiLineEntry()
 	courseInfoLabel.SetText(c.Info)
 
-	nameForm := widget.NewFormItem("Name:", courseNameLabel)
-	priceForm := widget.NewFormItem("Price:", coursePricePMLabel)
-	startForm := widget.NewFormItem("Start:", courseStartLabel)
-	endForm := widget.NewFormItem("End:", courseEndLabel)
-	infoForm := widget.NewFormItem("Info:", courseInfoLabel)
+	nameForm := widget.NewFormItem(locale.CourseInfo["Name"], courseNameLabel)
+	priceForm := widget.NewFormItem(locale.CourseInfo["Price"], coursePricePMLabel)
+	startForm := widget.NewFormItem(locale.StudentCourseInfo["Start"], courseStartLabel)
+	endForm := widget.NewFormItem(locale.StudentCourseInfo["End"], courseEndLabel)
+	infoForm := widget.NewFormItem(locale.CourseInfo["Info"], courseInfoLabel)
 
 	form := widget.NewForm(
 		nameForm,
@@ -76,13 +81,13 @@ func (ui *ui) StudentCourseDetailsWin(sc *data.StudentCourse) {
 }
 
 func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
-	w := ui.App.NewWindow("Select start and end")
+	w := ui.App.NewWindow(LocStudentCourseWin["Select start and end"])
 	w.Resize(sizes.StartEndSize)
 	startEntry := widget.NewEntry()
 	endEntry := widget.NewEntry()
 	form := widget.NewForm(
-		widget.NewFormItem("Start:", startEntry),
-		widget.NewFormItem("End:", endEntry),
+		widget.NewFormItem(locale.CourseInfo["Start"], startEntry),
+		widget.NewFormItem(locale.CourseInfo["End"], endEntry),
 	)
 
 	form.OnSubmit = func() {
@@ -112,7 +117,7 @@ func getNoAddedCourses(s *data.Student) []data.Course {
 }
 
 func (ui *ui) SelectCourseWin(s *data.Student) {
-	w := ui.App.NewWindow("Select a grade!")
+	w := ui.App.NewWindow(LocStudentCourseWin["Select a course"])
 	const size1, size2 float32 = 600, 500
 	w.Resize(fyne.NewSize(size1, size2))
 
@@ -191,7 +196,7 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 }
 
 func (ui *ui) StudentCoursesMainWin(s *data.Student) {
-	w := ui.App.NewWindow(s.Name + " Grades")
+	w := ui.App.NewWindow(fmt.Sprintf(LocStudentCourseWin["X Courses"], s.Name))
 	const size float32 = 300
 	w.Resize(fyne.NewSize(size, size))
 	s.GetCourses()
@@ -247,13 +252,13 @@ func (ui *ui) StudentCoursesMainWin(s *data.Student) {
 func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
 	i := data.FindCourseIndexByID(sc.CourseID)
 	course := data.Courses[i]
-	window := ui.App.NewWindow("Edit " + course.Name)
+	window := ui.App.NewWindow(fmt.Sprintf(LocStudentCourseWin["Edit X"], course.Name))
 	const size1, size2 float32 = 500, 100
 	window.Resize(fyne.NewSize(size1, size2))
 
 	courseNameLabel := widget.NewLabel(course.Name)
 	courseSelectButton := widget.NewButton("Select a new grade", func() {
-		w := ui.App.NewWindow("Select a grade")
+		w := ui.App.NewWindow(LocStudentCourseWin["Select a course"])
 		w.Resize(sizes.ListSize)
 		var selected = -1
 		list := ui.GetCoursesList(&data.Courses)
@@ -291,9 +296,9 @@ func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
 	endEntry.SetText(sc.End)
 
 	form := widget.NewForm(
-		widget.NewFormItem("Current grade:", courseSelectCont),
-		widget.NewFormItem("Start:", startEntry),
-		widget.NewFormItem("End:", endEntry),
+		widget.NewFormItem(locale.CourseInfo["Name"], courseSelectCont),
+		widget.NewFormItem(locale.StudentCourseInfo["Start"], startEntry),
+		widget.NewFormItem(locale.StudentCourseInfo["End"], endEntry),
 	)
 	form.OnSubmit = func() {
 		sc.Start = startEntry.Text

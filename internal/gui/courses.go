@@ -13,8 +13,10 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-var CourseWins = locale.WindowTitles.CoursesWindows
-var CourseLocals = locale.CourseInfo
+var (
+	CourseWins   map[string]string
+	CourseLocals map[string]string
+)
 
 func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
 	list := widget.NewList(
@@ -47,9 +49,9 @@ func (ui *ui) EditCourse(c *data.Course) {
 	infoEntry.SetText(c.Info)
 
 	form := widget.NewForm(
-		widget.NewFormItem("Name:", nameEntry),
-		widget.NewFormItem("Price:", priceEntry),
-		widget.NewFormItem("Info:", infoEntry),
+		widget.NewFormItem(CourseLocals["Name"], nameEntry),
+		widget.NewFormItem(CourseLocals["Price"], priceEntry),
+		widget.NewFormItem(CourseLocals["Info"], infoEntry),
 	)
 
 	form.OnSubmit = func() {
@@ -91,9 +93,9 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 	const gridNumber int = 2
 
 	form := widget.NewForm(
-		widget.NewFormItem("Name:", widget.NewLabel(c.Name)),
-		widget.NewFormItem("Price:", widget.NewLabel(c.Price)),
-		widget.NewFormItem("Info", widget.NewLabel(c.Info)),
+		widget.NewFormItem(CourseLocals["Name"], widget.NewLabel(c.Name)),
+		widget.NewFormItem(CourseLocals["Price"], widget.NewLabel(c.Price)),
+		widget.NewFormItem(CourseLocals["Info"], widget.NewLabel(c.Info)),
 		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
 
@@ -102,15 +104,15 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 }
 
 func (ui *ui) AddCourse() {
-	window := ui.App.NewWindow("Add a grade")
+	window := ui.App.NewWindow(CourseWins["Add a Course"])
 	window.Resize(sizes.FormSize)
 	courseEntry := widget.NewEntry()
 	priceEntry := widget.NewEntry()
 	infoEntry := widget.NewMultiLineEntry()
 
-	coruseFormInput := widget.NewFormItem("Grade name:", courseEntry)
-	priceFormInput := widget.NewFormItem("Price per moth:", priceEntry)
-	infoFormInput := widget.NewFormItem("Grade Info:", infoEntry)
+	coruseFormInput := widget.NewFormItem(CourseLocals["Name"], courseEntry)
+	priceFormInput := widget.NewFormItem(CourseLocals["Price"], priceEntry)
+	infoFormInput := widget.NewFormItem(CourseLocals["Info"], infoEntry)
 
 	form := widget.NewForm(
 		coruseFormInput,
@@ -155,7 +157,7 @@ func (ui *ui) AddCourse() {
 }
 
 func (ui *ui) CoursesMainWin() {
-	w := ui.App.NewWindow("Grades")
+	w := ui.App.NewWindow(CourseWins["Courses"])
 	w.Resize(sizes.ListSize)
 
 	selected := -1
