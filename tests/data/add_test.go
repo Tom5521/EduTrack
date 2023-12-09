@@ -31,7 +31,7 @@ func TestAddGrade(t *testing.T) {
 	assert := assert.New(t)
 	data.LoadFiles()
 	originalLen := len(data.Courses)
-	err := data.AddGrade(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
+	err := data.AddCourse(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
 	require.NoError(err)
 	fmt.Println("Grades:", data.Courses)
 
@@ -74,7 +74,7 @@ func TestAddStudentGrade(t *testing.T) {
 		require.NoError(err)
 	}
 	if len(data.Courses) == 0 {
-		err := data.AddGrade(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
+		err := data.AddCourse(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
 		require.NoError(err)
 	}
 	student := &data.Students[0]

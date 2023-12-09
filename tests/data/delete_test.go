@@ -1,5 +1,5 @@
-//go:build delete
-// +build delete
+///go:adasbuild delete
+/// asdasadbuild delete
 
 /*
  * Copyright (c) 2023 Tom5521- All Rights Reserved.
@@ -25,7 +25,7 @@ func TestDeleteGrade(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
 	if len(data.Courses) == 0 {
-		err := data.AddGrade(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddCourse(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 		log.Println(data.Courses)
 	}
@@ -57,7 +57,7 @@ func TestDeleteIn(t *testing.T) {
 	require := require.New(t)
 	// Test grades
 	if len(data.Courses) == 0 {
-		err := data.AddGrade(&data.Grade{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddCourse(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 		log.Println(data.Courses)
 	}

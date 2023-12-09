@@ -1,7 +1,7 @@
 package data
 
-func AddGrade(newGrade *Course) error {
-	err := DB.Create(&newGrade).Error
+func AddCourse(newCourse *Course) error {
+	err := DB.Create(&newCourse).Error
 	printErr(err)
 	return LoadCourses()
 }

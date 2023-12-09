@@ -138,7 +138,7 @@ func (ui *ui) AddCourse() {
 			Info:  infoEntry.Text,
 			Price: priceEntry.Text,
 		}
-		err := data.AddGrade(&newGrade)
+		err := data.AddCourse(&newGrade)
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}

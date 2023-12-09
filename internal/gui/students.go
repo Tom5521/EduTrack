@@ -102,7 +102,7 @@ func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 
 func (ui *ui) AddStudentForm() {
 	var imagePath string
-	var gradesStr []data.Course
+	var coursesStr []data.Course
 	window := ui.App.NewWindow("Add a student")
 	window.Resize(sizes.FormSize)
 
@@ -140,13 +140,13 @@ func (ui *ui) AddStudentForm() {
 		imagePathForm,
 	)
 	form.OnSubmit = func() {
-		StGrades := func() []data.StudentCourse {
-			var stgrades []data.StudentCourse
-			for _, grade := range gradesStr {
-				tmpGrade := data.StudentCourse{CourseID: grade.ID}
-				stgrades = append(stgrades, tmpGrade)
+		StCourses := func() []data.StudentCourse {
+			var stCourses []data.StudentCourse
+			for _, course := range coursesStr {
+				tmpCourse := data.StudentCourse{CourseID: course.ID}
+				stCourses = append(stCourses, tmpCourse)
 			}
-			return stgrades
+			return stCourses
 		}()
 
 		newStudent := data.Student{
@@ -155,7 +155,7 @@ func (ui *ui) AddStudentForm() {
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
-			Courses:       StGrades,
+			Courses:       StCourses,
 		}
 		// Validate form fields
 		if !checkValues(newStudent) {

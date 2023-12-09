@@ -21,7 +21,7 @@ func TestEditGrade(t *testing.T) {
 	// assert := assert.New(t)
 	fmt.Println(data.Courses)
 	if len(data.Courses) == 0 {
-		err := data.AddGrade(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddCourse(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(t, err)
 		log.Println(data.Courses)
 	}
@@ -77,7 +77,7 @@ func TestEditStudentGrade(t *testing.T) {
 	}
 	student := &data.Students[0]
 	if len(data.Courses) == 0 {
-		err := data.AddGrade(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
+		err := data.AddCourse(&data.Course{Name: "Angel", Info: "Test", Price: "100"})
 		require.NoError(err)
 	}
 	err := data.LoadCourses()
