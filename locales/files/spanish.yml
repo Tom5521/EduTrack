@@ -39,7 +39,7 @@ WindowTitles:
     Records: Registros
     Add a Record: Agregar un Registro
     Edit Record: Editar Registro
-    X Records: '%s Registros'
+    X Records: Registros de %s
     Details for X: Detalles de %s
   SearchWindows:
     Search Courses: Buscar cursos

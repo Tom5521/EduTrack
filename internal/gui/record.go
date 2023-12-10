@@ -15,6 +15,8 @@ import (
 	"github.com/ncruces/zenity"
 )
 
+var LocRecordsWin map[string]string
+
 func (ui *ui) MakeRecList(l *[]data.Record) *widget.List {
 	err := data.LoadRecords()
 	if err != nil {
@@ -52,7 +54,7 @@ func (ui *ui) AddRecord(studentID uint) {
 	}
 	var tmpDate = getTimeNow()
 
-	window := ui.App.NewWindow("Add a record")
+	window := ui.App.NewWindow(LocRecordsWin["Add a Record"])
 	window.Resize(sizes.RecSize)
 
 	recNameLabel := widget.NewLabel("Record name:")
@@ -104,7 +106,7 @@ func (ui *ui) AddRecord(studentID uint) {
 
 func (ui *ui) EditRecordData(recordID uint) {
 	var tmpDate string
-	window := ui.App.NewWindow("Edit Record")
+	window := ui.App.NewWindow(LocRecordsWin["Edit Record"])
 	window.Resize(sizes.RecSize)
 	i := data.FindRecordIndexByID(recordID)
 	if i == -1 {
@@ -182,7 +184,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 }
 
 func (ui *ui) StudentRecordsMainWin(student *data.Student) {
-	w := ui.App.NewWindow(student.Name + " Records")
+	w := ui.App.NewWindow(fmt.Sprintf(LocRecordsWin["X records"], student.Name))
 	w.Resize(sizes.FormSize)
 	var selected int
 	list := ui.GetStudentRecordsList(student)
@@ -217,7 +219,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 				return
 			}
 			i := data.FindRecordIndexByID(student.Records[selected].ID)
-			ui.RegisterDetailsWin(&data.Records[i])
+			ui.RecordDetailsWin(&data.Records[i])
 		}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Refresh, func() {
@@ -242,8 +244,8 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 	w.Show()
 }
 
-func (ui *ui) RegisterDetailsWin(r *data.Record) {
-	w := ui.App.NewWindow("Details for " + r.Name)
+func (ui *ui) RecordDetailsWin(r *data.Record) {
+	w := ui.App.NewWindow(fmt.Sprintf(LocRecordsWin["Details for X"], r.Name))
 	// w.Resize(sizes.RecSize)
 	infoEntry := widget.NewMultiLineEntry()
 	infoEntry.SetText(r.Info)
