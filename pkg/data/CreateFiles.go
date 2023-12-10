@@ -7,13 +7,13 @@
 package data
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"os/user"
 	"runtime"
 
-	"gopkg.in/yaml.v3"
 	"gorm.io/gorm"
 
 	"github.com/Tom5521/EduTrack/pkg/files"
@@ -24,9 +24,9 @@ var Config ConfigStr
 var databaseFile, configFile = getOSConfFile()
 
 type ConfigStr struct {
-	DatabaseFile string `yaml:"database"`
-	Lang         string `yaml:"lang"` // TODO: Add multilanguage support
-	Theme        string `yaml:"theme"`
+	DatabaseFile string `json:"database"`
+	Lang         string `json:"lang"`
+	Theme        string `json:"theme"`
 }
 
 func CreateDatabase() error {
@@ -67,7 +67,7 @@ func GetConfData() ConfigStr {
 	if err != nil {
 		log.Println("Error reading config file!", err)
 	}
-	err = yaml.Unmarshal(data, &conf)
+	err = json.Unmarshal(data, &conf)
 	if err != nil {
 		log.Println(err)
 	}
@@ -88,18 +88,18 @@ func getOSConfFile() (string, string) {
 				log.Println("Error creating ~/.config/EduTrack/", err)
 			}
 		}
-		return confDir + "/database.db", confDir + "/config.yml"
+		return confDir + "/database.db", confDir + "/config.json"
 	}
-	return "database.db", "config.yml"
+	return "database.db", "config.json"
 }
 
 func NewConfigurationFile() {
 	var err error
-	ymlData, err := yaml.Marshal(ConfigStr{DatabaseFile: databaseFile, Theme: "Adwaita", Lang: "en"})
+	jsonData, err := json.Marshal(ConfigStr{DatabaseFile: databaseFile, Theme: "Adwaita", Lang: "en"})
 	if err != nil {
 		log.Println("Error marshalling new configuration file", err)
 	}
-	err = os.WriteFile(configFile, ymlData, os.ModePerm)
+	err = os.WriteFile(configFile, jsonData, os.ModePerm)
 	if err != nil {
 		log.Println("Error writing config file", err)
 	}
