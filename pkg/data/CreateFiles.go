@@ -20,8 +20,10 @@ import (
 	"github.com/glebarez/sqlite"
 )
 
-var Config ConfigStr
-var databaseFile, configFile = getOSConfFile()
+var (
+	Config                   ConfigStr
+	databaseFile, configFile = getOSConfFile()
+)
 
 type ConfigStr struct {
 	DatabaseFile string `json:"database"`
