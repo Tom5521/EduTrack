@@ -184,7 +184,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 }
 
 func (ui *ui) StudentRecordsMainWin(student *data.Student) {
-	w := ui.App.NewWindow(fmt.Sprintf(LocRecordsWin["X records"], student.Name))
+	w := ui.App.NewWindow(fmt.Sprintf(LocRecordsWin["X Records"], student.Name))
 	w.Resize(sizes.FormSize)
 	var selected int
 	list := ui.GetStudentRecordsList(student)
