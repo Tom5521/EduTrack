@@ -12,7 +12,7 @@ import (
 )
 
 func (ui *ui) AboutWin() {
-	window := ui.App.NewWindow("About")
+	window := ui.App.NewWindow(locale.WindowTitles.AboutWindows["Title"])
 	label1 := widget.NewLabel("Created by:")
 	link, _ := url.Parse("https://github.com/Tom5521")
 	gitLabel := widget.NewHyperlink("Tom5521", link)

@@ -46,6 +46,8 @@ WindowTitles:
     Search: Search
     Search Students: Search Students
     Search Records: Search Records
+  AboutWindow:
+    Title: About
 Dialogs:
   General:
     Please Confirm: Please Confirm
