@@ -1,3 +1,9 @@
+GeneralWords:
+  Close: Cerrar
+  Open: Abrir
+  Yes: Si
+  No: 'No'
+  Exit: Salir
 CourseInfo:
   Name: 'Nombre:'
   Price: 'Precio:'
@@ -8,7 +14,7 @@ StudentCourseInfo:
 StudentInfo:
   Name: 'Nombre:'
   Age: 'Edad:'
-  DNI: 'DNI:'
+  DNI: 'CI:'
   Phone Number: 'Teléfono:'
   Image Path: 'Ruta de la Imagen:'
   Image: 'Imagen:'
@@ -53,3 +59,17 @@ Dialogs:
     Please Confirm: Por favor confirma
   Student:
     Delete Student Dialog: ¿Quieres eliminar al estudiante?
+Buttons:
+  MainWindow:
+    Show Student Records: Ver registros del estudiante
+    Show Student Courses: Ver cusos del estudiante
+  AddStudentWindow:
+    Select Image: Seleccionar una imagen
+    Delete Current Image: Borrar la imagen existente
+  EditStudentWindow:
+    Select a new image: Seleccionar una nueva imagen
+    Delete Current Image: Borrar la imagen existente
+Errors:
+  Overflow in age entry: ¡Overflow en el campo de edad!
+  Some value in this form is empty: Algun valor en este formulario esta vacio
+  The DNI already exists: ¡El CI ya existe!

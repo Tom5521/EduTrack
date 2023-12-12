@@ -1,3 +1,9 @@
+GeneralWords:
+  Close: Close
+  Open: Open
+  Yes: 'Yes'
+  No: 'No'
+  Exit: Exit
 CourseInfo:
   Name: 'Name:'
   Price: 'Price:'
@@ -53,3 +59,21 @@ Dialogs:
     Please Confirm: Please Confirm
   Student:
     Delete Student Dialog: Do you want to delete the student?
+Buttons:
+  MainWindow:
+    Show Student Records: Show Student Records
+    Show Student Courses: Show Student Courses
+  AddStudentWindow:
+    Select Image: Select Image
+    Delete Current Image: Delete current image
+  EditStudentWindow:
+    Select a new image: Select a new image
+    Delete Current Image: Delete current image
+  RecordWindow:
+    Record Name: 'Record Name:'
+    Select Date: Select Date
+    Select Date from below: 'Select date from below:'
+Errors:
+  Overflow in age entry: Overflow in age entry!
+  Some value in this form is empty: Some value in this form is empty
+  The DNI already exists: The DNI already exists

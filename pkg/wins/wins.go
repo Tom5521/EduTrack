@@ -10,6 +10,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/resolution"
 	"github.com/ncruces/zenity"
 
@@ -50,6 +51,13 @@ func FilePicker(app fyne.App) string {
 
 // ErrWin opens an error window with a message.
 func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
+	var buttonText string
+	if data.Config.Lang == "es" {
+		buttonText = "Aceptar"
+	}
+	if data.Config.Lang == "en" || data.Config.Lang == "" {
+		buttonText = "Accept"
+	}
 	window := app.NewWindow("Error")
 	window.RequestFocus()
 	window.Resize(sizes.ErrSize)
@@ -57,7 +65,7 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 	errlabel := widget.NewLabel(err)
 	errlabel.TextStyle.Bold = true
 	errlabel.Alignment = fyne.TextAlignCenter
-	acceptButton := widget.NewButton("Accept", func() {
+	acceptButton := widget.NewButton(buttonText, func() {
 		window.Close()
 		if len(clWindow) > 0 {
 			clWindow[0].Close()

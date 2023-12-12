@@ -36,6 +36,7 @@ func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget
 }
 
 func (ui *ui) LoadStudentInfo(s *data.Student) {
+	localeButtons := locale.Buttons.MainWin
 	var currentColor color.Color
 	if fyne.CurrentApp().Settings().ThemeVariant() == 1 {
 		currentColor = color.Black
@@ -49,7 +50,12 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 			text = text[:limit] + "..."
 		}
 		label := canvas.NewText(text, currentColor)
-		label.TextSize = 20
+		if data.Config.Lang == "es" {
+			label.TextSize = 18
+		}
+		if data.Config.Lang == "en" {
+			label.TextSize = 20
+		}
 		return label
 	}
 	tagLabel := func(inputText any) *canvas.Text {
@@ -74,10 +80,10 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	phoneCont := nhbx(tagLabel(locale.StudentInfo["Phone Number"]), itemLabel(s.PhoneNumber, 20))
 
 	dataContainer := container.NewVBox(nameCont, ageCont, dniCont, phoneCont)
-	showRecordsBt := widget.NewButton("Show student records", func() {
+	showRecordsBt := widget.NewButton(localeButtons["Show Student Records"], func() {
 		ui.StudentRecordsMainWin(s)
 	})
-	showCoursesBt := widget.NewButton("Show student grades", func() {
+	showCoursesBt := widget.NewButton(localeButtons["Show Student Courses"], func() {
 		ui.StudentCoursesMainWin(s)
 	})
 
@@ -95,8 +101,8 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 	text := ageEntry.Text
 	ret := uint(atoi(text))
-	if (ret == math.MaxUint) || (atoi(text) == -1) {
-		wins.ErrWin(app, "Overflow in age entry!")
+	if (text != "0") && (ret == math.MaxUint) || (atoi(text) == -1) {
+		wins.ErrWin(app, locale.Errors["Overflow in age entry"])
 		ret = math.MaxUint
 	}
 	return ret
@@ -116,11 +122,11 @@ func (ui *ui) AddStudentForm() {
 
 	imagePathLabel := widget.NewLabel(imagePath)
 
-	imageButton := widget.NewButton("Select Image", func() {
+	imageButton := widget.NewButton(locale.Buttons.AddStudentWindow["Select Image"], func() {
 		wins.ImagePicker(ui.App, &imagePath)
 		imagePathLabel.SetText(imagePath)
 	})
-	deleteImgBtn := widget.NewButton("Delete Current Image", func() {
+	deleteImgBtn := widget.NewButton(locale.Buttons.AddStudentWindow["Delete Current Image"], func() {
 		imagePath = ""
 		imagePathLabel.SetText(imagePath)
 	})
@@ -164,11 +170,11 @@ func (ui *ui) AddStudentForm() {
 		}
 		// Validate form fields
 		if !checkValues(newStudent) {
-			wins.ErrWin(ui.App, "Some value in the form is empty")
+			wins.ErrWin(ui.App, locale.Errors["Some value in this form is empty"])
 			return
 		}
 		if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
-			wins.ErrWin(ui.App, "The DNI already exists")
+			wins.ErrWin(ui.App, locale.Errors["The DNI already exists"])
 			return
 		}
 
@@ -209,11 +215,11 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 
 	imageLabel := widget.NewLabel(imagePath)
 
-	deleteImgButton := widget.NewButton("Delete selected image", func() {
+	deleteImgButton := widget.NewButton(locale.Buttons.EditStudentWindow["Select a new image"], func() {
 		imagePath = ""
 		imageLabel.SetText(imagePath)
 	})
-	selectImgButton := widget.NewButton("Select student image", func() {
+	selectImgButton := widget.NewButton(locale.Buttons.EditStudentWindow["Delete Current Image"], func() {
 		wins.ImagePicker(ui.App, &imagePath)
 		imageLabel.SetText(imagePath)
 	})
@@ -240,12 +246,12 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 		}
 		// Validate form fields
 		if !checkValues(edited) {
-			wins.ErrWin(ui.App, "Some value in the form is empty")
+			wins.ErrWin(ui.App, locale.Errors["Some value in this form is empty"])
 			return
 		}
 		if dniEntry.Text != s.DNI {
 			if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
-				wins.ErrWin(ui.App, "The DNI already exists")
+				wins.ErrWin(ui.App, locale.Errors["The DNI already exists"])
 				return
 			}
 		}

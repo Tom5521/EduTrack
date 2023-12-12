@@ -1,6 +1,7 @@
 package locales
 
 type Locale struct {
+	GeneralWords      map[string]string `yaml:"GeneralWords"`
 	CourseInfo        map[string]string `yaml:"CourseInfo"`
 	StudentCourseInfo map[string]string `yaml:"StudentCourseInfo"`
 	StudentInfo       map[string]string `yaml:"StudentInfo"`
@@ -17,4 +18,10 @@ type Locale struct {
 		General map[string]string `yaml:"General"`
 		Student map[string]string `yaml:"Student"`
 	} `yaml:"Dialogs"`
+	Buttons struct {
+		MainWin           map[string]string `yaml:"MainWindow"`
+		AddStudentWindow  map[string]string `yaml:"AddStudentWindow"`
+		EditStudentWindow map[string]string `yaml:"EditStudentWindow"`
+	} `yaml:"Buttons"`
+	Errors map[string]string `yaml:"Errors"`
 }
