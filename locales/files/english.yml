@@ -103,3 +103,6 @@ Errors:
   The DNI already exists: The DNI already exists
   Record ID not found!: Record ID<%s> not found!
   Student ID not found!: Student ID<%s> not found!
+  Course name entry is empty: Course name entry is empty
+  Info entry is empty: Info entry is empty
+  This course already exists: This course already exists!

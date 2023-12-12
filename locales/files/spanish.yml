@@ -103,3 +103,6 @@ Errors:
   The DNI already exists: El DNI ya existe
   Record ID not found!: ¡ID de registro <%s> no encontrado!
   Student ID not found!: ¡ID de estudiante <%s> no encontrado!
+  Course name entry is empty: El nombre del curso está vacío
+  Info entry is empty: La entrada de informacion esta vacia!
+  This course already exists: Este curso ya existe!

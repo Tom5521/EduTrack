@@ -69,7 +69,6 @@ func (ui *ui) EditCourse(c *data.Course) {
 	}
 
 	window.SetContent(form)
-
 	window.Show()
 }
 
@@ -121,11 +120,11 @@ func (ui *ui) AddCourse() {
 	)
 	form.OnSubmit = func() {
 		if courseEntry.Text == "" {
-			wins.ErrWin(ui.App, "Grade name entry is empty")
+			wins.ErrWin(ui.App, locale.Errors["Couse name entry is empty"])
 			return
 		}
 		if priceEntry.Text == "" {
-			wins.ErrWin(ui.App, "Info entry is empty")
+			wins.ErrWin(ui.App, locale.Errors["Info entry is empty"])
 			return
 		}
 		if func() bool {
@@ -136,7 +135,7 @@ func (ui *ui) AddCourse() {
 			}
 			return false
 		}() {
-			wins.ErrWin(ui.App, "This grade already exists!")
+			wins.ErrWin(ui.App, locale.Errors["This course already exists"])
 			return
 		}
 		newGrade := data.Course{
