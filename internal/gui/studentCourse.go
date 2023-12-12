@@ -86,8 +86,8 @@ func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
 	startEntry := widget.NewEntry()
 	endEntry := widget.NewEntry()
 	form := widget.NewForm(
-		widget.NewFormItem(locale.CourseInfo["Start"], startEntry),
-		widget.NewFormItem(locale.CourseInfo["End"], endEntry),
+		widget.NewFormItem(locale.StudentCourseInfo["Start"], startEntry),
+		widget.NewFormItem(locale.StudentCourseInfo["End"], endEntry),
 	)
 
 	form.OnSubmit = func() {
@@ -172,8 +172,13 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 		toAddList.Refresh()
 	}
 
-	addToButton := widget.NewButton("Add grade to student", addGrade)
-	quitToButton := widget.NewButton("Delete from student", quitGrade)
+	addToButton := widget.NewButton(
+		locale.Buttons.SelectCourseWin["Add grade to student"],
+		addGrade,
+	)
+	quitToButton := widget.NewButton(
+		locale.Buttons.SelectCourseWin["Delete from student"], quitGrade,
+	)
 
 	// Layout
 	const gridNumber int = 1

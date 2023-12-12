@@ -17,11 +17,20 @@ type Locale struct {
 	Dialogs struct {
 		General map[string]string `yaml:"General"`
 		Student map[string]string `yaml:"Student"`
+		Records map[string]string `yaml:"Records"`
 	} `yaml:"Dialogs"`
 	Buttons struct {
-		MainWin           map[string]string `yaml:"MainWindow"`
-		AddStudentWindow  map[string]string `yaml:"AddStudentWindow"`
-		EditStudentWindow map[string]string `yaml:"EditStudentWindow"`
+		MainWin               map[string]string `yaml:"MainWindow"`
+		AddStudentWindow      map[string]string `yaml:"AddStudentWindow"`
+		EditStudentWindow     map[string]string `yaml:"EditStudentWindow"`
+		RecordWindow          map[string]string `yaml:"RecordWindow"`
+		StudentRecordsMainWin map[string]string `yaml:"StudentRecordsMainWin"`
+		SelectCourseWin       map[string]string `yaml:"SelectCourseWin"`
 	} `yaml:"Buttons"`
+	Labels struct {
+		AddRecordWindow  map[string]string `yaml:"AddRecordWindow"`
+		EditRecordWindow map[string]string `yaml:"EditRecordWindow"`
+		RecordDetailsWin map[string]string `yaml:"RecordDetailsWin"`
+	} `yaml:"Labels"`
 	Errors map[string]string `yaml:"Errors"`
 }

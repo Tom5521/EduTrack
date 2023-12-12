@@ -4,6 +4,9 @@ GeneralWords:
   Yes: 'Yes'
   No: 'No'
   Exit: Exit
+  Submit: Submit
+  Edit: Edit
+  Delete: Delete
 CourseInfo:
   Name: 'Name:'
   Price: 'Price:'
@@ -54,11 +57,16 @@ WindowTitles:
     Search Records: Search Records
   AboutWindow:
     Title: About
+  SelectCourseWin:
+    Add grade to student: Add grade to student
+    Delete from student: Delete from student
 Dialogs:
   General:
     Please Confirm: Please Confirm
   Student:
     Delete Student Dialog: Do you want to delete the student?
+  Records:
+    Do you really want to delete the record: Do you really want to delete the record?
 Buttons:
   MainWindow:
     Show Student Records: Show Student Records
@@ -73,7 +81,25 @@ Buttons:
     Record Name: 'Record Name:'
     Select Date: Select Date
     Select Date from below: 'Select date from below:'
+  StudentRecordsMainWin:
+    Add a Record: Add a record
+Labels:
+  AddRecordWindow:
+    Details: Details
+    Record Name: 'Record Name:'
+    Placeholder: E.g., The student has not attended
+  EditRecordWindow:
+    Date: 'Date:'
+    Record Name: 'Record Name:'
+    Record Date: 'Record Date:'
+  RecordDetailsWin:
+    Student Name: 'Student Name:'
+    Name: 'Name:'
+    Date: 'Date:'
+    Info: 'Info:'
 Errors:
   Overflow in age entry: Overflow in age entry!
   Some value in this form is empty: Some value in this form is empty
   The DNI already exists: The DNI already exists
+  Record ID not found!: Record ID<%s> not found!
+  Student ID not found!: Student ID<%s> not found!

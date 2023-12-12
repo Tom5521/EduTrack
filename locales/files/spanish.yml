@@ -1,9 +1,12 @@
 GeneralWords:
   Close: Cerrar
   Open: Abrir
-  Yes: Si
+  Yes: Sí
   No: 'No'
   Exit: Salir
+  Submit: Enviar
+  Edit: Editar
+  Delete: Eliminar
 CourseInfo:
   Name: 'Nombre:'
   Price: 'Precio:'
@@ -14,8 +17,8 @@ StudentCourseInfo:
 StudentInfo:
   Name: 'Nombre:'
   Age: 'Edad:'
-  DNI: 'CI:'
-  Phone Number: 'Teléfono:'
+  DNI: 'DNI:'
+  Phone Number: 'Número de Teléfono:'
   Image Path: 'Ruta de la Imagen:'
   Image: 'Imagen:'
 MainMenu:
@@ -28,27 +31,27 @@ WindowTitles:
     Select start and end: Seleccionar inicio y fin
     Details of X: Detalles de %s
     Edit X: Editar %s
-    Select a course: Seleccionar un curso
-    X Courses: Cursos de %s
+    Select a course: ¡Seleccionar un curso!
+    X Courses: '%s cursos'
   CoursesWindows:
     X Courses: '%s Cursos'
     Courses: Cursos
-    Select a course: Seleccionar un curso
+    Select a course: ¡Seleccionar un curso!
     Edit X: Editar %s
     Add a Course: Agregar un Curso
   StudentWindows:
     Students: Estudiantes
     Add a student: Agregar un estudiante
     Edit X: Editar %s
-    X Details: Detalles de %s
+    X Details: '%s Detalles'
   RecordsWindows:
     Records: Registros
     Add a Record: Agregar un Registro
     Edit Record: Editar Registro
-    X Records: Registros de %s
+    X Records: '%s Registros'
     Details for X: Detalles de %s
   SearchWindows:
-    Search Courses: Buscar cursos
+    Search Courses: Buscar Cursos
     Search: Buscar
     Search Students: Buscar Estudiantes
     Search Records: Buscar Registros
@@ -56,20 +59,47 @@ WindowTitles:
     Title: Acerca de
 Dialogs:
   General:
-    Please Confirm: Por favor confirma
+    Please Confirm: Por favor, confirme
   Student:
-    Delete Student Dialog: ¿Quieres eliminar al estudiante?
+    Delete Student Dialog: ¿Desea eliminar al estudiante?
+  Records:
+    Do you really want to delete the record: ¿Realmente desea eliminar el registro?
 Buttons:
   MainWindow:
-    Show Student Records: Ver registros del estudiante
-    Show Student Courses: Ver cusos del estudiante
+    Show Student Records: Mostrar Registros del Estudiante
+    Show Student Courses: Mostrar Cursos del Estudiante
   AddStudentWindow:
-    Select Image: Seleccionar una imagen
-    Delete Current Image: Borrar la imagen existente
+    Select Image: Seleccionar Imagen
+    Delete Current Image: Eliminar imagen actual
   EditStudentWindow:
     Select a new image: Seleccionar una nueva imagen
-    Delete Current Image: Borrar la imagen existente
+    Delete Current Image: Eliminar imagen actual
+  RecordWindow:
+    Record Name: 'Nombre del Registro:'
+    Select Date: Seleccionar Fecha
+    Select Date from below: 'Seleccionar fecha de abajo:'
+  StudentRecordsMainWin:
+    Add a Record: Agregar un registro
+  SelectCourseWin:
+    Add grade to student: Añadir curso al estudiante
+    Delete from student: Borrar curso del estudiante
+Labels:
+  AddRecordWindow:
+    Details: Detalles
+    Record Name: 'Nombre del Registro:'
+    Placeholder: Por ejemplo, El estudiante no asistió
+  EditRecordWindow:
+    Date: 'Fecha:'
+    Record Name: 'Nombre del Registro:'
+    Record Date: 'Fecha del Registro:'
+  RecordDetailsWin:
+    Student Name: 'Nombre del Estudiante:'
+    Name: 'Nombre:'
+    Date: 'Fecha:'
+    Info: 'Información:'
 Errors:
-  Overflow in age entry: ¡Overflow en el campo de edad!
-  Some value in this form is empty: Algun valor en este formulario esta vacio
-  The DNI already exists: ¡El CI ya existe!
+  Overflow in age entry: Desbordamiento en la entrada de la edad
+  Some value in this form is empty: Alguno de los valores en este formulario está vacío
+  The DNI already exists: El DNI ya existe
+  Record ID not found!: ¡ID de registro <%s> no encontrado!
+  Student ID not found!: ¡ID de estudiante <%s> no encontrado!
