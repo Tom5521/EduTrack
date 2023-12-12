@@ -76,11 +76,11 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 	window := ui.App.NewWindow(c.Name)
 	window.Resize(sizes.FormSize)
 
-	editButton := widget.NewButton("Edit", func() {
+	editButton := widget.NewButton(locale.GeneralWords["Edit"], func() {
 		ui.EditCourse(c)
 		window.Close()
 	})
-	deleteButton := widget.NewButton("Delete", func() {
+	deleteButton := widget.NewButton(locale.GeneralWords["Delete"], func() {
 		err := data.Delete(c)
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())

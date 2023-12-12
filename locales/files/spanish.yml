@@ -7,6 +7,7 @@ GeneralWords:
   Submit: Enviar
   Edit: Editar
   Delete: Eliminar
+  Cancel: Cancelar
 CourseInfo:
   Name: 'Nombre:'
   Price: 'Precio:'
@@ -18,7 +19,7 @@ StudentInfo:
   Name: 'Nombre:'
   Age: 'Edad:'
   DNI: 'DNI:'
-  Phone Number: 'Número de Teléfono:'
+  Phone Number: 'Teléfono:'
   Image Path: 'Ruta de la Imagen:'
   Image: 'Imagen:'
 MainMenu:
@@ -83,6 +84,9 @@ Buttons:
   SelectCourseWin:
     Add grade to student: Añadir curso al estudiante
     Delete from student: Borrar curso del estudiante
+  EditStudentCourseWin:
+    Select a new course: Seleccionar un nuevo curso
+    Select course: Seleccionar el curso
 Labels:
   AddRecordWindow:
     Details: Detalles

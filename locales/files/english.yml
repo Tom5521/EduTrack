@@ -7,6 +7,7 @@ GeneralWords:
   Submit: Submit
   Edit: Edit
   Delete: Delete
+  Cancel: Cancel
 CourseInfo:
   Name: 'Name:'
   Price: 'Price:'
@@ -83,6 +84,9 @@ Buttons:
     Select Date from below: 'Select date from below:'
   StudentRecordsMainWin:
     Add a Record: Add a record
+  EditStudentCourseWin:
+    Select a new course: Select a new course
+    Select course: Select course
 Labels:
   AddRecordWindow:
     Details: Details

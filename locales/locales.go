@@ -26,6 +26,7 @@ type Locale struct {
 		RecordWindow          map[string]string `yaml:"RecordWindow"`
 		StudentRecordsMainWin map[string]string `yaml:"StudentRecordsMainWin"`
 		SelectCourseWin       map[string]string `yaml:"SelectCourseWin"`
+		EditStudentCourseWin  map[string]string `yaml:"EditStudentCourseWin"`
 	} `yaml:"Buttons"`
 	Labels struct {
 		AddRecordWindow  map[string]string `yaml:"AddRecordWindow"`

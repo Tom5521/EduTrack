@@ -262,36 +262,37 @@ func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
 	window.Resize(fyne.NewSize(size1, size2))
 
 	courseNameLabel := widget.NewLabel(course.Name)
-	courseSelectButton := widget.NewButton("Select a new grade", func() {
-		w := ui.App.NewWindow(LocStudentCourseWin["Select a course"])
-		w.Resize(sizes.ListSize)
-		var selected = -1
-		list := ui.GetCoursesList(&data.Courses)
-		list.OnSelected = func(id widget.ListItemID) {
-			selected = id
-		}
-		addGradeButton := widget.NewButton("Select grade", func() {
-			if selected == -1 {
-				return
+	courseSelectButton := widget.NewButton(
+		locale.Buttons.EditStudentCourseWin["Select a new course"], func() {
+			w := ui.App.NewWindow(LocStudentCourseWin["Select a course"])
+			w.Resize(sizes.ListSize)
+			var selected = -1
+			list := ui.GetCoursesList(&data.Courses)
+			list.OnSelected = func(id widget.ListItemID) {
+				selected = id
 			}
-			sc.CourseID = data.Courses[selected].ID
-			err := sc.Edit(sc)
-			if err != nil {
-				wins.ErrWin(ui.App, err.Error())
-			}
-			courseNameLabel.SetText(data.Courses[selected].Name)
-			w.Close()
-		})
-		cancelButton := widget.NewButton("Cancel", func() {
-			w.Close()
-		})
+			addGradeButton := widget.NewButton(locale.Buttons.EditStudentCourseWin["Select course"], func() {
+				if selected == -1 {
+					return
+				}
+				sc.CourseID = data.Courses[selected].ID
+				err := sc.Edit(sc)
+				if err != nil {
+					wins.ErrWin(ui.App, err.Error())
+				}
+				courseNameLabel.SetText(data.Courses[selected].Name)
+				w.Close()
+			})
+			cancelButton := widget.NewButton(locale.GeneralWords["Cancel"], func() {
+				w.Close()
+			})
 
-		const gridNumber int = 2
-		buttonsCont := container.NewAdaptiveGrid(gridNumber, cancelButton, addGradeButton)
-		content := container.NewBorder(buttonsCont, nil, nil, nil, list)
-		w.SetContent(content)
-		w.Show()
-	})
+			const gridNumber int = 2
+			buttonsCont := container.NewAdaptiveGrid(gridNumber, cancelButton, addGradeButton)
+			content := container.NewBorder(buttonsCont, nil, nil, nil, list)
+			w.SetContent(content)
+			w.Show()
+		})
 	const gridNumber = 2
 	courseSelectCont := container.NewAdaptiveGrid(gridNumber, courseNameLabel, courseSelectButton)
 
