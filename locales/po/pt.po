@@ -1,346 +1,343 @@
-# Tradutor:
-# Tom5521
-
 msgid ""
 msgstr ""
 
 #: internal/gui/courses.go
-msgid "Editar %s"
-msgstr ""
+msgid "Edit %s"
+msgstr "Editar %s"
 
 #: internal/gui/courses.go
-msgid "Nome:"
-msgstr ""
+msgid "Name:"
+msgstr "Nome:"
 
 #: internal/gui/courses.go
-msgid "Preço:"
-msgstr ""
+msgid "Price:"
+msgstr "Preço:"
 
 #: internal/gui/courses.go
-msgid "Informações:"
-msgstr ""
+msgid "Info:"
+msgstr "Informações:"
 
 #: internal/gui/courses.go
-msgid "Editar"
-msgstr ""
+msgid "Edit"
+msgstr "Editar"
 
 #: internal/gui/courses.go
-msgid "Excluir"
+msgid "Delete"
 msgstr "Excluir"
 
 #: internal/gui/courses.go
-msgid "Adicionar um Curso"
-msgstr ""
+msgid "Add a Course"
+msgstr "Adicionar um Curso"
 
 #: internal/gui/courses.go
-msgid "O nome do curso está vazio"
-msgstr ""
+msgid "Course name entry is empty"
+msgstr "O campo de nome do curso está vazio"
 
 #: internal/gui/courses.go
-msgid "A entrada de informações está vazia"
-msgstr ""
+msgid "Info entry is empty"
+msgstr "O campo de informações está vazio"
 
 #: internal/gui/courses.go
-msgid "Este curso já existe"
-msgstr ""
+msgid "This course already exists"
+msgstr "Este curso já existe"
 
 #: internal/gui/courses.go
-msgid "Cursos"
-msgstr ""
+msgid "Courses"
+msgstr "Cursos"
 
 #: internal/gui/main.go
-msgid "Por favor, confirme"
-msgstr ""
+msgid "Please Confirm"
+msgstr "Por favor, confirme"
 
 #: internal/gui/main.go
-msgid "Você deseja excluir o estudante?"
-msgstr ""
+msgid "Do you want to delete the student?"
+msgstr "Você deseja excluir o estudante?"
 
 #: internal/gui/popups.go
-msgid "Sobre"
-msgstr ""
+msgid "About"
+msgstr "Sobre"
 
 #: internal/gui/popups.go
-msgid "Criado por:"
-msgstr ""
+msgid "Created by:"
+msgstr "Criado por:"
 
 #: internal/gui/popups.go
-msgid "Sob a licença %s"
-msgstr ""
+msgid "Under %s licence"
+msgstr "Sob a licença %s"
 
 #: internal/gui/popups.go
-msgid "CRÉDITOS"
-msgstr ""
+msgid "CREDITS"
+msgstr "CRÉDITOS"
 
 #: internal/gui/record.go
-msgid "Adicionar um Registro"
-msgstr ""
+msgid "Add a Record"
+msgstr "Adicionar um Registro"
 
 #: internal/gui/record.go
-msgid "Nome do registro:"
-msgstr ""
+msgid "Record name:"
+msgstr "Nome do registro:"
 
 #: internal/gui/record.go
-msgid "Selecionar Data"
-msgstr ""
+msgid "Select Date"
+msgstr "Selecionar Data"
 
 #: internal/gui/record.go
-msgid "Selecionar uma data abaixo"
-msgstr ""
+msgid "Select Date from below"
+msgstr "Selecione a data abaixo"
 
 #: internal/gui/record.go
-msgid "Detalhes"
-msgstr ""
+msgid "Details"
+msgstr "Detalhes"
 
 #: internal/gui/record.go
-msgid "Por exemplo, o estudante não compareceu"
-msgstr ""
+msgid "E.g., The student has not attended"
+msgstr "Por exemplo, o estudante não compareceu"
 
 #: internal/gui/record.go
-msgid "Enviar"
-msgstr ""
+msgid "Submit"
+msgstr "Enviar"
 
 #: internal/gui/record.go
-msgid "Editar Registro"
-msgstr ""
+msgid "Edit Record"
+msgstr "Editar Registro"
 
 #: internal/gui/record.go
-msgid "Registro ID<%v> não encontrado!"
-msgstr ""
+msgid "Record ID<%v> not found!"
+msgstr "Registro ID<%v> não encontrado!"
 
 #: internal/gui/record.go
-msgid "ID do Estudante<%v> não encontrado!"
-msgstr ""
+msgid "Student ID<%v> not found!"
+msgstr "ID do estudante <%v> não encontrado!"
 
 #: internal/gui/record.go
-msgid "Data: %s"
-msgstr ""
+msgid "Date: %s"
+msgstr "Data: %s"
 
 #: internal/gui/record.go
-msgid "Selecionar Data"
-msgstr ""
+msgid "Select Date"
+msgstr "Selecionar Data"
 
 #: internal/gui/record.go
-msgid "Selecionar uma data abaixo:"
-msgstr ""
+msgid "Select a date from below:"
+msgstr "Selecione uma data abaixo:"
 
 #: internal/gui/record.go
-msgid "Nome do registro:"
-msgstr ""
+msgid "Record name:"
+msgstr "Nome do registro:"
 
 #: internal/gui/record.go
-msgid "Data do registro:"
-msgstr ""
+msgid "Record date:"
+msgstr "Data do registro:"
 
 #: internal/gui/record.go
-msgid "Registros de %s"
-msgstr ""
+msgid "%s Records"
+msgstr "Registros de %s"
 
 #: internal/gui/record.go
-msgid "Detalhes de %s"
-msgstr ""
+msgid "Details of %s"
+msgstr "Detalhes de %s"
 
 #: internal/gui/record.go
-msgid "Você realmente deseja excluir o registro?"
-msgstr ""
+msgid "Do you really want to delete the record?"
+msgstr "Você realmente deseja excluir o registro?"
 
 #: internal/gui/record.go
-msgid "Nome do Estudante:"
-msgstr ""
+msgid "Student Name:"
+msgstr "Nome do estudante:"
 
 #: internal/gui/record.go
-msgid "Fechar"
-msgstr ""
+msgid "Close"
+msgstr "Fechar"
 
 #: internal/gui/search.go
-msgid "Pesquisar Estudantes"
-msgstr ""
+msgid "Search Students"
+msgstr "Buscar Estudantes"
 
 #: internal/gui/search.go
-msgid "Digite o nome do estudante:"
-msgstr ""
+msgid "Enter Student name:"
+msgstr "Digite o nome do estudante:"
 
 #: internal/gui/search.go
-msgid "Pesquisar"
-msgstr ""
+msgid "Search"
+msgstr "Buscar"
 
 #: internal/gui/search.go
-msgid "Estudante não encontrado!"
-msgstr ""
+msgid "Student not found!"
+msgstr "Estudante não encontrado!"
 
 #: internal/gui/search.go
-msgid "Digite o DNI do estudante:"
-msgstr ""
+msgid "Enter Student DNI:"
+msgstr "Digite o DNI do estudante:"
 
 #: internal/gui/search.go
-msgid "Pesquisar por nome"
-msgstr ""
+msgid "Search by name"
+msgstr "Buscar por nome"
 
 #: internal/gui/search.go
-msgid "Pesquisar por DNI"
-msgstr ""
+msgid "Search by DNI"
+msgstr "Buscar por DNI"
 
 #: internal/gui/search.go
-msgid "Pesquisar Cursos"
-msgstr ""
+msgid "Search Courses"
+msgstr "Buscar Cursos"
 
 #: internal/gui/search.go
-msgid "Digite o nome do curso:"
-msgstr ""
+msgid "Enter a course name:"
+msgstr "Digite o nome do curso:"
 
 #: internal/gui/search.go
-msgid "Curso não encontrado!"
-msgstr ""
+msgid "Course not found!"
+msgstr "Curso não encontrado!"
 
 #: internal/gui/search.go 
-msgid "Pesquisar Registros"
-msgstr ""
+msgid "Search Records"
+msgstr "Buscar Registros"
 
 #: internal/gui/search.go
-msgid "Digite o nome do registro:"
-msgstr ""
+msgid "Enter a record name:"
+msgstr "Digite o nome do registro:"
 
 #: internal/gui/search.go
-msgid "Registro não encontrado!"
-msgstr ""
+msgid "Record not found!"
+msgstr "Registro não encontrado!"
 
 #: internal/gui/search.go
-msgid "Pesquisar nos registros"
-msgstr ""
+msgid "Search in records"
+msgstr "Buscar em registros"
 
 #: internal/gui/search.go
-msgid "Pesquisar nos estudantes"
-msgstr ""
+msgid "Search in students"
+msgstr "Buscar em estudantes"
 
 #: internal/gui/search.go
-msgid "Pesquisar nos cursos"
-msgstr ""
+msgid "Search in courses"
+msgstr "Buscar em cursos"
 
 #: internal/gui/search.go
-msgid "Pesquisar nos cursos do estudante"
-msgstr ""
+msgid "Search in student courses"
+msgstr "Buscar em cursos de estudantes"
 
 #: internal/gui/studentCourse.go
-msgid "Início:"
-msgstr ""
+msgid "Start:"
+msgstr "Início:"
 
 #: internal/gui/studentCourse.go
-msgid "Fim:"
-msgstr ""
+msgid "End:"
+msgstr "Fim:"
 
 #: internal/gui/studentCourse.go
 msgid ""
 msgstr ""
 
 #: internal/gui/studentCourse.go
-msgid "Selecionar início e fim"
-msgstr ""
+msgid "Select start and end"
+msgstr "Selecione início e fim"
 
 #: internal/gui/studentCourse.go
-msgid "Selecionar um curso"
-msgstr ""
+msgid "Select a course"
+msgstr "Selecione um curso"
 
 #: internal/gui/studentCourse.go
-msgid "Adicionar curso ao estudante"
-msgstr ""
+msgid "Add course to student"
+msgstr "Adicionar curso ao estudante"
 
 #: internal/gui/studentCourse.go
-msgid "Excluir do estudante"
-msgstr ""
+msgid "Delete from student"
+msgstr "Excluir do estudante"
 
 #: internal/gui/studentCourse.go
-msgid "Cursos de %s"
-msgstr ""
+msgid "%s Courses"
+msgstr "Cursos de %s"
 
 #: internal/gui/studentCourse.go
-msgid "Selecionar um novo curso"
-msgstr ""
+msgid "Select a new course"
+msgstr "Selecione um novo curso"
 
 #: internal/gui/studentCourse.go
-msgid "Selecionar um curso"
-msgstr ""
+msgid "Select a course"
+msgstr "Selecione um curso"
 
 #: internal/gui/studentCourse.go
-msgid "Selecionar curso"
-msgstr ""
+msgid "Select course"
+msgstr "Selecionar curso"
 
 #: internal/gui/studentCourse.go
-msgid "Cancelar"
-msgstr ""
+msgid "Cancel"
+msgstr "Cancelar"
 
 #: internal/gui/students.go
 msgid "DNI:"
-msgstr ""
+msgstr "DNI:"
 
 #: internal/gui/students.go
-msgid "Número de telefone:"
-msgstr ""
+msgid "Phone Number:"
+msgstr "Número de telefone:"
 
 #: internal/gui/students.go
-msgid "Mostrar Registros do Estudante"
-msgstr ""
+msgid "Show Student Records"
+msgstr "Mostrar registros do estudante"
 
 #: internal/gui/students.go
-msgid "Mostrar Cursos do Estudante"
-msgstr ""
+msgid "Show Student Courses"
+msgstr "Mostrar cursos do estudante"
 
 #: internal/gui/students.go
-msgid "Excedido no preenchimento da idade"
-msgstr ""
+msgid "Overflow in age entry"
+msgstr "Excesso na entrada da idade"
 
 #: internal/gui/students.go
-msgid "Adicionar um estudante"
-msgstr ""
+msgid "Add a student"
+msgstr "Adicionar um estudante"
 
 #: internal/gui/students.go
-msgid "Selecionar Imagem"
-msgstr ""
+msgid "Select Image"
+msgstr "Selecionar imagem"
 
 #: internal/gui/students.go
-msgid "Excluir Imagem Atual"
-msgstr ""
+msgid "Delete Current Image"
+msgstr "Excluir imagem atual"
 
 #: internal/gui/students.go
-msgid "Imagem"
-msgstr ""
+msgid "Image"
+msgstr "Imagem"
 
 #: internal/gui/students.go
-msgid "Caminho da Imagem"
-msgstr ""
+msgid "Image Path"
+msgstr "Caminho da imagem"
 
 #: internal/gui/students.go
-msgid "Algum valor neste formulário está vazio"
-msgstr ""
+msgid "Some value in this form is empty"
+msgstr "Algum valor neste formulário está vazio"
 
 #: internal/gui/students.go
-msgid "O DNI já existe"
-msgstr ""
+msgid "The DNI already exists"
+msgstr "O DNI já existe"
 
 #: internal/gui/students.go
-msgid "Selecionar uma nova imagem"
-msgstr ""
+msgid "Select a new image"
+msgstr "Selecionar uma nova imagem"
 
 #: internal/gui/students.go
-msgid "Excluir Imagem Atual"
-msgstr ""
+msgid "Delete Current Image"
+msgstr "Excluir imagem atual"
 
 #: internal/gui/students.go
-msgid "Mostrar cursos do estudante"
-msgstr ""
+msgid "Show student courses"
+msgstr "Mostrar cursos do estudante"
 
 #: internal/gui/students.go
-msgid "Mostrar registros do estudante"
-msgstr ""
+msgid "Show student records"
+msgstr "Mostrar registros do estudante"
 
 #: internal/gui/widgets.go
-msgid "Arquivo"
-msgstr ""
+msgid "File"
+msgstr "Arquivo"
 
 #: internal/gui/widgets.go
-msgid "Ajuda"
-msgstr ""
+msgid "Help"
+msgstr "Ajuda"
 
 #: internal/gui/widgets.go
-msgid "Recarregar dados"
-msgstr ""
+msgid "Reload data"
+msgstr "Recarregar dados"
 
