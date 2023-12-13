@@ -15,6 +15,10 @@ func main() {
 	// Load the configuration and data files
 	data.LoadFiles()
 	// Init windows
+	InitGUI()
+}
+
+func InitGUI() {
 	ui := gui.Init()
 	ui.MainWin()
 }
