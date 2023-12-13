@@ -15,6 +15,7 @@ This is a program that manages a database of students and courses.
 - SQLite managed database.
 - Embedded SQLite (no additional installations required).
 - Multilanguage support
+- Multithemes support
 
 ## Screenshots
 
