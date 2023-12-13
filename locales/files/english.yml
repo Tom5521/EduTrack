@@ -58,6 +58,9 @@ WindowTitles:
     Search Records: Search Records
   AboutWindow:
     Title: About
+    Created by: 'Created by:'
+    Under X licence: Under the %s licence
+    Credits: CREDITS
   SelectCourseWin:
     Add grade to student: Add grade to student
     Delete from student: Delete from student

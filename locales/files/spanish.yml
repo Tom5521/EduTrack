@@ -1,3 +1,4 @@
+---
 GeneralWords:
   Close: Cerrar
   Open: Abrir
@@ -58,6 +59,9 @@ WindowTitles:
     Search Records: Buscar Registros
   AboutWindow:
     Title: Acerca de
+    Created by: 'Creado por:'
+    Under X licence: Bajo la licencia %s
+    Credits: CREDITOS
 Dialogs:
   General:
     Please Confirm: Por favor, confirme
@@ -103,7 +107,8 @@ Labels:
     Info: 'Información:'
 Errors:
   Overflow in age entry: Desbordamiento en la entrada de la edad
-  Some value in this form is empty: Alguno de los valores en este formulario está vacío
+  Some value in this form is empty: Alguno de los valores en este formulario está
+    vacío
   The DNI already exists: El DNI ya existe
   Record ID not found!: ¡ID de registro <%s> no encontrado!
   Student ID not found!: ¡ID de estudiante <%s> no encontrado!
