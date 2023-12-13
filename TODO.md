@@ -6,6 +6,6 @@
 - ~~Add tests for everything (in data lib)~~
 - ~~Improve structure~~
 - ~~Improve ui lib var names~~
-- Add translations
+- ~~Add translations~~
 - ~~Improve the use of the interfaces~~
 - ~~Update libraries~~

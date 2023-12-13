@@ -14,6 +14,7 @@ This is a program that manages a database of students and courses.
 - User profile pictures and detailed fields to fill out.
 - SQLite managed database.
 - Embedded SQLite (no additional installations required).
+- Multilanguage support
 
 ## Screenshots
 
