@@ -53,8 +53,8 @@ You can also download the binaries and unzip them, to run them in a portable way
 To run tests, run the following command
 
 ```bash
-  go test -v tests/data/
-  go test -v -tags delete tests/data/
+  go test -v ./tests/data/
+  go test -v -tags delete ./tests/data/
 ```
 
 ## Roadmap
