@@ -83,13 +83,17 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	showCoursesBt := widget.NewButton(po.Get("Show Student Courses"), func() {
 		ui.StudentCoursesMainWin(s)
 	})
+	printStudentBt := widget.NewButton(po.Get("Print student information"), nil)
 
 	const gridNumber int = 1
-	content := container.NewVBox(image,
+	content := container.NewVBox(
+		image,
 		dataContainer,
-		container.NewAdaptiveGrid(gridNumber,
+		container.NewAdaptiveGrid(
+			gridNumber,
 			showRecordsBt,
 			showCoursesBt,
+			printStudentBt,
 		),
 	)
 	ui.StudentTab.Objects = []fyne.CanvasObject{content}
@@ -212,11 +216,11 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 
 	imageLabel := widget.NewLabel(imagePath)
 
-	deleteImgButton := widget.NewButton(po.Get("Select a new image"), func() {
+	deleteImgButton := widget.NewButton(po.Get("Delete Current Image"), func() {
 		imagePath = ""
 		imageLabel.SetText(imagePath)
 	})
-	selectImgButton := widget.NewButton(po.Get("Delete Current Image"), func() {
+	selectImgButton := widget.NewButton(po.Get("Select a new image"), func() {
 		wins.ImagePicker(ui.App, &imagePath)
 		imageLabel.SetText(imagePath)
 	})

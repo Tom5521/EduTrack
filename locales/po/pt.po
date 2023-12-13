@@ -1,3 +1,6 @@
+# Translator:
+# Tom5521
+
 msgid ""
 msgstr ""
 

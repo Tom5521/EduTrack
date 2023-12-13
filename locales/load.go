@@ -2,9 +2,9 @@ package locales
 
 import (
 	"embed"
-	"fmt"
 
 	"github.com/leonelquinteros/gotext"
+	"github.com/ncruces/zenity"
 )
 
 //go:embed po
@@ -13,7 +13,7 @@ var PoFiles embed.FS
 func read(file string) []byte {
 	data, err := PoFiles.ReadFile(file)
 	if err != nil {
-		fmt.Println(err)
+		zenity.Error(err.Error())
 		return read("po/en.po")
 	}
 	return data

@@ -14,10 +14,10 @@ import (
 )
 
 //go:embed IconsLight
-var lightFS embed.FS
+var LightFS embed.FS
 
 //go:embed IconsDark
-var darkFS embed.FS
+var DarkFS embed.FS
 
 //go:embed Shared
 var commonFS embed.FS
@@ -30,15 +30,15 @@ func cmReader(file string) []byte {
 	return r
 }
 
-func read(file string) []byte {
+func Read(file string) []byte {
 	var fs embed.FS
 	var themedir string
 	if fyne.CurrentApp().Settings().ThemeVariant() == 1 {
 		themedir = "IconsLight/"
-		fs = lightFS
+		fs = LightFS
 	} else {
 		themedir = "IconsDark/"
-		fs = darkFS
+		fs = DarkFS
 	}
 	r, err := fs.ReadFile(themedir + file)
 	if err != nil {
@@ -51,7 +51,7 @@ func read(file string) []byte {
 func getResource(resourceName string) *fyne.StaticResource {
 	return &fyne.StaticResource{
 		StaticName:    resourceName,
-		StaticContent: read(resourceName),
+		StaticContent: Read(resourceName),
 	}
 }
 
