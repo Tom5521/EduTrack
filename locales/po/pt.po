@@ -1,0 +1,346 @@
+# Tradutor:
+# Tom5521
+
+msgid ""
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Editar %s"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Nome:"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Preço:"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Informações:"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Editar"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Excluir"
+msgstr "Excluir"
+
+#: internal/gui/courses.go
+msgid "Adicionar um Curso"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "O nome do curso está vazio"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "A entrada de informações está vazia"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Este curso já existe"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Cursos"
+msgstr ""
+
+#: internal/gui/main.go
+msgid "Por favor, confirme"
+msgstr ""
+
+#: internal/gui/main.go
+msgid "Você deseja excluir o estudante?"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "Sobre"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "Criado por:"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "Sob a licença %s"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "CRÉDITOS"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Adicionar um Registro"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Nome do registro:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Selecionar Data"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Selecionar uma data abaixo"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Detalhes"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Por exemplo, o estudante não compareceu"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Enviar"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Editar Registro"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Registro ID<%v> não encontrado!"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "ID do Estudante<%v> não encontrado!"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Data: %s"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Selecionar Data"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Selecionar uma data abaixo:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Nome do registro:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Data do registro:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Registros de %s"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Detalhes de %s"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Você realmente deseja excluir o registro?"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Nome do Estudante:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Fechar"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar Estudantes"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Digite o nome do estudante:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Estudante não encontrado!"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Digite o DNI do estudante:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar por nome"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar por DNI"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar Cursos"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Digite o nome do curso:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Curso não encontrado!"
+msgstr ""
+
+#: internal/gui/search.go 
+msgid "Pesquisar Registros"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Digite o nome do registro:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Registro não encontrado!"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar nos registros"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar nos estudantes"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar nos cursos"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Pesquisar nos cursos do estudante"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Início:"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Fim:"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid ""
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Selecionar início e fim"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Selecionar um curso"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Adicionar curso ao estudante"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Excluir do estudante"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Cursos de %s"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Selecionar um novo curso"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Selecionar um curso"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Selecionar curso"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Cancelar"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "DNI:"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Número de telefone:"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Mostrar Registros do Estudante"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Mostrar Cursos do Estudante"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Excedido no preenchimento da idade"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Adicionar um estudante"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Selecionar Imagem"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Excluir Imagem Atual"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Imagem"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Caminho da Imagem"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Algum valor neste formulário está vazio"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "O DNI já existe"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Selecionar uma nova imagem"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Excluir Imagem Atual"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Mostrar cursos do estudante"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Mostrar registros do estudante"
+msgstr ""
+
+#: internal/gui/widgets.go
+msgid "Arquivo"
+msgstr ""
+
+#: internal/gui/widgets.go
+msgid "Ajuda"
+msgstr ""
+
+#: internal/gui/widgets.go
+msgid "Recarregar dados"
+msgstr ""
+

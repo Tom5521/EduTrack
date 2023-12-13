@@ -1,4 +1,4 @@
-# Traductora:
+# Traductores:
 # Tom5521
 
 msgid ""
