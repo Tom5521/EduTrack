@@ -16,8 +16,6 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-var LocStudentWins map[string]string
-
 func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget.ListItemID)) *widget.List {
 	list := widget.NewList(
 		func() int {
@@ -36,7 +34,6 @@ func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget
 }
 
 func (ui *ui) LoadStudentInfo(s *data.Student) {
-	localeButtons := locale.Buttons.MainWin
 	var currentColor color.Color
 	if fyne.CurrentApp().Settings().ThemeVariant() == 1 {
 		currentColor = color.Black
@@ -59,8 +56,8 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 		return label
 	}
 	tagLabel := func(inputText any) *canvas.Text {
-		text := fmt.Sprint(inputText)
-		label := itemLabel(text, 90)
+		text := fmt.Sprint((inputText))
+		label := itemLabel(po.Get(text), 90)
 		label.TextSize = 20
 		label.TextStyle.Bold = true
 		return label
@@ -71,19 +68,19 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	image := tools.LoadProfileImg(s.ImageFilePath)
 
 	// Name Label
-	nameCont := nhbx(tagLabel(locale.StudentInfo["Name"]), itemLabel(s.Name, 21))
+	nameCont := nhbx(tagLabel("Name:"), itemLabel(s.Name, 21))
 	// Age Label
-	ageCont := nhbx(tagLabel(locale.StudentInfo["Age"]), itemLabel(s.Age, 20))
+	ageCont := nhbx(tagLabel("Age:"), itemLabel(s.Age, 20))
 	// DNI Label
-	dniCont := nhbx(tagLabel(locale.StudentInfo["DNI"]), itemLabel(s.DNI, 20))
+	dniCont := nhbx(tagLabel("DNI:"), itemLabel(s.DNI, 20))
 	// Phone Label
-	phoneCont := nhbx(tagLabel(locale.StudentInfo["Phone Number"]), itemLabel(s.PhoneNumber, 20))
+	phoneCont := nhbx(tagLabel("Phone Number:"), itemLabel(s.PhoneNumber, 20))
 
 	dataContainer := container.NewVBox(nameCont, ageCont, dniCont, phoneCont)
-	showRecordsBt := widget.NewButton(localeButtons["Show Student Records"], func() {
+	showRecordsBt := widget.NewButton(po.Get("Show Student Records"), func() {
 		ui.StudentRecordsMainWin(s)
 	})
-	showCoursesBt := widget.NewButton(localeButtons["Show Student Courses"], func() {
+	showCoursesBt := widget.NewButton(po.Get("Show Student Courses"), func() {
 		ui.StudentCoursesMainWin(s)
 	})
 
@@ -102,7 +99,7 @@ func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 	text := ageEntry.Text
 	ret := uint(atoi(text))
 	if (text != "0") && (ret == math.MaxUint) || (atoi(text) == -1) {
-		wins.ErrWin(app, locale.Errors["Overflow in age entry"])
+		wins.ErrWin(app, po.Get("Overflow in age entry"))
 		ret = math.MaxUint
 	}
 	return ret
@@ -111,7 +108,7 @@ func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 func (ui *ui) AddStudentForm() {
 	var imagePath string
 	var coursesStr []data.Course
-	window := ui.App.NewWindow(LocStudentWins["Add a student"])
+	window := ui.App.NewWindow(po.Get("Add a student"))
 	window.Resize(sizes.FormSize)
 
 	// Initialize form fields
@@ -122,25 +119,25 @@ func (ui *ui) AddStudentForm() {
 
 	imagePathLabel := widget.NewLabel(imagePath)
 
-	imageButton := widget.NewButton(locale.Buttons.AddStudentWindow["Select Image"], func() {
+	imageButton := widget.NewButton(po.Get("Select Image"), func() {
 		wins.ImagePicker(ui.App, &imagePath)
 		imagePathLabel.SetText(imagePath)
 	})
-	deleteImgBtn := widget.NewButton(locale.Buttons.AddStudentWindow["Delete Current Image"], func() {
+	deleteImgBtn := widget.NewButton(po.Get("Delete Current Image"), func() {
 		imagePath = ""
 		imagePathLabel.SetText(imagePath)
 	})
 
-	nameForm := widget.NewFormItem(locale.StudentInfo["Name"], nameEntry)
-	idForm := widget.NewFormItem(locale.StudentInfo["DNI"], dniEntry)
-	ageForm := widget.NewFormItem(locale.StudentInfo["Age"], ageEntry)
-	phoneForm := widget.NewFormItem(locale.StudentInfo["Phone Number"], phoneEntry)
+	nameForm := widget.NewFormItem(po.Get("Name:"), nameEntry)
+	idForm := widget.NewFormItem(po.Get("DNI:"), dniEntry)
+	ageForm := widget.NewFormItem(po.Get("Age:"), ageEntry)
+	phoneForm := widget.NewFormItem(po.Get("Phone Number:"), phoneEntry)
 	const gridNumber int = 2
 	imageForm := widget.NewFormItem(
-		locale.StudentInfo["Image"],
+		po.Get("Image"),
 		container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn),
 	)
-	imagePathForm := widget.NewFormItem(locale.StudentInfo["Image Path"], imagePathLabel)
+	imagePathForm := widget.NewFormItem(po.Get("Image Path"), imagePathLabel)
 
 	form := widget.NewForm(
 		nameForm,
@@ -170,11 +167,11 @@ func (ui *ui) AddStudentForm() {
 		}
 		// Validate form fields
 		if !checkValues(newStudent) {
-			wins.ErrWin(ui.App, locale.Errors["Some value in this form is empty"])
+			wins.ErrWin(ui.App, po.Get("Some value in this form is empty"))
 			return
 		}
 		if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
-			wins.ErrWin(ui.App, locale.Errors["The DNI already exists"])
+			wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 			return
 		}
 
@@ -197,7 +194,7 @@ func (ui *ui) AddStudentForm() {
 }
 
 func (ui *ui) EditStudentWindow(s *data.Student) {
-	window := ui.App.NewWindow(fmt.Sprintf(LocStudentWins["Edit X"], s.Name))
+	window := ui.App.NewWindow(po.Get("Edit %s", s.Name))
 	window.Resize(sizes.FormSize)
 
 	initEntry := func(input any) *widget.Entry {
@@ -215,11 +212,11 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 
 	imageLabel := widget.NewLabel(imagePath)
 
-	deleteImgButton := widget.NewButton(locale.Buttons.EditStudentWindow["Select a new image"], func() {
+	deleteImgButton := widget.NewButton(po.Get("Select a new image"), func() {
 		imagePath = ""
 		imageLabel.SetText(imagePath)
 	})
-	selectImgButton := widget.NewButton(locale.Buttons.EditStudentWindow["Delete Current Image"], func() {
+	selectImgButton := widget.NewButton(po.Get("Delete Current Image"), func() {
 		wins.ImagePicker(ui.App, &imagePath)
 		imageLabel.SetText(imagePath)
 	})
@@ -228,12 +225,12 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 	imgCont := container.NewAdaptiveGrid(gridNumber, deleteImgButton, selectImgButton)
 
 	form := widget.NewForm(
-		widget.NewFormItem(locale.StudentInfo["Name"], nameEntry),
-		widget.NewFormItem(locale.StudentInfo["Age"], ageEntry),
-		widget.NewFormItem(locale.StudentInfo["DNI"], dniEntry),
-		widget.NewFormItem(locale.StudentInfo["Phone Number"], phoneEntry),
+		widget.NewFormItem(po.Get("Name:"), nameEntry),
+		widget.NewFormItem(po.Get("Age:"), ageEntry),
+		widget.NewFormItem(po.Get("DNI:"), dniEntry),
+		widget.NewFormItem(po.Get("Phone Number:"), phoneEntry),
 		widget.NewFormItem("", imgCont),
-		widget.NewFormItem(locale.StudentInfo["Image Path"], imageLabel),
+		widget.NewFormItem(po.Get("Image Path:"), imageLabel),
 	)
 
 	form.OnSubmit = func() {
@@ -246,12 +243,12 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 		}
 		// Validate form fields
 		if !checkValues(edited) {
-			wins.ErrWin(ui.App, locale.Errors["Some value in this form is empty"])
+			wins.ErrWin(ui.App, po.Get("Some value in this form is empty"))
 			return
 		}
 		if dniEntry.Text != s.DNI {
 			if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
-				wins.ErrWin(ui.App, locale.Errors["The DNI already exists"])
+				wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 				return
 			}
 		}
@@ -272,18 +269,18 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 }
 
 func (ui *ui) StudentDetailsWin(s *data.Student) {
-	w := ui.App.NewWindow(fmt.Sprintf(LocStudentWins["X Details"], s.Name))
+	w := ui.App.NewWindow(po.Get("Details of %s", s.Name))
 
 	form := widget.NewForm(
-		widget.NewFormItem(locale.StudentInfo["Name"], widget.NewLabel(s.Name)),
-		widget.NewFormItem(locale.StudentInfo["Age"], widget.NewLabel(itoa(s.Age))),
-		widget.NewFormItem(locale.StudentInfo["DNI"], widget.NewLabel(s.DNI)),
-		widget.NewFormItem(locale.StudentInfo["Phone Number"], widget.NewLabel(s.PhoneNumber)),
-		widget.NewFormItem("", widget.NewButton("Show student grades", func() { ui.StudentCoursesMainWin(s) })),
-		widget.NewFormItem("", widget.NewButton("Show student records", func() { ui.StudentRecordsMainWin(s) })),
+		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(s.Name)),
+		widget.NewFormItem(po.Get("Age:"), widget.NewLabel(itoa(s.Age))),
+		widget.NewFormItem(po.Get("DNI:"), widget.NewLabel(s.DNI)),
+		widget.NewFormItem(po.Get("Phone Number:"), widget.NewLabel(s.PhoneNumber)),
+		widget.NewFormItem("", widget.NewButton(po.Get("Show student courses"), func() { ui.StudentCoursesMainWin(s) })),
+		widget.NewFormItem("", widget.NewButton(po.Get("Show student records"), func() { ui.StudentRecordsMainWin(s) })),
 	)
 
-	form.SubmitText = "Close"
+	form.SubmitText = po.Get("Close")
 	form.OnSubmit = func() {
 		w.Close()
 	}

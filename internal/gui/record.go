@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -14,8 +13,6 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 	"github.com/ncruces/zenity"
 )
-
-var LocRecordsWin map[string]string
 
 func (ui *ui) MakeRecList(l *[]data.Record) *widget.List {
 	err := data.LoadRecords()
@@ -54,25 +51,25 @@ func (ui *ui) AddRecord(studentID uint) {
 	}
 	var tmpDate = getTimeNow()
 
-	window := ui.App.NewWindow(LocRecordsWin["Add a Record"])
+	window := ui.App.NewWindow(po.Get("Add a Record"))
 	window.Resize(sizes.RecSize)
 
-	recNameLabel := widget.NewLabel("Record name:")
+	recNameLabel := widget.NewLabel(po.Get("Record name:"))
 	recnameEntry := widget.NewEntry()
 	recnameEntry.SetPlaceHolder(getTimeNow())
 
-	recDateButton := widget.NewButton(locale.Buttons.RecordWindow["Select Date"], func() {
+	recDateButton := widget.NewButton(po.Get("Select Date"), func() {
 		const year int = 2023
-		ret, err := zenity.Calendar(locale.Labels.AddRecordWindow["Select Date from below"],
+		ret, err := zenity.Calendar(po.Get("Select Date from below"),
 			zenity.DefaultDate(year, time.December, 1))
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
 		tmpDate = ret.Format("02/01/2006")
 	})
-	detailsLabel := widget.NewLabel("Details")
+	detailsLabel := widget.NewLabel(po.Get("Details"))
 	recDetails := widget.NewMultiLineEntry()
-	recDetails.SetPlaceHolder("E.g., The student has not attended")
+	recDetails.SetPlaceHolder(po.Get("E.g., The student has not attended"))
 	submitButton := widget.NewButton("Submit", func() {
 		err := data.AddRecord(&data.Record{
 			StudentID: studentID,
@@ -106,11 +103,11 @@ func (ui *ui) AddRecord(studentID uint) {
 
 func (ui *ui) EditRecordData(recordID uint) {
 	var tmpDate string
-	window := ui.App.NewWindow(LocRecordsWin["Edit Record"])
+	window := ui.App.NewWindow(po.Get("Edit Record"))
 	window.Resize(sizes.RecSize)
 	i := data.FindRecordIndexByID(recordID)
 	if i == -1 {
-		wins.ErrWin(ui.App, fmt.Sprintf("Record ID<%v> not found!", recordID))
+		wins.ErrWin(ui.App, po.Get("Record ID<%v> not found!", recordID))
 		window.Close()
 		return
 	}
@@ -118,7 +115,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 
 	i = data.FindStudentIndexByID(rec.StudentID)
 	if i == -1 {
-		wins.ErrWin(ui.App, fmt.Sprintf("Student ID<%v> not found!", rec.StudentID))
+		wins.ErrWin(ui.App, po.Get("Student ID<%v> not found!", rec.StudentID))
 		window.Close()
 		return
 	}
@@ -128,10 +125,10 @@ func (ui *ui) EditRecordData(recordID uint) {
 	recNameEntry := widget.NewEntry()
 	recNameEntry.SetText(rec.Name)
 
-	recDate := widget.NewLabel("Date: " + rec.Date)
-	dateButton := widget.NewButton("Select Date", func() {
+	recDate := widget.NewLabel(po.Get("Date: %s", rec.Date))
+	dateButton := widget.NewButton(po.Get("Select Date"), func() {
 		const year, day int = 2023, 1
-		ret, err := zenity.Calendar("Select a date from below:",
+		ret, err := zenity.Calendar(po.Get("Select a date from below:"),
 			zenity.DefaultDate(year, time.December, day))
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
@@ -140,14 +137,14 @@ func (ui *ui) EditRecordData(recordID uint) {
 		recDate.SetText(tmpDate)
 	})
 
-	detailsLabel := widget.NewLabel("Details")
+	detailsLabel := widget.NewLabel(po.Get("Details"))
 	recDetails := widget.NewMultiLineEntry()
 	recDetails.SetText(rec.Info)
 
 	// FormItems
 	const gridNumber int = 2
-	recNameForm := widget.NewFormItem("Record name:", recNameEntry)
-	recDateForm := widget.NewFormItem("Record date:", container.NewAdaptiveGrid(gridNumber, recDate, dateButton))
+	recNameForm := widget.NewFormItem(po.Get("Record name:"), recNameEntry)
+	recDateForm := widget.NewFormItem(po.Get("Record date:"), container.NewAdaptiveGrid(gridNumber, recDate, dateButton))
 
 	submitFunc := func() {
 		err := rec.Edit(&data.Record{Name: recNameEntry.Text, Info: recDetails.Text, Date: tmpDate, StudentID: student.ID})
@@ -184,7 +181,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 }
 
 func (ui *ui) StudentRecordsMainWin(student *data.Student) {
-	w := ui.App.NewWindow(fmt.Sprintf(LocRecordsWin["X Records"], student.Name))
+	w := ui.App.NewWindow(po.Get("%s Records", student.Name))
 	w.Resize(sizes.FormSize)
 	var selected int
 	list := ui.GetStudentRecordsList(student)
@@ -234,7 +231,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 	content := container.NewBorder(bar, nil, nil, nil, list)
 
 	if len(student.Records) == 0 {
-		content = container.NewStack(widget.NewButton(locale.Buttons.StudentRecordsMainWin["Add a Record"], func() {
+		content = container.NewStack(widget.NewButton(po.Get("Add a Record"), func() {
 			ui.AddRecord(student.ID)
 			w.Close()
 		}))
@@ -245,17 +242,17 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 }
 
 func (ui *ui) RecordDetailsWin(r *data.Record) {
-	w := ui.App.NewWindow(fmt.Sprintf(LocRecordsWin["Details for X"], r.Name))
+	w := ui.App.NewWindow((po.Get("Details of %s", r.Name)))
 	// w.Resize(sizes.RecSize)
 	infoEntry := widget.NewMultiLineEntry()
 	infoEntry.SetText(r.Info)
 
-	editButton := widget.NewButton(locale.GeneralWords["Edit"], func() {
+	editButton := widget.NewButton(po.Get("Edit"), func() {
 		ui.EditRecordData(r.ID)
 	})
-	deleteButton := widget.NewButton(locale.GeneralWords["Delete"], func() {
-		dialog.ShowConfirm(locale.Dialogs.Records["Do you really want to delete the record"],
-			locale.Dialogs.Records["Do you really want to delete the record"], func(b bool) {
+	deleteButton := widget.NewButton(po.Get("Delete"), func() {
+		dialog.ShowConfirm(po.Get("Please Confirm"),
+			po.Get("Do you really want to delete the record"), func(b bool) {
 				if b {
 					err := data.Delete(r)
 					if err != nil {
@@ -273,16 +270,16 @@ func (ui *ui) RecordDetailsWin(r *data.Record) {
 
 	student := data.Students[data.FindStudentIndexByID(r.StudentID)]
 	form := widget.NewForm(
-		widget.NewFormItem(locale.Labels.RecordDetailsWin["Student Name"], widget.NewLabel(student.Name)),
-		widget.NewFormItem(locale.Labels.RecordDetailsWin["Name"], widget.NewLabel(r.Name)),
-		widget.NewFormItem(locale.Labels.RecordDetailsWin["Date"], widget.NewLabel(r.Date)),
-		widget.NewFormItem(locale.Labels.RecordDetailsWin["Info"], infoEntry),
+		widget.NewFormItem(po.Get("Student Name:"), widget.NewLabel(student.Name)),
+		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(r.Name)),
+		widget.NewFormItem(po.Get("Date:"), widget.NewLabel(r.Date)),
+		widget.NewFormItem(po.Get("Info:"), infoEntry),
 		widget.NewFormItem("", buttonsCont),
 	)
 	form.OnSubmit = func() {
 		w.Close()
 	}
-	form.SubmitText = locale.GeneralWords["Close"]
+	form.SubmitText = po.Get("Close")
 
 	w.SetContent(form)
 

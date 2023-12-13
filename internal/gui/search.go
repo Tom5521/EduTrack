@@ -10,26 +10,24 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
-var LocSearchWins map[string]string
-
 func (ui *ui) SearchStudentsMainWin() {
-	w := ui.App.NewWindow(LocSearchWins["Search Students"])
+	w := ui.App.NewWindow(po.Get("Search Students"))
 	w.Resize(sizes.SearchSize)
 	dniEntry := widget.NewEntry()
-	label := widget.NewLabel("Enter Student name:")
+	label := widget.NewLabel(po.Get("Enter Student name:"))
 	label.Alignment = fyne.TextAlignCenter
-	dniSearchButton := widget.NewButton("Search", func() {
+	dniSearchButton := widget.NewButton(po.Get("Search"), func() {
 		studentDNI := dniEntry.Text
 		i := data.FindStudentIndexByDNI(studentDNI)
 		if i == -1 {
-			wins.ErrWin(ui.App, "Student not found!")
+			wins.ErrWin(ui.App, po.Get("Student not found!"))
 			return
 		}
 		student := data.Students[i]
 		ui.LoadStudentInfo(&student)
 	})
 
-	dniLabel := widget.NewLabel("Enter Student DNI:")
+	dniLabel := widget.NewLabel(po.Get("Enter Student DNI:"))
 	dniLabel.Alignment = fyne.TextAlignCenter
 
 	byDNIContainer := container.NewVBox(
@@ -39,11 +37,11 @@ func (ui *ui) SearchStudentsMainWin() {
 	)
 
 	nameEntry := widget.NewEntry()
-	nameSearchButton := widget.NewButton("Search", func() {
+	nameSearchButton := widget.NewButton(po.Get("Search"), func() {
 		studentName := nameEntry.Text
 		i := data.FindStudentIndexByName(studentName)
 		if i == -1 {
-			wins.ErrWin(ui.App, "Student not found!")
+			wins.ErrWin(ui.App, po.Get("Student not found!"))
 			return
 		}
 		student := data.Students[i]
@@ -57,8 +55,8 @@ func (ui *ui) SearchStudentsMainWin() {
 	)
 
 	content := container.NewAppTabs(
-		container.NewTabItem("Search by name", byNameContainer),
-		container.NewTabItem("Search by DNI", byDNIContainer),
+		container.NewTabItem(po.Get("Search by name"), byNameContainer),
+		container.NewTabItem(po.Get("Search by DNI"), byDNIContainer),
 	)
 
 	w.SetContent(content)
@@ -66,17 +64,17 @@ func (ui *ui) SearchStudentsMainWin() {
 }
 
 func (ui *ui) SearchCoursesMainWin() {
-	w := ui.App.NewWindow(LocSearchWins["Search Courses"])
+	w := ui.App.NewWindow(po.Get("Search Courses"))
 	w.Resize(sizes.SearchSize)
 
-	label := widget.NewLabel("Enter a grade name")
+	label := widget.NewLabel(po.Get("Enter a course name:"))
 	label.Alignment = fyne.TextAlignCenter
 	searchCourseEntry := widget.NewEntry()
-	searchCourseButton := widget.NewButton("Search", func() {
+	searchCourseButton := widget.NewButton(po.Get("Search"), func() {
 		text := searchCourseEntry.Text
 		i := data.FindGradeIndexbyName(text)
 		if i == -1 {
-			wins.ErrWin(ui.App, "Grade not found!")
+			wins.ErrWin(ui.App, po.Get("Course not found!"))
 			return
 		}
 		ui.CourseDetailsWin(&data.Courses[i])
@@ -93,16 +91,16 @@ func (ui *ui) SearchCoursesMainWin() {
 }
 
 func (ui *ui) SearchRecordsMainWin() {
-	w := ui.App.NewWindow(LocSearchWins["Search Records"])
+	w := ui.App.NewWindow(po.Get("Search Records"))
 	w.Resize(sizes.SearchSize)
-	label := widget.NewLabel("Enter a record name")
+	label := widget.NewLabel(po.Get("Enter a record name:"))
 	label.Alignment = fyne.TextAlignCenter
 	entry := widget.NewEntry()
-	button := widget.NewButton("Search in records", func() {
+	button := widget.NewButton(po.Get("Search"), func() {
 		text := entry.Text
 		i := data.FindRecordIndexByName(text)
 		if i == -1 {
-			wins.ErrWin(ui.App, "Record not found!")
+			wins.ErrWin(ui.App, po.Get("Record not found!"))
 			return
 		}
 		record := data.Records[i]
@@ -124,21 +122,21 @@ func (ui *ui) SearchStudentGradesMainWin() {
 
 func (ui *ui) SearchMainWin() {
 	const size1, size2 float32 = 300, 400
-	w := ui.App.NewWindow(LocSearchWins["Search"])
+	w := ui.App.NewWindow(po.Get("Search"))
 	w.Resize(fyne.NewSize(size1, size2))
 	w.SetIcon(assets.Lens1)
 	const gridNumber int = 1
 
-	searchStudentsButton := widget.NewButtonWithIcon("Search in students", assets.Lens1, func() {
+	searchStudentsButton := widget.NewButtonWithIcon(po.Get("Search in students"), assets.Lens1, func() {
 		ui.SearchStudentsMainWin()
 	})
-	searchCoursesButton := widget.NewButtonWithIcon("Search in grades", assets.Lens1, func() {
+	searchCoursesButton := widget.NewButtonWithIcon(po.Get("Search in courses"), assets.Lens1, func() {
 		ui.SearchCoursesMainWin()
 	})
-	searchRecordsButton := widget.NewButtonWithIcon("Search in records", assets.Lens1, func() {
+	searchRecordsButton := widget.NewButtonWithIcon(po.Get("Search in records"), assets.Lens1, func() {
 		ui.SearchRecordsMainWin()
 	})
-	searchStudentGradesButton := widget.NewButtonWithIcon("Search in student grades", assets.Lens1, func() {
+	searchStudentGradesButton := widget.NewButtonWithIcon(po.Get("Search in student courses"), assets.Lens1, func() {
 		ui.SearchStudentGradesMainWin()
 	})
 	content := container.NewAdaptiveGrid(gridNumber,

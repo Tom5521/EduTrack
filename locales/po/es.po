@@ -1,0 +1,346 @@
+# Traductora:
+# Tom5521
+
+msgid ""
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Edit %s"
+msgstr "Editar %s"
+
+#: internal/gui/courses.go
+msgid "Name:"
+msgstr "Nombre:"
+
+#: internal/gui/courses.go
+msgid "Price:"
+msgstr "Precio:"
+
+#: internal/gui/courses.go
+msgid "Info:"
+msgstr "Información:"
+
+#: internal/gui/courses.go
+msgid "Edit"
+msgstr "Editar"
+
+#: internal/gui/courses.go
+msgid "Delete"
+msgstr "Eliminar"
+
+#: internal/gui/courses.go
+msgid "Add a Course"
+msgstr "Agregar un Curso"
+
+#: internal/gui/courses.go
+msgid "Course name entry is empty"
+msgstr "El campo de nombre del curso está vacío"
+
+#: internal/gui/courses.go
+msgid "Info entry is empty"
+msgstr "El campo de información está vacío"
+
+#: internal/gui/courses.go
+msgid "This course already exists"
+msgstr "Este curso ya existe"
+
+#: internal/gui/courses.go
+msgid "Courses"
+msgstr "Cursos"
+
+#: internal/gui/main.go
+msgid "Please Confirm"
+msgstr "Por favor, confirme"
+
+#: internal/gui/main.go
+msgid "Do you want to delete the student?"
+msgstr "¿Desea eliminar al estudiante?"
+
+#: internal/gui/popups.go
+msgid "About"
+msgstr "Acerca de"
+
+#: internal/gui/popups.go
+msgid "Created by:"
+msgstr "Creado por:"
+
+#: internal/gui/popups.go
+msgid "Under %s licence"
+msgstr "Bajo la licencia %s"
+
+#: internal/gui/popups.go
+msgid "CREDITS"
+msgstr "CRÉDITOS"
+
+#: internal/gui/record.go
+msgid "Add a Record"
+msgstr "Agregar un Registro"
+
+#: internal/gui/record.go
+msgid "Record name:"
+msgstr "Nombre del registro:"
+
+#: internal/gui/record.go
+msgid "Select Date"
+msgstr "Seleccionar Fecha"
+
+#: internal/gui/record.go
+msgid "Select Date from below"
+msgstr "Seleccionar fecha a continuación"
+
+#: internal/gui/record.go
+msgid "Details"
+msgstr "Detalles"
+
+#: internal/gui/record.go
+msgid "E.g., The student has not attended"
+msgstr "Ej., El estudiante no ha asistido"
+
+#: internal/gui/record.go
+msgid "Submit"
+msgstr "Enviar"
+
+#: internal/gui/record.go
+msgid "Edit Record"
+msgstr "Editar Registro"
+
+#: internal/gui/record.go
+msgid "Record ID<%v> not found!"
+msgstr "¡ID de registro <%v> no encontrado!"
+
+#: internal/gui/record.go
+msgid "Student ID<%v> not found!"
+msgstr "¡ID de estudiante <%v> no encontrado!"
+
+#: internal/gui/record.go
+msgid "Date: %s"
+msgstr "Fecha: %s"
+
+#: internal/gui/record.go
+msgid "Select Date"
+msgstr "Seleccionar Fecha"
+
+#: internal/gui/record.go
+msgid "Select a date from below:"
+msgstr "Seleccionar una fecha a continuación:"
+
+#: internal/gui/record.go
+msgid "Record name:"
+msgstr "Nombre del registro:"
+
+#: internal/gui/record.go
+msgid "Record date:"
+msgstr "Fecha del registro:"
+
+#: internal/gui/record.go
+msgid "%s Records"
+msgstr "Registros de %s"
+
+#: internal/gui/record.go
+msgid "Details of %s"
+msgstr "Detalles de %s"
+
+#: internal/gui/record.go
+msgid "Do you really want to delete the record?"
+msgstr "¿Realmente desea eliminar el registro?"
+
+#: internal/gui/record.go
+msgid "Student Name:"
+msgstr "Nombre del estudiante:"
+
+#: internal/gui/record.go
+msgid "Close"
+msgstr "Cerrar"
+
+#: internal/gui/search.go
+msgid "Search Students"
+msgstr "Buscar Estudiantes"
+
+#: internal/gui/search.go
+msgid "Enter Student name:"
+msgstr "Ingrese el nombre del estudiante:"
+
+#: internal/gui/search.go
+msgid "Search"
+msgstr "Buscar"
+
+#: internal/gui/search.go
+msgid "Student not found!"
+msgstr "¡Estudiante no encontrado!"
+
+#: internal/gui/search.go
+msgid "Enter Student DNI:"
+msgstr "Ingrese el DNI del estudiante:"
+
+#: internal/gui/search.go
+msgid "Search by name"
+msgstr "Buscar por nombre"
+
+#: internal/gui/search.go
+msgid "Search by DNI"
+msgstr "Buscar por DNI"
+
+#: internal/gui/search.go
+msgid "Search Courses"
+msgstr "Buscar Cursos"
+
+#: internal/gui/search.go
+msgid "Enter a course name:"
+msgstr "Ingrese el nombre del curso:"
+
+#: internal/gui/search.go
+msgid "Course not found!"
+msgstr "¡Curso no encontrado!"
+
+#: internal/gui/search.go 
+msgid "Search Records"
+msgstr "Buscar Registros"
+
+#: internal/gui/search.go
+msgid "Enter a record name:"
+msgstr "Ingrese el nombre del registro:"
+
+#: internal/gui/search.go
+msgid "Record not found!"
+msgstr "¡Registro no encontrado!"
+
+#: internal/gui/search.go
+msgid "Search in records"
+msgstr "Buscar en registros"
+
+#: internal/gui/search.go
+msgid "Search in students"
+msgstr "Buscar en estudiantes"
+
+#: internal/gui/search.go
+msgid "Search in courses"
+msgstr "Buscar en cursos"
+
+#: internal/gui/search.go
+msgid "Search in student courses"
+msgstr "Buscar en cursos de estudiantes"
+
+#: internal/gui/studentCourse.go
+msgid "Start:"
+msgstr "Inicio:"
+
+#: internal/gui/studentCourse.go
+msgid "End:"
+msgstr "Fin:"
+
+#: internal/gui/studentCourse.go
+msgid ""
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Select start and end"
+msgstr "Seleccionar inicio y fin"
+
+#: internal/gui/studentCourse.go
+msgid "Select a course"
+msgstr "Seleccionar un curso"
+
+#: internal/gui/studentCourse.go
+msgid "Add course to student"
+msgstr "Agregar curso al estudiante"
+
+#: internal/gui/studentCourse.go
+msgid "Delete from student"
+msgstr "Eliminar del estudiante"
+
+#: internal/gui/studentCourse.go
+msgid "%s Courses"
+msgstr "Cursos de %s"
+
+#: internal/gui/studentCourse.go
+msgid "Select a new course"
+msgstr "Seleccionar un nuevo curso"
+
+#: internal/gui/studentCourse.go
+msgid "Select a course"
+msgstr "Seleccionar un curso"
+
+#: internal/gui/studentCourse.go
+msgid "Select course"
+msgstr "Seleccionar curso"
+
+#: internal/gui/studentCourse.go
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: internal/gui/students.go
+msgid "DNI:"
+msgstr "DNI:"
+
+#: internal/gui/students.go
+msgid "Phone Number:"
+msgstr "Teléfono:"
+
+#: internal/gui/students.go
+msgid "Show Student Records"
+msgstr "Mostrar Registros del Estudiante"
+
+#: internal/gui/students.go
+msgid "Show Student Courses"
+msgstr "Mostrar Cursos del Estudiante"
+
+#: internal/gui/students.go
+msgid "Overflow in age entry"
+msgstr "Desbordamiento en la entrada de edad"
+
+#: internal/gui/students.go
+msgid "Add a student"
+msgstr "Agregar un estudiante"
+
+#: internal/gui/students.go
+msgid "Select Image"
+msgstr "Seleccionar Imagen"
+
+#: internal/gui/students.go
+msgid "Delete Current Image"
+msgstr "Eliminar Imagen Actual"
+
+#: internal/gui/students.go
+msgid "Image"
+msgstr "Imagen"
+
+#: internal/gui/students.go
+msgid "Image Path"
+msgstr "Ruta de la Imagen"
+
+#: internal/gui/students.go
+msgid "Some value in this form is empty"
+msgstr "Algun valor en este formulario está vacío"
+
+#: internal/gui/students.go
+msgid "The DNI already exists"
+msgstr "El DNI ya existe"
+
+#: internal/gui/students.go
+msgid "Select a new image"
+msgstr "Seleccionar una nueva imagen"
+
+#: internal/gui/students.go
+msgid "Delete Current Image"
+msgstr "Eliminar Imagen Actual"
+
+#: internal/gui/students.go
+msgid "Show student courses"
+msgstr "Mostrar cursos del estudiante"
+
+#: internal/gui/students.go
+msgid "Show student records"
+msgstr "Mostrar registros del estudiante"
+
+#: internal/gui/widgets.go
+msgid "File"
+msgstr "Archivo"
+
+#: internal/gui/widgets.go
+msgid "Help"
+msgstr "Ayuda"
+
+#: internal/gui/widgets.go
+msgid "Reload data"
+msgstr "Recargar datos"
+

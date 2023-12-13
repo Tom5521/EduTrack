@@ -8,9 +8,9 @@ require (
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
 	github.com/glebarez/sqlite v1.10.0
+	github.com/leonelquinteros/gotext v1.5.2
 	github.com/ncruces/zenity v0.10.10
 	github.com/stretchr/testify v1.8.4
-	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/gorm v1.25.5
 )
 
@@ -53,6 +53,7 @@ require (
 	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 	honnef.co/go/js/dom v0.0.0-20210725211120-f030747120f2 // indirect
 	modernc.org/libc v1.22.5 // indirect
 	modernc.org/mathutil v1.5.0 // indirect

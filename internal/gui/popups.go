@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"net/url"
 
 	"fyne.io/fyne/v2"
@@ -13,13 +12,12 @@ import (
 )
 
 func (ui *ui) AboutWin() {
-	window := ui.App.NewWindow(locale.WindowTitles.AboutWindows["Title"])
-	label1 := widget.NewLabel(locale.WindowTitles.AboutWindows["Created by:"])
+	window := ui.App.NewWindow(po.Get("About"))
+	label1 := widget.NewLabel(po.Get("Created by:"))
 	link, _ := url.Parse("https://github.com/Tom5521")
 	gitLabel := widget.NewHyperlink("Tom5521", link)
-	licenceLabel := widget.NewLabel(fmt.Sprintf(
-		locale.WindowTitles.AboutWindows["Under X licence"], "MIT"))
-	creditsButton := widget.NewButton(locale.WindowTitles.AboutWindows["Credits"], func() {
+	licenceLabel := widget.NewLabel(po.Get("Under %s licence", "MIT"))
+	creditsButton := widget.NewButton(po.Get("CREDITS"), func() {
 		const size1, size2 float32 = 800, 400
 		credits.CreditsWindow(ui.App, fyne.NewSize(size1, size2)).Show()
 	})

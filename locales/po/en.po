@@ -1,0 +1,346 @@
+# Translators:
+# Tom5521
+
+msgid ""
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Edit %s"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Name:"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Price:"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Info:"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Edit"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Delete"
+msgstr "Delete"
+
+#: internal/gui/courses.go
+msgid "Add a Course"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Course name entry is empty"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Info entry is empty"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "This course already exists"
+msgstr ""
+
+#: internal/gui/courses.go
+msgid "Courses"
+msgstr ""
+
+#: internal/gui/main.go
+msgid "Please Confirm"
+msgstr ""
+
+#: internal/gui/main.go
+msgid "Do you want to delete the student?"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "About"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "Created by:"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "Under %s licence"
+msgstr ""
+
+#: internal/gui/popups.go
+msgid "CREDITS"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Add a Record"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Record name:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Select Date"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Select Date from below"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Details"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "E.g., The student has not attended"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Submit"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Edit Record"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Record ID<%v> not found!"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Student ID<%v> not found!"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Date: %s"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Select Date"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Select a date from below:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Record name:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Record date:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "%s Records"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Details of %s"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Do you really want to delete the record?"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Student Name:"
+msgstr ""
+
+#: internal/gui/record.go
+msgid "Close"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search Students"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Enter Student name:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Student not found!"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Enter Student DNI:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search by name"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search by DNI"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search Courses"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Enter a course name:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Course not found!"
+msgstr ""
+
+#: internal/gui/search.go 
+msgid "Search Records"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Enter a record name:"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Record not found!"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search in records"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search in students"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search in courses"
+msgstr ""
+
+#: internal/gui/search.go
+msgid "Search in student courses"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Start:"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "End:"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid ""
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Select start and end"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Select a course"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Add course to student"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Delete from student"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "%s Courses"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Select a new course"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Select a course"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Select course"
+msgstr ""
+
+#: internal/gui/studentCourse.go
+msgid "Cancel"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "DNI:"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Phone Number:"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Show Student Records"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Show Student Courses"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Overflow in age entry"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Add a student"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Select Image"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Delete Current Image"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Image"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Image Path"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Some value in this form is empty"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "The DNI already exists"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Select a new image"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Delete Current Image"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Show student courses"
+msgstr ""
+
+#: internal/gui/students.go
+msgid "Show student records"
+msgstr ""
+
+#: internal/gui/widgets.go
+msgid "File"
+msgstr ""
+
+#: internal/gui/widgets.go
+msgid "Help"
+msgstr ""
+
+#: internal/gui/widgets.go
+msgid "Reload data"
+msgstr ""
+

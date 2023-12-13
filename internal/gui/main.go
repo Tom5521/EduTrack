@@ -11,11 +11,12 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/themes"
 	"github.com/Tom5521/EduTrack/pkg/wins"
+	"github.com/leonelquinteros/gotext"
 
 	xtheme "fyne.io/x/fyne/theme"
 )
 
-var locale locales.Locale
+var po *gotext.Po
 
 type ui struct {
 	App         fyne.App
@@ -42,14 +43,7 @@ func Init() *Gui {
 	}
 	ui.App.Settings().SetTheme(th)
 	assets.Load()
-	// Initialize the locals vars
-	locale = locales.LoadFiles(data.Config.Lang)
-	CourseLocals = locale.CourseInfo
-	CourseWins = locale.WindowTitles.CoursesWindows
-	LocSearchWins = locale.WindowTitles.SearchWindows
-	LocStudentCourseWin = locale.WindowTitles.StudentCoursesWindows
-	LocStudentWins = locale.WindowTitles.StudentWindows
-	LocRecordsWin = locale.WindowTitles.RecordsWindows
+	po = locales.GetPo(data.Config.Lang)
 	return ui
 }
 
@@ -72,20 +66,21 @@ func (ui *ui) MainWin() {
 			if selected == -1 {
 				return
 			}
-			pleaseConfirm := locale.Dialogs.General["Please Confirm"]
-			deleteQuestion := locale.Dialogs.Student["Delete Student Dialog"]
-			dialog.ShowConfirm(pleaseConfirm, deleteQuestion, func(b bool) {
-				if b {
-					err := data.Delete(data.Students[selected])
-					if err != nil {
-						wins.ErrWin(ui.App, err.Error())
+			dialog.ShowConfirm(
+				po.Get("Please Confirm"),
+				po.Get("Do you want to delete the student?"),
+				func(b bool) {
+					if b {
+						err := data.Delete(data.Students[selected])
+						if err != nil {
+							wins.ErrWin(ui.App, err.Error())
+						}
+						ui.StudentList.UnselectAll()
+						ui.StudentTab.Objects = ui.GetTemplateUser().Objects
+						ui.StudentTab.Refresh()
+						selected = -1
 					}
-					ui.StudentList.UnselectAll()
-					ui.StudentTab.Objects = ui.GetTemplateUser().Objects
-					ui.StudentTab.Refresh()
-					selected = -1
-				}
-			},
+				},
 				w,
 			)
 		}),

@@ -4,37 +4,22 @@ import (
 	"embed"
 	"fmt"
 
-	"gopkg.in/yaml.v3"
+	"github.com/leonelquinteros/gotext"
 )
 
-//go:embed files
-var LocaleFiles embed.FS
+//go:embed po
+var PoFiles embed.FS
 
-func LoadFiles(lang string) Locale {
-	english, err := LocaleFiles.ReadFile("files/english.yml")
+func read(file string, fs embed.FS) []byte {
+	data, err := fs.ReadFile(file)
 	if err != nil {
 		fmt.Println(err)
 	}
-	spanish, err := LocaleFiles.ReadFile("files/spanish.yml")
-	if err != nil {
-		fmt.Println(err)
-	}
-	var (
-		locale     Locale
-		fileToRead []byte
-	)
-	if lang == "es" {
-		fileToRead = spanish
-	}
-	if lang == "en" {
-		fileToRead = english
-	}
-	if lang == "" {
-		fileToRead = english
-	}
-	err = yaml.Unmarshal(fileToRead, &locale)
-	if err != nil {
-		fmt.Println(err)
-	}
-	return locale
+	return data
+}
+
+func GetPo(lang string) *gotext.Po {
+	po := gotext.NewPo()
+	po.Parse(read("po/"+lang+".po", PoFiles))
+	return po
 }

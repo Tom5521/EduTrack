@@ -1,7 +1,6 @@
 package gui
 
 import (
-	"fmt"
 	"log"
 
 	"fyne.io/fyne/v2"
@@ -11,11 +10,6 @@ import (
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
-)
-
-var (
-	CourseWins   map[string]string
-	CourseLocals map[string]string
 )
 
 func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
@@ -36,7 +30,7 @@ func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
 }
 
 func (ui *ui) EditCourse(c *data.Course) {
-	window := ui.App.NewWindow(fmt.Sprintf(CourseWins["Edit X"], c.Name))
+	window := ui.App.NewWindow(po.Get("Edit %s", c.Name))
 	window.Resize(sizes.FormSize)
 
 	nameEntry := widget.NewEntry()
@@ -49,9 +43,9 @@ func (ui *ui) EditCourse(c *data.Course) {
 	infoEntry.SetText(c.Info)
 
 	form := widget.NewForm(
-		widget.NewFormItem(CourseLocals["Name"], nameEntry),
-		widget.NewFormItem(CourseLocals["Price"], priceEntry),
-		widget.NewFormItem(CourseLocals["Info"], infoEntry),
+		widget.NewFormItem(po.Get("Name:"), nameEntry),
+		widget.NewFormItem(po.Get("Price:"), priceEntry),
+		widget.NewFormItem(po.Get("Info:"), infoEntry),
 	)
 
 	form.OnSubmit = func() {
@@ -76,11 +70,11 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 	window := ui.App.NewWindow(c.Name)
 	window.Resize(sizes.FormSize)
 
-	editButton := widget.NewButton(locale.GeneralWords["Edit"], func() {
+	editButton := widget.NewButton(po.Get("Edit"), func() {
 		ui.EditCourse(c)
 		window.Close()
 	})
-	deleteButton := widget.NewButton(locale.GeneralWords["Delete"], func() {
+	deleteButton := widget.NewButton(po.Get("Delete"), func() {
 		err := data.Delete(c)
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
@@ -92,9 +86,9 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 	const gridNumber int = 2
 
 	form := widget.NewForm(
-		widget.NewFormItem(CourseLocals["Name"], widget.NewLabel(c.Name)),
-		widget.NewFormItem(CourseLocals["Price"], widget.NewLabel(c.Price)),
-		widget.NewFormItem(CourseLocals["Info"], widget.NewLabel(c.Info)),
+		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(c.Name)),
+		widget.NewFormItem(po.Get("Price:"), widget.NewLabel(c.Price)),
+		widget.NewFormItem(po.Get("Info:"), widget.NewLabel(c.Info)),
 		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
 
@@ -103,15 +97,15 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 }
 
 func (ui *ui) AddCourse() {
-	window := ui.App.NewWindow(CourseWins["Add a Course"])
+	window := ui.App.NewWindow(po.Get("Add a Course"))
 	window.Resize(sizes.FormSize)
 	courseEntry := widget.NewEntry()
 	priceEntry := widget.NewEntry()
 	infoEntry := widget.NewMultiLineEntry()
 
-	coruseFormInput := widget.NewFormItem(CourseLocals["Name"], courseEntry)
-	priceFormInput := widget.NewFormItem(CourseLocals["Price"], priceEntry)
-	infoFormInput := widget.NewFormItem(CourseLocals["Info"], infoEntry)
+	coruseFormInput := widget.NewFormItem(po.Get("Name:"), courseEntry)
+	priceFormInput := widget.NewFormItem(po.Get("Price:"), priceEntry)
+	infoFormInput := widget.NewFormItem(po.Get("Info:"), infoEntry)
 
 	form := widget.NewForm(
 		coruseFormInput,
@@ -120,11 +114,11 @@ func (ui *ui) AddCourse() {
 	)
 	form.OnSubmit = func() {
 		if courseEntry.Text == "" {
-			wins.ErrWin(ui.App, locale.Errors["Couse name entry is empty"])
+			wins.ErrWin(ui.App, po.Get("Course name entry is empty"))
 			return
 		}
 		if priceEntry.Text == "" {
-			wins.ErrWin(ui.App, locale.Errors["Info entry is empty"])
+			wins.ErrWin(ui.App, po.Get("Info entry is empty"))
 			return
 		}
 		if func() bool {
@@ -135,7 +129,7 @@ func (ui *ui) AddCourse() {
 			}
 			return false
 		}() {
-			wins.ErrWin(ui.App, locale.Errors["This course already exists"])
+			wins.ErrWin(ui.App, po.Get("This course already exists"))
 			return
 		}
 		newGrade := data.Course{
@@ -156,7 +150,7 @@ func (ui *ui) AddCourse() {
 }
 
 func (ui *ui) CoursesMainWin() {
-	w := ui.App.NewWindow(CourseWins["Courses"])
+	w := ui.App.NewWindow(po.Get("Courses"))
 	w.Resize(sizes.ListSize)
 
 	selected := -1
