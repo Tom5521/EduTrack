@@ -29,9 +29,7 @@ type Gui struct {
 	ui
 }
 
-func Init() *Gui {
-	ui := &Gui{}
-	ui.App = app.New()
+func (ui *ui) setTheme() {
 	var th fyne.Theme
 	switch data.Config.Theme {
 	case "Adwaita":
@@ -40,8 +38,16 @@ func Init() *Gui {
 		th = themes.DarkRed{}
 	case "DarkBlue":
 		th = themes.DarkBlue{}
+	default:
+		return
 	}
 	ui.App.Settings().SetTheme(th)
+}
+
+func Init() *Gui {
+	ui := &Gui{}
+	ui.App = app.New()
+	ui.setTheme()
 	assets.Load()
 	po = locales.GetPo(data.Config.Lang)
 	return ui

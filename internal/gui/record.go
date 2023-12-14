@@ -47,7 +47,7 @@ func (ui *ui) GetRecordsList() *widget.List {
 
 func (ui *ui) AddRecord(studentID uint) {
 	getTimeNow := func() string {
-		return time.Now().Format("02/01/2006 12:14")
+		return time.Now().Format("02/01/2006:12:14")
 	}
 	var tmpDate = getTimeNow()
 
