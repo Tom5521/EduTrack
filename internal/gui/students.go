@@ -83,7 +83,6 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 	showCoursesBt := widget.NewButton(po.Get("Show Student Courses"), func() {
 		ui.StudentCoursesMainWin(s)
 	})
-	printStudentBt := widget.NewButton(po.Get("Print student information"), nil)
 
 	const gridNumber int = 1
 	content := container.NewVBox(
@@ -93,7 +92,6 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 			gridNumber,
 			showRecordsBt,
 			showCoursesBt,
-			printStudentBt,
 		),
 	)
 	ui.StudentTab.Objects = []fyne.CanvasObject{content}
