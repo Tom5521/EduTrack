@@ -70,7 +70,7 @@ func (ui *ui) AddRecord(studentID uint) {
 	detailsLabel := widget.NewLabel(po.Get("Details"))
 	recDetails := widget.NewMultiLineEntry()
 	recDetails.SetPlaceHolder(po.Get("E.g., The student has not attended"))
-	submitButton := widget.NewButton("Submit", func() {
+	submitButton := widget.NewButton(po.Get("Submit"), func() {
 		err := data.AddRecord(&data.Record{
 			StudentID: studentID,
 			Date:      tmpDate,
@@ -167,6 +167,9 @@ func (ui *ui) EditRecordData(recordID uint) {
 	form.OnCancel = func() {
 		window.Close()
 	}
+
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
 
 	vbox := container.NewVBox(
 		detailsLabel,
@@ -280,6 +283,7 @@ func (ui *ui) RecordDetailsWin(r *data.Record) {
 		w.Close()
 	}
 	form.SubmitText = po.Get("Close")
+	form.SubmitText = po.Get("Submit")
 
 	w.SetContent(form)
 

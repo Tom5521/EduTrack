@@ -193,6 +193,9 @@ func (ui *ui) AddStudentForm() {
 	form.OnCancel = func() {
 		window.Close()
 	}
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
+
 	window.SetContent(form)
 	window.Show()
 }
@@ -267,6 +270,8 @@ func (ui *ui) EditStudentWindow(s *data.Student) {
 	form.OnCancel = func() {
 		window.Close()
 	}
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
 
 	window.SetContent(form)
 	window.Show()

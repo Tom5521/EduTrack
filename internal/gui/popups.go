@@ -8,7 +8,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
-	"github.com/Tom5521/EduTrack/internal/pkg/credits"
+	"github.com/Tom5521/EduTrack/internal/gui/credits"
 )
 
 func (ui *ui) AboutWin() {

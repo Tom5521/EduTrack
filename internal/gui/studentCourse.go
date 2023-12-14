@@ -313,6 +313,8 @@ func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
 	form.OnCancel = func() {
 		window.Close()
 	}
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
 
 	window.SetContent(form)
 	window.Show()

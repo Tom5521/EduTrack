@@ -1,8 +1,17 @@
 # Traductores:
 # Tom5521
-
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: internal/gui/courses.go
 msgid "Edit %s"
@@ -98,7 +107,7 @@ msgstr "Ej., El estudiante no ha asistido"
 
 #: internal/gui/record.go
 msgid "Submit"
-msgstr "Enviar"
+msgstr "Confirmar"
 
 #: internal/gui/record.go
 msgid "Edit Record"
@@ -117,16 +126,8 @@ msgid "Date: %s"
 msgstr "Fecha: %s"
 
 #: internal/gui/record.go
-msgid "Select Date"
-msgstr "Seleccionar Fecha"
-
-#: internal/gui/record.go
 msgid "Select a date from below:"
 msgstr "Seleccionar una fecha a continuación:"
-
-#: internal/gui/record.go
-msgid "Record name:"
-msgstr "Nombre del registro:"
 
 #: internal/gui/record.go
 msgid "Record date:"
@@ -192,7 +193,7 @@ msgstr "Ingrese el nombre del curso:"
 msgid "Course not found!"
 msgstr "¡Curso no encontrado!"
 
-#: internal/gui/search.go 
+#: internal/gui/search.go
 msgid "Search Records"
 msgstr "Buscar Registros"
 
@@ -229,10 +230,6 @@ msgid "End:"
 msgstr "Fin:"
 
 #: internal/gui/studentCourse.go
-msgid ""
-msgstr ""
-
-#: internal/gui/studentCourse.go
 msgid "Select start and end"
 msgstr "Seleccionar inicio y fin"
 
@@ -255,10 +252,6 @@ msgstr "Cursos de %s"
 #: internal/gui/studentCourse.go
 msgid "Select a new course"
 msgstr "Seleccionar un nuevo curso"
-
-#: internal/gui/studentCourse.go
-msgid "Select a course"
-msgstr "Seleccionar un curso"
 
 #: internal/gui/studentCourse.go
 msgid "Select course"
@@ -321,10 +314,6 @@ msgid "Select a new image"
 msgstr "Seleccionar una nueva imagen"
 
 #: internal/gui/students.go
-msgid "Delete Current Image"
-msgstr "Eliminar Imagen Actual"
-
-#: internal/gui/students.go
 msgid "Show student courses"
 msgstr "Mostrar cursos del estudiante"
 
@@ -343,4 +332,3 @@ msgstr "Ayuda"
 #: internal/gui/widgets.go
 msgid "Reload data"
 msgstr "Recargar datos"
-

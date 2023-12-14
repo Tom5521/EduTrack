@@ -12,3 +12,4 @@ __pycache__
 database.db
 fyne_metadata_init.go
 tmp_pdf/
+*.mo

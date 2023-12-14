@@ -61,6 +61,11 @@ func (ui *ui) EditCourse(c *data.Course) {
 		}
 		window.Close()
 	}
+	form.OnCancel = func() {
+		window.Close()
+	}
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
 
 	window.SetContent(form)
 	window.Show()
@@ -91,6 +96,10 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 		widget.NewFormItem(po.Get("Info:"), widget.NewLabel(c.Info)),
 		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
+	form.OnSubmit = func() {
+		window.Close()
+	}
+	form.SubmitText = po.Get("Close")
 
 	window.SetContent(form)
 	window.Show()
@@ -144,6 +153,11 @@ func (ui *ui) AddCourse() {
 		ui.CoursesList = ui.GetCoursesList(&data.Courses)
 		window.Close()
 	}
+	form.OnCancel = func() {
+		window.Close()
+	}
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
 	content := container.NewVBox(form)
 	window.SetContent(content)
 	window.Show()
