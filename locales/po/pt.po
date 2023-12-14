@@ -1,8 +1,17 @@
 # Translator:
 # Tom5521
-
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: internal/gui/courses.go
 msgid "Edit %s"
@@ -117,16 +126,8 @@ msgid "Date: %s"
 msgstr "Data: %s"
 
 #: internal/gui/record.go
-msgid "Select Date"
-msgstr "Selecionar Data"
-
-#: internal/gui/record.go
 msgid "Select a date from below:"
 msgstr "Selecione uma data abaixo:"
-
-#: internal/gui/record.go
-msgid "Record name:"
-msgstr "Nome do registro:"
 
 #: internal/gui/record.go
 msgid "Record date:"
@@ -192,7 +193,7 @@ msgstr "Digite o nome do curso:"
 msgid "Course not found!"
 msgstr "Curso não encontrado!"
 
-#: internal/gui/search.go 
+#: internal/gui/search.go
 msgid "Search Records"
 msgstr "Buscar Registros"
 
@@ -229,10 +230,6 @@ msgid "End:"
 msgstr "Fim:"
 
 #: internal/gui/studentCourse.go
-msgid ""
-msgstr ""
-
-#: internal/gui/studentCourse.go
 msgid "Select start and end"
 msgstr "Selecione início e fim"
 
@@ -255,10 +252,6 @@ msgstr "Cursos de %s"
 #: internal/gui/studentCourse.go
 msgid "Select a new course"
 msgstr "Selecione um novo curso"
-
-#: internal/gui/studentCourse.go
-msgid "Select a course"
-msgstr "Selecione um curso"
 
 #: internal/gui/studentCourse.go
 msgid "Select course"
@@ -321,10 +314,6 @@ msgid "Select a new image"
 msgstr "Selecionar uma nova imagem"
 
 #: internal/gui/students.go
-msgid "Delete Current Image"
-msgstr "Excluir imagem atual"
-
-#: internal/gui/students.go
 msgid "Show student courses"
 msgstr "Mostrar cursos do estudante"
 
@@ -343,4 +332,3 @@ msgstr "Ajuda"
 #: internal/gui/widgets.go
 msgid "Reload data"
 msgstr "Recarregar dados"
-
