@@ -12,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/data"
 
 	"github.com/stretchr/testify/require"
@@ -40,7 +41,7 @@ func TestLoadDatabase(t *testing.T) {
 	}
 }
 
-var Config = &data.Config
+var Config = &conf.Config
 
 func TestCreateDatabase(t *testing.T) {
 	// assert := assert.New(t)
