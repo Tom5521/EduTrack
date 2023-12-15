@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/locales"
+	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/themes"
 	"github.com/Tom5521/EduTrack/pkg/wins"
@@ -31,7 +32,7 @@ type Gui struct {
 
 func (ui *ui) setTheme() {
 	var th fyne.Theme
-	switch data.Config.Theme {
+	switch conf.Config.Theme {
 	case "Adwaita":
 		th = xtheme.AdwaitaTheme()
 	case "DarkRed":
@@ -53,7 +54,7 @@ func Init() *Gui {
 	ui.App = app.New()
 	ui.setTheme()
 	assets.Load()
-	po = locales.GetPo(data.Config.Lang)
+	po = locales.GetPo(conf.Config.Lang)
 	return ui
 }
 

@@ -332,3 +332,71 @@ msgstr ""
 #: internal/gui/widgets.go
 msgid "Reload data"
 msgstr ""
+
+#: internal/gui/config/main.go
+msgid "Configuration"
+msgstr ""
+
+#: internal/gui/config/main.go
+msgid "Select a language"
+msgstr ""
+
+#: internal/gui/config/main.go
+msgid "Spanish"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Language:"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Theme:"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Select a theme"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Apply changes"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "The changes will be noticeable after restarting the program"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Ok"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "General Options"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Database Options"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Set database route"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Current database route:"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Database file"
+msgstr ""
+

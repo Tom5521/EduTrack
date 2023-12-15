@@ -2,7 +2,7 @@ package conf
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"os"
 	"os/user"
 	"runtime"
@@ -11,34 +11,46 @@ import (
 )
 
 var (
+	Config        Conf
 	ConfDir       = GetConfDir()
 	ConfFile      = ConfDir + "/config.json"
 	DefaultDBFile = ConfDir + "/database.db"
 )
 
-type Config struct {
+type Conf struct {
 	DatabaseFile string `json:"database"`
 	Lang         string `json:"lang"`
 	Theme        string `json:"theme"`
 }
 
-func GetConfData() Config {
-	conf := Config{}
+func errWin(err error, optText ...string) {
+	if err != nil {
+		var otxt string
+		if len(optText) >= 1 {
+			otxt = optText[0]
+		}
+		text := fmt.Sprintf(otxt, err.Error())
+		if zenity.Error(text) != nil {
+			fmt.Println(err)
+		}
+	}
+}
+
+func GetConfData() Conf {
+	conf := Conf{}
 	data, err := os.ReadFile(ConfFile)
-	if err != nil {
-		log.Println("Error reading config file!", err)
-	}
+	errWin(err, "Error reading config file!")
 	err = json.Unmarshal(data, &conf)
-	if err != nil {
-		log.Println(err)
-	}
+	errWin(err)
 	return conf
 }
 
 func GetConfDir() string {
 	cu, err := user.Current()
-	if err != nil {
-		zenity.Error(err.Error())
+	errWin(err)
+	mkdir := func(dir string) {
+		err = os.Mkdir(dir, os.ModePerm)
+		errWin(err)
 	}
 	unixOS := []string{"linux", "darwin", "freebsd", "openbsd", "netbsd"}
 	isUnix := func() bool {
@@ -51,34 +63,33 @@ func GetConfDir() string {
 	}
 	if isUnix() {
 		dir := cu.HomeDir + "/.config/EduTrack"
-		if _, err := os.Stat(dir); os.IsNotExist(err) {
-			err = os.Mkdir(dir, os.ModePerm)
-			if err != nil {
-				zenity.Error(err.Error())
-			}
+		if _, err = os.Stat(dir); os.IsNotExist(err) {
+			mkdir(dir)
 		}
 		return dir
 	} else if runtime.GOOS == "windows" {
 		dir := cu.HomeDir + "/Documents/EduTrack"
 		if _, err = os.Stat(dir); os.IsNotExist(err) {
-			err = os.Mkdir(dir, os.ModePerm)
-			if err != nil {
-				zenity.Error(err.Error())
-			}
+			mkdir(dir)
 		}
 		return dir
 	}
 	return "./"
 }
+func (c *Conf) Update() {
+	jsonData, err := json.Marshal(c)
+	errWin(err)
+	err = os.WriteFile(ConfFile, jsonData, os.ModePerm)
+	errWin(err)
+	newc := GetConfData()
+	c = &newc
+	fmt.Println(c)
+}
 
 func NewConfigurationFile() {
 	var err error
-	jsonData, err := json.Marshal(Config{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"})
-	if err != nil {
-		zenity.Error(err.Error())
-	}
+	jsonData, err := json.Marshal(Conf{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"})
+	errWin(err)
 	err = os.WriteFile(ConfFile, jsonData, os.ModePerm)
-	if err != nil {
-		zenity.Error(err.Error())
-	}
+	errWin(err)
 }

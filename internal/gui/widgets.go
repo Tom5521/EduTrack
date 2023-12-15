@@ -2,6 +2,7 @@ package gui
 
 import (
 	"fyne.io/fyne/v2"
+	"github.com/Tom5521/EduTrack/internal/gui/config"
 	"github.com/Tom5521/EduTrack/pkg/data"
 )
 
@@ -12,6 +13,9 @@ func (ui *ui) MainMenu() *fyne.MainMenu {
 		fyne.NewMenu(po.Get("Edit"),
 			fyne.NewMenuItem(po.Get("Reload data"), func() {
 				data.LoadEverything()
+			}),
+			fyne.NewMenuItem(po.Get("Configuration"), func() {
+				config.MainWin(ui.App, po)
 			}),
 		),
 		fyne.NewMenu(po.Get("Search"),

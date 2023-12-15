@@ -14,14 +14,14 @@ func CheckFiles() {
 		}
 		return true
 	}
-	db, config := Config.DatabaseFile, conf.ConfFile
+	db, config := conf.Config.DatabaseFile, conf.ConfFile
 	if !check(config) {
 		conf.NewConfigurationFile()
-		Config = conf.GetConfData()
+		conf.Config = conf.GetConfData()
 		CheckFiles()
 	}
 	if !check(db) {
-		if !check(Config.DatabaseFile) {
+		if !check(conf.Config.DatabaseFile) {
 			err := CreateDatabase()
 			if err != nil {
 				log.Fatal(err)
@@ -32,7 +32,7 @@ func CheckFiles() {
 
 func LoadFiles() {
 	CheckFiles()
-	Config = conf.GetConfData()
+	conf.Config = conf.GetConfData()
 	DB = GetDB()
 	LoadEverything()
 }

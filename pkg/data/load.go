@@ -3,6 +3,7 @@ package data
 import (
 	"fmt"
 
+	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/glebarez/sqlite"
 	"gorm.io/gorm"
 )
@@ -21,7 +22,7 @@ func printErr(err error) {
 }
 
 func GetDB() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open(Config.DatabaseFile), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(conf.Config.DatabaseFile), &gorm.Config{})
 	printErr(err)
 	return db
 }

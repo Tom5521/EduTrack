@@ -16,12 +16,11 @@ import (
 )
 
 var (
-	Config  conf.Config
 	ConfDir = conf.GetConfDir()
 )
 
 func CreateDatabase() error {
-	db, err := gorm.Open(sqlite.Open(Config.DatabaseFile), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(conf.Config.DatabaseFile), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 		return err

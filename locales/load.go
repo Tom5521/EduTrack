@@ -2,6 +2,7 @@ package locales
 
 import (
 	"embed"
+	"fmt"
 
 	"github.com/leonelquinteros/gotext"
 	"github.com/ncruces/zenity"
@@ -17,10 +18,15 @@ The available ones are:
 - Portuguese
 `
 
+var Languages = []string{"Español", "English", "Português"}
+
 func read(file string) []byte {
 	data, err := PoFiles.ReadFile(file)
 	if err != nil {
-		zenity.Error(readError)
+		err = zenity.Error(readError)
+		if err != nil {
+			fmt.Println(err)
+		}
 		return read("po/en.pot")
 	}
 	return data

@@ -12,6 +12,7 @@ import (
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/internal/pkg/tools"
+	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
@@ -47,10 +48,10 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 			text = text[:limit] + "..."
 		}
 		label := canvas.NewText(text, currentColor)
-		if data.Config.Lang == "es" {
+		if conf.Config.Lang == "es" {
 			label.TextSize = 18
 		}
-		if data.Config.Lang == "en" {
+		if conf.Config.Lang == "en" {
 			label.TextSize = 20
 		}
 		return label
