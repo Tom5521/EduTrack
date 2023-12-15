@@ -19,7 +19,7 @@ This is a program that manages a database of students and courses.
 
 ## Screenshots
 
-![App Screenshot](./screenshots/Screenshot3.png)
+![App Screenshot](./screenshots/Screenshot.png)
 
 ## Installation
 
