@@ -73,7 +73,7 @@ func GetConfDir() string {
 
 func NewConfigurationFile() {
 	var err error
-	jsonData, err := json.Marshal(Config{DatabaseFile: DefaultDBFile, Theme: "Default", Lang: "en"})
+	jsonData, err := json.Marshal(Config{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"})
 	if err != nil {
 		zenity.Error(err.Error())
 	}
