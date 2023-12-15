@@ -31,8 +31,8 @@ func CheckFiles() {
 }
 
 func LoadFiles() {
-	Config = conf.GetConfData()
 	CheckFiles()
+	Config = conf.GetConfData()
 	DB = GetDB()
 	LoadEverything()
 }

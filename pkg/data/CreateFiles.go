@@ -8,13 +8,10 @@ package data
 
 import (
 	"log"
-	"os"
-	"runtime"
 
 	"gorm.io/gorm"
 
 	"github.com/Tom5521/EduTrack/pkg/conf"
-	"github.com/Tom5521/EduTrack/pkg/files"
 	"github.com/glebarez/sqlite"
 )
 
@@ -38,19 +35,5 @@ func CreateDatabase() error {
 	printErr(err)
 	err = db.AutoMigrate(&Record{})
 	printErr(err)
-
-	defer func() { // Delete temporal database file
-		if (runtime.GOOS == "linux" || runtime.GOOS == "unix") && Config.DatabaseFile != "database.db" {
-			err = os.Remove("database.db")
-			if err != nil {
-				log.Println(err)
-			}
-		}
-	}()
-
-	_, err = files.CopyFile("database.db", Config.DatabaseFile)
-	if err != nil {
-		log.Println(err)
-	}
 	return err
 }
