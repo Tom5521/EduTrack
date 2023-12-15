@@ -91,7 +91,7 @@ func MainWin(app fyne.App, po *gotext.Po) {
 		if applyedChanges {
 			dialog.ShowCustomWithoutButtons(
 				po.Get("The changes will be noticeable after restarting the program"),
-				container.NewVBox(widget.NewButton(po.Get("Ok"), func() { w.Close() })),
+				container.NewCenter(widget.NewButton(po.Get("Ok"), func() { w.Close() })),
 				w,
 			)
 		} else {
