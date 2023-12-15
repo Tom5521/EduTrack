@@ -31,15 +31,40 @@ Install with go:
 go install github.com/Tom5521/EduTrack@latest
 ```
 
-You can compile it, you need a C compiler for your system, git and the go compiler.
+You can compile it, you need:
+
+- Python (Optionally)
+- C compiler
+- Go compiler
+- xz (on linux)
+- winrar/7zip (on windows)
+- Git
+
+Compiling in Linux
 
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-go build -o EduTrack cmd/EduTrack/main.go
+python scripts/Build linux
+cd builds
+tar -xf EduTrack-linux64.tar.xz
+cd EduTrack-linux64
+make user-install # You can make a root install with "sudo make install"
 ```
 
-You can also download the binaries and unzip them, to run them in a portable way.
+On Windows
+
+```bash
+git clone https://github.com/Tom5521/EduTrack
+git checkout <latest version>
+python scripts/Build win
+# Go to builds folder and unzip EduTrack-win64.zip
+# Then run the executable, and done!
+# The windows(and linux executable is fully portable)
+```
+
+You can also download the binaries and unzip them, to run them in a portable way,
+or installing with make install in linux
 
 ## Optimizations
 
