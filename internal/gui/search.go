@@ -116,7 +116,7 @@ func (ui *ui) SearchRecordsMainWin() {
 	w.Show()
 }
 
-func (ui *ui) SearchStudentGradesMainWin() {
+func (ui *ui) SearchStudentCoursesMainWin() {
 
 }
 
@@ -137,7 +137,7 @@ func (ui *ui) SearchMainWin() {
 		ui.SearchRecordsMainWin()
 	})
 	searchStudentGradesButton := widget.NewButtonWithIcon(po.Get("Search in student courses"), assets.Lens1, func() {
-		ui.SearchStudentGradesMainWin()
+		ui.SearchStudentCoursesMainWin()
 	})
 	content := container.NewAdaptiveGrid(gridNumber,
 		searchStudentsButton,

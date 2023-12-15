@@ -7,9 +7,8 @@
 package sizes
 
 import (
-	"github.com/Tom5521/EduTrack/pkg/resolution"
-
 	"fyne.io/fyne/v2"
+	"github.com/Tom5521/EduTrack/pkg/resolution"
 )
 
 // These constants define various sizes used in the application's user interface.

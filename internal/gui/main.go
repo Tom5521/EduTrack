@@ -38,6 +38,8 @@ func (ui *ui) setTheme() {
 		th = themes.DarkRed{}
 	case "DarkBlue":
 		th = themes.DarkBlue{}
+	case "Default":
+		return
 	default:
 		return
 	}

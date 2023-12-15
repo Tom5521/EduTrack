@@ -7,32 +7,24 @@
 package data
 
 import (
-	"encoding/json"
-	"fmt"
 	"log"
 	"os"
-	"os/user"
 	"runtime"
 
 	"gorm.io/gorm"
 
+	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/files"
 	"github.com/glebarez/sqlite"
 )
 
 var (
-	Config                   ConfigStr
-	databaseFile, configFile = getOSConfFile()
+	Config  conf.Config
+	ConfDir = conf.GetConfDir()
 )
 
-type ConfigStr struct {
-	DatabaseFile string `json:"database"`
-	Lang         string `json:"lang"`
-	Theme        string `json:"theme"`
-}
-
 func CreateDatabase() error {
-	db, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(Config.DatabaseFile), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 		return err
@@ -61,48 +53,4 @@ func CreateDatabase() error {
 		log.Println(err)
 	}
 	return err
-}
-
-func GetConfData() ConfigStr {
-	conf := ConfigStr{}
-	data, err := os.ReadFile(configFile)
-	if err != nil {
-		log.Println("Error reading config file!", err)
-	}
-	err = json.Unmarshal(data, &conf)
-	if err != nil {
-		log.Println(err)
-	}
-	return conf
-}
-
-func getOSConfFile() (string, string) {
-	cOS := runtime.GOOS
-	if cOS == "linux" || cOS == "unix" {
-		currentUser, err := user.Current()
-		if err != nil {
-			fmt.Println(err)
-		}
-		confDir := fmt.Sprintf("%v/.config/EduTrack", currentUser.HomeDir)
-		if _, err = os.Stat(confDir); os.IsNotExist(err) {
-			err = os.Mkdir(confDir, os.ModePerm)
-			if err != nil {
-				log.Println("Error creating ~/.config/EduTrack/", err)
-			}
-		}
-		return confDir + "/database.db", confDir + "/config.json"
-	}
-	return "database.db", "config.json"
-}
-
-func NewConfigurationFile() {
-	var err error
-	jsonData, err := json.Marshal(ConfigStr{DatabaseFile: databaseFile, Theme: "Adwaita", Lang: "en"})
-	if err != nil {
-		log.Println("Error marshalling new configuration file", err)
-	}
-	err = os.WriteFile(configFile, jsonData, os.ModePerm)
-	if err != nil {
-		log.Println("Error writing config file", err)
-	}
 }

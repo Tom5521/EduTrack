@@ -3,6 +3,8 @@ package data
 import (
 	"log"
 	"os"
+
+	"github.com/Tom5521/EduTrack/pkg/conf"
 )
 
 func CheckFiles() {
@@ -12,10 +14,10 @@ func CheckFiles() {
 		}
 		return true
 	}
-	db, conf := getOSConfFile()
-	if !check(conf) {
-		NewConfigurationFile()
-		Config = GetConfData()
+	db, config := Config.DatabaseFile, conf.ConfFile
+	if !check(config) {
+		conf.NewConfigurationFile()
+		Config = conf.GetConfData()
 		CheckFiles()
 	}
 	if !check(db) {
@@ -29,7 +31,7 @@ func CheckFiles() {
 }
 
 func LoadFiles() {
-	Config = GetConfData()
+	Config = conf.GetConfData()
 	CheckFiles()
 	DB = GetDB()
 	LoadEverything()
