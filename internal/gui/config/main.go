@@ -11,19 +11,9 @@ import (
 	"github.com/ncruces/zenity"
 )
 
-type ui struct {
-	app fyne.App
-	po  *gotext.Po
-}
-
 func MainWin(app fyne.App, po *gotext.Po) {
 	var applyedChanges bool
 	tmpConf := conf.Config
-
-	/*ui := ui{
-		app: app,
-		po:  po,
-	}*/
 	w := app.NewWindow(po.Get("Configurations"))
 	const size1, size2 float32 = 600, 100
 	w.Resize(fyne.NewSize(size1, size2))
@@ -75,9 +65,12 @@ func MainWin(app fyne.App, po *gotext.Po) {
 		widget.NewFormItem("", getCenteredLabel("Database Options")),
 		widget.NewFormItem(po.Get("Current database route:"), databaseLabel),
 		widget.NewFormItem("", widget.NewButton(po.Get("Set database route"), func() {
-			db, err := zenity.SelectFile(zenity.Filename("database.db"), zenity.FileFilters{
-				{po.Get("Database file"), []string{"*.db"}, true},
-			})
+			db, err := zenity.SelectFile(
+				zenity.Filename("database.db"),
+				zenity.FileFilters{
+					{po.Get("Database file"), []string{"*.db"}, true},
+				},
+			)
 			if err != nil {
 				return
 			}

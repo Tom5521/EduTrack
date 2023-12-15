@@ -83,7 +83,6 @@ func (c *Conf) Update() {
 	errWin(err)
 	newc := GetConfData()
 	c = &newc
-	fmt.Println(c)
 }
 
 func NewConfigurationFile() {
