@@ -39,6 +39,7 @@ You can compile it, you need:
 - xz (on linux)
 - winrar/7zip (on windows)
 - Git
+- Fyne Package (Optionally)
 
 Compiling in Linux
 
@@ -89,6 +90,8 @@ To run tests, run the following command
 - Add password protection for modifying the database
 
 - Improve the graphic management system of grades and records
+
+- Release the 1.0
 
 ## Support
 
