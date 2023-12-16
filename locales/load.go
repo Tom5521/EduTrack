@@ -33,15 +33,17 @@ func read(file string) []byte {
 }
 
 func GetPo(lang string) *gotext.Po {
+	po := gotext.NewPo()
+	po.Parse(GetParser(lang))
+	return po
+}
+
+func GetParser(lang string) []byte {
 	var bytedata []byte
 	if lang == "en" {
 		bytedata = read("po/en.pot")
-		po := gotext.NewPo()
-		po.Parse(bytedata)
-		return po
+		return bytedata
 	}
 	bytedata = read("po/" + lang + ".po")
-	po := gotext.NewPo()
-	po.Parse(bytedata)
-	return po
+	return bytedata
 }

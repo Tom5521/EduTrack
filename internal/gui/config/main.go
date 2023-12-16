@@ -88,10 +88,14 @@ func MainWin(app fyne.App, po *gotext.Po) {
 		applyedChanges = true
 	}
 	mainForm.OnCancel = func() {
+		onOk := func() {
+			po.Parse(locales.GetParser(tmpConf.Lang))
+			w.Close()
+		}
 		if applyedChanges {
 			dialog.ShowCustomWithoutButtons(
 				po.Get("The changes will be noticeable after restarting the program"),
-				container.NewCenter(widget.NewButton(po.Get("Ok"), func() { w.Close() })),
+				container.NewCenter(widget.NewButton(po.Get("Ok"), onOk)),
 				w,
 			)
 		} else {
