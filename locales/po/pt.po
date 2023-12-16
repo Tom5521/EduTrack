@@ -395,30 +395,24 @@ msgstr "Idade:"
 
 #: internal/gui/search.go
 msgid "Search student courses"
-msgstr ""
-
+msgstr "Pesquisar cursos para estudantes"
 
 #: internal/gui/search.go
 msgid "Select student"
-msgstr ""
-
+msgstr "Selecionar aluno"
 
 #: internal/gui/search.go
 msgid "Select"
-msgstr ""
-
+msgstr "Selecionar"
 
 #: internal/gui/search.go
 msgid "Enter course name to search"
-msgstr ""
-
+msgstr "Introduzir o nome da disciplina para pesquisar"
 
 #: internal/gui/search.go
 msgid "Student Course not found!"
-msgstr ""
-
+msgstr "Curso de aluno não encontrado!"
 
 #: internal/gui/search.go
 msgid "Student not selected!"
-msgstr ""
-
+msgstr "Aluno não selecionado!"

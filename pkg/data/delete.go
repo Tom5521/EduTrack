@@ -1,10 +1,10 @@
 package data
 
-func (g Course) Delete() error {
-	err := DB.Delete(&g).Error
+func (c Course) Delete() error {
+	err := DB.Delete(&c).Error
 	printErr(err)
 	for _, studentCourse := range StudentCourses {
-		if studentCourse.CourseID == g.ID {
+		if studentCourse.CourseID == c.ID {
 			err = studentCourse.Delete()
 			printErr(err)
 		}

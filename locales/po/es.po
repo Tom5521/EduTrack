@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EduTrack\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-15 23:37-0300\n"
+"PO-Revision-Date: 2023-12-16 12:57-0300\n"
 "Last-Translator: Tom5521 <--->\n"
 "Language-Team: Spanish - Spain <--->\n"
 "Language: es\n"
@@ -397,30 +397,24 @@ msgstr "Edad:"
 
 #: internal/gui/search.go
 msgid "Search student courses"
-msgstr ""
-
+msgstr "Buscar cursos de estudiante"
 
 #: internal/gui/search.go
 msgid "Select student"
-msgstr ""
-
+msgstr "Seleccionar estudiante"
 
 #: internal/gui/search.go
 msgid "Select"
-msgstr ""
-
+msgstr "Seleccionar"
 
 #: internal/gui/search.go
 msgid "Enter course name to search"
-msgstr ""
-
+msgstr "Ingrese el nombre del curso para buscar"
 
 #: internal/gui/search.go
 msgid "Student Course not found!"
-msgstr ""
-
+msgstr "¡Curso del estudiante no encontrado!"
 
 #: internal/gui/search.go
 msgid "Student not selected!"
-msgstr ""
-
+msgstr "¡Estudiante no seleccionado!"

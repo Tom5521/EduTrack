@@ -149,6 +149,7 @@ func (ui *ui) SearchStudentCoursesMainWin() {
 		})
 	})
 	label := widget.NewLabel(po.Get("Enter course name to search"))
+	label.Alignment = fyne.TextAlignCenter
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton(po.Get("Search"), func() {
 		i := student.FindCourseIndexByName(entry.Text)
