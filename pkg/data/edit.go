@@ -17,11 +17,11 @@ func (r *Record) Edit(newRecord *Record) error {
 	return DB.Save(r).Error
 }
 
-func (g *Course) Edit(newGrade *Course) error {
-	g.Name = newGrade.Name
-	g.Info = newGrade.Info
-	g.Price = newGrade.Price
-	return DB.Save(g).Error
+func (c *Course) Edit(newCourse *Course) error {
+	c.Name = newCourse.Name
+	c.Info = newCourse.Info
+	c.Price = newCourse.Price
+	return DB.Save(c).Error
 }
 
 func (s *StudentCourse) Edit(nSG *StudentCourse) error {
@@ -43,7 +43,7 @@ func EditStudent(id uint, newStudent Student) error {
 	i := FindStudentIndexByID(id)
 	return Students[i].Edit(&newStudent)
 }
-func EditGrade(id uint, newGrade Course) error {
+func EditCourse(id uint, newGrade Course) error {
 	i := FindCourseIndexByID(id)
 	return Courses[i].Edit(&newGrade)
 }

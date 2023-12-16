@@ -25,7 +25,7 @@ type StudentForm struct {
 	Add bool
 }
 
-func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget.ListItemID)) *widget.List {
+func (ui ui) GetStudentsList(students *[]data.Student) *widget.List {
 	list := widget.NewList(
 		func() int {
 			return len(*students)
@@ -38,7 +38,6 @@ func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget
 			o.(*widget.Label).SetText(s[i].Name)
 		},
 	)
-	list.OnSelected = onSelected
 	return list
 }
 

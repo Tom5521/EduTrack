@@ -25,7 +25,7 @@ func TestEditGrade(t *testing.T) {
 		require.NoError(t, err)
 		log.Println(data.Courses)
 	}
-	err := data.EditGrade(data.Courses[0].ID, data.Course{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
+	err := data.EditCourse(data.Courses[0].ID, data.Course{Name: "Jonh Doe", Info: "Lorem Ipsum", Price: "100"})
 	require.NoError(t, err)
 	fmt.Println(data.Courses)
 }

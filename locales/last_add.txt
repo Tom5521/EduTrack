@@ -1,2 +1,2 @@
-internal/gui/students.go
-Age:
+internal/gui/search.go
+Student not selected!

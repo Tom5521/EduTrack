@@ -392,3 +392,33 @@ msgstr "Ficheiro de base de dados"
 #: internal/gui/config/main.go
 msgid "Age:"
 msgstr "Idade:"
+
+#: internal/gui/search.go
+msgid "Search student courses"
+msgstr ""
+
+
+#: internal/gui/search.go
+msgid "Select student"
+msgstr ""
+
+
+#: internal/gui/search.go
+msgid "Select"
+msgstr ""
+
+
+#: internal/gui/search.go
+msgid "Enter course name to search"
+msgstr ""
+
+
+#: internal/gui/search.go
+msgid "Student Course not found!"
+msgstr ""
+
+
+#: internal/gui/search.go
+msgid "Student not selected!"
+msgstr ""
+

@@ -30,7 +30,7 @@ func GetCoursesNames() []string {
 	return names
 }
 
-func (s Student) GetGradesNames() []string {
+func (s Student) GetCourseNames() []string {
 	s.GetCourses()
 	var names []string
 	for _, sgrade := range s.Courses {
@@ -51,7 +51,7 @@ func GetStudentDNIs() []string {
 	return dnis
 }
 
-func FindGradeByName(name string) Course {
+func FindCourseByName(name string) Course {
 	for _, grade := range Courses {
 		if name == grade.Name {
 			return grade
@@ -78,7 +78,7 @@ func FindStudentIndexByName(name string) int {
 	})
 }
 
-func FindGradeIndexbyName(name string) int {
+func FindCourseIndexbyName(name string) int {
 	return slices.IndexFunc(Courses, func(g Course) bool {
 		return g.Name == name
 	})
@@ -87,5 +87,23 @@ func FindGradeIndexbyName(name string) int {
 func FindRecordIndexByName(name string) int {
 	return slices.IndexFunc(Records, func(r Record) bool {
 		return r.Name == name
+	})
+}
+
+// Note: This is extremely slow.
+func (s Student) FindCourseIndexByName(name string) int {
+	return slices.IndexFunc(s.Courses, func(sc StudentCourse) bool {
+		i := FindCourseIndexByID(sc.CourseID)
+		if i == -1 {
+			return false
+		}
+		c := Courses[i]
+		return c.Name == name
+	})
+}
+
+func FindCourseIndexByName(name string) int {
+	return slices.IndexFunc(Courses, func(c Course) bool {
+		return c.Name == name
 	})
 }

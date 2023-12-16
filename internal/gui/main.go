@@ -65,10 +65,11 @@ func (ui *ui) MainWin() {
 	w.SetMainMenu(ui.MainMenu())
 
 	var selected = -1
-	ui.StudentList = ui.GetStudentsList(&data.Students, func(id int) {
+	ui.StudentList = ui.GetStudentsList(&data.Students)
+	ui.StudentList.OnSelected = func(id widget.ListItemID) {
 		selected = id
 		ui.LoadStudentInfo(&data.Students[id])
-	})
+	}
 	ui.StudentTab = ui.GetTemplateUser()
 
 	toolbar := widget.NewToolbar(

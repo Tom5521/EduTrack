@@ -72,7 +72,7 @@ func (ui *ui) SearchCoursesMainWin() {
 	searchCourseEntry := widget.NewEntry()
 	searchCourseButton := widget.NewButton(po.Get("Search"), func() {
 		text := searchCourseEntry.Text
-		i := data.FindGradeIndexbyName(text)
+		i := data.FindCourseIndexbyName(text)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Course not found!"))
 			return
@@ -116,8 +116,56 @@ func (ui *ui) SearchRecordsMainWin() {
 	w.Show()
 }
 
-func (ui *ui) SearchStudentCoursesMainWin() {
+func (ui *ui) SelectStudentWin(onConfirm func(selected int)) {
+	var selectetList = -1
+	w := ui.App.NewWindow(po.Get("Select student"))
+	w.Resize(sizes.FormSize)
+	list := ui.GetStudentsList(&data.Students)
+	list.OnSelected = func(id widget.ListItemID) {
+		selectetList = id
+	}
 
+	selectBt := widget.NewButton(po.Get("Select"), func() {
+		if selectetList == -1 {
+			return
+		}
+		onConfirm(selectetList)
+		w.Close()
+	})
+	mainBox := container.NewBorder(nil, container.NewCenter(selectBt), nil, nil, list)
+	w.SetContent(mainBox)
+	w.Show()
+}
+
+func (ui *ui) SearchStudentCoursesMainWin() {
+	w := ui.App.NewWindow(po.Get("Search student courses"))
+	w.Resize(sizes.SearchSize)
+
+	var student data.Student
+
+	selectStudentBt := widget.NewButton(po.Get("Select student"), func() {
+		ui.SelectStudentWin(func(id int) {
+			student = data.Students[id]
+		})
+	})
+	label := widget.NewLabel(po.Get("Enter course name to search"))
+	entry := widget.NewEntry()
+	searchButton := widget.NewButton(po.Get("Search"), func() {
+		i := student.FindCourseIndexByName(entry.Text)
+		if i == -1 {
+			wins.ErrWin(ui.App, po.Get("Student Course not found!"))
+			return
+		}
+		ui.StudentCourseDetailsWin(&data.StudentCourses[i])
+	})
+	mainBox := container.NewVBox(
+		selectStudentBt,
+		label,
+		entry,
+		searchButton,
+	)
+	w.SetContent(mainBox)
+	w.Show()
 }
 
 func (ui *ui) SearchMainWin() {
@@ -127,23 +175,23 @@ func (ui *ui) SearchMainWin() {
 	w.SetIcon(assets.Lens1)
 	const gridNumber int = 1
 
-	searchStudentsButton := widget.NewButtonWithIcon(po.Get("Search in students"), assets.Lens1, func() {
+	searchStudentsBt := widget.NewButtonWithIcon(po.Get("Search in students"), assets.Lens1, func() {
 		ui.SearchStudentsMainWin()
 	})
-	searchCoursesButton := widget.NewButtonWithIcon(po.Get("Search in courses"), assets.Lens1, func() {
+	searchCoursesBt := widget.NewButtonWithIcon(po.Get("Search in courses"), assets.Lens1, func() {
 		ui.SearchCoursesMainWin()
 	})
-	searchRecordsButton := widget.NewButtonWithIcon(po.Get("Search in records"), assets.Lens1, func() {
+	searchRecordsBt := widget.NewButtonWithIcon(po.Get("Search in records"), assets.Lens1, func() {
 		ui.SearchRecordsMainWin()
 	})
-	searchStudentGradesButton := widget.NewButtonWithIcon(po.Get("Search in student courses"), assets.Lens1, func() {
+	searchStudentCoursesBt := widget.NewButtonWithIcon(po.Get("Search in student courses"), assets.Lens1, func() {
 		ui.SearchStudentCoursesMainWin()
 	})
 	content := container.NewAdaptiveGrid(gridNumber,
-		searchStudentsButton,
-		searchCoursesButton,
-		searchRecordsButton,
-		searchStudentGradesButton,
+		searchStudentsBt,
+		searchCoursesBt,
+		searchRecordsBt,
+		searchStudentCoursesBt,
 	)
 
 	w.SetContent(content)
