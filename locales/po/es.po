@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EduTrack\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-15 01:46-0300\n"
+"PO-Revision-Date: 2023-12-15 23:37-0300\n"
 "Last-Translator: Tom5521 <--->\n"
 "Language-Team: Spanish - Spain <--->\n"
 "Language: es\n"
@@ -173,7 +173,7 @@ msgstr "¡Estudiante no encontrado!"
 
 #: internal/gui/search.go
 msgid "Enter Student DNI:"
-msgstr "Ingrese el DNI del estudiante:"
+msgstr "Ingrese el CI del estudiante:"
 
 #: internal/gui/search.go
 msgid "Search by name"
@@ -181,7 +181,7 @@ msgstr "Buscar por nombre"
 
 #: internal/gui/search.go
 msgid "Search by DNI"
-msgstr "Buscar por DNI"
+msgstr "Buscar por CI"
 
 #: internal/gui/search.go
 msgid "Search Courses"
@@ -265,7 +265,7 @@ msgstr "Cancelar"
 
 #: internal/gui/students.go
 msgid "DNI:"
-msgstr "DNI:"
+msgstr "CI:"
 
 #: internal/gui/students.go
 msgid "Phone Number:"
@@ -309,7 +309,7 @@ msgstr "Algun valor en este formulario está vacío"
 
 #: internal/gui/students.go
 msgid "The DNI already exists"
-msgstr "El DNI ya existe"
+msgstr "El CI ya existe"
 
 #: internal/gui/students.go
 msgid "Select a new image"
@@ -347,58 +347,50 @@ msgstr "Selecciona un idioma"
 msgid "Spanish"
 msgstr "Español"
 
-
 #: internal/gui/config/main.go
 msgid "Language:"
 msgstr "Idioma:"
-
 
 #: internal/gui/config/main.go
 msgid "Theme:"
 msgstr "Tema:"
 
-
 #: internal/gui/config/main.go
 msgid "Select a theme"
 msgstr "Selecciona un tema"
-
 
 #: internal/gui/config/main.go
 msgid "Apply changes"
 msgstr "Aplicar cambios"
 
-
 #: internal/gui/config/main.go
 msgid "The changes will be noticeable after restarting the program"
 msgstr "Los cambios se notarán después de reiniciar el programa"
-
 
 #: internal/gui/config/main.go
 msgid "Ok"
 msgstr "Ok"
 
-
 #: internal/gui/config/main.go
 msgid "General Options"
 msgstr "Opciones Generales"
-
 
 #: internal/gui/config/main.go
 msgid "Database Options"
 msgstr "Opciones de la base de datos"
 
-
 #: internal/gui/config/main.go
 msgid "Set database route"
 msgstr "Seleccionar la ruta de la base de datos"
-
 
 #: internal/gui/config/main.go
 msgid "Current database route:"
 msgstr "Ruta de la base de datos:"
 
-
 #: internal/gui/config/main.go
 msgid "Database file"
 msgstr "Archivo de base de datos"
 
+#: internal/gui/students.go
+msgid "Age:"
+msgstr "Edad:"

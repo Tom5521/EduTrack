@@ -400,3 +400,8 @@ msgstr ""
 msgid "Database file"
 msgstr ""
 
+
+#: internal/gui/students.go
+msgid "Age:"
+msgstr ""
+

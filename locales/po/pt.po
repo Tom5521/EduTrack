@@ -83,11 +83,11 @@ msgstr "CRÉDITOS"
 
 #: internal/gui/record.go
 msgid "Add a Record"
-msgstr "Adicionar um Registro"
+msgstr "Adicionar um Registo"
 
 #: internal/gui/record.go
 msgid "Record name:"
-msgstr "Nome do registro:"
+msgstr "Nome do registo:"
 
 #: internal/gui/record.go
 msgid "Select Date"
@@ -111,11 +111,11 @@ msgstr "Enviar"
 
 #: internal/gui/record.go
 msgid "Edit Record"
-msgstr "Editar Registro"
+msgstr "Editar Registo"
 
 #: internal/gui/record.go
 msgid "Record ID<%v> not found!"
-msgstr "Registro ID<%v> não encontrado!"
+msgstr "Registo ID<%v> não encontrado!"
 
 #: internal/gui/record.go
 msgid "Student ID<%v> not found!"
@@ -131,11 +131,11 @@ msgstr "Selecione uma data abaixo:"
 
 #: internal/gui/record.go
 msgid "Record date:"
-msgstr "Data do registro:"
+msgstr "Data do registo:"
 
 #: internal/gui/record.go
 msgid "%s Records"
-msgstr "Registros de %s"
+msgstr "Registos do %s"
 
 #: internal/gui/record.go
 msgid "Details of %s"
@@ -143,7 +143,7 @@ msgstr "Detalhes de %s"
 
 #: internal/gui/record.go
 msgid "Do you really want to delete the record?"
-msgstr "Você realmente deseja excluir o registro?"
+msgstr "Você realmente deseja excluir o registo?"
 
 #: internal/gui/record.go
 msgid "Student Name:"
@@ -171,7 +171,7 @@ msgstr "Estudante não encontrado!"
 
 #: internal/gui/search.go
 msgid "Enter Student DNI:"
-msgstr "Digite o DNI do estudante:"
+msgstr "Digite o RG do estudante:"
 
 #: internal/gui/search.go
 msgid "Search by name"
@@ -179,7 +179,7 @@ msgstr "Buscar por nome"
 
 #: internal/gui/search.go
 msgid "Search by DNI"
-msgstr "Buscar por DNI"
+msgstr "Buscar por RG"
 
 #: internal/gui/search.go
 msgid "Search Courses"
@@ -263,11 +263,11 @@ msgstr "Cancelar"
 
 #: internal/gui/students.go
 msgid "DNI:"
-msgstr "DNI:"
+msgstr "RG:"
 
 #: internal/gui/students.go
 msgid "Phone Number:"
-msgstr "Número de telefone:"
+msgstr "Telefone:"
 
 #: internal/gui/students.go
 msgid "Show Student Records"
@@ -343,60 +343,52 @@ msgstr "Selecionar uma língua"
 
 #: internal/gui/config/main.go
 msgid "Spanish"
-msgstr "espanhol"
-
+msgstr "Espanhol"
 
 #: internal/gui/config/main.go
 msgid "Language:"
-msgstr "Língua"
-
+msgstr "Língua:"
 
 #: internal/gui/config/main.go
 msgid "Theme:"
 msgstr "Tema:"
 
-
 #: internal/gui/config/main.go
 msgid "Select a theme"
 msgstr "Selecionar um tema"
-
 
 #: internal/gui/config/main.go
 msgid "Apply changes"
 msgstr "Aplicar alterações"
 
-
 #: internal/gui/config/main.go
 msgid "The changes will be noticeable after restarting the program"
-msgstr "As alterações serão visíveis depois de reiniciar o programa."
-
+msgstr "As alterações serão visíveis depois de reiniciar o programa"
 
 #: internal/gui/config/main.go
 msgid "Ok"
 msgstr "Ok"
 
-
 #: internal/gui/config/main.go
 msgid "General Options"
 msgstr "Opções gerais"
-
 
 #: internal/gui/config/main.go
 msgid "Database Options"
 msgstr "Opções da base de dados"
 
-
 #: internal/gui/config/main.go
 msgid "Set database route"
 msgstr "Definir rota da base de dados"
-
 
 #: internal/gui/config/main.go
 msgid "Current database route:"
 msgstr "Rota da base de dados:"
 
-
 #: internal/gui/config/main.go
 msgid "Database file"
 msgstr "Ficheiro de base de dados"
 
+#: internal/gui/config/main.go
+msgid "Age:"
+msgstr "Idade:"

@@ -1,2 +1,2 @@
-internal/gui/config/main.go
-Database file
+internal/gui/students.go
+Age:

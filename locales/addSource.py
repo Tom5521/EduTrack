@@ -1,3 +1,4 @@
+#!/bin/python
 import os
 
 # This script adds an empty key for translation to all files in the .po folder.
