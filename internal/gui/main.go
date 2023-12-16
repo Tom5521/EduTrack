@@ -72,7 +72,11 @@ func (ui *ui) MainWin() {
 	ui.StudentTab = ui.GetTemplateUser()
 
 	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(assets.AddUser, ui.AddStudentForm),
+		widget.NewToolbarAction(assets.AddUser, func() {
+			c := StudentForm{}
+			c.Add = true
+			ui.StudentForm(c)
+		}),
 		widget.NewToolbarAction(assets.DeleteStudent, func() {
 			if selected == -1 {
 				return
@@ -99,7 +103,11 @@ func (ui *ui) MainWin() {
 			if selected == -1 {
 				return
 			}
-			ui.EditStudentWindow(&data.Students[selected])
+			s := &data.Students[selected]
+			c := StudentForm{}
+			c.Edit.Enable = true
+			c.Edit.Student = s
+			ui.StudentForm(c)
 		}),
 		widget.NewToolbarAction(assets.Info, func() {
 			if selected == -1 {

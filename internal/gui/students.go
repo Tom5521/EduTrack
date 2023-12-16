@@ -17,6 +17,14 @@ import (
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
+type StudentForm struct {
+	Edit struct {
+		Enable  bool
+		Student *data.Student
+	}
+	Add bool
+}
+
 func (ui ui) GetStudentsList(students *[]data.Student, onSelected func(id widget.ListItemID)) *widget.List {
 	list := widget.NewList(
 		func() int {
@@ -108,11 +116,26 @@ func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
 	return ret
 }
 
-func (ui *ui) AddStudentForm() {
-	var imagePath string
-	var coursesStr []data.Course
-	window := ui.App.NewWindow(po.Get("Add a student"))
-	window.Resize(sizes.FormSize)
+func (ui *ui) StudentForm(c StudentForm) {
+	studentToEdit := c.Edit.Student
+	var imagePath = func() string {
+		if c.Edit.Enable {
+			return studentToEdit.ImageFilePath
+		}
+		return ""
+	}()
+	getWinTitle := func() string {
+		var winTitle string
+		if c.Add {
+			winTitle = po.Get("Add a student")
+		}
+		if c.Edit.Enable {
+			winTitle = po.Get("Edit %s", studentToEdit.Name)
+		}
+		return winTitle
+	}
+	w := ui.App.NewWindow(getWinTitle())
+	w.Resize(sizes.FormSize)
 
 	// Initialize form fields
 	nameEntry := widget.NewEntry()
@@ -121,6 +144,12 @@ func (ui *ui) AddStudentForm() {
 	phoneEntry := widget.NewEntry()
 
 	imagePathLabel := widget.NewLabel(imagePath)
+	if c.Edit.Enable {
+		nameEntry.SetText(studentToEdit.Name)
+		ageEntry.SetText(itoa(studentToEdit.Age))
+		dniEntry.SetText(studentToEdit.DNI)
+		phoneEntry.SetText(studentToEdit.PhoneNumber)
+	}
 
 	imageButton := widget.NewButton(po.Get("Select Image"), func() {
 		wins.ImagePicker(ui.App, &imagePath)
@@ -131,149 +160,67 @@ func (ui *ui) AddStudentForm() {
 		imagePathLabel.SetText(imagePath)
 	})
 
-	nameForm := widget.NewFormItem(po.Get("Name:"), nameEntry)
-	idForm := widget.NewFormItem(po.Get("DNI:"), dniEntry)
-	ageForm := widget.NewFormItem(po.Get("Age:"), ageEntry)
-	phoneForm := widget.NewFormItem(po.Get("Phone Number:"), phoneEntry)
 	const gridNumber int = 2
-	imageForm := widget.NewFormItem(
-		po.Get("Image"),
-		container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn),
-	)
-	imagePathForm := widget.NewFormItem(po.Get("Image Path"), imagePathLabel)
-
-	form := widget.NewForm(
-		nameForm,
-		idForm,
-		ageForm,
-		phoneForm,
-		imageForm,
-		imagePathForm,
-	)
-	form.OnSubmit = func() {
-		StCourses := func() []data.StudentCourse {
-			var stCourses []data.StudentCourse
-			for _, course := range coursesStr {
-				tmpCourse := data.StudentCourse{CourseID: course.ID}
-				stCourses = append(stCourses, tmpCourse)
-			}
-			return stCourses
-		}()
-
-		newStudent := data.Student{
-			Name:          nameEntry.Text,
-			Age:           getAgeEntry(ui.App, ageEntry),
-			DNI:           dniEntry.Text,
-			PhoneNumber:   phoneEntry.Text,
-			ImageFilePath: imagePath,
-			Courses:       StCourses,
-		}
-		// Validate form fields
-		if !checkValues(newStudent) {
-			wins.ErrWin(ui.App, po.Get("Some value in this form is empty"))
-			return
-		}
-		if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
-			wins.ErrWin(ui.App, po.Get("The DNI already exists"))
-			return
-		}
-
-		// Add a new student
-
-		err := data.AddStudent(&newStudent)
-		if err != nil {
-			wins.ErrWin(ui.App, err.Error())
-		}
-		ui.StudentList.Refresh()
-		s := data.Students[data.FindStudentIndexByID(newStudent.ID)]
-		ui.LoadStudentInfo(&s)
-		window.Close()
-	}
-	form.OnCancel = func() {
-		window.Close()
-	}
-	form.SubmitText = po.Get("Submit")
-	form.CancelText = po.Get("Cancel")
-
-	window.SetContent(form)
-	window.Show()
-}
-
-func (ui *ui) EditStudentWindow(s *data.Student) {
-	window := ui.App.NewWindow(po.Get("Edit %s", s.Name))
-	window.Resize(sizes.FormSize)
-
-	initEntry := func(input any) *widget.Entry {
-		entry := widget.NewEntry()
-		entry.SetText(fmt.Sprint(input))
-		return entry
-	}
-
-	// Initialize form fields
-	var imagePath = s.ImageFilePath
-	nameEntry := initEntry(s.Name)
-	ageEntry := initEntry(s.Age)
-	dniEntry := initEntry(s.DNI)
-	phoneEntry := initEntry(s.PhoneNumber)
-
-	imageLabel := widget.NewLabel(imagePath)
-
-	deleteImgButton := widget.NewButton(po.Get("Delete Current Image"), func() {
-		imagePath = ""
-		imageLabel.SetText(imagePath)
-	})
-	selectImgButton := widget.NewButton(po.Get("Select a new image"), func() {
-		wins.ImagePicker(ui.App, &imagePath)
-		imageLabel.SetText(imagePath)
-	})
-
-	const gridNumber int = 2
-	imgCont := container.NewAdaptiveGrid(gridNumber, deleteImgButton, selectImgButton)
-
 	form := widget.NewForm(
 		widget.NewFormItem(po.Get("Name:"), nameEntry),
-		widget.NewFormItem(po.Get("Age:"), ageEntry),
 		widget.NewFormItem(po.Get("DNI:"), dniEntry),
+		widget.NewFormItem(po.Get("Age:"), ageEntry),
 		widget.NewFormItem(po.Get("Phone Number:"), phoneEntry),
-		widget.NewFormItem("", imgCont),
-		widget.NewFormItem(po.Get("Image Path:"), imageLabel),
+		widget.NewFormItem(
+			po.Get("Image"),
+			container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn),
+		),
+		widget.NewFormItem(po.Get("Image Path"), imagePathLabel),
 	)
-
 	form.OnSubmit = func() {
-		edited := data.Student{
+		n := data.Student{
 			Name:          nameEntry.Text,
 			Age:           getAgeEntry(ui.App, ageEntry),
 			DNI:           dniEntry.Text,
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 		}
-		// Validate form fields
-		if !checkValues(edited) {
+		if !checkValues(n) {
 			wins.ErrWin(ui.App, po.Get("Some value in this form is empty"))
 			return
 		}
-		if dniEntry.Text != s.DNI {
+		if c.Edit.Enable {
+			if dniEntry.Text != studentToEdit.DNI {
+				if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
+					wins.ErrWin(ui.App, po.Get("The DNI already exists"))
+					return
+				}
+			}
+			err := studentToEdit.Edit(&n)
+			if err != nil {
+				wins.ErrWin(ui.App, err.Error())
+			}
+		}
+		if c.Add {
 			if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
 				wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 				return
 			}
+			// Add a new student
+			err := data.AddStudent(&n)
+			if err != nil {
+				wins.ErrWin(ui.App, err.Error())
+			}
 		}
-		err := s.Edit(&edited)
-		if err != nil {
-			wins.ErrWin(ui.App, err.Error())
+		ui.StudentList.Refresh()
+		var idToLoad uint
+		if c.Add {
+			idToLoad = n.ID
 		}
-		ui.StudentList.UnselectAll()
-		ui.LoadStudentInfo(&data.Students[data.FindStudentIndexByID(s.ID)])
-		window.Close()
+		if c.Edit.Enable {
+			idToLoad = studentToEdit.ID
+		}
+		s := data.Students[data.FindStudentIndexByID(idToLoad)]
+		ui.LoadStudentInfo(&s)
+		w.Close()
 	}
-	form.OnCancel = func() {
-		window.Close()
-	}
-	form.SubmitText = po.Get("Submit")
-	form.CancelText = po.Get("Cancel")
-
-	window.SetContent(form)
-	window.Show()
+	w.SetContent(form)
+	w.Show()
 }
 
 func (ui *ui) StudentDetailsWin(s *data.Student) {

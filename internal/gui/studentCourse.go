@@ -5,6 +5,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
@@ -75,23 +76,23 @@ func (ui *ui) StudentCourseDetailsWin(sc *data.StudentCourse) {
 	window.Show()
 }
 
-func (ui *ui) StartEndWin(submitFunc func(start, end string)) {
-	w := ui.App.NewWindow(po.Get("Select start and end"))
-	w.Resize(sizes.StartEndSize)
+func (ui *ui) StartEndDialog(submitFunc func(start, end string), window fyne.Window) {
 	startEntry := widget.NewEntry()
 	endEntry := widget.NewEntry()
 	form := widget.NewForm(
 		widget.NewFormItem(po.Get("Start:"), startEntry),
 		widget.NewFormItem(po.Get("End:"), endEntry),
 	)
-
-	form.OnSubmit = func() {
+	d := dialog.NewCustom(
+		po.Get("Select start and end"),
+		po.Get("Submit"),
+		form,
+		window,
+	)
+	d.SetOnClosed(func() {
 		submitFunc(startEntry.Text, endEntry.Text)
-		w.Close()
-	}
-	w.SetContent(form)
-
-	w.Show()
+	})
+	d.Show()
 }
 
 func getNoAddedCourses(s *data.Student) []data.Course {
@@ -135,7 +136,7 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 		if toAddSelected == -1 {
 			return
 		}
-		ui.StartEndWin(func(start, end string) {
+		ui.StartEndDialog(func(start, end string) {
 			studentGrade := data.StudentCourse{
 				Start:     start,
 				End:       end,
@@ -150,7 +151,7 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 			s.GetCourses()
 			addedList.Refresh()
 			toAddList.Refresh()
-		})
+		}, w)
 	}
 	quitGrade := func() {
 		if addedSelected == -1 {
@@ -172,7 +173,8 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 		addGrade,
 	)
 	quitToButton := widget.NewButton(
-		po.Get("Delete from student"), quitGrade,
+		po.Get("Delete from student"),
+		quitGrade,
 	)
 
 	// Layout
