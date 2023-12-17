@@ -1,6 +1,9 @@
+//go:build release
+// +build release
+
 package main
 
-import "scripts/src"
+import "github.com/Tom5521/EduTrack/scripts/src"
 
 func main() {
 	src.Main()

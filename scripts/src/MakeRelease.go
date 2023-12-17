@@ -23,7 +23,7 @@ func MakeWinZip() {
 		mkdir("tmp")
 	}
 	fmt.Println("Downloading opengl32.dll...")
-	if IsExists("tmp/opengl32.7z") {
+	if IsNotExist("tmp/opengl32.7z") {
 		url := "https://downloads.fdossena.com/geth.php?r=mesa64-latest"
 		DonwloadFile("tmp/opengl32.7z", url)
 	}
@@ -53,12 +53,11 @@ func MakeWinZip() {
 }
 
 func Main() {
-	os.Chdir("..")
 	flag.Parse()
 	if IsNotExist("builds/") {
 		mkdir("builds")
 	}
-	parserFlags := []*bool{BuildForLinux, BuildForWindows, ReleaseFlag, MakeWindowsZip}
+	parserFlags := []*bool{BuildForLinux, BuildForWindows, ReleaseFlag, MakeWindowsZip, TestRunning, HelpFlag}
 	catchBadFlags := func(flags []*bool) bool {
 		var trueValues int
 		for _, parser := range flags {
@@ -89,5 +88,12 @@ func Main() {
 	if *MakeWindowsZip {
 		fmt.Println("Making windows zip...")
 		MakeWinZip()
+	}
+	if *TestRunning {
+		fmt.Println("Can run!")
+		fmt.Println(os.Getwd())
+	}
+	if *HelpFlag {
+		flag.PrintDefaults()
 	}
 }

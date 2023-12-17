@@ -1,2 +1,0 @@
-internal/gui/search.go
-Student not selected!

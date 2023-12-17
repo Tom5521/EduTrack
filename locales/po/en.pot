@@ -435,3 +435,8 @@ msgstr ""
 msgid "Student not selected!"
 msgstr ""
 
+
+#: internal/gui/widget.go
+msgid "Documentation"
+msgstr ""
+

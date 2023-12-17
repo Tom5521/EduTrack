@@ -46,9 +46,8 @@ Compiling in Linux
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-cd scripts
-go run main.go -compile-to-linux
-cd ../builds
+go run -tags release scripts/main.go -compile-to-linux
+cd builds
 tar -xf EduTrack-linux64.tar.xz
 cd EduTrack-linux64
 make user-install # You can make a root install with "sudo make install"
@@ -59,8 +58,7 @@ On Windows
 ```batch
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-cd scripts
-go run main.go -compile-to-windows
+go run -tags release scripts/main.go -compile-to-windows
 # Go to builds folder and unzip EduTrack-win64.zip
 # Then run the executable, and done!
 # The windows(and linux executable is fully portable)

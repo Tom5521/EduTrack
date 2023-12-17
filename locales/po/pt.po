@@ -416,3 +416,7 @@ msgstr "Curso de aluno não encontrado!"
 #: internal/gui/search.go
 msgid "Student not selected!"
 msgstr "Aluno não selecionado!"
+
+#: internal/gui/widget.go
+msgid "Documentation"
+msgstr "" 
