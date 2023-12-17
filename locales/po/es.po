@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EduTrack\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-16 12:57-0300\n"
+"PO-Revision-Date: 2023-12-17 13:18-0300\n"
 "Last-Translator: Tom5521 <--->\n"
 "Language-Team: Spanish - Spain <--->\n"
 "Language: es\n"
@@ -422,3 +422,11 @@ msgstr "¡Estudiante no seleccionado!"
 #: internal/gui/widget.go
 msgid "Documentation"
 msgstr "Documentación"
+
+#: internal/gui/main.go
+msgid "Yes"
+msgstr "Si"
+
+#: internal/gui/main.go
+msgid "No"
+msgstr "No"

@@ -61,11 +61,11 @@ func (ui *ui) MainWin() {
 			if selected == -1 {
 				return
 			}
-			dialog.ShowConfirm(
+			d := dialog.NewConfirm(
 				po.Get("Please Confirm"),
 				po.Get("Do you want to delete the student?"),
 				func(b bool) {
-					if b {
+					if !b {
 						err := data.Delete(data.Students[selected])
 						if err != nil {
 							wins.ErrWin(ui.App, err.Error())
@@ -78,6 +78,9 @@ func (ui *ui) MainWin() {
 				},
 				w,
 			)
+			d.SetConfirmText(po.Get("No"))
+			d.SetDismissText(po.Get("Yes"))
+			d.Show()
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
@@ -96,8 +99,9 @@ func (ui *ui) MainWin() {
 			ui.StudentDetailsWin(&data.Students[selected])
 		}),
 		widget.NewToolbarSpacer(),
+		widget.NewToolbarAction(assets.ShowCourses, ui.CoursesMainWin),
 		widget.NewToolbarAction(assets.Lens1, ui.SearchMainWin),
-		widget.NewToolbarAction(assets.ShowCourses, ui.CoursesMainWin))
+	)
 	tabCont := container.NewBorder(nil, nil, nil, widget.NewSeparator(), ui.StudentTab)
 	listCont := container.NewBorder(toolbar, nil, nil, nil, ui.StudentList)
 	mainContainer := container.NewBorder(nil, nil, tabCont, nil, listCont)

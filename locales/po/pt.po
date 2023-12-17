@@ -419,4 +419,12 @@ msgstr "Aluno não selecionado!"
 
 #: internal/gui/widget.go
 msgid "Documentation"
-msgstr "Documentação" 
+msgstr "Documentação"
+
+#: internal/gui/main.go
+msgid "Yes"
+msgstr "Sim"
+
+#: internal/gui/main.go
+msgid "No"
+msgstr "Não"

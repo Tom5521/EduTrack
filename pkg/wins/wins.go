@@ -7,6 +7,8 @@
 package wins
 
 import (
+	"fmt"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
@@ -28,7 +30,7 @@ func ImagePicker(app fyne.App, imageFilePath *string) {
 			{"Image files", filter, true},
 		})
 	if err != nil {
-		ErrWin(app, err.Error())
+		fmt.Println(err)
 	} else {
 		*imageFilePath = ret
 	}
@@ -44,7 +46,7 @@ func FilePicker(app fyne.App) string {
 			{"Yaml files", filter, true},
 		})
 	if err != nil {
-		ErrWin(app, err.Error())
+		fmt.Println(err)
 	}
 	return ret
 }
