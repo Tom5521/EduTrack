@@ -28,12 +28,12 @@ Install my-project with go or by executing the binary in its own folder
 Install with go:
 
 ```bash
-go install github.com/Tom5521/EduTrack@latest
+git clone https://github.com/Tom5521/EduTrack 
+go install cmd/EduTrack/main.go
 ```
 
 You can compile it, you need:
 
-- Python (Optionally)
 - C compiler
 - Go compiler
 - xz (on linux)
@@ -46,8 +46,9 @@ Compiling in Linux
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-python scripts/Build.py linux
-cd builds
+cd scripts
+go run main.go -compile-to-linux
+cd ../builds
 tar -xf EduTrack-linux64.tar.xz
 cd EduTrack-linux64
 make user-install # You can make a root install with "sudo make install"
@@ -55,10 +56,11 @@ make user-install # You can make a root install with "sudo make install"
 
 On Windows
 
-```bash
+```batch
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-python scripts/Build.py win
+cd scripts
+go run main.go -compile-to-windows
 # Go to builds folder and unzip EduTrack-win64.zip
 # Then run the executable, and done!
 # The windows(and linux executable is fully portable)
