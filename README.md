@@ -46,7 +46,7 @@ Compiling in Linux
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-python scripts/Build linux
+python scripts/Build.py linux
 cd builds
 tar -xf EduTrack-linux64.tar.xz
 cd EduTrack-linux64
@@ -58,7 +58,7 @@ On Windows
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-python scripts/Build win
+python scripts/Build.py win
 # Go to builds folder and unzip EduTrack-win64.zip
 # Then run the executable, and done!
 # The windows(and linux executable is fully portable)
@@ -96,6 +96,7 @@ To run tests, run the following command
 ## Support
 
 For support open an issue or message me through my [reddit](https://www.reddit.com/u/Sad-Technician3861)!
+Or send me a [email](mailto:thomas.bored5521@gmail.com)!
 
 ## Lessons Learned
 
