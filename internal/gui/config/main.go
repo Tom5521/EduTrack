@@ -4,6 +4,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/locales"
 	"github.com/Tom5521/EduTrack/pkg/conf"
@@ -123,9 +124,9 @@ func SetTheme(app fyne.App) {
 	case "SimpleRed":
 		th = themes.SimpleRed{}
 	case "Default":
-		return
+		th = theme.DefaultTheme()
 	default:
-		return
+		th = theme.DefaultTheme()
 	}
 	app.Settings().SetTheme(th)
 }
