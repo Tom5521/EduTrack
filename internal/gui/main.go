@@ -7,14 +7,12 @@ import (
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
+	"github.com/Tom5521/EduTrack/internal/gui/config"
 	"github.com/Tom5521/EduTrack/locales"
 	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/data"
-	"github.com/Tom5521/EduTrack/pkg/themes"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 	"github.com/leonelquinteros/gotext"
-
-	xtheme "fyne.io/x/fyne/theme"
 )
 
 var po *gotext.Po
@@ -30,29 +28,10 @@ type Gui struct {
 	ui
 }
 
-func (ui *ui) setTheme() {
-	var th fyne.Theme
-	switch conf.Config.Theme {
-	case "Adwaita":
-		th = xtheme.AdwaitaTheme()
-	case "DarkRed":
-		th = themes.DarkRed{}
-	case "DarkBlue":
-		th = themes.DarkBlue{}
-	case "SimpleRed":
-		th = themes.SimpleRed{}
-	case "Default":
-		return
-	default:
-		return
-	}
-	ui.App.Settings().SetTheme(th)
-}
-
 func Init() *Gui {
 	ui := &Gui{}
 	ui.App = app.New()
-	ui.setTheme()
+	config.SetTheme(ui.App)
 	assets.Load()
 	po = locales.GetPo(conf.Config.Lang)
 	return ui

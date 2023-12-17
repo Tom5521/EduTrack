@@ -7,8 +7,11 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/locales"
 	"github.com/Tom5521/EduTrack/pkg/conf"
+	"github.com/Tom5521/EduTrack/pkg/themes"
 	"github.com/leonelquinteros/gotext"
 	"github.com/ncruces/zenity"
+
+	xtheme "fyne.io/x/fyne/theme"
 )
 
 func MainWin(app fyne.App, po *gotext.Po) {
@@ -85,6 +88,7 @@ func MainWin(app fyne.App, po *gotext.Po) {
 	mainForm.OnSubmit = func() {
 		tmpConf.Update()
 		conf.Config = conf.GetConfData()
+		SetTheme(app)
 		applyedChanges = true
 	}
 	mainForm.OnCancel = func() {
@@ -105,4 +109,23 @@ func MainWin(app fyne.App, po *gotext.Po) {
 
 	w.SetContent(mainForm)
 	w.Show()
+}
+
+func SetTheme(app fyne.App) {
+	var th fyne.Theme
+	switch conf.Config.Theme {
+	case "Adwaita":
+		th = xtheme.AdwaitaTheme()
+	case "DarkRed":
+		th = themes.DarkRed{}
+	case "DarkBlue":
+		th = themes.DarkBlue{}
+	case "SimpleRed":
+		th = themes.SimpleRed{}
+	case "Default":
+		return
+	default:
+		return
+	}
+	app.Settings().SetTheme(th)
 }
