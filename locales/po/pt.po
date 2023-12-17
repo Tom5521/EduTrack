@@ -419,4 +419,4 @@ msgstr "Aluno não selecionado!"
 
 #: internal/gui/widget.go
 msgid "Documentation"
-msgstr "" 
+msgstr "Documentação" 

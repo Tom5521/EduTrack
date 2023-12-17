@@ -421,4 +421,4 @@ msgstr "¡Estudiante no seleccionado!"
 
 #: internal/gui/widget.go
 msgid "Documentation"
-msgstr ""
+msgstr "Documentación"
