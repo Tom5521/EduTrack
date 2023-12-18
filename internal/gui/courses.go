@@ -9,6 +9,7 @@ import (
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/pkg/widgets"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
@@ -42,7 +43,7 @@ func (ui *ui) EditCourse(c *data.Course) {
 	infoEntry := widget.NewMultiLineEntry()
 	infoEntry.SetText(c.Info)
 
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Name:"), nameEntry),
 		widget.NewFormItem(po.Get("Price:"), priceEntry),
 		widget.NewFormItem(po.Get("Info:"), infoEntry),
@@ -90,12 +91,12 @@ func (ui *ui) CourseDetailsWin(c *data.Course) {
 	})
 	const gridNumber int = 2
 
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(c.Name)),
 		widget.NewFormItem(po.Get("Price:"), widget.NewLabel(c.Price)),
 		widget.NewFormItem(po.Get("Info:"), widget.NewLabel(c.Info)),
-		widget.NewFormItem("", container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)),
 	)
+	form.CustomItems = container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)
 	form.OnSubmit = func() {
 		window.Close()
 	}
@@ -116,7 +117,7 @@ func (ui *ui) AddCourse() {
 	priceFormInput := widget.NewFormItem(po.Get("Price:"), priceEntry)
 	infoFormInput := widget.NewFormItem(po.Get("Info:"), infoEntry)
 
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		coruseFormInput,
 		priceFormInput,
 		infoFormInput,
@@ -158,8 +159,7 @@ func (ui *ui) AddCourse() {
 	}
 	form.SubmitText = po.Get("Submit")
 	form.CancelText = po.Get("Cancel")
-	content := container.NewVBox(form)
-	window.SetContent(content)
+	window.SetContent(form)
 	window.Show()
 }
 

@@ -9,6 +9,7 @@ import (
 	"github.com/Tom5521/EduTrack/locales"
 	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/themes"
+	"github.com/Tom5521/EduTrack/pkg/widgets"
 	"github.com/leonelquinteros/gotext"
 	"github.com/ncruces/zenity"
 
@@ -62,13 +63,18 @@ func MainWin(app fyne.App, po *gotext.Po) {
 		return l
 	}
 	databaseLabel := widget.NewLabel(tmpConf.DatabaseFile)
-	mainForm := widget.NewForm(
-		widget.NewFormItem("", getCenteredLabel("General Options")),
-		widget.NewFormItem(po.Get("Language:"), langSelect),
-		widget.NewFormItem(po.Get("Theme:"), themeSelect),
-		widget.NewFormItem("", getCenteredLabel("Database Options")),
-		widget.NewFormItem(po.Get("Current database route:"), databaseLabel),
-		widget.NewFormItem("", widget.NewButton(po.Get("Set database route"), func() {
+	mainForm := widgets.NewForm()
+	mainForm.CustomItems = container.NewVBox(
+		getCenteredLabel("General Options"),
+		widget.NewForm(
+			widget.NewFormItem(po.Get("Language:"), langSelect),
+			widget.NewFormItem(po.Get("Theme:"), themeSelect),
+		),
+		getCenteredLabel("Database Options"),
+		widget.NewForm(
+			widget.NewFormItem(po.Get("Current database route:"), databaseLabel),
+		),
+		widget.NewButton(po.Get("Set database route"), func() {
 			db, err := zenity.SelectFile(
 				zenity.Filename("database.db"),
 				zenity.FileFilters{
@@ -80,7 +86,7 @@ func MainWin(app fyne.App, po *gotext.Po) {
 			}
 			tmpConf.DatabaseFile = db
 			databaseLabel.SetText(tmpConf.DatabaseFile)
-		})),
+		}),
 	)
 
 	mainForm.SubmitText = po.Get("Apply changes")

@@ -14,6 +14,7 @@ import (
 	"github.com/Tom5521/EduTrack/internal/pkg/tools"
 	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/pkg/widgets"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
@@ -151,7 +152,7 @@ func (ui *ui) StudentForm(c StudentForm) {
 	}
 
 	imageButton := widget.NewButton(po.Get("Select Image"), func() {
-		wins.ImagePicker(ui.App, &imagePath)
+		wins.ImagePicker(&imagePath)
 		imagePathLabel.SetText(imagePath)
 	})
 	deleteImgBtn := widget.NewButton(po.Get("Delete Current Image"), func() {
@@ -160,17 +161,21 @@ func (ui *ui) StudentForm(c StudentForm) {
 	})
 
 	const gridNumber int = 2
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Name:"), nameEntry),
 		widget.NewFormItem(po.Get("DNI:"), dniEntry),
 		widget.NewFormItem(po.Get("Age:"), ageEntry),
 		widget.NewFormItem(po.Get("Phone Number:"), phoneEntry),
-		widget.NewFormItem(
-			po.Get("Image"),
-			container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn),
-		),
 		widget.NewFormItem(po.Get("Image Path"), imagePathLabel),
 	)
+	form.CustomItems = container.NewAdaptiveGrid(gridNumber, imageButton, deleteImgBtn)
+	form.SubmitText = po.Get("Submit")
+	form.CancelText = po.Get("Cancel")
+
+	form.OnCancel = func() {
+		w.Close()
+	}
+
 	form.OnSubmit = func() {
 		n := data.Student{
 			Name:          nameEntry.Text,
@@ -224,14 +229,17 @@ func (ui *ui) StudentForm(c StudentForm) {
 
 func (ui *ui) StudentDetailsWin(s *data.Student) {
 	w := ui.App.NewWindow(po.Get("Details of %s", s.Name))
+	w.Resize(sizes.FormSize)
 
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(s.Name)),
 		widget.NewFormItem(po.Get("Age:"), widget.NewLabel(itoa(s.Age))),
 		widget.NewFormItem(po.Get("DNI:"), widget.NewLabel(s.DNI)),
 		widget.NewFormItem(po.Get("Phone Number:"), widget.NewLabel(s.PhoneNumber)),
-		widget.NewFormItem("", widget.NewButton(po.Get("Show student courses"), func() { ui.StudentCoursesMainWin(s) })),
-		widget.NewFormItem("", widget.NewButton(po.Get("Show student records"), func() { ui.StudentRecordsMainWin(s) })),
+	)
+	form.CustomItems = container.NewVBox(
+		widget.NewButton(po.Get("Show student courses"), func() { ui.StudentCoursesMainWin(s) }),
+		widget.NewButton(po.Get("Show student records"), func() { ui.StudentRecordsMainWin(s) }),
 	)
 
 	form.SubmitText = po.Get("Close")

@@ -21,7 +21,7 @@ import (
 )
 
 // ImagePicker opens a file picker window to select an image file.
-func ImagePicker(app fyne.App, imageFilePath *string) {
+func ImagePicker(imageFilePath *string) {
 	filter := []string{"*.png", "*.gif", "*.ico", "*.jpg", "*.webp"}
 	const defaultPath string = ""
 	ret, err := zenity.SelectFile(
@@ -37,7 +37,7 @@ func ImagePicker(app fyne.App, imageFilePath *string) {
 }
 
 // FilePicker opens a file picker window to select a configuration file.
-func FilePicker(app fyne.App) string {
+func FilePicker() string {
 	filter := []string{"*.yml", "*.yaml"}
 	const defaultPath string = ""
 	ret, err := zenity.SelectFile(

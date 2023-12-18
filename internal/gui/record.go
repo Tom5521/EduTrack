@@ -10,6 +10,7 @@ import (
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/pkg/widgets"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 	"github.com/ncruces/zenity"
 )
@@ -270,16 +271,14 @@ func (ui *ui) RecordDetailsWin(r *data.Record) {
 	})
 
 	const gridNumber int = 2
-	buttonsCont := container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)
-
 	student := data.Students[data.FindStudentIndexByID(r.StudentID)]
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Student Name:"), widget.NewLabel(student.Name)),
 		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(r.Name)),
 		widget.NewFormItem(po.Get("Date:"), widget.NewLabel(r.Date)),
 		widget.NewFormItem(po.Get("Info:"), infoEntry),
-		widget.NewFormItem("", buttonsCont),
 	)
+	form.CustomItems = container.NewAdaptiveGrid(gridNumber, deleteButton, editButton)
 	form.OnSubmit = func() {
 		w.Close()
 	}

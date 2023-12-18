@@ -10,6 +10,7 @@ import (
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/internal/pkg/sizes"
 	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/pkg/widgets"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
@@ -298,7 +299,7 @@ func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
 	endEntry := widget.NewEntry()
 	endEntry.SetText(sc.End)
 
-	form := widget.NewForm(
+	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Name:"), courseSelectCont),
 		widget.NewFormItem(po.Get("Start:"), startEntry),
 		widget.NewFormItem(po.Get("End:"), endEntry),
