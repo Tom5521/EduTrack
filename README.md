@@ -97,7 +97,7 @@ Or send me a [email](mailto:thomas.bored5521@gmail.com)!
 ## Notes
 
 There is a very high chance that the program will be detected as false positive in windows,
-here is the total virus scan of the
+here is the virustotal scan of the
 [linux](https://www.virustotal.com/gui/file/0a8fd17aa67cdd287cb95411c316032b633d5041cbbb6942a05c44e31af1dbd9)
 and
 [windows](https://www.virustotal.com/gui/file/5aacc038cd20e0f5187526e5073413291df5af35ceb8939b256bc0c0df3fc6b8)
@@ -107,16 +107,6 @@ And [here](https://go.dev/doc/faq#virus) is a explanation of the problem
 
 And [here](https://www.reddit.com/r/golang/comments/189kd0x/running_for_range_loop_and_windows_defender_says/)
 an example of it
-
-## Lessons Learned
-
-- More advanced pointer handling
-- More knowledge with the fyne framework and improve my knowledge regarding containers and layouts.
-- Handling raw SQL in go.
-- Management and adaptation to GORM.
-- Improve the file structure of projects.
-- Good practices in the Go language.
-- Basic use of github actions.
 
 ## License
 
