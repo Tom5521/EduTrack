@@ -20,7 +20,8 @@ var (
 )
 
 func CreateDatabase() error {
-	db, err := gorm.Open(sqlite.Open(conf.Config.DatabaseFile), &gorm.Config{})
+	driver := sqlite.Open(conf.Config.DatabaseFile)
+	db, err := gorm.Open(driver, &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 		return err
@@ -34,5 +35,6 @@ func CreateDatabase() error {
 	printErr(err)
 	err = db.AutoMigrate(&Record{})
 	printErr(err)
+
 	return err
 }

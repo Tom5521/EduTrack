@@ -21,6 +21,10 @@ type Conf struct {
 	DatabaseFile string `json:"database"`
 	Lang         string `json:"lang"`
 	Theme        string `json:"theme"`
+	Password     struct {
+		Enabled bool   `json:"enabled"`
+		Hash    string `json:"hash"`
+	} `json:"password"`
 }
 
 func errWin(err error, optText ...string) {
@@ -38,6 +42,14 @@ func errWin(err error, optText ...string) {
 
 func GetConfData() Conf {
 	conf := Conf{}
+	if _, err := os.Stat(ConfFile); os.IsNotExist(err) {
+		_, err = os.Create(ConfFile)
+		if err != nil {
+			errWin(err)
+			panic(err)
+		}
+	}
+
 	data, err := os.ReadFile(ConfFile)
 	errWin(err, "Error reading config file!")
 	err = json.Unmarshal(data, &conf)
@@ -87,7 +99,8 @@ func (c *Conf) Update() {
 
 func NewConfigurationFile() {
 	var err error
-	jsonData, err := json.Marshal(Conf{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"})
+	newJson := Conf{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"}
+	jsonData, err := json.Marshal(newJson)
 	errWin(err)
 	err = os.WriteFile(ConfFile, jsonData, os.ModePerm)
 	errWin(err)
