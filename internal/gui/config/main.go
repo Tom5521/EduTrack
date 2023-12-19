@@ -19,12 +19,87 @@ import (
 	xtheme "fyne.io/x/fyne/theme"
 )
 
-func MainWin(app fyne.App, po *gotext.Po) {
-	var applyedChanges bool
-	tmpConf := conf.Config
-	w := app.NewWindow(po.Get("Configurations"))
-	const size1, size2 float32 = 600, 100
-	w.Resize(fyne.NewSize(size1, size2))
+var (
+	po      *gotext.Po
+	app     fyne.App
+	tmpConf conf.Conf
+)
+
+func getCenteredLabel(text string) *widget.Label {
+	l := widget.NewLabel(po.Get(text))
+	l.Alignment = fyne.TextAlignCenter
+	l.TextStyle.Bold = true
+	return l
+}
+
+func Init(newApp fyne.App, newPo *gotext.Po) {
+	tmpConf = conf.Config
+	po = newPo
+	app = newApp
+	mainWin()
+}
+
+func passwdUI() *fyne.Container {
+	passwdEntry := &widget.Entry{Password: true}
+	passwdEntry.SetPlaceHolder(randstr.Hex(16))
+	if !tmpConf.Password.Enabled {
+		passwdEntry.Disable()
+	}
+	passwdCheck := widget.NewCheck(po.Get("Enabled"), func(b bool) {
+		if b {
+			passwdEntry.Enable()
+		} else {
+			passwdEntry.Disable()
+		}
+		tmpConf.Password.Enabled = b
+	})
+	passwdCheck.SetChecked(tmpConf.Password.Enabled)
+
+	passwdButton := widget.NewButton(po.Get("Set password"), func() {
+		if passwdEntry.Text == "" {
+			wins.ErrWin(app, po.Get("Password field is empty!"))
+			return
+		}
+		p := passwd.Password(passwdEntry.Text)
+		newHash, err := p.ToHash()
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+			return
+		}
+		tmpConf.Password.Hash = string(newHash)
+	})
+
+	return container.NewVBox(
+		getCenteredLabel("Password Options"),
+		container.NewBorder(nil, nil, passwdCheck, nil, passwdEntry),
+		passwdButton,
+	)
+}
+
+func databaseUI() *fyne.Container {
+	databaseLabel := widget.NewLabel(tmpConf.DatabaseFile)
+	return container.NewVBox(
+		getCenteredLabel("Database Options"),
+		widget.NewForm(
+			widget.NewFormItem(po.Get("Current database route:"), databaseLabel),
+		),
+		widget.NewButton(po.Get("Set database route"), func() {
+			db, err := zenity.SelectFile(
+				zenity.Filename("database.db"),
+				zenity.FileFilters{
+					{po.Get("Database file"), []string{"*.db"}, true},
+				},
+			)
+			if err != nil {
+				return
+			}
+			tmpConf.DatabaseFile = db
+			databaseLabel.SetText(tmpConf.DatabaseFile)
+		}),
+	)
+}
+
+func generalUI() *fyne.Container {
 	langSelect := widget.NewSelect(locales.Languages, func(s string) {
 		if s == "Español" {
 			tmpConf.Lang = "es"
@@ -59,65 +134,26 @@ func MainWin(app fyne.App, po *gotext.Po) {
 	themeSelect.PlaceHolder = po.Get("Select a theme")
 	themeSelect.Selected = tmpConf.Theme
 
-	getCenteredLabel := func(text string) *widget.Label {
-		l := widget.NewLabel(po.Get(text))
-		l.Alignment = fyne.TextAlignCenter
-		l.TextStyle.Bold = true
-		return l
-	}
-	passwdEntry := &widget.Entry{Password: true}
-	passwdEntry.SetPlaceHolder(randstr.Hex(16))
-	passwdCheck := widget.NewCheck(po.Get("Enabled:"), func(b bool) {
-		if b {
-			passwdEntry.Enable()
-		} else {
-			passwdEntry.Disable()
-		}
-		tmpConf.Password.Enabled = b
-	})
-	passwdCheck.SetChecked(tmpConf.Password.Enabled)
-
-	passwdButton := widget.NewButton(po.Get("Set password"), func() {
-		if passwdEntry.Text == "" {
-			wins.ErrWin(app, po.Get("Password field is empty!"))
-			return
-		}
-		p := passwd.Password(passwdEntry.Text)
-		newHash, err := p.ToHash()
-		if err != nil {
-			wins.ErrWin(app, err.Error())
-			return
-		}
-		tmpConf.Password.Hash = string(newHash)
-	})
-	databaseLabel := widget.NewLabel(tmpConf.DatabaseFile)
-	m := widgets.NewForm()
-	m.CustomItems = container.NewVBox(
+	return container.NewVBox(
 		getCenteredLabel("General Options"),
 		widget.NewForm(
 			widget.NewFormItem(po.Get("Language:"), langSelect),
 			widget.NewFormItem(po.Get("Theme:"), themeSelect),
 		),
-		getCenteredLabel("Database Options"),
-		widget.NewForm(
-			widget.NewFormItem(po.Get("Current database route:"), databaseLabel),
-		),
-		widget.NewButton(po.Get("Set database route"), func() {
-			db, err := zenity.SelectFile(
-				zenity.Filename("database.db"),
-				zenity.FileFilters{
-					{po.Get("Database file"), []string{"*.db"}, true},
-				},
-			)
-			if err != nil {
-				return
-			}
-			tmpConf.DatabaseFile = db
-			databaseLabel.SetText(tmpConf.DatabaseFile)
-		}),
-		getCenteredLabel(po.Get("Password Options")),
-		container.NewAdaptiveGrid(2, passwdCheck, passwdEntry),
-		passwdButton,
+	)
+}
+
+func mainWin() {
+	var applyedChanges bool
+	w := app.NewWindow(po.Get("Configurations"))
+	const size1, size2 float32 = 600, 100
+	w.Resize(fyne.NewSize(size1, size2))
+
+	m := widgets.NewForm()
+	m.CustomItems = container.NewVBox(
+		generalUI(),
+		databaseUI(),
+		passwdUI(),
 	)
 
 	m.SubmitText = po.Get("Apply changes")

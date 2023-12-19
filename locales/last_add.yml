@@ -1,3 +1,2 @@
----
-route: internal/gui/main.go
-msgid: 'No'
+route: internal/gui/config/main.go
+msgid: Set password

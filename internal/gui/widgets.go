@@ -20,7 +20,7 @@ func (ui *ui) MainMenu() *fyne.MainMenu {
 				data.LoadEverything()
 			}),
 			fyne.NewMenuItem(po.Get("Configuration"), func() {
-				config.MainWin(ui.App, po)
+				config.Init(ui.App, po)
 			}),
 		),
 		fyne.NewMenu(po.Get("Search"),

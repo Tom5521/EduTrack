@@ -449,3 +449,23 @@ msgstr ""
 #: internal/gui/main.go
 msgid "No"
 msgstr ""
+
+#: internal/gui/config/main.go
+msgid "Configurations"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Password Options"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Enabled"
+msgstr ""
+
+
+#: internal/gui/config/main.go
+msgid "Set password"
+msgstr ""
+

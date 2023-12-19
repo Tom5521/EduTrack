@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EduTrack\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-17 13:18-0300\n"
+"PO-Revision-Date: 2023-12-19 13:19-0300\n"
 "Last-Translator: Tom5521 <--->\n"
 "Language-Team: Spanish - Spain <--->\n"
 "Language: es\n"
@@ -430,3 +430,19 @@ msgstr "Si"
 #: internal/gui/main.go
 msgid "No"
 msgstr "No"
+
+#: internal/gui/config/main.go
+msgid "Configurations"
+msgstr "Configuraciones"
+
+#: internal/gui/config/main.go
+msgid "Password Options"
+msgstr "Opciones de contraseña"
+
+#: internal/gui/config/main.go
+msgid "Enabled"
+msgstr "Activo"
+
+#: internal/gui/config/main.go
+msgid "Set password"
+msgstr "Poner contraseña"

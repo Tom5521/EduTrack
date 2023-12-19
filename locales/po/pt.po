@@ -428,3 +428,19 @@ msgstr "Sim"
 #: internal/gui/main.go
 msgid "No"
 msgstr "Não"
+
+#: internal/gui/config/main.go
+msgid "Configurations"
+msgstr "Configurações"
+
+#: internal/gui/config/main.go
+msgid "Password Options"
+msgstr "Opções de palavra-passe"
+
+#: internal/gui/config/main.go
+msgid "Enabled"
+msgstr "Ativado"
+
+#: internal/gui/config/main.go
+msgid "Set password"
+msgstr "Definir palavra-passe"
