@@ -1,4 +1,4 @@
-package askpasswd
+package passwd
 
 import (
 	"fmt"

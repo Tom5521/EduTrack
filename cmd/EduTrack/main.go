@@ -10,9 +10,9 @@ import (
 	"fmt"
 
 	"github.com/Tom5521/EduTrack/internal/gui"
-	askpasswd "github.com/Tom5521/EduTrack/pkg/askPasswd"
 	"github.com/Tom5521/EduTrack/pkg/conf"
 	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/pkg/passwd"
 	"github.com/ncruces/zenity"
 )
 
@@ -26,8 +26,8 @@ func main() {
 }
 
 func CheckPwd() {
-	insertedPwd := askpasswd.AskPwd()
-	originalHash := askpasswd.Hash(conf.Config.Password.Hash)
+	insertedPwd := passwd.AskPwd()
+	originalHash := passwd.Hash(conf.Config.Password.Hash)
 	err := originalHash.Compare(insertedPwd)
 	if err != nil {
 		if zenity.Error("Incorrect Passsword") != nil {
