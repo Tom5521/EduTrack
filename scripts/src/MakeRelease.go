@@ -46,7 +46,9 @@ func MakeWinZip() {
 	if IsNotExist("EduTrack-win64/") {
 		mkdir("EduTrack-win64/")
 	}
-	CopyFile("builds/EduTrack.exe", "EduTrack-win64/EduTrack.exe")
+	binDir := "cmd/EduTrack/builds/EduTrack.exe"
+	CopyFile(binDir, "builds/EduTrack.exe")
+	CopyFile(binDir, "EduTrack-win64/EduTrack.exe")
 	CopyFile("tmp/opengl/opengl32.dll", "EduTrack-win64/opengl32.dll")
 	RunCmd("zip -r builds/EduTrack-win64.zip EduTrack-win64/")
 	os.RemoveAll("EduTrack-win64/")

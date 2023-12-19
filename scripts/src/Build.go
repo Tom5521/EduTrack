@@ -40,10 +40,11 @@ func SetEnvForWin() {
 var mainDir = "./cmd/EduTrack/"
 
 func CompileForWin() {
-	if runtime.GOOS != "windows" {
+	if runtime.GOOS == "linux" {
 		SetEnvForWin()
 	}
-	RunCmd("fyne package --os windows --exe builds/EduTrack.exe --release --src " + mainDir)
+	cmd := "fyne package --os windows --exe builds/EduTrack.exe --release --src " + mainDir
+	RunCmd(cmd)
 }
 
 func CompileForLinux() {
