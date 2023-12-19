@@ -8,10 +8,13 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/locales"
 	"github.com/Tom5521/EduTrack/pkg/conf"
+	"github.com/Tom5521/EduTrack/pkg/passwd"
 	"github.com/Tom5521/EduTrack/pkg/themes"
 	"github.com/Tom5521/EduTrack/pkg/widgets"
+	"github.com/Tom5521/EduTrack/pkg/wins"
 	"github.com/leonelquinteros/gotext"
 	"github.com/ncruces/zenity"
+	"github.com/thanhpk/randstr"
 
 	xtheme "fyne.io/x/fyne/theme"
 )
@@ -62,9 +65,34 @@ func MainWin(app fyne.App, po *gotext.Po) {
 		l.TextStyle.Bold = true
 		return l
 	}
+	passwdEntry := &widget.Entry{Password: true}
+	passwdEntry.SetPlaceHolder(randstr.Hex(16))
+	passwdCheck := widget.NewCheck(po.Get("Enabled:"), func(b bool) {
+		if b {
+			passwdEntry.Enable()
+		} else {
+			passwdEntry.Disable()
+		}
+		tmpConf.Password.Enabled = b
+	})
+	passwdCheck.SetChecked(tmpConf.Password.Enabled)
+
+	passwdButton := widget.NewButton(po.Get("Set password"), func() {
+		if passwdEntry.Text == "" {
+			wins.ErrWin(app, po.Get("Password field is empty!"))
+			return
+		}
+		p := passwd.Password(passwdEntry.Text)
+		newHash, err := p.ToHash()
+		if err != nil {
+			wins.ErrWin(app, err.Error())
+			return
+		}
+		tmpConf.Password.Hash = string(newHash)
+	})
 	databaseLabel := widget.NewLabel(tmpConf.DatabaseFile)
-	mainForm := widgets.NewForm()
-	mainForm.CustomItems = container.NewVBox(
+	m := widgets.NewForm()
+	m.CustomItems = container.NewVBox(
 		getCenteredLabel("General Options"),
 		widget.NewForm(
 			widget.NewFormItem(po.Get("Language:"), langSelect),
@@ -87,18 +115,21 @@ func MainWin(app fyne.App, po *gotext.Po) {
 			tmpConf.DatabaseFile = db
 			databaseLabel.SetText(tmpConf.DatabaseFile)
 		}),
+		getCenteredLabel(po.Get("Password Options")),
+		container.NewAdaptiveGrid(2, passwdCheck, passwdEntry),
+		passwdButton,
 	)
 
-	mainForm.SubmitText = po.Get("Apply changes")
-	mainForm.CancelText = po.Get("Close")
+	m.SubmitText = po.Get("Apply changes")
+	m.CancelText = po.Get("Close")
 
-	mainForm.OnSubmit = func() {
+	m.OnSubmit = func() {
 		tmpConf.Update()
 		conf.Config = conf.GetConfData()
 		SetTheme(app)
 		applyedChanges = true
 	}
-	mainForm.OnCancel = func() {
+	m.OnCancel = func() {
 		onOk := func() {
 			po.Parse(locales.GetParser(tmpConf.Lang))
 			w.Close()
@@ -114,7 +145,7 @@ func MainWin(app fyne.App, po *gotext.Po) {
 		}
 	}
 
-	w.SetContent(mainForm)
+	w.SetContent(m)
 	w.Show()
 }
 

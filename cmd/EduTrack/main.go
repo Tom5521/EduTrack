@@ -26,6 +26,9 @@ func main() {
 }
 
 func CheckPwd() {
+	if !conf.Config.Password.Enabled {
+		return
+	}
 	insertedPwd := passwd.AskPwd()
 	originalHash := passwd.Hash(conf.Config.Password.Hash)
 	err := originalHash.Compare(insertedPwd)
