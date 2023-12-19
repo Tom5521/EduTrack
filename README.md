@@ -87,16 +87,26 @@ To run tests, run the following command
 
 ## Roadmap
 
-- Add password protection for modifying the database
-
-- Improve the graphic management system of grades and records
-
-- Release the 1.0
+### Nothing interesting for now... it would be better to check the [releases](https://github.com/Tom5521/EduTrack/releases)
 
 ## Support
 
 For support open an issue or message me through my [reddit](https://www.reddit.com/u/Sad-Technician3861)!
 Or send me a [email](mailto:thomas.bored5521@gmail.com)!
+
+## Notes
+
+There is a very high chance that the program will be detected as false positive in windows,
+here is the total virus scan of the
+[linux](https://www.virustotal.com/gui/file/0a8fd17aa67cdd287cb95411c316032b633d5041cbbb6942a05c44e31af1dbd9)
+and
+[windows](https://www.virustotal.com/gui/file/5aacc038cd20e0f5187526e5073413291df5af35ceb8939b256bc0c0df3fc6b8)
+version
+
+And [here](https://go.dev/doc/faq#virus) is a explanation of the problem
+
+And [here](https://www.reddit.com/r/golang/comments/189kd0x/running_for_range_loop_and_windows_defender_says/)
+an example of it
 
 ## Lessons Learned
 
