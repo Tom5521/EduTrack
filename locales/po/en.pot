@@ -451,7 +451,7 @@ msgid "No"
 msgstr ""
 
 #: internal/gui/config/main.go
-msgid "Configurations"
+msgid "Configuration's"
 msgstr ""
 
 

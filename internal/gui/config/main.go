@@ -145,7 +145,7 @@ func generalUI() *fyne.Container {
 
 func mainWin() {
 	var applyedChanges bool
-	w := app.NewWindow(po.Get("Configurations"))
+	w := app.NewWindow(po.Get("Configuration's"))
 	const size1, size2 float32 = 400, 100
 	w.Resize(fyne.NewSize(size1, size2))
 
