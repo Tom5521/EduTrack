@@ -1,5 +1,5 @@
-//go:build AddPo
-// +build AddPo
+// go:build AddPo
+// build AddPo
 
 // Run this with go run -tags AddPo locales/AddPo.go
 
@@ -7,6 +7,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -59,9 +60,9 @@ func AddLineToFile(filename, line string) error {
 	return nil
 }
 
-func ReadFile() yamlData {
+func ReadFile(f string) yamlData {
 	ret := yamlData{}
-	file, _ := os.ReadFile("locales/last_add.yml")
+	file, _ := os.ReadFile(f)
 	yaml.Unmarshal(file, &ret)
 	return ret
 }
@@ -72,8 +73,26 @@ msgid "%s"
 msgstr ""
 `
 
+var dirFlag = flag.Bool("dir", false, "Add po msgid to another directory")
+
 func main() {
-	yml := ReadFile()
+	flag.Parse()
+	if *dirFlag {
+		if len(os.Args) < 3 {
+			fmt.Println("Not enough arguments to dir flag!")
+			fmt.Println(os.Args)
+			return
+		}
+		os.Chdir(os.Args[2])
+		yml := ReadFile("./last_add.yml")
+		fmt.Println(os.Args[2])
+		dirs, _ := GetFilesInDirectory("./po")
+		for _, name := range dirs {
+			AddLineToFile(name, fmt.Sprintf(Template, yml.Route, yml.Msgid))
+		}
+		return
+	}
+	yml := ReadFile("locales/last_add.yml")
 	dirs, _ := GetFilesInDirectory("locales/po/")
 	for _, filename := range dirs {
 		AddLineToFile(filename, fmt.Sprintf(Template, yml.Route, yml.Msgid))
