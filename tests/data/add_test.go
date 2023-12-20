@@ -8,9 +8,12 @@ package data_test
 
 import (
 	"fmt"
+	"strconv"
 	"testing"
 
 	"github.com/Tom5521/EduTrack/pkg/data"
+	"github.com/Tom5521/EduTrack/tests/data/fillers"
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -25,22 +28,28 @@ var lorepIpsum = `Lorem ipsum dolor sit amet,
 	Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco 
 	ut ea consectetur et est culpa et culpa duis.`
 
-func TestAddGrade(t *testing.T) {
+func TestAddCourse(t *testing.T) {
 	data.LoadFiles()
 	require := require.New(t)
+	fillers.Course()
 	assert := assert.New(t)
-	data.LoadFiles()
 	originalLen := len(data.Courses)
-	err := data.AddCourse(&data.Course{Name: "Curso2", Info: "Lorem Ipsum", Price: "0"})
+	newCourse := &data.Course{
+		Name:  gofakeit.Name(),
+		Info:  gofakeit.Phrase(),
+		Price: strconv.Itoa(int(gofakeit.Price(10, 200))),
+	}
+	err := data.AddCourse(newCourse)
 	require.NoError(err)
-	fmt.Println("Grades:", data.Courses)
+	fmt.Println("Courses:", data.Courses)
 
-	assert.NotEqual(originalLen, len(data.Courses), "Grades array not modified!")
+	assert.NotEqual(originalLen, len(data.Courses), "Course array not modified!")
 }
 
 func TestAddStudent(t *testing.T) {
 	// assert := assert.New(t)
 	require := require.New(t)
+	fillers.Student()
 	fmt.Println(data.Students)
 	err := data.AddStudent(&data.Student{Name: "T", Age: 12, DNI: "123", PhoneNumber: "", ImageFilePath: ""})
 	require.NoErrorf(err, "Error adding student || %v ||studentID:%v", err)
@@ -50,6 +59,7 @@ func TestAddStudent(t *testing.T) {
 func TestAddRecord(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
+	fillers.Record()
 	if len(data.Students) == 0 {
 		err := data.AddStudent(&data.Student{Name: "T", Age: 12, DNI: "123", PhoneNumber: "", ImageFilePath: ""})
 		require.NoError(err)
@@ -65,10 +75,10 @@ func TestAddRecord(t *testing.T) {
 	fmt.Println(data.Records)
 }
 
-func TestAddStudentGrade(t *testing.T) {
+func TestAddStudentCourse(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
-
+	fillers.StudentCourse()
 	if len(data.Students) == 0 {
 		err := data.AddStudent(&data.Student{Name: "T", Age: 12, DNI: "123", PhoneNumber: "", ImageFilePath: ""})
 		require.NoError(err)

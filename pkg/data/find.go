@@ -107,3 +107,11 @@ func FindCourseIndexByName(name string) int {
 		return c.Name == name
 	})
 }
+
+func GetStudentIDs() []uint {
+	var ids []uint
+	for _, student := range Students {
+		ids = append(ids, student.ID)
+	}
+	return ids
+}
