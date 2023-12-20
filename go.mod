@@ -6,6 +6,7 @@ require (
 	fyne.io/fyne/v2 v2.4.2
 	fyne.io/x/fyne v0.0.0-20231020065621-89b4a4aea27d
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
+	github.com/brianvoe/gofakeit/v6 v6.26.3
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
 	github.com/glebarez/sqlite v1.10.0
 	github.com/leonelquinteros/gotext v1.5.2
@@ -20,7 +21,6 @@ require (
 require (
 	fyne.io/systray v1.10.1-0.20231115130155-104f5ef7839e // indirect
 	github.com/akavel/rsrc v0.10.2 // indirect
-	github.com/brianvoe/gofakeit/v6 v6.26.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dchest/jsmin v0.0.0-20220218165748-59f39799265f // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
