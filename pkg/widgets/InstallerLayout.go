@@ -15,20 +15,25 @@ type InstallerLayout struct {
 
 	TopItemsLayout fyne.Layout
 
-	OnNext func()
-	OnBack func()
+	OnNext   func()
+	OnBack   func()
+	OnCancel func()
 
-	BackText string
-	NextText string
+	BackText   string
+	NextText   string
+	CancelText string
 
-	HideBack bool
-	HideNext bool
+	HideBack   bool
+	HideNext   bool
+	HideCancel bool
 
-	DisableNext bool
-	DisableBack bool
+	DisableNext   bool
+	DisableBack   bool
+	DisableCancel bool
 
-	nextButton *widget.Button
-	backButton *widget.Button
+	nextButton   *widget.Button
+	backButton   *widget.Button
+	cancelButton *widget.Button
 }
 
 func (l *InstallerLayout) updateButtons() {
@@ -43,6 +48,11 @@ func (l *InstallerLayout) updateButtons() {
 	} else {
 		l.backButton.SetText(l.BackText)
 	}
+	if l.CancelText == "" {
+		l.cancelButton.SetText("Cancel")
+	} else {
+		l.cancelButton.SetText(l.CancelText)
+	}
 
 	// Disablers.
 	if l.DisableNext {
@@ -55,6 +65,11 @@ func (l *InstallerLayout) updateButtons() {
 	} else {
 		l.backButton.Enable()
 	}
+	if l.DisableCancel {
+		l.cancelButton.Disable()
+	} else {
+		l.cancelButton.Enable()
+	}
 	// Hidders.
 	if l.HideBack {
 		l.backButton.Hide()
@@ -66,6 +81,11 @@ func (l *InstallerLayout) updateButtons() {
 		l.nextButton.Hide()
 	} else {
 		l.nextButton.Show()
+	}
+	if l.HideCancel {
+		l.cancelButton.Hide()
+	} else {
+		l.cancelButton.Show()
 	}
 }
 
@@ -86,13 +106,15 @@ func (l *InstallerLayout) Update() {
 func (l *InstallerLayout) CreateRenderer() fyne.WidgetRenderer {
 	l.nextButton = &widget.Button{OnTapped: l.OnNext, Importance: widget.HighImportance}
 	l.backButton = &widget.Button{OnTapped: l.OnBack}
+	l.cancelButton = &widget.Button{OnTapped: l.OnCancel}
 
 	l.ButtonBox = container.NewBorder(
 		nil, nil,
 		container.NewBorder(nil, nil, l.backButton, nil),
 		container.NewBorder(nil, nil, nil, l.nextButton),
+		container.NewBorder(nil, nil, nil, l.cancelButton),
 	)
-	if l.HideBack && l.HideNext {
+	if l.HideBack && l.HideNext && l.HideCancel {
 		l.ButtonBox.Hide()
 	} else {
 		l.ButtonBox.Show()
