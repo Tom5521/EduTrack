@@ -5,6 +5,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
+	"runtime"
 )
 
 func mkdir(dir string) {
@@ -24,22 +26,22 @@ func IsExists(dir string) bool {
 func MoveFile(sourcePath, destPath string) error {
 	inputFile, err := os.Open(sourcePath)
 	if err != nil {
-		return fmt.Errorf("Couldn't open source file: %s", err)
+		return fmt.Errorf("couldn't open source file: %s", err.Error())
 	}
 	outputFile, err := os.Create(destPath)
 	if err != nil {
 		inputFile.Close()
-		return fmt.Errorf("Couldn't open dest file: %s", err)
+		return fmt.Errorf("couldn't open dest file: %s", err.Error())
 	}
 	defer outputFile.Close()
 	_, err = io.Copy(outputFile, inputFile)
 	inputFile.Close()
 	if err != nil {
-		return fmt.Errorf("Writing to output file failed: %s", err)
+		return fmt.Errorf("writing to output file failed: %s", err.Error())
 	}
 	err = os.Remove(sourcePath)
 	if err != nil {
-		return fmt.Errorf("Failed removing original file: %s", err)
+		return fmt.Errorf("failed removing original file: %s", err.Error())
 	}
 	return nil
 }
@@ -81,6 +83,23 @@ func CopyFile(src, dest string) {
 	defer destFile.Close()
 
 	_, err = io.Copy(destFile, sourceFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func RunCmd(command string) {
+	shell, arg := func() (string, string) {
+		if runtime.GOOS == "linux" {
+			return "bash", "-c"
+		}
+		return "C:/windows/System32/cmd.exe", "/c"
+	}()
+	cmd := exec.Command(shell, arg, command)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
 	if err != nil {
 		fmt.Println(err)
 	}
