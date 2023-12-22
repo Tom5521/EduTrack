@@ -1,16 +1,12 @@
 package install
 
 import (
-	"embed"
 	"fmt"
 	"os"
 
 	"fyne.io/fyne/v2/widget"
 	"github.com/ncruces/zenity"
 )
-
-//go:embed files
-var Files embed.FS
 
 type InstallConf struct {
 	ProgressBar *widget.ProgressBar

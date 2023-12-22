@@ -1,9 +1,10 @@
-//go:build unix
-// +build unix
+//go:build unixx
+// +build unixx
 
 package install
 
 import (
+	_ "embed"
 	"io"
 	"os"
 
@@ -12,14 +13,50 @@ import (
 	"github.com/yi-ge/unxz"
 )
 
+//go:embed files/EduTrack-linux64.tar.xz
+var TarFile []byte
+
 func (i *InstallConf) Untar() {
 	defer i.ProgressBar.SetValue(0.4)
-	f, err := Files.ReadFile("files/EduTrack-linux64.tar.xz")
+	chdir("/tmp")
+	err := ExtractTarXz(TarFile)
 	if err != nil {
 		errWin(err.Error())
 	}
-	chdir("/tmp")
-	err = ExtractTarXz(f)
+}
+
+func RootMake() {
+	_, passwd, err := zenity.Password()
+	if err != nil {
+		errWin(err.Error())
+		panic(err)
+	}
+	cmd := command.InitCmd("sudo -S make install")
+	cmd.UseBashShell(true)
+	cmd.CustomStd(false, true, true)
+	ncmd := cmd.GetExec()
+	stdin, err := ncmd.StdinPipe()
+	if err != nil {
+		errWin(err.Error())
+	}
+	go func() {
+		defer stdin.Close()
+		_, err = io.WriteString(stdin, passwd)
+		if err != nil {
+			errWin(err.Error())
+		}
+	}()
+	err = ncmd.Run()
+	if err != nil {
+		errWin(err.Error())
+	}
+}
+
+func UserMake() {
+	cmd := command.InitCmd("make user-install")
+	cmd.UseBashShell(true)
+	cmd.CustomStd(true, true, true)
+	err := cmd.Run()
 	if err != nil {
 		errWin(err.Error())
 	}
@@ -29,42 +66,14 @@ func (i *InstallConf) Make() {
 	defer i.ProgressBar.SetValue(0.8)
 	chdir("EduTrack/")
 	if i.Linux.RootInstall {
-		_, passwd, err := zenity.Password()
-		if err != nil {
-			errWin(err.Error())
-			panic(err)
-		}
-		cmd := command.InitCmd("sudo -S make install")
-		cmd.UseBashShell(true)
-		cmd.CustomStd(false, true, true)
-		ncmd := cmd.GetExec()
-		stdin, err := ncmd.StdinPipe()
-		if err != nil {
-			errWin(err.Error())
-		}
-		go func() {
-			defer stdin.Close()
-			_, err = io.WriteString(stdin, passwd)
-			if err != nil {
-				errWin(err.Error())
-			}
-		}()
-		err = ncmd.Run()
-		if err != nil {
-			errWin(err.Error())
-		}
+		RootMake()
 	} else {
-		cmd := command.InitCmd("make user-install")
-		cmd.UseBashShell(true)
-		cmd.CustomStd(true, true, true)
-		err := cmd.Run()
-		if err != nil {
-			errWin(err.Error())
-		}
+		UserMake()
 	}
 }
 
 func (i *InstallConf) Install() {
+	defer i.ProgressBar.SetValue(1)
 	i.Untar()
 	i.Make()
 }

@@ -21,9 +21,8 @@ func (ui *ui) MainWin() {
 	ui.Window.ShowAndRun()
 }
 
-func NewRichText(txt string) *widget.RichText {
-	return widget.NewRichTextFromMarkdown(txt)
-}
+var NewRichText = widget.NewRichTextFromMarkdown
+
 func NewContent(items ...fyne.CanvasObject) *widgets.InstallerLayout {
 	l := widgets.NewInstallerLayout(items...)
 	l.CancelText = po.Get("Cancel")
@@ -132,7 +131,7 @@ func (ui *ui) Options3Windows() {
 		container.NewBorder(nil, nil, nil, selectPathBt, entry),
 		container.NewHBox(
 			widget.NewCheck(
-				po.Get("Create Desktop entry"),
+				po.Get("Create Desktop shortcut"),
 				func(b bool) {
 					CreateDesktopShortcut = b
 				}),
@@ -203,7 +202,6 @@ func (ui *ui) Installing5() {
 		i.Linux.RootInstall = RootInstall
 		i.Linux.UserInstall = UserInstall
 		i.Install()
-		progressBar.SetValue(1)
 		content.DisableNext = false
 		content.Update()
 	}()

@@ -10,7 +10,7 @@ require (
 	github.com/brianvoe/gofakeit/v6 v6.26.3
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
 	github.com/glebarez/sqlite v1.10.0
-	github.com/jxeng/shortcut v1.0.2
+	github.com/go-ole/go-ole v1.3.0
 	github.com/leonelquinteros/gotext v1.5.2
 	github.com/luisiturrios/gowin v0.0.0-20211223180722-2e88a53ef0f9
 	github.com/ncruces/zenity v0.10.10
@@ -38,7 +38,6 @@ require (
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b // indirect
-	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-text/render v0.0.0-20230619120952-35bccb6164b8 // indirect
 	github.com/go-text/typesetting v0.0.0-20230616162802-9c17dd34aa4a // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
