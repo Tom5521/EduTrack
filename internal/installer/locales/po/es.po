@@ -15,6 +15,6 @@ msgstr ""
 
 
 #: main.go
-msgid "EduTrack Installer"
+msgid "EduTrack Install Wizard"
 msgstr "Instalador de EduTrack"
 

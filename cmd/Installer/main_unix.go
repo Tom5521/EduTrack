@@ -3,7 +3,9 @@
 
 package main
 
-import "github.com/Tom5521/EduTrack/internal/installer"
+import (
+	"github.com/Tom5521/EduTrack/internal/installer"
+)
 
 func main() {
 	gui := installer.InitGUI()

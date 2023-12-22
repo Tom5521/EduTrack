@@ -5,14 +5,18 @@ go 1.21.5
 require (
 	fyne.io/fyne/v2 v2.4.2
 	fyne.io/x/fyne v0.0.0-20231020065621-89b4a4aea27d
+	github.com/Tom5521/CmdRunTools v1.6.0
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
 	github.com/brianvoe/gofakeit/v6 v6.26.3
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
 	github.com/glebarez/sqlite v1.10.0
+	github.com/jxeng/shortcut v1.0.2
 	github.com/leonelquinteros/gotext v1.5.2
+	github.com/luisiturrios/gowin v0.0.0-20211223180722-2e88a53ef0f9
 	github.com/ncruces/zenity v0.10.10
 	github.com/stretchr/testify v1.8.4
 	github.com/thanhpk/randstr v1.0.6
+	github.com/yi-ge/unxz v1.0.3
 	golang.org/x/crypto v0.17.0
 	golang.org/x/sys v0.15.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -22,6 +26,7 @@ require (
 require (
 	fyne.io/systray v1.10.1-0.20231115130155-104f5ef7839e // indirect
 	github.com/akavel/rsrc v0.10.2 // indirect
+	github.com/btcsuite/winsvc v1.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dchest/jsmin v0.0.0-20220218165748-59f39799265f // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -33,6 +38,7 @@ require (
 	github.com/glebarez/go-sqlite v1.21.2 // indirect
 	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
 	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20221017161538-93cebf72946b // indirect
+	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-text/render v0.0.0-20230619120952-35bccb6164b8 // indirect
 	github.com/go-text/typesetting v0.0.0-20230616162802-9c17dd34aa4a // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
@@ -50,6 +56,7 @@ require (
 	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c // indirect
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/tevino/abool v1.2.0 // indirect
+	github.com/ulikunitz/xz v0.5.6 // indirect
 	github.com/yuin/goldmark v1.5.5 // indirect
 	golang.org/x/image v0.11.0 // indirect
 	golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda // indirect
