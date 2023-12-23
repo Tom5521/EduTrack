@@ -44,5 +44,5 @@ func CompileWindowsInstaller() {
 	if runtime.GOOS != "windows" {
 		SetEnvForWin()
 	}
-	RunCmd("go build -o builds/EduTrackInstaller.exe -ldflags -H=windowsgui cmd/Installer/main_windows.go")
+	RunCmd("go build -o builds/EduTrack-Windows-Installer.exe -ldflags -H=windowsgui cmd/Installer/main_windows.go")
 }
