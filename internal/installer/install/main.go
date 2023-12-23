@@ -4,13 +4,17 @@ import (
 	"fmt"
 	"os"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/widget"
+	"github.com/leonelquinteros/gotext"
 	"github.com/ncruces/zenity"
 )
 
 type InstallConf struct {
-	ProgressBar *widget.ProgressBar
-	Windows     struct {
+	Po           *gotext.Po
+	LogContainer *fyne.Container
+	ProgressBar  *widget.ProgressBar
+	Windows      struct {
 		CreateDestktopShortcut bool
 		InstallPath            string
 	}

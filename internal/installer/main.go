@@ -187,15 +187,25 @@ func (ui *ui) SumContentWindows4() {
 
 func (ui *ui) Installing5() {
 	progressBar := widget.NewProgressBar()
-	content := NewContent(
+	logContainer := container.NewVBox()
+	titlesContent := container.NewVBox(
 		NewRichText(po.Get("# Installing EduTrack...")),
 		progressBar,
 		NewRichText(po.Get("### This probably won't take more than a minute")),
 		NewRichText(po.Get("**Log**")),
 	)
+	scrollContent := container.NewVScroll(
+		logContainer,
+	)
+	content := NewContent(
+		titlesContent,
+		scrollContent,
+	)
 
 	go func() {
 		i := &install.InstallConf{}
+		i.Po = po
+		i.LogContainer = logContainer
 		i.ProgressBar = progressBar
 		i.Windows.InstallPath = SelectedPath
 		i.Windows.CreateDestktopShortcut = CreateDesktopShortcut
@@ -212,7 +222,7 @@ func (ui *ui) Installing5() {
 	content.DisableCancel = true
 	content.DisableBack = true
 	content.DisableNext = true
-	content.TopItemsLayout = layout.NewVBoxLayout()
+	content.TopItemsLayout = layout.NewBorderLayout(titlesContent, nil, nil, nil)
 	ui.Window.SetContent(content)
 }
 

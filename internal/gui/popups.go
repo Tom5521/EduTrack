@@ -1,8 +1,6 @@
 package gui
 
 import (
-	"net/url"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
@@ -14,8 +12,7 @@ import (
 func (ui *ui) AboutWin() {
 	window := ui.App.NewWindow(po.Get("About"))
 	label1 := widget.NewLabel(po.Get("Created by:"))
-	link, _ := url.Parse("https://github.com/Tom5521")
-	gitLabel := widget.NewHyperlink("Tom5521", link)
+	gitLabel := widget.NewRichTextFromMarkdown("[Tom5521](https://github.com/Tom5521)")
 	licenceLabel := widget.NewLabel(po.Get("Under %s licence", "MIT"))
 	creditsButton := widget.NewButton(po.Get("CREDITS"), func() {
 		const size1, size2 float32 = 800, 400

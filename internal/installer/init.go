@@ -23,7 +23,7 @@ func InitGUI() *Gui {
 	app := app.New()
 	g := &Gui{}
 	g.App = app
-	g.Window = app.NewWindow("EduTrack installer")
+	g.Window = app.NewWindow("EduTrack Install Wizard")
 	po = locales.GetPo("en")
 	return g
 }

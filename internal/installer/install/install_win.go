@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/user"
 
+	"fyne.io/fyne/v2/widget"
 	"github.com/go-ole/go-ole"
 	"github.com/go-ole/go-ole/oleutil"
 )
@@ -20,6 +21,7 @@ var DllFile []byte
 
 func (i *InstallConf) CopyExeFile() {
 	defer i.ProgressBar.SetValue(0.4)
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Extracting exe file...`")))
 	c := i.Windows
 	if isNotExists(c.InstallPath) {
 		mkdir(c.InstallPath)
@@ -36,6 +38,7 @@ func (i *InstallConf) CopyExeFile() {
 }
 
 func (i *InstallConf) CopyDllFile() {
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Extracting opengl32.dll...`")))
 	c := i.Windows
 	defer i.ProgressBar.SetValue(0.6)
 	file, err := os.Create(c.InstallPath + "/opengl32.dll")
@@ -51,6 +54,10 @@ func (i *InstallConf) CopyDllFile() {
 
 func (i *InstallConf) CreateShortcut() {
 	defer i.ProgressBar.SetValue(0.9)
+	if !i.Windows.CreateDestktopShortcut {
+		return
+	}
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Creating desktop shortcut...`")))
 	usr, err := user.Current()
 	if err != nil {
 		errWin(err.Error())
@@ -67,6 +74,7 @@ func (i *InstallConf) Install() {
 	i.CopyExeFile()
 	i.CopyDllFile()
 	i.CreateShortcut()
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Installation finished!`")))
 }
 
 func CreateShortcut(src, dst string) error {

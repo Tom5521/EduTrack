@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 
+	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/CmdRunTools/command"
 	"github.com/ncruces/zenity"
 	"github.com/yi-ge/unxz"
@@ -17,7 +18,8 @@ import (
 var TarFile []byte
 
 func (i *InstallConf) Untar() {
-	defer i.ProgressBar.SetValue(0.4)
+	defer i.ProgressBar.SetValue(0.3)
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Unzipping package to /tmp...`")))
 	chdir("/tmp")
 	err := ExtractTarXz(TarFile)
 	if err != nil {
@@ -64,10 +66,13 @@ func UserMake() {
 
 func (i *InstallConf) Make() {
 	defer i.ProgressBar.SetValue(0.8)
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Running make...`")))
 	chdir("EduTrack/")
 	if i.Linux.RootInstall {
+		i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`[root] make install`")))
 		RootMake()
 	} else {
+		i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`[user] make user-install`")))
 		UserMake()
 	}
 }
@@ -76,6 +81,7 @@ func (i *InstallConf) Install() {
 	defer i.ProgressBar.SetValue(1)
 	i.Untar()
 	i.Make()
+	i.LogContainer.Add(widget.NewRichTextFromMarkdown(i.Po.Get("`Installation finished!`")))
 }
 
 func ExtractTarXz(embeddedData []byte) error {
