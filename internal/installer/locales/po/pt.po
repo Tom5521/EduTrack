@@ -11,164 +11,122 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.1\n"
 
-
-
 #: main.go
 msgid "EduTrack Install Wizard"
-msgstr ""
-
+msgstr "Assistente de Instalação do EduTrack"
 
 #: main.go
 msgid "Cancel"
-msgstr ""
-
+msgstr "Cancelar"
 
 #: main.go
 msgid "Next"
-msgstr ""
-
+msgstr "Próximo"
 
 #: main.go
 msgid "Back"
-msgstr ""
-
+msgstr "Voltar"
 
 #: main.go
 msgid "# Welcome to the EduTrack installer!"
-msgstr ""
-
+msgstr "# Bem-vindo ao instalador do EduTrack!"
 
 #: main.go
 msgid "#### First of all, select the language to use during installation."
-msgstr ""
-
+msgstr "#### Primeiro, selecione o idioma a ser usado durante a instalação."
 
 #: main.go
 msgid "Accept"
-msgstr ""
-
+msgstr "Aceitar"
 
 #: main.go
 msgid "Deny"
-msgstr ""
-
+msgstr "Negar"
 
 #: main.go
 msgid "# Licence"
-msgstr ""
-
+msgstr "# Licença"
 
 #: main.go
 msgid "# Install Options"
-msgstr ""
-
+msgstr "# Opções de Instalação"
 
 #: main.go
 msgid "## Install Mode"
-msgstr ""
-
+msgstr "## Modo de Instalação"
 
 #: main.go
 msgid "User Install"
-msgstr ""
-
+msgstr "Instalação de Usuário"
 
 #: main.go
 msgid "Root Install"
-msgstr ""
-
+msgstr "Instalação de Root"
 
 #: main.go
 msgid "Select path"
-msgstr ""
-
-
-#: main.go
-msgid "# Install Options"
-msgstr ""
-
+msgstr "Selecionar caminho"
 
 #: main.go
 msgid "## Select the installation path:"
-msgstr ""
-
+msgstr "## Selecione o caminho de instalação:"
 
 #: main.go
 msgid "Create Desktop shortcut"
-msgstr ""
-
+msgstr "Criar atalho na área de trabalho"
 
 #: main.go
 msgid "# Final summary"
-msgstr ""
-
+msgstr "# Resumo Final"
 
 #: main.go
 msgid "Install mode"
-msgstr ""
-
+msgstr "Modo de instalação"
 
 #: main.go
 msgid "User"
-msgstr ""
-
+msgstr "Usuário"
 
 #: main.go
 msgid "Root"
-msgstr ""
-
+msgstr "Root"
 
 #: main.go
 msgid "User (default)"
-msgstr ""
-
+msgstr "Usuário (padrão)"
 
 #: main.go
 msgid "Install"
-msgstr ""
-
-
-#: main.go
-msgid "# Final summary"
-msgstr ""
-
+msgstr "Instalar"
 
 #: main.go
 msgid "Install Path:"
-msgstr ""
-
+msgstr "Caminho de Instalação:"
 
 #: main.go
 msgid "Create desktop shortcut:"
-msgstr ""
-
+msgstr "Criar atalho na área de trabalho:"
 
 #: main.go
 msgid "# Installing EduTrack..."
-msgstr ""
-
+msgstr "# Instalando o EduTrack..."
 
 #: main.go
 msgid "### This probably won't take more than a minute"
-msgstr ""
-
+msgstr "### Isso provavelmente não levará mais de um minuto"
 
 #: main.go
 msgid "**Log**"
-msgstr ""
-
+msgstr "**Registro**"
 
 #: main.go
 msgid "## Thank you for installing EduTrack!"
-msgstr ""
-
+msgstr "## Obrigado por instalar o EduTrack!"
 
 #: main.go
 msgid "Please check the github [page](%s)"
-msgstr ""
-
+msgstr "Por favor, verifique a [página](%s) do GitHub"
 
 #: main.go
 msgid "Finish"
-msgstr ""
-
+msgstr "Concluir"
