@@ -25,7 +25,9 @@ This is a program that manages a database of students and courses.
 
 ### You can install it downloading and executing the installer
 
-![screenshot](./screenshots/InstallerScreenshot.png) 
+**Note:** Only windows and linux are supported
+
+![screenshot](./screenshots/InstallerScreenshot.png)
 
 Install my-project with go or by executing the binary in its own folder
 
