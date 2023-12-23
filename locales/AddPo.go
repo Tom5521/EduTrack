@@ -1,5 +1,5 @@
-///go:build AddPo
-/// +build AddPo
+//go:build AddPo
+// +build AddPo
 
 // Run this with go run -tags AddPo locales/AddPo.go
 
