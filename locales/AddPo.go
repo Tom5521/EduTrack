@@ -1,5 +1,5 @@
-//go:build AddPo
-// +build AddPo
+///go:build AddPo
+/// +build AddPo
 
 // Run this with go run -tags AddPo locales/AddPo.go
 
@@ -15,7 +15,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type yamlData struct {
+type YamlData struct {
 	Route string `yaml:"route"`
 	Msgid string `yaml:"msgid"`
 }
@@ -60,8 +60,8 @@ func AddLineToFile(filename, line string) error {
 	return nil
 }
 
-func ReadFile(f string) yamlData {
-	ret := yamlData{}
+func ReadFile(f string) YamlData {
+	ret := YamlData{}
 	file, _ := os.ReadFile(f)
 	yaml.Unmarshal(file, &ret)
 	return ret
