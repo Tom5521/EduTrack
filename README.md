@@ -23,6 +23,10 @@ This is a program that manages a database of students and courses.
 
 ## Installation
 
+### You can install it downloading and executing the installer
+
+![screenshot](./screenshots/InstallerScreenshot.png) 
+
 Install my-project with go or by executing the binary in its own folder
 
 Install with go:
