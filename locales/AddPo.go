@@ -22,7 +22,6 @@ type YamlData struct {
 
 func GetFilesInDirectory(directory string) ([]string, error) {
 	var files []string
-
 	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -32,31 +31,27 @@ func GetFilesInDirectory(directory string) ([]string, error) {
 		}
 		return nil
 	})
-
 	if err != nil {
 		return nil, err
 	}
-
 	return files, nil
 }
+
 func AddLineToFile(filename, line string) error {
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 	if err != nil {
 		return err
 	}
 	defer file.Close()
-
 	writer := bufio.NewWriter(file)
 	_, err = fmt.Fprintln(writer, line)
 	if err != nil {
 		return err
 	}
-
 	err = writer.Flush()
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
@@ -68,6 +63,7 @@ func ReadFile(f string) YamlData {
 }
 
 const Template string = `
+
 #: %s
 msgid "%s"
 msgstr ""

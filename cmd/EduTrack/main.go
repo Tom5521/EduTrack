@@ -33,7 +33,7 @@ func CheckPwd() {
 	originalHash := passwd.Hash(conf.Config.Password.Hash)
 	err := originalHash.Compare(insertedPwd)
 	if err != nil {
-		if zenity.Error("Incorrect Passsword") != nil {
+		if zenity.Error("Incorrect Password") != nil {
 			fmt.Println("Error in error window")
 		}
 		panic(err)

@@ -11,7 +11,8 @@ import (
 //go:embed po
 var PoFiles embed.FS
 
-const readError string = `A language is not available/does not exist in the configuration.
+const readError string = `
+A language is not available/does not exist in the configuration.
 The available ones are:
 - Spanish
 - English
