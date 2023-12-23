@@ -47,6 +47,20 @@ func Main() {
 		fmt.Println("Can run!")
 		fmt.Println(os.Getwd())
 	}
+
+	if *MakeWinInstaller {
+		fmt.Println("Compiling for windows")
+		CompileForWin()
+		fmt.Println("Making windows zip")
+		MakeWinZip()
+		CompileWindowsInstaller()
+	}
+	if *MakeLinuxInstaller {
+		fmt.Println("Compiling for linux")
+		CompileForLinux()
+		CompileLinuxIstaller()
+	}
+
 	if *HelpFlag {
 		flag.PrintDefaults()
 	}
