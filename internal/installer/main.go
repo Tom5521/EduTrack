@@ -227,9 +227,10 @@ func (ui *ui) Installing5() {
 }
 
 func (ui *ui) FinalMsgCont() {
+	const link = "https://github.com/Tom5521/EduTrack"
 	content := NewContent(
 		NewRichText(po.Get("## Thank you for installing EduTrack!")),
-		NewRichText(po.Get("Please check the github [page](%s)", "https://github.com/Tom5521/EduTrack")),
+		NewRichText(po.Get("Please check the github [page](%s)", link)),
 	)
 	content.NextText = po.Get("Finish")
 	content.HideBack = true

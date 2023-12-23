@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: EduTrack\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2023-12-19 13:19-0300\n"
+"PO-Revision-Date: 2023-12-23 15:16-0300\n"
 "Last-Translator: Tom5521 <--->\n"
 "Language-Team: Spanish - Spain <--->\n"
 "Language: es\n"
@@ -12,9 +12,122 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.1\n"
 
-
-
 #: main.go
 msgid "EduTrack Install Wizard"
 msgstr "Instalador de EduTrack"
 
+#: main.go
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: main.go
+msgid "Next"
+msgstr "Siguiente"
+
+#: main.go
+msgid "Back"
+msgstr "Atras"
+
+#: main.go
+msgid "# Welcome to the EduTrack installer!"
+msgstr "# Bienvenido al instalador de EduTrack"
+
+#: main.go
+msgid "#### First of all, select the language to use during installation."
+msgstr "#### Antes que nada, selecciona el lenguaje que se usara durante la instalacion"
+
+#: main.go
+msgid "Accept"
+msgstr "Aceptar"
+
+#: main.go
+msgid "Deny"
+msgstr "Denegar"
+
+#: main.go
+msgid "# Licence"
+msgstr "# Licencia"
+
+#: main.go
+msgid "# Install Options"
+msgstr "# Opciones de instalacion"
+
+#: main.go
+msgid "## Install Mode"
+msgstr "Modo de instalacion"
+
+#: main.go
+msgid "User Install"
+msgstr "Instalación de usuario"
+
+#: main.go
+msgid "Root Install"
+msgstr "Instalación root"
+
+#: main.go
+msgid "Select path"
+msgstr "Seleccionar ruta"
+
+#: main.go
+msgid "## Select the installation path:"
+msgstr "## Seleccionar ruta de instalacion"
+
+#: main.go
+msgid "Create Desktop shortcut"
+msgstr "Crear acceso directo en el escritorio"
+
+#: main.go
+msgid "Install mode"
+msgstr "Modo de instalacion"
+
+#: main.go
+msgid "User"
+msgstr "Usuario"
+
+#: main.go
+msgid "Root"
+msgstr "Root"
+
+#: main.go
+msgid "User (default)"
+msgstr "Usuario (Por defecto)"
+
+#: main.go
+msgid "Install"
+msgstr "Instalar"
+
+#: main.go
+msgid "# Final summary"
+msgstr "# Sumario final"
+
+#: main.go
+msgid "Install Path:"
+msgstr "Ruta de instalación:"
+
+#: main.go
+msgid "Create desktop shortcut:"
+msgstr "Crear acceso directo en el escritorio:"
+
+#: main.go
+msgid "# Installing EduTrack..."
+msgstr "# Instalando EduTrack..."
+
+#: main.go
+msgid "### This probably won't take more than a minute"
+msgstr "### Esto probablemente tarde menos de un minuto"
+
+#: main.go
+msgid "**Log**"
+msgstr "**Log**"
+
+#: main.go
+msgid "## Thank you for installing EduTrack!"
+msgstr "## ¡Gracias por instalar EduTrack!"
+
+#: main.go
+msgid "Please check the github [page](%s)"
+msgstr "Por favor revisa la [pagina](%s) de github"
+
+#: main.go
+msgid "Finish"
+msgstr "Finalizar"

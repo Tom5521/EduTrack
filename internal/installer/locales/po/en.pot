@@ -17,3 +17,158 @@ msgstr ""
 msgid "EduTrack Install Wizard"
 msgstr ""
 
+
+#: main.go
+msgid "Cancel"
+msgstr ""
+
+
+#: main.go
+msgid "Next"
+msgstr ""
+
+
+#: main.go
+msgid "Back"
+msgstr ""
+
+
+#: main.go
+msgid "# Welcome to the EduTrack installer!"
+msgstr ""
+
+
+#: main.go
+msgid "#### First of all, select the language to use during installation."
+msgstr ""
+
+
+#: main.go
+msgid "Accept"
+msgstr ""
+
+
+#: main.go
+msgid "Deny"
+msgstr ""
+
+
+#: main.go
+msgid "# Licence"
+msgstr ""
+
+
+#: main.go
+msgid "# Install Options"
+msgstr ""
+
+
+#: main.go
+msgid "## Install Mode"
+msgstr ""
+
+
+#: main.go
+msgid "User Install"
+msgstr ""
+
+
+#: main.go
+msgid "Root Install"
+msgstr ""
+
+
+#: main.go
+msgid "Select path"
+msgstr ""
+
+
+#: main.go
+msgid "# Install Options"
+msgstr ""
+
+
+#: main.go
+msgid "## Select the installation path:"
+msgstr ""
+
+
+#: main.go
+msgid "Create Desktop shortcut"
+msgstr ""
+
+
+#: main.go
+msgid "# Final summary"
+msgstr ""
+
+
+#: main.go
+msgid "Install mode"
+msgstr ""
+
+
+#: main.go
+msgid "User"
+msgstr ""
+
+
+#: main.go
+msgid "Root"
+msgstr ""
+
+
+#: main.go
+msgid "User (default)"
+msgstr ""
+
+
+#: main.go
+msgid "Install"
+msgstr ""
+
+
+#: main.go
+msgid "# Final summary"
+msgstr ""
+
+
+#: main.go
+msgid "Install Path:"
+msgstr ""
+
+
+#: main.go
+msgid "Create desktop shortcut:"
+msgstr ""
+
+
+#: main.go
+msgid "# Installing EduTrack..."
+msgstr ""
+
+
+#: main.go
+msgid "### This probably won't take more than a minute"
+msgstr ""
+
+
+#: main.go
+msgid "**Log**"
+msgstr ""
+
+
+#: main.go
+msgid "## Thank you for installing EduTrack!"
+msgstr ""
+
+
+#: main.go
+msgid "Please check the github [page](%s)"
+msgstr ""
+
+
+#: main.go
+msgid "Finish"
+msgstr ""
+

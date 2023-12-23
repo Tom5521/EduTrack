@@ -87,9 +87,11 @@ func main() {
 		yml := ReadFile("./last_add.yml")
 		fmt.Println(os.Args[2])
 		dirs, _ := GetFilesInDirectory("./po")
+		txt := fmt.Sprintf(Template, yml.Route, yml.Msgid)
 		for _, name := range dirs {
-			AddLineToFile(name, fmt.Sprintf(Template, yml.Route, yml.Msgid))
+			AddLineToFile(name, txt)
 		}
+		fmt.Println(fmt.Println(txt))
 		return
 	}
 	yml := ReadFile("locales/last_add.yml")
