@@ -3,7 +3,7 @@ module github.com/Tom5521/EduTrack
 go 1.21.5
 
 require (
-	fyne.io/fyne/v2 v2.4.2
+	fyne.io/fyne/v2 v2.4.3
 	fyne.io/x/fyne v0.0.0-20231020065621-89b4a4aea27d
 	github.com/Tom5521/CmdRunTools v1.6.0
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
