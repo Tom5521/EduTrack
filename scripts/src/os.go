@@ -5,8 +5,8 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"os/exec"
-	"runtime"
+
+	"github.com/Tom5521/CmdRunTools/command"
 )
 
 func mkdir(dir string) {
@@ -88,17 +88,9 @@ func CopyFile(src, dest string) {
 	}
 }
 
-func RunCmd(command string) {
-	shell, arg := func() (string, string) {
-		if runtime.GOOS == "linux" {
-			return "bash", "-c"
-		}
-		return "C:/windows/System32/cmd.exe", "/c"
-	}()
-	cmd := exec.Command(shell, arg, command)
-	cmd.Stdin = os.Stdin
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+func RunCmd(c string) {
+	cmd := command.InitCmd(c)
+	cmd.CustomStd(true, true, true)
 	err := cmd.Run()
 	if err != nil {
 		fmt.Println(err)

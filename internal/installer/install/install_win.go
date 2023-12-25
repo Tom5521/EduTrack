@@ -1,6 +1,9 @@
 //go:build windows
 // +build windows
 
+//go:generate copy ../../../builds/EduTrack.exe ./files/
+//go:generate wget -O ./files/opengl32.dll https://downloads.fdossena.com/geth.php?r=mesa64-latest
+
 package install
 
 import (

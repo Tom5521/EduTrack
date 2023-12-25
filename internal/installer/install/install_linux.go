@@ -1,5 +1,7 @@
-//go:build unix
-// +build unix
+//go:build linux
+// +build linux
+
+//go:generate cp ../../../builds/EduTrack-linux64.tar.xz files/
 
 package install
 

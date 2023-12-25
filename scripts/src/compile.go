@@ -31,7 +31,7 @@ func CompileLinuxIstaller() {
 	if IsNotExist("internal/installer/install/files") {
 		mkdir("internal/installer/install/files")
 	}
-	CopyFile("builds/EduTrack-linux64.tar.xz", "internal/installer/install/files/EduTrack-linux64.tar.xz")
+	RunCmd("go generate internal/installer/install/install_linux.go")
 	RunCmd("go build -o builds/EduTrackInstaller cmd/Installer/main_linux.go")
 }
 
@@ -39,10 +39,10 @@ func CompileWindowsInstaller() {
 	if IsNotExist("internal/installer/install/files") {
 		mkdir("internal/installer/install/files")
 	}
-	CopyFile("tmp/opengl/opengl32.dll", "internal/installer/install/files/opengl32.dll")
-	CopyFile("builds/EduTrack.exe", "internal/installer/install/files/EduTrack.exe")
 	if runtime.GOOS != "windows" {
 		SetEnvForWin()
 	}
-	RunCmd("go build -o builds/EduTrack-Windows-Installer.exe -ldflags -H=windowsgui cmd/Installer/main_windows.go")
+	RunCmd("go generate internal/installer/install/install_win.go")
+	const cmd = "go build -o builds/EduTrack-Windows-Installer.exe -ldflags -H=windowsgui cmd/Installer/main_windows.go"
+	RunCmd(cmd)
 }
