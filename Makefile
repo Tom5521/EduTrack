@@ -51,12 +51,14 @@ uninstall:
 	cd builds && \
 	tar -xvf EduTrack-linux64.tar.xz && \
 	sudo make uninstall
+	rm -rf ~/.config/EduTrack/
 
 user-uninstall:
 	$(call compile_linux)
 	cd builds && \
 	tar -xvf EduTrack-linux64.tar.xz && \
 	make user-uninstall
+	rm -rf ~/.config/EduTrack/
 
 build-to-windows:
 	$(call compile_windows)
