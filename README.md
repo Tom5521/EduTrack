@@ -42,6 +42,7 @@ You can compile it, you need:
 
 - C compiler
 - Go compiler
+- wget
 - xz (on linux)
 - winrar/7zip (on windows)
 - Git
