@@ -27,7 +27,11 @@ endef
 
 
 clean:
-	rm -rf builds tmp windows-zip cmd/EduTrack/EduTrack.exe
+	rm -rf builds tmp windows-zip
+	rm -rf ./cmd/EduTrack/EduTrack
+	rm -rf ./cmd/EduTrack/EduTrack.exe
+	rm -rf ./cmd/Installer/EduTrack\ Installer.exe
+	rm -rf ./cmd/Installer/EduTrack\ Installer
 
 user-install:
 	$(call compile_linux)
@@ -65,7 +69,7 @@ make-windows-installer:
 	cp builds/EduTrack.exe ./internal/installer/install/files/EduTrack.exe -rf
 	cp ./tmp/opengl32.dll ./internal/installer/install/files/opengl32.dll -rf
 	$(call windows_env,fyne package --os windows --release --src ./cmd/Installer/)
-	mv ./cmd/Installer/EduTrack\ Installer.exe ./builds/EduTrack-Installer-win64 -rf
+	mv ./cmd/Installer/EduTrack\ Installer.exe ./builds/EduTrack-Installer-win64.exe
 
 make-linux-installer:
 	mkdir -p builds
