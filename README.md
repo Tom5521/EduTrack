@@ -47,16 +47,12 @@ You can compile it, you need:
 - Git
 - Fyne Package (Optionally)
 
-Compiling in Linux
+Compiling and installing in Linux
 
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-go run -tags release scripts/main.go -compile-to-linux
-cd builds
-tar -xf EduTrack-linux64.tar.xz
-cd EduTrack-linux64
-make user-install # You can make a root install with "sudo make install"
+make user-install # make install for root installation
 ```
 
 On Windows

@@ -87,4 +87,5 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 func MaximizeWin(window fyne.Window) {
 	resolution.GetResolution()
 	window.Resize(sizes.FyneScreenSize)
+	window.CenterOnScreen()
 }
