@@ -66,6 +66,6 @@ func (ui *ui) MainMenu() *fyne.MainMenu {
 			}),
 		),
 	)
-
+	GetDevMenu(menu)
 	return menu
 }
