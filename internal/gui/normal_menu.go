@@ -5,6 +5,4 @@ package gui
 
 import "fyne.io/fyne/v2"
 
-func GetDevMenu(menu *fyne.MainMenu) {
-	return
-}
+func GetDevMenu(*fyne.MainMenu) {}
