@@ -14,3 +14,5 @@ fyne_metadata_init.go
 tmp_pdf/
 *.mo
 locales/tmp_add.txt
+windows-zip
+*.exe

@@ -2,7 +2,10 @@
 // +build windows
 
 //go:generate copy ../../../builds/EduTrack.exe ./files/
-//go:generate wget -O ./files/opengl32.dll https://downloads.fdossena.com/geth.php?r=mesa64-latest
+//go:generate wget -O ./files/opengl32.7z https://downloads.fdossena.com/geth.php?r=mesa64-latest
+//go:generate 7z e files/opengl32.7z
+//go:generate move opengl32.dll files
+//go:generate del README.txt
 
 package install
 
