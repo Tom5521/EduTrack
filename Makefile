@@ -35,15 +35,28 @@ clean:
 
 user-install:
 	$(call compile_linux)
-	cd builds \
-	tar -xvf EduTrack-linux64.tar.xz \
+	cd builds && \
+	tar -xvf EduTrack-linux64.tar.xz && \
 	make user-install
 
 install:
 	$(call compile_linux)
-	cd builds \
-	tar -xvf EduTrack-linux64.tar.xz \
+	cd builds && \
+	tar -xvf EduTrack-linux64.tar.xz && \
 	sudo make install
+
+
+uninstall:
+	$(call compile_linux)
+	cd builds && \
+	tar -xvf EduTrack-linux64.tar.xz && \
+	sudo make uninstall
+
+user-uninstall:
+	$(call compile_linux)
+	cd builds && \
+	tar -xvf EduTrack-linux64.tar.xz && \
+	make user-uninstall
 
 build-to-windows:
 	$(call compile_windows)
