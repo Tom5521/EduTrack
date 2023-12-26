@@ -68,7 +68,7 @@ windows-installer:
 	$(call compile_windows)
 	cp builds/EduTrack.exe ./internal/installer/install/files/EduTrack.exe -rf
 	cp ./tmp/opengl32.dll ./internal/installer/install/files/opengl32.dll -rf
-	$(call windows_env,fyne package --os windows --release --tags gles --src ./cmd/Installer/)
+	$(call windows_env,fyne package --os windows --release --src ./cmd/Installer/)
 	mv ./cmd/Installer/EduTrack\ Installer.exe ./builds/EduTrack-Installer-win64.exe
 
 linux-installer:
