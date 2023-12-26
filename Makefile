@@ -51,7 +51,7 @@ build-to-windows:
 build-to-linux:
 	$(call compile_linux)
 
-make-windows-zip:
+windows-zip:
 	$(call make_win_tmp)
 	mkdir -p windows-zip
 	cp builds/EduTrack.exe windows-zip
@@ -62,16 +62,16 @@ make-windows-zip:
 	zip -r builds/EduTrack-win64.zip windows-zip
 	rm -rf windows-zip
 
-make-windows-installer:
+windows-installer:
 	mkdir -p builds
 	$(call make_win_tmp)
 	$(call compile_windows)
 	cp builds/EduTrack.exe ./internal/installer/install/files/EduTrack.exe -rf
 	cp ./tmp/opengl32.dll ./internal/installer/install/files/opengl32.dll -rf
-	$(call windows_env,fyne package --os windows --release --src ./cmd/Installer/)
+	$(call windows_env,fyne package --os windows --release --tags gles --src ./cmd/Installer/)
 	mv ./cmd/Installer/EduTrack\ Installer.exe ./builds/EduTrack-Installer-win64.exe
 
-make-linux-installer:
+linux-installer:
 	mkdir -p builds
 	$(call compile_linux)
 	cp ./builds/EduTrack-linux64.tar.xz ./internal/installer/install/files/EduTrack-linux64.tar.xz -rf
