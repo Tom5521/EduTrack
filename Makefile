@@ -81,6 +81,7 @@ windows-installer:
 	mkdir -p builds
 	$(call make_win_tmp)
 	$(call compile_windows)
+	mkdir -p ./internal/installer/install/files/
 	cp builds/EduTrack.exe ./internal/installer/install/files/EduTrack.exe -rf
 	cp ./tmp/opengl32.dll ./internal/installer/install/files/opengl32.dll -rf
 	$(call windows_env,fyne package --os windows --release --src ./cmd/Installer/)
