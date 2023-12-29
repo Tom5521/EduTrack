@@ -89,5 +89,6 @@ windows-installer:
 linux-installer:
 	mkdir -p builds
 	$(call compile_linux)
+	mkdir -p ./internal/installer/install/files/
 	cp ./builds/EduTrack-linux64.tar.xz ./internal/installer/install/files/EduTrack-linux64.tar.xz -rf
 	go build -o builds/EduTrack-Installer-linux64 ./cmd/Installer/main_linux.go

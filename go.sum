@@ -52,8 +52,8 @@ github.com/Andrew-M-C/go.jsonvalue v1.1.2-0.20211223013816-e873b56b4a84/go.mod h
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/toml v1.3.2/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
-github.com/Tom5521/CmdRunTools v1.6.0 h1:pAOZIJ8KffD/TCz/oeTltStoCR6n0ysjHoiruy1JZGE=
-github.com/Tom5521/CmdRunTools v1.6.0/go.mod h1:9cGTc1qmoLWyz8TMtm54aYV+6KCljzVVNYwEJy2t4WU=
+github.com/Tom5521/CmdRunTools v1.7.0-beta.1 h1:Nax9EWlnAycNgU1jJxG3KvdJH2Egv19Ju8G2Bh+0HOU=
+github.com/Tom5521/CmdRunTools v1.7.0-beta.1/go.mod h1:9cGTc1qmoLWyz8TMtm54aYV+6KCljzVVNYwEJy2t4WU=
 github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467 h1:L5lkLQK1TDXTvPxCapntP0dBV30I91bgH4/+YUMlPOg=
 github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467/go.mod h1:QovXEupbIBTOVIJ97GiRFabS4UJQm+Me4n3D2rkf6vg=
 github.com/akavel/rsrc v0.10.2 h1:Zxm8V5eI1hW4gGaYsJQUhxpjkENuG91ki8B4zCrvEsw=

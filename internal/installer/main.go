@@ -51,9 +51,12 @@ func (ui *ui) Lang1() {
 			}
 		},
 	)
+	text := `
+# Welcome to the EduTrack installer!
+#### First of all, select the language to use during the installation.
+`
 	content = NewContent(
-		NewRichText("# Welcome to the EduTrack installer!"),
-		NewRichText("#### First of all, select the language to use during installation."),
+		NewRichText(text),
 		langSelect,
 	)
 	content.DisableNext = true
@@ -177,7 +180,7 @@ func (ui *ui) SumContentWindows4() {
 			),
 		),
 	)
-	content.NextText = "Install"
+	content.NextText = po.Get("Install")
 	content.TopItemsLayout = layout.NewVBoxLayout()
 	content.OnNext = func() { ui.Installing5() }
 	content.OnBack = func() { ui.Options3Windows() }
@@ -194,7 +197,7 @@ func (ui *ui) Installing5() {
 		NewRichText(po.Get("### This probably won't take more than a minute")),
 		NewRichText(po.Get("**Log**")),
 	)
-	scrollContent := container.NewVScroll(
+	scrollContent := container.NewScroll(
 		logContainer,
 	)
 	content := NewContent(

@@ -11,6 +11,7 @@ import (
 )
 
 type InstallConf struct {
+	ErrorOut     error
 	Po           *gotext.Po
 	LogContainer *fyne.Container
 	ProgressBar  *widget.ProgressBar
