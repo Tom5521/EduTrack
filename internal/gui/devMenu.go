@@ -22,6 +22,7 @@ func GetDevMenu(m *fyne.MainMenu) {
 		fyne.NewMenuItem("Fill Student Courses", func() {
 			fillers.StudentCourse()
 		}),
+		fyne.NewMenuItem("Custom function", nil),
 	)
 	m.Items = append(m.Items, menu)
 	m.Refresh()
