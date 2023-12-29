@@ -444,3 +444,8 @@ msgstr "Ativado"
 #: internal/gui/config/main.go
 msgid "Set password"
 msgstr "Definir palavra-passe"
+
+
+#: internal/gui/students.go
+msgid "First and last name"
+msgstr ""

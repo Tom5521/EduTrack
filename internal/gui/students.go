@@ -32,7 +32,7 @@ func (ui ui) GetStudentsList(students *[]data.Student) *widget.List {
 			return len(*students)
 		},
 		func() fyne.CanvasObject {
-			return widget.NewLabel("--")
+			return &widget.Label{}
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			s := *students
@@ -162,7 +162,7 @@ func (ui *ui) StudentForm(c StudentForm) {
 
 	const gridNumber int = 2
 	form := widgets.NewForm(
-		widget.NewFormItem(po.Get("Name:"), nameEntry),
+		&widget.FormItem{Text: po.Get("Name:"), Widget: nameEntry, HintText: po.Get("First and last name")},
 		widget.NewFormItem(po.Get("DNI:"), dniEntry),
 		widget.NewFormItem(po.Get("Age:"), ageEntry),
 		widget.NewFormItem(po.Get("Phone Number:"), phoneEntry),
@@ -219,7 +219,12 @@ func (ui *ui) StudentForm(c StudentForm) {
 		if c.Edit.Enable {
 			idToLoad = studentToEdit.ID
 		}
-		s := data.Students[data.FindStudentIndexByID(idToLoad)]
+		i := data.FindStudentIndexByID(idToLoad)
+		if i == -1 {
+			wins.ErrWin(ui.App, po.Get("Student not found!"))
+			return
+		}
+		s := data.Students[i]
 		ui.LoadStudentInfo(&s)
 		w.Close()
 	}

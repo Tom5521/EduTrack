@@ -446,3 +446,8 @@ msgstr "Activo"
 #: internal/gui/config/main.go
 msgid "Set password"
 msgstr "Poner contraseña"
+
+
+#: internal/gui/students.go
+msgid "First and last name"
+msgstr "Nombre y Apellido"

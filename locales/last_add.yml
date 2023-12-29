@@ -1,2 +1,3 @@
-route: internal/gui/config/main.go
-msgid: Set password
+---
+route: internal/gui/students.go
+msgid: First and last name
