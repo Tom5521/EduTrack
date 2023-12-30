@@ -167,7 +167,7 @@ func (ui *ui) CoursesMainWin() {
 	w := ui.App.NewWindow(po.Get("Courses"))
 	w.Resize(sizes.ListSize)
 
-	selected := -1
+	var selected = -1
 
 	list := ui.GetCoursesList(&data.Courses)
 
@@ -215,6 +215,5 @@ func (ui *ui) CoursesMainWin() {
 	content := container.NewBorder(toolbar, nil, nil, nil, list)
 	w.SetIcon(assets.ShowCourses)
 	w.SetContent(content)
-
 	w.Show()
 }
