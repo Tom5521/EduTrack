@@ -25,7 +25,7 @@ func (ui *ui) MakeRecList(l *[]data.Record) *widget.List {
 			return len(*l)
 		},
 		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
+			return &widget.Label{}
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			l := *l

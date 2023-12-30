@@ -43,6 +43,7 @@ func (ui ui) GetStudentsList(students *[]data.Student) *widget.List {
 }
 
 func (ui *ui) LoadStudentInfo(s *data.Student) {
+	// 1: Light | 0: Dark
 	var currentColor color.Color
 	if fyne.CurrentApp().Settings().ThemeVariant() == 1 {
 		currentColor = color.Black
@@ -65,7 +66,7 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 		return label
 	}
 	tagLabel := func(inputText any) *canvas.Text {
-		text := fmt.Sprint((inputText))
+		text := fmt.Sprint(inputText)
 		label := itemLabel(po.Get(text), 90)
 		label.TextSize = 20
 		label.TextStyle.Bold = true
@@ -104,6 +105,7 @@ func (ui *ui) LoadStudentInfo(s *data.Student) {
 		),
 	)
 	ui.StudentTab.Objects = []fyne.CanvasObject{content}
+	ui.StudentTab.Refresh()
 }
 
 func getAgeEntry(app fyne.App, ageEntry *widget.Entry) uint {
