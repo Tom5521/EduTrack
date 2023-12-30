@@ -192,7 +192,7 @@ func (ui *ui) StudentForm(c StudentForm) {
 		}
 		if c.Edit.Enable {
 			if dniEntry.Text != studentToEdit.DNI {
-				if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
+				if existsDNI(dniEntry.Text, data.StudentDNIs()) {
 					wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 					return
 				}
@@ -203,7 +203,7 @@ func (ui *ui) StudentForm(c StudentForm) {
 			}
 		}
 		if c.Add {
-			if existsDNI(dniEntry.Text, data.GetStudentDNIs()) {
+			if existsDNI(dniEntry.Text, data.StudentDNIs()) {
 				wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 				return
 			}
@@ -221,7 +221,7 @@ func (ui *ui) StudentForm(c StudentForm) {
 		if c.Edit.Enable {
 			idToLoad = studentToEdit.ID
 		}
-		i := data.FindStudentIndexByID(idToLoad)
+		i := data.StudentIndexByID(idToLoad)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Student not found!"))
 			return
@@ -257,7 +257,7 @@ func (ui *ui) StudentDetailsWin(s *data.Student) {
 	w.Show()
 }
 
-func (ui ui) GetTemplateUser() *fyne.Container {
+func (ui ui) TemplateUser() *fyne.Container {
 	image := canvas.NewImageFromResource(assets.UserTemplate)
 	image.SetMinSize(sizes.ProfileSize)
 

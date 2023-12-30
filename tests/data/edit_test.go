@@ -82,17 +82,17 @@ func TestEditStudentGrade(t *testing.T) {
 	}
 	err := data.LoadCourses()
 	require.NoError(err)
-	if len(student.Courses) == 0 {
+	if len(student.StudentCourses) == 0 {
 		err = student.AddCourse(&data.StudentCourse{CourseID: data.Courses[0].ID, StudentID: student.ID, Start: "123", End: "23123"})
 		require.NoError(err)
 	}
-	student.GetCourses()
+	student.Courses()
 	dbgrade := data.Courses[0]
-	if len(student.Courses) == 0 {
+	if len(student.StudentCourses) == 0 {
 		err = student.AddCourse(&data.StudentCourse{StudentID: student.ID, CourseID: dbgrade.ID, Start: "1234", End: "12344"})
 		require.NoError(err)
 	}
-	grade := &student.Courses[0]
+	grade := &student.StudentCourses[0]
 	fmt.Println(grade)
 	err = grade.Edit(&data.StudentCourse{
 		StudentID: student.ID,

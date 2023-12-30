@@ -99,8 +99,8 @@ func (c *Conf) Update() {
 
 func NewConfigurationFile() {
 	var err error
-	newJson := Conf{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"}
-	jsonData, err := json.Marshal(newJson)
+	newjson := Conf{DatabaseFile: DefaultDBFile, Theme: "Adwaita", Lang: "en"}
+	jsonData, err := json.Marshal(newjson)
 	errWin(err)
 	err = os.WriteFile(ConfFile, jsonData, os.ModePerm)
 	errWin(err)

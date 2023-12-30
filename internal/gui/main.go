@@ -49,7 +49,7 @@ func (ui *ui) MainWin() {
 		selected = id
 		ui.LoadStudentInfo(&data.Students[id])
 	}
-	ui.StudentTab = ui.GetTemplateUser()
+	ui.StudentTab = ui.TemplateUser()
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.AddUser, func() {
@@ -71,7 +71,7 @@ func (ui *ui) MainWin() {
 							wins.ErrWin(ui.App, err.Error())
 						}
 						ui.StudentList.UnselectAll()
-						ui.StudentTab.Objects = ui.GetTemplateUser().Objects
+						ui.StudentTab.Objects = ui.TemplateUser().Objects
 						ui.StudentTab.Refresh()
 						selected = -1
 					}

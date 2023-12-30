@@ -36,8 +36,8 @@ func (ui *ui) MakeRecList(l *[]data.Record) *widget.List {
 }
 
 func (ui *ui) GetStudentRecordsList(student *data.Student) *widget.List {
-	student.GetRecords()
-	list := ui.MakeRecList(&student.Records)
+	student.Records()
+	list := ui.MakeRecList(&student.StudentRecords)
 	return list
 }
 
@@ -82,9 +82,9 @@ func (ui *ui) AddRecord(studentID uint) {
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		i := data.FindStudentIndexByID(studentID)
+		i := data.StudentIndexByID(studentID)
 
-		data.Students[i].GetRecords()
+		data.Students[i].Records()
 		window.Close()
 	})
 
@@ -107,7 +107,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 	var tmpDate string
 	window := ui.App.NewWindow(po.Get("Edit Record"))
 	window.Resize(sizes.RecSize)
-	i := data.FindRecordIndexByID(recordID)
+	i := data.RecordIndexByID(recordID)
 	if i == -1 {
 		wins.ErrWin(ui.App, po.Get("Record ID<%v> not found!", recordID))
 		window.Close()
@@ -115,14 +115,14 @@ func (ui *ui) EditRecordData(recordID uint) {
 	}
 	rec := &data.Records[i]
 
-	i = data.FindStudentIndexByID(rec.StudentID)
+	i = data.StudentIndexByID(rec.StudentID)
 	if i == -1 {
 		wins.ErrWin(ui.App, po.Get("Student ID<%v> not found!", rec.StudentID))
 		window.Close()
 		return
 	}
 	student := &data.Students[i]
-	student.GetRecords()
+	student.Records()
 
 	recNameEntry := widget.NewEntry()
 	recNameEntry.SetText(rec.Name)
@@ -154,7 +154,7 @@ func (ui *ui) EditRecordData(recordID uint) {
 			wins.ErrWin(ui.App, err.Error())
 		}
 
-		student.GetRecords()
+		student.Records()
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
@@ -193,18 +193,18 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 	bar := widget.NewToolbar(
 		widget.NewToolbarAction(assets.Plus, func() {
 			ui.AddRecord(student.ID)
-			student.GetRecords()
+			student.Records()
 			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Cross, func() {
 			if selected == -1 {
 				return
 			}
-			err := data.Delete(data.Records[data.FindRecordIndexByID(student.Records[selected].ID)])
+			err := data.Delete(data.Records[data.RecordIndexByID(student.StudentRecords[selected].ID)])
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
-			student.GetRecords()
+			student.Records()
 			list.UnselectAll()
 			selected = -1
 		}),
@@ -213,19 +213,19 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 				return
 			}
 			ui.EditRecordData(data.Records[selected].ID)
-			student.GetRecords()
+			student.Records()
 			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Info, func() {
 			if selected == -1 {
 				return
 			}
-			i := data.FindRecordIndexByID(student.Records[selected].ID)
+			i := data.RecordIndexByID(student.StudentRecords[selected].ID)
 			ui.RecordDetailsWin(&data.Records[i])
 		}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Refresh, func() {
-			student.GetRecords()
+			student.Records()
 			list.Refresh()
 		}),
 	)
@@ -235,7 +235,7 @@ func (ui *ui) StudentRecordsMainWin(student *data.Student) {
 	}
 	content := container.NewBorder(bar, nil, nil, nil, list)
 
-	if len(student.Records) == 0 {
+	if len(student.StudentRecords) == 0 {
 		content = container.NewStack(widget.NewButton(po.Get("Add a Record"), func() {
 			ui.AddRecord(student.ID)
 			w.Close()
@@ -271,7 +271,7 @@ func (ui *ui) RecordDetailsWin(r *data.Record) {
 	})
 
 	const gridNumber int = 2
-	student := data.Students[data.FindStudentIndexByID(r.StudentID)]
+	student := data.Students[data.StudentIndexByID(r.StudentID)]
 	form := widgets.NewForm(
 		widget.NewFormItem(po.Get("Student Name:"), widget.NewLabel(student.Name)),
 		widget.NewFormItem(po.Get("Name:"), widget.NewLabel(r.Name)),

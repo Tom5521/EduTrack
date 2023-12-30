@@ -43,10 +43,10 @@ func (r Record) Delete() error {
 }
 
 func (s *Student) DeleteRecord(id uint) error {
-	i := FindRecordIndexByID(id)
+	i := RecordIndexByID(id)
 	err := Delete(Records[i])
 	printErr(err)
-	s.GetRecords()
+	s.Records()
 	return nil
 }
 

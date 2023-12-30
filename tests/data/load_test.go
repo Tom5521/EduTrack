@@ -66,9 +66,9 @@ func TestLoadStudentRecords(t *testing.T) {
 	}
 
 	fmt.Println(data.Students[0])
-	fmt.Println(data.Students[0].Records)
+	fmt.Println(data.Students[0].StudentRecords)
 	err := data.LoadStudents()
 	require.NoError(err)
 	fmt.Println(data.Students[0])
-	fmt.Println(data.Students[0].Records)
+	fmt.Println(data.Students[0].StudentRecords)
 }

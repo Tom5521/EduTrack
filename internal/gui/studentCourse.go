@@ -26,7 +26,7 @@ func (ui ui) GetStudentCoursesList(g *[]data.StudentCourse) *widget.List {
 			// mod := *g
 			var name string
 			if len(data.Courses) != 0 {
-				index := data.FindCourseIndexByID(data.StudentCourses[i].CourseID)
+				index := data.CourseIndexByID(data.StudentCourses[i].CourseID)
 				if index == -1 {
 					return
 				}
@@ -40,7 +40,7 @@ func (ui ui) GetStudentCoursesList(g *[]data.StudentCourse) *widget.List {
 
 func (ui *ui) StudentCourseDetailsWin(sc *data.StudentCourse) {
 	getCourse := func() *data.Course {
-		i := data.FindCourseIndexByID(sc.CourseID)
+		i := data.CourseIndexByID(sc.CourseID)
 		return &data.Courses[i]
 	}
 	c := getCourse()
@@ -100,7 +100,7 @@ func getNoAddedCourses(s *data.Student) []data.Course {
 	var grades []data.Course
 	for _, grade := range data.Courses {
 		var found bool
-		for _, sg := range s.Courses {
+		for _, sg := range s.StudentCourses {
 			if grade.ID == sg.CourseID {
 				found = true
 				break
@@ -128,7 +128,7 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 	toAddList.OnSelected = func(id widget.ListItemID) {
 		toAddSelected = id
 	}
-	addedList := ui.GetStudentCoursesList(&s.Courses)
+	addedList := ui.GetStudentCoursesList(&s.StudentCourses)
 	addedList.OnSelected = func(id widget.ListItemID) {
 		addedSelected = id
 	}
@@ -149,7 +149,7 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 				wins.ErrWin(ui.App, err.Error())
 			}
 			tmpToAddList = slices.Delete(tmpToAddList, toAddSelected, toAddSelected+1)
-			s.GetCourses()
+			s.Courses()
 			addedList.Refresh()
 			toAddList.Refresh()
 		}, w)
@@ -158,12 +158,12 @@ func (ui *ui) SelectCourseWin(s *data.Student) {
 		if addedSelected == -1 {
 			return
 		}
-		i := data.FindStudentCourseIndexByID(s.Courses[addedSelected].ID)
+		i := data.StudentCourseIndexByID(s.StudentCourses[addedSelected].ID)
 		err := data.Delete(data.StudentCourses[i])
 		if err != nil {
 			wins.ErrWin(ui.App, err.Error())
 		}
-		s.GetCourses()
+		s.Courses()
 		addedList.Refresh()
 		tmpToAddList = getNoAddedCourses(s)
 		toAddList.Refresh()
@@ -202,9 +202,9 @@ func (ui *ui) StudentCoursesMainWin(s *data.Student) {
 	w := ui.App.NewWindow(po.Get("%s Courses", s.Name))
 	const size float32 = 300
 	w.Resize(fyne.NewSize(size, size))
-	s.GetCourses()
+	s.Courses()
 	var selected = -1
-	list := ui.GetStudentCoursesList(&s.Courses)
+	list := ui.GetStudentCoursesList(&s.StudentCourses)
 	list.OnSelected = func(id widget.ListItemID) {
 		selected = id
 	}
@@ -218,20 +218,20 @@ func (ui *ui) StudentCoursesMainWin(s *data.Student) {
 			if selected == -1 {
 				return
 			}
-			tg := s.Courses[selected]
-			i := data.FindStudentCourseIndexByID(tg.ID)
+			tg := s.StudentCourses[selected]
+			i := data.StudentCourseIndexByID(tg.ID)
 			err := data.Delete(data.StudentCourses[i])
 			if err != nil {
 				wins.ErrWin(ui.App, err.Error())
 			}
-			s.GetCourses()
+			s.Courses()
 			list.Refresh()
 		}),
 		widget.NewToolbarAction(assets.Edit, func() {
 			if selected == -1 {
 				return
 			}
-			i := data.FindStudentCourseIndexByID(s.Courses[selected].ID)
+			i := data.StudentCourseIndexByID(s.StudentCourses[selected].ID)
 			ui.EditStudentCourseWin(&data.StudentCourses[i])
 		}),
 		widget.NewToolbarAction(assets.Info, func() {
@@ -242,7 +242,7 @@ func (ui *ui) StudentCoursesMainWin(s *data.Student) {
 		}),
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(assets.Refresh, func() {
-			s.GetCourses()
+			s.Courses()
 			list.Refresh()
 		}),
 	)
@@ -253,7 +253,7 @@ func (ui *ui) StudentCoursesMainWin(s *data.Student) {
 }
 
 func (ui *ui) EditStudentCourseWin(sc *data.StudentCourse) {
-	i := data.FindCourseIndexByID(sc.CourseID)
+	i := data.CourseIndexByID(sc.CourseID)
 	course := data.Courses[i]
 	window := ui.App.NewWindow(po.Get("Edit %s", course.Name))
 	const size1, size2 float32 = 500, 100

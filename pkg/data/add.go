@@ -29,13 +29,13 @@ func AddStudentCourse(newGrade *StudentCourse) error {
 func (s Student) AddCourse(newGrade *StudentCourse) error {
 	newGrade.StudentID = s.ID
 	err := AddStudentCourse(newGrade)
-	s.GetCourses()
+	s.Courses()
 	return err
 }
 
 func (s Student) AddRecord(newRecord *Record) error {
 	newRecord.StudentID = s.ID
 	err := AddRecord(newRecord)
-	s.GetRecords()
+	s.Records()
 	return err
 }

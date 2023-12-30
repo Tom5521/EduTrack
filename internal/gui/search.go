@@ -18,7 +18,7 @@ func (ui *ui) SearchStudentsMainWin() {
 	label.Alignment = fyne.TextAlignCenter
 	dniSearchButton := widget.NewButton(po.Get("Search"), func() {
 		studentDNI := dniEntry.Text
-		i := data.FindStudentIndexByDNI(studentDNI)
+		i := data.StudentIndexByDNI(studentDNI)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Student not found!"))
 			return
@@ -39,7 +39,7 @@ func (ui *ui) SearchStudentsMainWin() {
 	nameEntry := widget.NewEntry()
 	nameSearchButton := widget.NewButton(po.Get("Search"), func() {
 		studentName := nameEntry.Text
-		i := data.FindStudentIndexByName(studentName)
+		i := data.StudentIndexByName(studentName)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Student not found!"))
 			return
@@ -72,7 +72,7 @@ func (ui *ui) SearchCoursesMainWin() {
 	searchCourseEntry := widget.NewEntry()
 	searchCourseButton := widget.NewButton(po.Get("Search"), func() {
 		text := searchCourseEntry.Text
-		i := data.FindCourseIndexbyName(text)
+		i := data.CourseIndexbyName(text)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Course not found!"))
 			return
@@ -98,7 +98,7 @@ func (ui *ui) SearchRecordsMainWin() {
 	entry := widget.NewEntry()
 	button := widget.NewButton(po.Get("Search"), func() {
 		text := entry.Text
-		i := data.FindRecordIndexByName(text)
+		i := data.RecordIndexByName(text)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Record not found!"))
 			return
@@ -152,7 +152,7 @@ func (ui *ui) SearchStudentCoursesMainWin() {
 	label.Alignment = fyne.TextAlignCenter
 	entry := widget.NewEntry()
 	searchButton := widget.NewButton(po.Get("Search"), func() {
-		i := student.FindCourseIndexByName(entry.Text)
+		i := student.CourseIndexByName(entry.Text)
 		if i == -1 {
 			wins.ErrWin(ui.App, po.Get("Student Course not found!"))
 			return

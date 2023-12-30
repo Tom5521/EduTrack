@@ -21,7 +21,7 @@ func printErr(err error) {
 	}
 }
 
-func GetDB() *gorm.DB {
+func OpenDB() *gorm.DB {
 	db, err := gorm.Open(sqlite.Open(conf.Config.DatabaseFile), &gorm.Config{})
 	printErr(err)
 	return db
@@ -49,22 +49,22 @@ func LoadStudentCourses() error {
 
 // Student
 
-func (s *Student) GetCourses() {
+func (s *Student) Courses() {
 	var cleanGrades []StudentCourse
-	s.Courses = cleanGrades
+	s.StudentCourses = cleanGrades
 	for _, grade := range StudentCourses {
 		if grade.StudentID == s.ID {
-			s.Courses = append(s.Courses, grade)
+			s.StudentCourses = append(s.StudentCourses, grade)
 		}
 	}
 }
 
-func (s *Student) GetRecords() {
+func (s *Student) Records() {
 	var cleanRecords []Record
-	s.Records = cleanRecords
+	s.StudentRecords = cleanRecords
 	for _, record := range Records {
 		if record.StudentID == s.ID {
-			s.Records = append(s.Records, record)
+			s.StudentRecords = append(s.StudentRecords, record)
 		}
 	}
 }

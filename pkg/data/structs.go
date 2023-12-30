@@ -19,13 +19,13 @@ type Course struct {
 
 type Student struct {
 	gorm.Model
-	Name          string
-	Age           uint
-	DNI           string
-	PhoneNumber   string
-	ImageFilePath string
-	Courses       []StudentCourse `gorm:"-"`
-	Records       []Record        `gorm:"-"`
+	Name           string
+	Age            uint
+	DNI            string
+	PhoneNumber    string
+	ImageFilePath  string
+	StudentCourses []StudentCourse `gorm:"-"`
+	StudentRecords []Record        `gorm:"-"`
 }
 
 type StudentCourse struct {
