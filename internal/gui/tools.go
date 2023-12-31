@@ -18,7 +18,7 @@ func atoi[T ~string](s T) int {
 	return ret
 }
 
-func existsDNI(check string, list []string) bool {
+func validateStudentDNI(check string, list []string) bool {
 	var contains bool
 	for _, v := range list {
 		if v == check {
@@ -29,8 +29,8 @@ func existsDNI(check string, list []string) bool {
 	return contains
 }
 
-// checkValues checks if all required form fields are not empty.
-func checkValues(s data.Student) bool {
+// validateStudentForm checks if all required form fields are not empty.
+func validateStudentForm(s data.Student) bool {
 	if s.Age == 0 {
 		return false
 	}

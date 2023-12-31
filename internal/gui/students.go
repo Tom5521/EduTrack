@@ -186,13 +186,13 @@ func (ui *ui) StudentForm(c StudentForm) {
 			PhoneNumber:   phoneEntry.Text,
 			ImageFilePath: imagePath,
 		}
-		if !checkValues(n) {
+		if !validateStudentForm(n) {
 			wins.ErrWin(ui.App, po.Get("Some value in this form is empty"))
 			return
 		}
 		if c.Edit.Enable {
 			if dniEntry.Text != studentToEdit.DNI {
-				if existsDNI(dniEntry.Text, data.StudentDNIs()) {
+				if validateStudentDNI(dniEntry.Text, data.StudentDNIs()) {
 					wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 					return
 				}
@@ -203,7 +203,7 @@ func (ui *ui) StudentForm(c StudentForm) {
 			}
 		}
 		if c.Add {
-			if existsDNI(dniEntry.Text, data.StudentDNIs()) {
+			if validateStudentDNI(dniEntry.Text, data.StudentDNIs()) {
 				wins.ErrWin(ui.App, po.Get("The DNI already exists"))
 				return
 			}
