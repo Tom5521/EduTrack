@@ -1,19 +1,54 @@
 package gui
 
 import (
+	"time"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/widget"
 	"github.com/Tom5521/EduTrack/assets"
 	"github.com/Tom5521/EduTrack/pkg/data"
 	"github.com/Tom5521/EduTrack/pkg/wins"
 )
 
+func isSpecialDate() bool {
+	now := time.Now()
+
+	isSpecialDay := (now.Day() == 31 && now.Month() == time.December) ||
+		(now.Day() == 25 && now.Month() == time.December) ||
+		(now.Day() == 1 && now.Month() == time.January)
+
+	return isSpecialDay
+}
+
+func (ui *ui) splash() {
+	if !isSpecialDate() {
+		return
+	}
+	drv := ui.App.Driver()
+	if drv, ok := drv.(desktop.Driver); ok {
+		splash := drv.CreateSplashWindow()
+		l := canvas.NewText("", fyne.CurrentApp().Settings().Theme().Color("default"))
+		splash.SetContent(widget.NewLabelWithStyle("Happy holidays!",
+			fyne.TextAlignCenter, fyne.TextStyle{Bold: true}))
+		splash.Show()
+
+		go func() {
+			time.Sleep(time.Second * 3)
+			splash.Close()
+		}()
+	}
+}
+
 func (ui *ui) MainWin() {
 	w := ui.App.NewWindow("EduTrack")
 	w.SetMaster()
 	wins.MaximizeWin(w)
 	w.SetMainMenu(ui.MainMenu())
+	ui.splash()
 
 	var selected = -1
 	ui.StudentList = ui.GetStudentsList(&data.Students)

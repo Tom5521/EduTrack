@@ -19,7 +19,7 @@ func (ui ui) GetCoursesList(courses *[]data.Course) *widget.List {
 			return len(*courses)
 		},
 		func() fyne.CanvasObject {
-			return widget.NewLabel("template")
+			return &widget.Label{}
 		},
 		func(i widget.ListItemID, o fyne.CanvasObject) {
 			mod := *courses
