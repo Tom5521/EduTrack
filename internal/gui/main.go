@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/driver/desktop"
@@ -31,7 +30,6 @@ func (ui *ui) splash() {
 	drv := ui.App.Driver()
 	if drv, ok := drv.(desktop.Driver); ok {
 		splash := drv.CreateSplashWindow()
-		l := canvas.NewText("", fyne.CurrentApp().Settings().Theme().Color("default"))
 		splash.SetContent(widget.NewLabelWithStyle("Happy holidays!",
 			fyne.TextAlignCenter, fyne.TextStyle{Bold: true}))
 		splash.Show()
