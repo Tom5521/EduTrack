@@ -99,8 +99,8 @@ Or send me a [email](mailto:thomas.bored5521@gmail.com)!
 
 ## Notes
 
-There is a very high chance that the program will be detected as false positive in windows,
-here is the virustotal scan of the
+There is a very high chance that the program will be detected as false positive
+in windows, here is the virustotal scan of the
 [linux](https://www.virustotal.com/gui/file/0a8fd17aa67cdd287cb95411c316032b633d5041cbbb6942a05c44e31af1dbd9)
 and
 [windows](https://www.virustotal.com/gui/file/5aacc038cd20e0f5187526e5073413291df5af35ceb8939b256bc0c0df3fc6b8)
