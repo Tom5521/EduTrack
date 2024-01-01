@@ -60,15 +60,15 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 	if conf.Config.Lang == "en" || conf.Config.Lang == "" {
 		buttonText = "Accept"
 	}
-	window := app.NewWindow("Error")
-	window.RequestFocus()
-	window.Resize(sizes.ErrSize)
-	window.SetIcon(assets.Error)
+	w := app.NewWindow("Error")
+	w.RequestFocus()
+	w.Resize(sizes.ErrSize)
+	w.SetIcon(assets.Error)
 	errlabel := widget.NewLabel(err)
 	errlabel.TextStyle.Bold = true
 	errlabel.Alignment = fyne.TextAlignCenter
 	acceptButton := widget.NewButton(buttonText, func() {
-		window.Close()
+		w.Close()
 		if len(clWindow) > 0 {
 			clWindow[0].Close()
 		}
@@ -78,9 +78,9 @@ func ErrWin(app fyne.App, err string, clWindow ...fyne.Window) {
 		errlabel,
 		acceptButton,
 	)
-	window.SetContent(content)
-	window.SetMainMenu(window.MainMenu())
-	window.Show()
+	w.SetContent(content)
+	w.SetMainMenu(w.MainMenu())
+	w.Show()
 }
 
 // MaximizeWin resizes a given window to match the screen's resolution.

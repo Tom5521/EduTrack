@@ -1,6 +1,8 @@
 package installer
 
 import (
+	"fmt"
+	"os"
 	"runtime"
 	"strconv"
 
@@ -240,6 +242,12 @@ func (ui *ui) FinalMsgCont() {
 	content.HideCancel = true
 	content.OnNext = func() {
 		ui.App.Quit()
+		if runtime.GOOS == "linux" {
+			err := os.RemoveAll("/tmp/EduTrack")
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
 	}
 	content.TopItemsLayout = layout.NewVBoxLayout()
 	ui.Window.SetContent(content)
