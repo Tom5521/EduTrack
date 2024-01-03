@@ -21,6 +21,7 @@ var (
 
 type Build mg.Namespace
 type Install mg.Namespace
+type Uninstall mg.Namespace
 
 func copyfile(src, dest string) error {
 	source, err := os.ReadFile(src)
@@ -186,7 +187,7 @@ func (Build) Linux() error {
 	return nil
 }
 
-func setupLinuxInstall() error {
+func setupLinuxMake() error {
 	if _, err := os.Stat("builds/EduTrack-linux64.tar.xz"); os.IsNotExist(err) {
 		err = build.LinuxInstaller()
 		if err != nil {
@@ -197,9 +198,11 @@ func setupLinuxInstall() error {
 	if err != nil {
 		return err
 	}
-	err = sh.RunV("tar", "-xvf", "EduTrack-linux64.tar.xz")
-	if err != nil {
-		return err
+	if _, err = os.Stat("Makefile"); os.IsNotExist(err) {
+		err = sh.RunV("tar", "-xvf", "EduTrack-linux64.tar.xz")
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -207,7 +210,7 @@ func setupLinuxInstall() error {
 
 // NOTE: Only works in linux, in windows you will have to use the installer.
 func (Install) Root() error {
-	err := setupLinuxInstall()
+	err := setupLinuxMake()
 	if err != nil {
 		return err
 	}
@@ -224,7 +227,7 @@ func (Install) Root() error {
 
 // NOTE: Only works in linux, in windows you will have to use the installer.
 func (Install) User() error {
-	err := setupLinuxInstall()
+	err := setupLinuxMake()
 	if err != nil {
 		return err
 	}
@@ -314,6 +317,38 @@ func MakeWindowsZip() error {
 		return err
 	}
 	err = os.RemoveAll("windows-tmp")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (Uninstall) User() error {
+	err := setupLinuxMake()
+	if err != nil {
+		return err
+	}
+	err = sh.RunV("make", "user-uninstall")
+	if err != nil {
+		return err
+	}
+	err = os.Chdir("..")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (Uninstall) Root() error {
+	err := setupLinuxMake()
+	if err != nil {
+		return err
+	}
+	err = sh.RunV("sudo", "make", "uninstall")
+	if err != nil {
+		return err
+	}
+	err = os.Chdir("..")
 	if err != nil {
 		return err
 	}
