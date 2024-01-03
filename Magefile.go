@@ -4,6 +4,7 @@ package main
 
 import (
 	"os"
+	"os/user"
 	"runtime"
 
 	"github.com/Tom5521/GoNotes/pkg/messages"
@@ -228,40 +229,6 @@ func setupLinuxMake() error {
 	return nil
 }
 
-// NOTE: Only works in linux, in windows you will have to use the installer.
-func (Install) Root() error {
-	err := setupLinuxMake()
-	if err != nil {
-		return err
-	}
-	err = sh.RunV("sudo", "make", "install")
-	if err != nil {
-		return err
-	}
-	err = os.Chdir("..")
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-// NOTE: Only works in linux, in windows you will have to use the installer.
-func (Install) User() error {
-	err := setupLinuxMake()
-	if err != nil {
-		return err
-	}
-	err = sh.RunV("make", "user-install")
-	if err != nil {
-		return err
-	}
-	err = os.Chdir("..")
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // Delete temporary directories, compilation files, etc, It leaves it as if it had just been cloned.
 func Clean() {
 	var errorList []error
@@ -340,6 +307,67 @@ func MakeWindowsZip() error {
 		return err
 	}
 	return nil
+}
+
+func (Install) Go() error {
+	err := sh.RunV("go", "install", "-v", "github.com/Tom5521/EduTrack/cmd/EduTrack@latest")
+	if err != nil {
+		return err
+	}
+	return err
+}
+
+// NOTE: Only works in linux, in windows you will have to use the installer.
+func (Install) Root() error {
+	err := setupLinuxMake()
+	if err != nil {
+		return err
+	}
+	err = sh.RunV("sudo", "make", "install")
+	if err != nil {
+		return err
+	}
+	err = os.Chdir("..")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// NOTE: Only works in linux, in windows you will have to use the installer.
+func (Install) User() error {
+	err := setupLinuxMake()
+	if err != nil {
+		return err
+	}
+	err = sh.RunV("make", "user-install")
+	if err != nil {
+		return err
+	}
+	err = os.Chdir("..")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (Uninstall) Go() error {
+	usr, err := user.Current()
+	if err != nil {
+		return err
+	}
+	if runtime.GOOS == "linux" {
+		err = sh.Rm(usr.HomeDir + "/go/bin/EduTrack")
+		if err != nil {
+			return err
+		}
+	} else if runtime.GOOS == "windows" {
+		err = sh.Rm(usr.HomeDir + "/go/bin/EduTrack.exe")
+		if err != nil {
+			return err
+		}
+	}
+	return err
 }
 
 func (Uninstall) User() error {
