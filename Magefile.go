@@ -3,6 +3,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/user"
 	"runtime"
@@ -23,6 +24,15 @@ var (
 type Build mg.Namespace
 type Install mg.Namespace
 type Uninstall mg.Namespace
+
+func initErrHandler(errVal *error) func(func() error) {
+	return func(f func() error) {
+		if *errVal != nil {
+			return
+		}
+		*errVal = f()
+	}
+}
 
 func copyfile(src, dest string) error {
 	source, err := os.ReadFile(src)
@@ -121,112 +131,107 @@ func (Build) LinuxInstaller() error {
 }
 
 func (Build) All() error {
-	err := build.Linux()
-	if err != nil {
-		return err
+	var err error
+	println := func(a ...any) {
+		if err != nil {
+			return
+		}
+		fmt.Println(a...)
 	}
-	err = build.Windows()
-	if err != nil {
-		return err
-	}
-	err = build.LinuxInstaller()
-	if err != nil {
-		return err
-	}
-	err = build.WindowsInstaller()
-	if err != nil {
-		return err
-	}
-	return nil
+
+	handleErr := initErrHandler(&err)
+	println("Compiling for linux...")
+	handleErr(build.Linux)
+	println("Compiling for windows...")
+	handleErr(build.Windows)
+	println("Compiling linux installer...")
+	handleErr(build.LinuxInstaller)
+	println("Compiling windows installer...")
+	handleErr(build.WindowsInstaller)
+	println("Making windows zip...")
+	handleErr(MakeWindowsZip)
+
+	return err
 }
 
 func (Build) WindowsInstaller() error {
-	if err := checkdir(); err != nil {
-		return err
-	}
-	if _, err := os.Stat("tmp/opengl32.7z"); os.IsNotExist(err) {
-		if err = downloadWinFiles(); err != nil {
-			return err
-		}
-	}
-	err := copyfile("tmp/opengl32.dll", "./internal/installer/install/files/opengl32.dll")
-	if err != nil {
-		return err
-	}
-	if _, err = os.Stat("builds/EduTrack.exe"); os.IsNotExist(err) {
-		err = build.Windows()
+	var err error
+	handleErr := func(f func() error) {
 		if err != nil {
-			return err
+			return
 		}
+		err = f()
 	}
-	err = copyfile("builds/EduTrack.exe", "./internal/installer/install/files/EduTrack.exe")
-	if err != nil {
-		return err
+	handleErr(checkdir)
+	if _, err = os.Stat("tmp/opengl32.7z"); os.IsNotExist(err) {
+		handleErr(downloadWinFiles)
 	}
-	err = sh.RunWith(WindowsEnv, "fyne", "package", "--os", "windows", "--release", "--src", "./cmd/Installer/",
-		"--exe", "builds/EduTrack-Installer-win64.exe", "--tags", "windows")
-	if err != nil {
-		return err
+
+	handleErr(func() error {
+		return copyfile("tmp/opengl32.dll", "./internal/installer/install/files/opengl32.dll")
+	})
+	if _, err = os.Stat("builds/EduTrack.exe"); os.IsNotExist(err) {
+		handleErr(build.Windows)
 	}
-	err = movefile("./cmd/Installer/builds/EduTrack-Installer-win64.exe", "builds/EduTrack-Installer-win64.exe")
-	if err != nil {
-		return err
-	}
-	return nil
+	handleErr(func() error {
+		return copyfile("builds/EduTrack.exe", "./internal/installer/install/files/EduTrack.exe")
+	})
+	handleErr(func() error {
+		return sh.RunWith(WindowsEnv, "fyne", "package", "--os", "windows", "--release", "--src",
+			"./cmd/Installer/", "--exe", "builds/EduTrack-Installer-win64.exe", "--tags", "windows")
+	})
+	handleErr(func() error {
+		return movefile("./cmd/Installer/builds/EduTrack-Installer-win64.exe",
+			"builds/EduTrack-Installer-win64.exe")
+	})
+	return err
 }
 
 // Compile the program to be distributed on windows, NOTE: This will only return an .exe of the program, the installation in windows can only be done through the installer.
 func (Build) Windows() error {
-	if err := checkdir(); err != nil {
-		return err
-	}
-	err := sh.RunWithV(WindowsEnv, "fyne", "package", "--os", "windows", "--release",
-		"--tags", "windows", "--src", MainDir, "--exe", "builds/EduTrack.exe")
-	if err != nil {
-		return err
-	}
-	err = movefile(MainDir+"/builds/EduTrack.exe", "./builds/EduTrack.exe")
-	if err != nil {
-		return err
-	}
-	return nil
+	var err error
+	handleErr := initErrHandler(&err)
+	handleErr(checkdir)
+	handleErr(func() error {
+		return sh.RunWithV(WindowsEnv, "fyne", "package", "--os", "windows", "--release",
+			"--tags", "windows", "--src", MainDir, "--exe", "builds/EduTrack.exe")
+	})
+	handleErr(func() error {
+		return movefile(MainDir+"/builds/EduTrack.exe", "./builds/EduTrack.exe")
+	})
+	return err
 }
 
 // Compile the program to be distributed on linux.
 func (Build) Linux() error {
-	if err := checkdir(); err != nil {
-		return err
-	}
-	err := sh.RunV("fyne", "package", "--os", "linux", "--release", "--tags", "linux", "--src", MainDir)
-	if err != nil {
-		return err
-	}
-	err = movefile("EduTrack.tar.xz", "builds/EduTrack-linux64.tar.xz")
-	if err != nil {
-		return err
-	}
-	return nil
+	var err error
+	handleErr := initErrHandler(&err)
+	handleErr(checkdir)
+	handleErr(func() error {
+		return sh.RunV("fyne", "package", "--os", "linux", "--release", "--tags", "linux", "--src", MainDir)
+	})
+	handleErr(func() error {
+		return movefile("EduTrack.tar.xz", "builds/EduTrack-linux64.tar.xz")
+	})
+	return err
 }
 
 func setupLinuxMake() error {
-	if _, err := os.Stat("builds/EduTrack-linux64.tar.xz"); os.IsNotExist(err) {
+	var err error
+	handleErr := initErrHandler(&err)
+	if _, err = os.Stat("builds/EduTrack-linux64.tar.xz"); os.IsNotExist(err) {
 		err = build.LinuxInstaller()
 		if err != nil {
 			return err
 		}
 	}
-	err := os.Chdir("builds")
-	if err != nil {
-		return err
-	}
+	handleErr(func() error { return os.Chdir("builds") })
 	if _, err = os.Stat("Makefile"); os.IsNotExist(err) {
-		err = sh.RunV("tar", "-xvf", "EduTrack-linux64.tar.xz")
-		if err != nil {
-			return err
-		}
+		handleErr(func() error {
+			return sh.RunV("tar", "-xvf", "EduTrack-linux64.tar.xz")
+		})
 	}
-
-	return nil
+	return err
 }
 
 // Delete temporary directories, compilation files, etc, It leaves it as if it had just been cloned.
@@ -309,6 +314,7 @@ func MakeWindowsZip() error {
 	return nil
 }
 
+// This works on both windows and linux.
 func (Install) Go() error {
 	err := sh.RunV("go", "install", "-v", "github.com/Tom5521/EduTrack/cmd/EduTrack@latest")
 	if err != nil {
@@ -351,6 +357,7 @@ func (Install) User() error {
 	return nil
 }
 
+// This works on both windows and linux.
 func (Uninstall) Go() error {
 	usr, err := user.Current()
 	if err != nil {
