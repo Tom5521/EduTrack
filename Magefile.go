@@ -226,7 +226,7 @@ func setupLinuxMake() error {
 		}
 	}
 	handleErr(func() error { return os.Chdir("builds") })
-	if _, err = os.Stat("Makefile"); os.IsNotExist(err) {
+	if _, err := os.Stat("Makefile"); os.IsNotExist(err) {
 		handleErr(func() error {
 			return sh.RunV("tar", "-xvf", "EduTrack-linux64.tar.xz")
 		})

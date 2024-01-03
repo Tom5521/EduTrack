@@ -18,12 +18,14 @@ func (ui *ui) AboutWin() {
 		const size1, size2 float32 = 800, 400
 		credits.CreditsWindow(ui.App, fyne.NewSize(size1, size2)).Show()
 	})
+	versionLabel := widget.NewLabel(po.Get("Version: %s", fyne.CurrentApp().Metadata().Version))
 	authorCont := container.NewHBox(label1, gitLabel)
 	logo := canvas.NewImageFromResource(assets.App)
 	const w, h float32 = 300, 300
 	logo.SetMinSize(fyne.NewSize(w, h))
 	vbox1 := container.NewVBox(
 		authorCont,
+		versionLabel,
 		licenceLabel,
 		creditsButton,
 		logo,
