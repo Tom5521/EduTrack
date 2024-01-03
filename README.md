@@ -43,6 +43,7 @@ You can compile it, you need:
 
 - C compiler
 - Go compiler
+- Mage
 - wget
 - xz (on linux)
 - winrar/7zip (on windows)
@@ -54,7 +55,7 @@ Compiling and installing in Linux
 ```bash
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-make user-install # make install for root installation
+mage install:user # mage install:root for root installation
 ```
 
 On Windows
@@ -62,7 +63,7 @@ On Windows
 ```batch
 git clone https://github.com/Tom5521/EduTrack
 git checkout <latest version>
-go run -tags release scripts/main.go -compile-to-windows
+mage build:windows
 # Go to builds folder and unzip EduTrack-win64.zip
 # Then run the executable, and done!
 # The windows(and linux executable is fully portable)
