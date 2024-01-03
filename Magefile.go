@@ -12,11 +12,11 @@ import (
 )
 
 var (
-	TemporalDir = "./tmp"
-	Mesa64Url   = "https://downloads.fdossena.com/geth.php?r=mesa64-latest"
-	MainDir     = "./cmd/EduTrack/"
-	WindowsEnv  = windowsEnv()
-	build       = Build{}
+	TmpDir     = "./tmp"
+	Mesa64Url  = "https://downloads.fdossena.com/geth.php?r=mesa64-latest"
+	MainDir    = "./cmd/EduTrack/"
+	WindowsEnv = windowsEnv()
+	build      = Build{}
 )
 
 type Build mg.Namespace
@@ -48,20 +48,20 @@ func movefile(src, dest string) error {
 }
 
 func downloadWinFiles() error {
-	if _, err := os.Stat(TemporalDir); os.IsNotExist(err) {
-		err = os.Mkdir(TemporalDir, os.ModePerm)
+	if _, err := os.Stat(TmpDir); os.IsNotExist(err) {
+		err = os.Mkdir(TmpDir, os.ModePerm)
 		if err != nil {
 			return err
 		}
 	}
-	if _, err := os.Stat(TemporalDir + "/opengl32.7z"); os.IsNotExist(err) {
+	if _, err := os.Stat(TmpDir + "/opengl32.7z"); os.IsNotExist(err) {
 		err = sh.RunV("wget", "-O", "tmp/opengl32.7z", Mesa64Url)
 		if err != nil {
 			return err
 		}
 	}
-	if _, err := os.Stat(TemporalDir + "/opengl32.dll"); os.IsNotExist(err) {
-		err = os.Chdir(TemporalDir)
+	if _, err := os.Stat(TmpDir + "/opengl32.dll"); os.IsNotExist(err) {
+		err = os.Chdir(TmpDir)
 		if err != nil {
 			return err
 		}
@@ -245,23 +245,18 @@ func (Install) User() error {
 // Delete temporary directories, compilation files, etc, It leaves it as if it had just been cloned.
 func Clean() {
 	var errorList []error
-	appendErr := func(err error) {
+	rm := func(src string) {
+		err := sh.Rm(src)
 		if err != nil {
 			errorList = append(errorList, err)
 		}
 	}
-	err := sh.Rm("tmp")
-	appendErr(err)
-	err = sh.Rm("builds")
-	appendErr(err)
-	err = sh.Rm("./cmd/EduTrack/EduTrack")
-	appendErr(err)
-	err = sh.Rm("./cmd/EduTrack/EduTrack.exe")
-	appendErr(err)
-	err = sh.Rm("./cmd/Installer/EduTrack Installer.exe")
-	appendErr(err)
-	err = sh.Rm("./cmd/Installer/EduTrack Installer")
-	appendErr(err)
+	rm("tmp")
+	rm("builds")
+	rm("./cmd/EduTrack/EduTrack")
+	rm("./cmd/EduTrack/EduTrack.exe")
+	rm("./cmd/Installer/EduTrack Installer.exe")
+	rm("./cmd/Installer/EduTrack Installer")
 	for _, e := range errorList {
 		messages.Warning(e.Error())
 	}
