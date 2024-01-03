@@ -6,6 +6,7 @@ require (
 	fyne.io/fyne/v2 v2.4.3
 	fyne.io/x/fyne v0.0.0-20231020065621-89b4a4aea27d
 	github.com/Tom5521/CmdRunTools v1.7.0-beta.1
+	github.com/Tom5521/GoNotes v1.1.0
 	github.com/Tom5521/MyGolangTools v0.0.0-20231010162633-0156c6f12467
 	github.com/brianvoe/gofakeit/v6 v6.26.3
 	github.com/fstanis/screenresolution v0.0.0-20190527020317-869904d15333
@@ -13,6 +14,7 @@ require (
 	github.com/go-ole/go-ole v1.3.0
 	github.com/leonelquinteros/gotext v1.5.2
 	github.com/luisiturrios/gowin v0.0.0-20211223180722-2e88a53ef0f9
+	github.com/magefile/mage v1.15.0
 	github.com/ncruces/zenity v0.10.10
 	github.com/stretchr/testify v1.8.4
 	github.com/thanhpk/randstr v1.0.6
@@ -42,6 +44,7 @@ require (
 	github.com/go-text/typesetting v0.0.0-20230616162802-9c17dd34aa4a // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/gookit/color v1.5.4 // indirect
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -56,6 +59,7 @@ require (
 	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
 	github.com/tevino/abool v1.2.0 // indirect
 	github.com/ulikunitz/xz v0.5.8 // indirect
+	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	github.com/yuin/goldmark v1.5.5 // indirect
 	golang.org/x/image v0.11.0 // indirect
 	golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda // indirect
