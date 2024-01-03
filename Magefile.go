@@ -119,6 +119,26 @@ func (Build) LinuxInstaller() error {
 	return nil
 }
 
+func (Build) All() error {
+	err := build.Linux()
+	if err != nil {
+		return err
+	}
+	err = build.Windows()
+	if err != nil {
+		return err
+	}
+	err = build.LinuxInstaller()
+	if err != nil {
+		return err
+	}
+	err = build.WindowsInstaller()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (Build) WindowsInstaller() error {
 	if err := checkdir(); err != nil {
 		return err
@@ -257,14 +277,17 @@ func Clean() {
 	rm("./cmd/EduTrack/EduTrack.exe")
 	rm("./cmd/Installer/EduTrack Installer.exe")
 	rm("./cmd/Installer/EduTrack Installer")
+	rm("./cmd/EduTrack/builds/")
+	rm("./cmd/Installer/builds/")
 	for _, e := range errorList {
 		messages.Warning(e.Error())
 	}
 }
 
 func MakeWindowsZip() error {
-	if _, err := os.Stat("windows-tmp"); os.IsNotExist(err) {
-		err = os.Mkdir("windows-tmp", os.ModePerm)
+	var zipDir = "windows-tmp"
+	if _, err := os.Stat(zipDir); os.IsNotExist(err) {
+		err = os.Mkdir(zipDir, os.ModePerm)
 		if err != nil {
 			return err
 		}
@@ -275,7 +298,7 @@ func MakeWindowsZip() error {
 			return err
 		}
 	}
-	err := copyfile("tmp/opengl32.dll", "windows-tmp/opengl32.dll")
+	err := copyfile("tmp/opengl32.dll", zipDir+"/opengl32.dll")
 	if err != nil {
 		return err
 	}
@@ -285,11 +308,11 @@ func MakeWindowsZip() error {
 			return err
 		}
 	}
-	err = copyfile("builds/EduTrack.exe", "windows-tmp/EduTrack.exe")
+	err = copyfile("builds/EduTrack.exe", zipDir+"/EduTrack.exe")
 	if err != nil {
 		return err
 	}
-	err = copyfile("README.md", "windows-tmp/README.md")
+	err = copyfile("README.md", zipDir+"/README.md")
 	if err != nil {
 		return err
 	}
@@ -299,10 +322,11 @@ func MakeWindowsZip() error {
 			return err
 		}
 	}
-	err = os.Chdir("windows-tmp")
+	err = os.Chdir(zipDir)
 	if err != nil {
 		return err
 	}
+
 	err = sh.RunV("zip", "-r", "../builds/EduTrack-win64.zip", ".")
 	if err != nil {
 		return err
@@ -311,7 +335,7 @@ func MakeWindowsZip() error {
 	if err != nil {
 		return err
 	}
-	err = os.RemoveAll("windows-tmp")
+	err = os.RemoveAll(zipDir)
 	if err != nil {
 		return err
 	}
