@@ -27,7 +27,11 @@ func ImagePicker(imageFilePath *string) {
 	ret, err := zenity.SelectFile(
 		zenity.Filename(defaultPath),
 		zenity.FileFilters{
-			{"Image files", filter, true},
+			{
+				Name:     "Image files",
+				Patterns: filter,
+				CaseFold: true,
+			},
 		})
 	if err != nil {
 		fmt.Println(err)
@@ -43,7 +47,11 @@ func FilePicker() string {
 	ret, err := zenity.SelectFile(
 		zenity.Filename(defaultPath),
 		zenity.FileFilters{
-			{"Yaml files", filter, true},
+			{
+				Name:     "Yaml files",
+				Patterns: filter,
+				CaseFold: true,
+			},
 		})
 	if err != nil {
 		fmt.Println(err)
